@@ -110,14 +110,13 @@ function attachButtonEvents($btn, $output) {
   });
 }
 
-function attachInputEvents($inputElement, $outputElement, targetPhrase) {
+function attachInputEvents($inputElement, $outputElement, $monitorization, targetPhrase) {
   
   function showData(data) {
     console.log(data); 
-    $outputElement.html(`<pre>${JSON.stringify(data, null, 2)}</pre>`);
+    $monitorization.html(`<pre>${JSON.stringify(data, null, 2)}</pre>`);
   }
       $inputElement.on('keydown', function(e) {
-        console.log("Esto es una prueba");
         const currentTime = Date.now();
         const currentValue = $(this).val();
         let keyChar = e.key;

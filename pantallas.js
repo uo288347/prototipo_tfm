@@ -32,11 +32,12 @@ export function renderScreen2(attachInputEvents) {
     });
 
     // 6. Añadir todos los elementos al contenedor principal
-    $screenContent.append($instruccionP, $textInput, $feedbackOutput);
+    const $monitorization = $('<p>', { id: 'output', text: '' });
+    $screenContent.append($instruccionP, $textInput, $feedbackOutput, $monitorization);
 
     // 7. Adjuntar los eventos al input usando la función pasada como parámetro
     // Pasamos el input y el output al manejador de eventos.
-    attachInputEvents($textInput, $feedbackOutput, fraseObjetivo);
+    attachInputEvents($textInput, $feedbackOutput, $monitorization, fraseObjetivo);
 }
 
 export function renderScreen3(monitorInteractions) {
