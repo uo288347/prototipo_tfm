@@ -8,7 +8,7 @@ const screens = [
   () => renderScreen1(attachButtonEvents),
   () => renderScreen2(attachInputEvents),
   () => renderScreen3(monitorScreen2Interactions),
-  () => renderScreen4(attachCarouselEvents)
+  () => renderScreen4(attachSwipeEvents)
   // ...añade más funciones importadas aquí
 ];
 
@@ -289,160 +289,69 @@ function monitorScreen2Interactions() {
     });
   });
 }
+export function attachSwipeEvents($container, $wrapper, $output, totalSlides) {
+    let startX = 0;          // Posición X inicial al tocar
+    let currentSlide = 0;    // Índice de la imagen actual
+    const SWIPE_THRESHOLD = 50; // Mínimo de píxeles a moverse para considerarlo un swipe
 
-export function attachCarouselEvents($carousel) {
-  const $track = $carousel.find('.carousel-track');
-  const $images = $track.find('img');
-
-  let pointerDown = false;
-  let startX = 0;
-  let startY = 0;
-  let startTime = 0;
-  let moveEvents = [];
-  let currentIndex = 0;
-  let currentTranslate = 0;
-
-  let allEvents = [];
-
-  function logEvent(data) {
-    const eventData = {
-      ...data,
-      timestamp: Date.now(),
-      time: new Date().toLocaleTimeString(),
+    // 1. Función para actualizar la imagen visible
+    const updateCarousel = (newIndex) => {
+        currentSlide = (newIndex + totalSlides) % totalSlides; // Asegura un índice cíclico
+        const offset = -currentSlide * 300; // 300px es el ancho del contenedor
+        
+        $wrapper.css('transform', `translateX(${offset}px)`);
+        $output.text(`Imagen ${currentSlide + 1} de ${totalSlides}. ¡Swipe detectado!`);
     };
-    allEvents.push(eventData);
-    console.log(eventData);
-  }
 
-  // --- pointerdown ---
-  $carousel.on('pointerdown', (e) => {
-    pointerDown = true;
-    startX = e.clientX;
-    startY = e.clientY;
-    startTime = Date.now();
-    moveEvents = [];
-
-    $carousel.css('cursor', 'grabbing');
-    e.target.setPointerCapture(e.pointerId);
-
-    logEvent({
-      type: 'pointerdown',
-      pointerType: e.pointerType,
-      x: e.clientX,
-      y: e.clientY,
-      pressure: e.pressure,
-      width: e.width || null,
-      height: e.height || null,
-      area: (e.width && e.height) ? e.width * e.height : null,
-    });
-  });
-
-  // --- pointermove ---
-  $carousel.on('pointermove', (e) => {
-    if (!pointerDown) return;
-
-    const deltaX = e.clientX - startX;
-    const deltaY = e.clientY - startY;
-
-    moveEvents.push({
-      x: e.clientX,
-      y: e.clientY,
-      pressure: e.pressure,
-      width: e.width || null,
-      height: e.height || null,
-      timestamp: Date.now(),
+    // 2. Captura del inicio del toque (pointerdown)
+    $container.on('pointerdown', function(e) {
+        // Solo para el primer toque o toque primario
+        if (e.isPrimary) {
+            startX = e.clientX;
+            // Opcional: Desactivar la transición CSS temporalmente
+            $wrapper.css('transition', 'none'); 
+            // Capturar el puntero para que los eventos 'move' sigan al dedo fuera del contenedor
+            $container[0].setPointerCapture(e.pointerId);
+            $output.text('Iniciando toque...');
+        }
     });
 
-    $track.css('transform', `translateX(${currentTranslate + deltaX}px)`);
-
-    logEvent({
-      type: 'pointermove',
-      moves: moveEvents.length,
-      lastX: e.clientX,
-      lastY: e.clientY,
-      pressure: e.pressure,
-    });
-  });
-
-  // --- pointerup ---
-  $carousel.on('pointerup', (e) => {
-    if (!pointerDown) return;
-    pointerDown = false;
-
-    const deltaX = e.clientX - startX;
-    const deltaY = e.clientY - startY;
-    const duration = Date.now() - startTime;
-
-    const direction =
-      Math.abs(deltaX) > Math.abs(deltaY)
-        ? deltaX > 0 ? 'right' : 'left'
-        : deltaY > 0 ? 'down' : 'up';
-
-    logEvent({
-      type: 'pointerup',
-      pointerType: e.pointerType,
-      x: e.clientX,
-      y: e.clientY,
-      deltaX,
-      deltaY,
-      duration_ms: duration,
-      direction,
-      pressure: e.pressure,
-      moves: moveEvents.length,
+    // 3. Seguimiento del movimiento (pointermove)
+    $container.on('pointermove', function(e) {
+        if (startX !== 0 && e.isPrimary) {
+            const deltaX = e.clientX - startX;
+            // Mover el wrapper en tiempo real para un efecto visual de arrastre
+            const currentOffset = -currentSlide * 300;
+            $wrapper.css('transform', `translateX(${currentOffset + deltaX}px)`);
+        }
     });
 
-    // --- swipe detection for carousel ---
-    if (Math.abs(deltaX) > 50 && Math.abs(deltaX) > Math.abs(deltaY)) {
-      if (deltaX < 0 && currentIndex < $images.length - 1) {
-        currentIndex++;
-      } else if (deltaX > 0 && currentIndex > 0) {
-        currentIndex--;
-      }
-    }
+    // 4. Fin del toque (pointerup)
+    $container.on('pointerup', function(e) {
+        if (startX !== 0 && e.isPrimary) {
+            const deltaX = e.clientX - startX;
+            startX = 0; // Resetear la posición inicial
 
-    currentTranslate = -currentIndex * $carousel.width();
-    $track.css('transform', `translateX(${currentTranslate}px)`);
-    $carousel.css('cursor', 'grab');
+            // Volver a activar la transición
+            $wrapper.css('transition', 'transform 0.3s ease-out');
+            
+            // Liberar el puntero
+            $container[0].releasePointerCapture(e.pointerId);
 
-    logEvent({
-      type: 'carousel-change',
-      newIndex: currentIndex,
-      currentTranslate,
+            if (deltaX < -SWIPE_THRESHOLD) {
+                // Swipe a la izquierda (quiere ver la siguiente imagen)
+                updateCarousel(currentSlide + 1);
+            } else if (deltaX > SWIPE_THRESHOLD) {
+                // Swipe a la derecha (quiere ver la imagen anterior)
+                updateCarousel(currentSlide - 1);
+            } else {
+                // Movimiento menor que el umbral, regresa a la posición actual
+                updateCarousel(currentSlide);
+                $output.text('Toque registrado, movimiento insuficiente.');
+            }
+        }
     });
-  });
 
-  // --- click (para distinguir toques sin swipe) ---
-  $images.on('click', (e) => {
-    logEvent({
-      type: 'click',
-      imageIndex: $images.index(e.currentTarget),
-      x: e.clientX,
-      y: e.clientY,
-      pointerType: e.pointerType,
-    });
-  });
-
-  // --- before unload summary ---
-  window.addEventListener('beforeunload', () => {
-    console.log('Resumen de interacción del carrusel:', allEvents);
-  });
+    // Inicializar la primera imagen
+    updateCarousel(0);
 }
-
-
-
-$('#prevBtn').on('click', function() {
-  if (currentScreen > 1) {
-    currentScreen--;
-    renderScreen();
-  }
-});
-$('#nextBtn').on('click', function() {
-  if (currentScreen < TOTAL_SCREENS) {
-    currentScreen++;
-    renderScreen();
-  }
-});
-
-$(document).ready(function() {
-  renderScreen();
-});

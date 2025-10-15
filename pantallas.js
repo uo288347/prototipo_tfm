@@ -88,69 +88,54 @@ export function renderScreen3(monitorInteractions) {
   monitorInteractions();
 }
 
-export function renderScreen4(attachCarouselEvents) {
-  // 1. Seleccionar y limpiar contenedor
-  const $screenContent = $('#screen-content');
-  $screenContent.empty();
+const carruselImagenes = [
+    'https://picsum.photos/id/237/300/200', // Perro
+    'https://picsum.photos/id/1080/300/200', // Lápiz
+    'https://picsum.photos/id/1018/300/200', // Puente
+    'https://picsum.photos/id/1025/300/200'  // Cebra
+];
+export function renderScreen4(attachSwipeEvents) {
+    const $screenContent = $('#screen-content');
+    $screenContent.empty();
 
-  // 2. Texto de instrucción
-  const $instruccion = $('<p>').text('Desliza hacia la izquierda o derecha para ver las imágenes');
-  
-  // 3. Contenedor del carrusel
-  const $carousel = $('<section>', { class: 'carousel' });
+    // 1. Título e Instrucciones
+    const $instruccionP = $('<p>', {
+        style: "font-size: 1.2em; font-weight: bold; color: #333;"
+    }).text('Desliza (Swipe) la imagen hacia la izquierda o derecha para cambiarla. 👈👉');
 
-  // 4. Lista interna de imágenes (el “carril”)
-  const $track = $('<div>', { class: 'carousel-track' });
+    // 2. Contenedor del Carrusel y la Imagen
+    const $carruselContainer = $('<div>', {
+        id: 'carruselContainer',
+        style: 'position: relative; overflow: hidden; width: 300px; height: 200px; margin: 20px auto; border: 3px solid #007bff; border-radius: 8px;'
+    });
+    
+    const $imagenWrapper = $('<div>', {
+        id: 'imagenWrapper',
+        style: 'display: flex; transition: transform 0.3s ease-out; width: 100%; height: 100%;'
+    });
 
-  // 5. Agregar imágenes al carrusel
-  const images = [
-    'https://picsum.photos/id/1011/600/400',
-    'https://picsum.photos/id/1015/600/400',
-    'https://picsum.photos/id/1020/600/400',
-    'https://picsum.photos/id/1024/600/400'
-  ];
+    // 3. Crear los elementos <img> dentro del wrapper
+    carruselImagenes.forEach((url, index) => {
+        const $img = $('<img>', {
+            src: url,
+            class: 'carrusel-img',
+            'data-index': index,
+            style: 'min-width: 100%; height: 100%; object-fit: cover;' // min-width 100% es clave
+        });
+        $imagenWrapper.append($img);
+    });
+    
+    // 4. Crear el elemento de feedback (output)
+    const $feedbackOutput = $('<p>', { 
+        id: 'output', 
+        text: 'Esperando gesto de deslizamiento...',
+        style: 'margin-top: 20px; font-weight: bold; min-height: 20px;'
+    });
 
-  images.forEach(src => {
-    $('<img>', { src, alt: 'imagen' })
-      .appendTo($track);
-  });
+    // 5. Ensamblar y añadir al DOM
+    $carruselContainer.append($imagenWrapper);
+    $screenContent.append($instruccionP, $carruselContainer, $feedbackOutput);
 
-  $carousel.append($track);
-  $screenContent.append($instruccion, $carousel);
-
-  // 6. Variables de swipe
-  let startX = 0;
-  let currentTranslate = 0;
-  let currentIndex = 0;
-
-  // 7. Eventos táctiles
-  $carousel.on('pointerstart', e => {
-    startX = e.originalEvent.touches[0].clientX;
-  });
-
-  $carousel.on('pointermove', e => {
-    const currentX = e.originalEvent.touches[0].clientX;
-    const diff = currentX - startX;
-    $track.css('transform', `translateX(${currentTranslate + diff}px)`);
-  });
-
-  $carousel.on('pointerend', e => {
-    const endX = e.originalEvent.changedTouches[0].clientX;
-    const diff = endX - startX;
-
-    // Si el swipe es suficientemente grande, cambia de imagen
-    if (diff > 50 && currentIndex > 0) {
-      currentIndex--;
-    } else if (diff < -50 && currentIndex < images.length - 1) {
-      currentIndex++;
-    }
-
-    // Calcula nuevo desplazamiento
-    currentTranslate = -currentIndex * $carousel.width();
-    $track.css('transform', `translateX(${currentTranslate}px)`);
-
-    console.log(`Mostrando imagen ${currentIndex + 1} de ${images.length}`);
-  });
-
-    attachCarouselEvents();
+    // 6. Adjuntar los eventos de swipe al contenedor
+    attachSwipeEvents($carruselContainer, $imagenWrapper, $feedbackOutput, carruselImagenes.length);
 }
