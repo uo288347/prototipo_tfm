@@ -8,6 +8,7 @@ export function renderScreen1(attachButtonEvents) {
 export function renderScreen2(attachInputEvents) {
     // 1. Seleccionar y limpiar el contenedor principal
     const $screenContent = $('#screen-content');
+
     $screenContent.empty();
 
     // 2. Definir la frase objetivo
