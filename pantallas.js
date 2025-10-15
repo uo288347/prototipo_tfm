@@ -13,7 +13,7 @@ export function renderScreen2() {
   // 2. Crear el párrafo de instrucciones
   const $instruccionP = $('<p>', {
       style: "font-size: 1.2em; font-weight: bold; color: #333;"
-  }).text('El usuario tiene que encontrar la foto del conejo y hacer clic sobre ella. 🐇');
+  }).text('Buscar y hacer clic sobre la foto del conejo');
 
   // 3. Definir y crear el texto largo para forzar el scroll
   const textoBase = `
@@ -39,7 +39,7 @@ export function renderScreen2() {
   const $imagenConejo = $('<img>', {
       class: 'imagen-conejo',
       src: "https://i0.wp.com/www.elconejo.net/wp-content/uploads/2017/11/Nuestras-razas.jpg?fit=1920%2C650&ssl=1", // Usa tu propia URL de imagen
-      alt: "Foto del conejo clickeable.",
+      alt: "Foto del conejo neerlandés enano.",
       title: "¡Haz clic o toca aquí!"
   });
 
