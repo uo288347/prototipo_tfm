@@ -143,15 +143,20 @@ function attachInputEvents($inputElement, $outputElement, $monitorization, targe
         
         // 2. Manejar Teclas de Carácter (si no es una tecla de control como Shift, Alt, etc.)
         if (keyChar.length === 1) { 
+          console.log("Primer if");
             const currentIndex = currentValue.length;
             const expected = targetPhrase[currentIndex];
             
             // Si el índice es válido para la frase objetivo
             if (expected !== undefined) {
+                console.log("Segundo if");
+
                 logEntry.expectedChar = expected;
                 
                 // Comparación para determinar si el carácter es correcto o un error
                 if (keyChar === expected) {
+                    console.log("Tercer if");
+
                     logEntry.matchStatus = 'Correct';
                 } else {
                     logEntry.matchStatus = 'Error';
