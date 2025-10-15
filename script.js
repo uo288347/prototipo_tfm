@@ -25,7 +25,8 @@ function attachButtonEvents($btn, $output) {
   $btn.off(); // Limpia eventos previos
 
   function showData(data) {
-    console.log(data); 
+    //console.log(data); 
+    $output.html(`<pre>${JSON.stringify(data, null, 2)}</pre>`);
   }
 
   $btn.on('pointerdown', function(e) {
