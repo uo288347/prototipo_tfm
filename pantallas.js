@@ -78,15 +78,7 @@ export function renderScreen3(monitorInteractions) {
       title: "¡Haz clic o toca aquí!"
   });
 
-    // 5. Añadir el manejador de eventos click a la imagen
-  /*$imagenConejo.on('click', function() {
-        // Lógica de JavaScript a ejecutar cuando el usuario encuentre el conejo
-      alert('🐰 ¡Éxito! Has encontrado y clickeado la foto del conejo.');
-        // Aquí podrías llamar a otra función para pasar al siguiente nivel o pantalla
-        // ejemplo: renderScreen3();
-  });*/
-
-    // 6. Añadir todos los elementos al contenedor principal
+    // 5. Añadir todos los elementos al contenedor principal
   $screenContent
       .append($instruccionP)
       .append($('<hr>'))
@@ -95,66 +87,69 @@ export function renderScreen3(monitorInteractions) {
 
   monitorInteractions();
 }
+export function renderScreen4(attachCarouselEvents) {
+  // 1. Seleccionar y limpiar contenedor
+  const $screenContent = $('#screen-content');
+  $screenContent.empty();
 
+  // 2. Texto de instrucción
+  const $instruccion = $('<p>').text('Desliza hacia la izquierda o derecha para ver las imágenes');
+  
+  // 3. Contenedor del carrusel
+  const $carousel = $('<section>', { class: 'carousel' });
 
-function renderPantallaConejo() {
-            // 1. Definir el contenedor principal donde inyectar el código
-            const $container = $('#contenedor-principal');
-            
-            // Limpiar el contenedor si ya tiene contenido (para evitar duplicados)
-            $container.empty();
+  // 4. Lista interna de imágenes (el “carril”)
+  const $track = $('<div>', { class: 'carousel-track' });
 
-            // 2. Crear el párrafo de instrucciones
-            const $instruccionP = $('<p>', {
-                style: "font-size: 1.2em; font-weight: bold; color: #333;"
-            }).text('El usuario tiene que encontrar la foto del conejo y hacer clic sobre ella. 🐇');
+  // 5. Agregar imágenes al carrusel
+  const images = [
+    'https://picsum.photos/id/1011/600/400',
+    'https://picsum.photos/id/1015/600/400',
+    'https://picsum.photos/id/1020/600/400',
+    'https://picsum.photos/id/1024/600/400'
+  ];
 
-            // 3. Crear el texto largo para forzar el scroll
-            const textoExtenso = `
-                <h2>Información Extensa sobre Desarrollo Móvil y jQuery</h2>
-                <p>
-                    El desarrollo de aplicaciones web móviles requiere la optimización de recursos y la gestión eficiente del DOM, tareas en las que **jQuery** puede asistir, aunque la tendencia actual es hacia frameworks más ligeros. No obstante, para manipulaciones rápidas del DOM como esta, jQuery es eficaz. Este texto se ha generado para forzar el desplazamiento (*scroll*) en la pantalla de su dispositivo. El objetivo del conejo está en la parte inferior, por lo que debe deslizar la pantalla hacia abajo varias veces.
-                </p>
-                <p>
-                    La implementación de diseños **"mobile-first"** asegura que el sitio cargue rápidamente en dispositivos con recursos limitados, aplicando luego mejoras para pantallas más grandes. Recuerde que, al usar JavaScript para inyectar HTML, debe tener cuidado con las vulnerabilidades de seguridad como los ataques XSS (Cross-Site Scripting). En este ejemplo, el contenido es estático, lo cual es seguro. Continúe su descenso, el conejo no aparece aún.
-                </p>
-                <p>
-                    Para mejorar la experiencia táctil, asegúrese de que todos los elementos interactivos sean fácilmente accesibles con el dedo. El desarrollo para móviles requiere pruebas rigurosas en diferentes dispositivos y condiciones de red. ¡Ya casi llega al final! Siga bajando hasta el final del contenido.
-                </p>
-                <hr>
-            `;
-            
-            const $textoLargoDiv = $('<div>', {
-                class: 'texto-largo'
-            }).html(textoExtenso.repeat(3)); // Repetimos el texto para garantizar un scroll considerable
+  images.forEach(src => {
+    $('<img>', { src, alt: 'imagen' })
+      .appendTo($track);
+  });
 
-            // 4. Crear la imagen del conejo envuelta en un enlace (o solo como imagen con click handler)
-            const $imagenConejo = $('<img>', {
-                class: 'imagen-conejo',
-                src: "https://upload.wikimedia.org/wikipedia/commons/0/07/Rabbit_in_Edinburgh_Gardens.jpg",
-                alt: "Foto de un conejo que el usuario debe seleccionar."
-            });
+  $carousel.append($track);
+  $screenContent.append($instruccion, $carousel);
 
-            // 5. Añadir el manejador de eventos (click) con jQuery a la imagen
-            $imagenConejo.on('click', function() {
-                alert('¡Felicidades! Encontraste y clickeaste el conejo. Aquí ejecutarías la lógica de tu aplicación.');
-                // Puedes añadir aquí tu lógica de JavaScript, por ejemplo:
-                // iniciarSiguienteNivel();
-            });
+  // 6. Variables de swipe
+  let startX = 0;
+  let currentTranslate = 0;
+  let currentIndex = 0;
 
-            // 6. Añadir todos los elementos al contenedor principal en el orden deseado
-            $container
-                .append($instruccionP)
-                .append($('<hr>'))
-                .append($textoLargoDiv)
-                .append($imagenConejo);
+  // 7. Eventos táctiles
+  $carousel.on('pointerstart', e => {
+    startX = e.originalEvent.touches[0].clientX;
+  });
 
-            // Opcional: Desplazarse automáticamente al inicio del contenido dinámico
-            $('html, body').animate({ scrollTop: 0 }, 'slow');
-        }
-        
-        // **Llamada de ejemplo para probar la función inmediatamente al cargar la página:**
-        // $(document).ready(function() {
-        //     renderPantallaConejo();
-        // });
+  $carousel.on('pointermove', e => {
+    const currentX = e.originalEvent.touches[0].clientX;
+    const diff = currentX - startX;
+    $track.css('transform', `translateX(${currentTranslate + diff}px)`);
+  });
 
+  $carousel.on('pointerend', e => {
+    const endX = e.originalEvent.changedTouches[0].clientX;
+    const diff = endX - startX;
+
+    // Si el swipe es suficientemente grande, cambia de imagen
+    if (diff > 50 && currentIndex > 0) {
+      currentIndex--;
+    } else if (diff < -50 && currentIndex < images.length - 1) {
+      currentIndex++;
+    }
+
+    // Calcula nuevo desplazamiento
+    currentTranslate = -currentIndex * $carousel.width();
+    $track.css('transform', `translateX(${currentTranslate}px)`);
+
+    console.log(`Mostrando imagen ${currentIndex + 1} de ${images.length}`);
+  });
+
+    attachCarouselEvents();
+}

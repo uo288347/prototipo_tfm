@@ -101,3 +101,11 @@ body {
       border: 2px solid #ccc; 
       border-radius: 5px;
     }
+
+    section[class="carousel"] {
+      position: relative;
+      width: 100%;
+      overflow: hidden;
+      touch-action: pan-y; /* permite desplazamiento vertical normal */
+    }
+    

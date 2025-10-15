@@ -8,6 +8,7 @@ const screens = [
   () => renderScreen1(attachButtonEvents),
   () => renderScreen2(attachInputEvents),
   () => renderScreen3(monitorScreen2Interactions),
+  () => renderScreen4(attachCarouselEvents)
   // ...añade más funciones importadas aquí
 ];
 
@@ -288,6 +289,145 @@ function monitorScreen2Interactions() {
     });
   });
 }
+
+export function attachCarouselEvents($carousel) {
+  const $track = $carousel.find('.carousel-track');
+  const $images = $track.find('img');
+
+  let pointerDown = false;
+  let startX = 0;
+  let startY = 0;
+  let startTime = 0;
+  let moveEvents = [];
+  let currentIndex = 0;
+  let currentTranslate = 0;
+
+  let allEvents = [];
+
+  function logEvent(data) {
+    const eventData = {
+      ...data,
+      timestamp: Date.now(),
+      time: new Date().toLocaleTimeString(),
+    };
+    allEvents.push(eventData);
+    console.log(eventData);
+  }
+
+  // --- pointerdown ---
+  $carousel.on('pointerdown', (e) => {
+    pointerDown = true;
+    startX = e.clientX;
+    startY = e.clientY;
+    startTime = Date.now();
+    moveEvents = [];
+
+    $carousel.css('cursor', 'grabbing');
+    e.target.setPointerCapture(e.pointerId);
+
+    logEvent({
+      type: 'pointerdown',
+      pointerType: e.pointerType,
+      x: e.clientX,
+      y: e.clientY,
+      pressure: e.pressure,
+      width: e.width || null,
+      height: e.height || null,
+      area: (e.width && e.height) ? e.width * e.height : null,
+    });
+  });
+
+  // --- pointermove ---
+  $carousel.on('pointermove', (e) => {
+    if (!pointerDown) return;
+
+    const deltaX = e.clientX - startX;
+    const deltaY = e.clientY - startY;
+
+    moveEvents.push({
+      x: e.clientX,
+      y: e.clientY,
+      pressure: e.pressure,
+      width: e.width || null,
+      height: e.height || null,
+      timestamp: Date.now(),
+    });
+
+    $track.css('transform', `translateX(${currentTranslate + deltaX}px)`);
+
+    logEvent({
+      type: 'pointermove',
+      moves: moveEvents.length,
+      lastX: e.clientX,
+      lastY: e.clientY,
+      pressure: e.pressure,
+    });
+  });
+
+  // --- pointerup ---
+  $carousel.on('pointerup', (e) => {
+    if (!pointerDown) return;
+    pointerDown = false;
+
+    const deltaX = e.clientX - startX;
+    const deltaY = e.clientY - startY;
+    const duration = Date.now() - startTime;
+
+    const direction =
+      Math.abs(deltaX) > Math.abs(deltaY)
+        ? deltaX > 0 ? 'right' : 'left'
+        : deltaY > 0 ? 'down' : 'up';
+
+    logEvent({
+      type: 'pointerup',
+      pointerType: e.pointerType,
+      x: e.clientX,
+      y: e.clientY,
+      deltaX,
+      deltaY,
+      duration_ms: duration,
+      direction,
+      pressure: e.pressure,
+      moves: moveEvents.length,
+    });
+
+    // --- swipe detection for carousel ---
+    if (Math.abs(deltaX) > 50 && Math.abs(deltaX) > Math.abs(deltaY)) {
+      if (deltaX < 0 && currentIndex < $images.length - 1) {
+        currentIndex++;
+      } else if (deltaX > 0 && currentIndex > 0) {
+        currentIndex--;
+      }
+    }
+
+    currentTranslate = -currentIndex * $carousel.width();
+    $track.css('transform', `translateX(${currentTranslate}px)`);
+    $carousel.css('cursor', 'grab');
+
+    logEvent({
+      type: 'carousel-change',
+      newIndex: currentIndex,
+      currentTranslate,
+    });
+  });
+
+  // --- click (para distinguir toques sin swipe) ---
+  $images.on('click', (e) => {
+    logEvent({
+      type: 'click',
+      imageIndex: $images.index(e.currentTarget),
+      x: e.clientX,
+      y: e.clientY,
+      pointerType: e.pointerType,
+    });
+  });
+
+  // --- before unload summary ---
+  window.addEventListener('beforeunload', () => {
+    console.log('Resumen de interacción del carrusel:', allEvents);
+  });
+}
+
 
 
 $('#prevBtn').on('click', function() {
