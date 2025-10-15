@@ -33,12 +33,12 @@ export function renderScreen2() {
     // Repetimos el texto varias veces para garantizar un scroll significativo
   const $textoLargoDiv = $('<div>', {
       class: 'texto-largo'
-  }).html(textoBase.repeat(4)); 
+  }).html(textoBase.repeat(8)); 
 
     // 4. Crear la imagen del conejo clickeable
   const $imagenConejo = $('<img>', {
       class: 'imagen-conejo',
-      src: "https://upload.wikimedia.org/wikipedia/commons/0/07/Rabbit_in_Edinburgh_Gardens.jpg", // Usa tu propia URL de imagen
+      src: "https://es.wikipedia.org/wiki/Neerland%C3%A9s_enano", // Usa tu propia URL de imagen
       alt: "Foto del conejo clickeable.",
       title: "¡Haz clic o toca aquí!"
   });
