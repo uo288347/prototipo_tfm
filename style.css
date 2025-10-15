@@ -89,8 +89,15 @@ body {
       height: auto;
       display: block;
       margin: 1rem auto;
-      border-radius: 1rem;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
       cursor: pointer;
       transition: transform 0.2s;
+    }
+
+    input {
+      width: 90vw; 
+      padding: 1rem; 
+      margin-top: 1rem; 
+      font-size: 1em; 
+      border: 2px solid #ccc; 
+      border-radius: 5px;
     }

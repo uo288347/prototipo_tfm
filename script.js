@@ -6,8 +6,8 @@ let currentScreen = 1;
 // Array de funciones, cada una renderiza una pantalla
 const screens = [
   () => renderScreen1(attachButtonEvents),
-  () => renderScreen2(monitorScreen2Interactions),
-  renderScreen3,
+  () => renderScreen2(attachInputEvents),
+  () => renderScreen3(monitorScreen2Interactions),
   // ...añade más funciones importadas aquí
 ];
 
@@ -108,6 +108,81 @@ function attachButtonEvents($btn, $output) {
   });
 }
 
+function attachInputEvents($inputElement, $outputElement, targetPhrase) {
+      $inputElement.on('keydown', function(e) {
+        const currentTime = Date.now();
+        const currentValue = $(this).val();
+        let keyChar = e.key;
+        let logEntry = {
+            timestamp: currentTime,
+            time: new Date(currentTime).toLocaleString(),
+            key: keyChar,
+            currentText: currentValue, // El texto antes de esta pulsación
+            expectedChar: null,
+            matchStatus: 'Neutral', // Por defecto 'Neutral'
+            eventSource: 'keydown'
+        };
+
+        // 1. Manejar Teclas Especiales (Eliminar/Backspace)
+        if (keyChar === 'Backspace' || keyChar === 'Delete') {
+            logEntry.matchStatus = 'Correction';
+            logEntry.expectedChar = (currentValue.length > 0) 
+                ? targetPhrase[currentValue.length - 1] // Carácter que se estaba a punto de borrar
+                : null;
+            keystrokeLogs.push(logEntry);
+            return; // Continúa con el evento keydown normal
+        }
+        
+        // 2. Manejar Teclas de Carácter (si no es una tecla de control como Shift, Alt, etc.)
+        if (keyChar.length === 1) { 
+            const currentIndex = currentValue.length;
+            const expected = targetPhrase[currentIndex];
+            
+            // Si el índice es válido para la frase objetivo
+            if (expected !== undefined) {
+                logEntry.expectedChar = expected;
+                
+                // Comparación para determinar si el carácter es correcto o un error
+                if (keyChar === expected) {
+                    logEntry.matchStatus = 'Correct';
+                } else {
+                    logEntry.matchStatus = 'Error';
+                }
+            } else {
+                // Si el usuario ya escribió la frase completa y sigue escribiendo
+                logEntry.matchStatus = 'ExtraInput';
+            }
+            showData(logEntry);
+        }
+
+        // NOTA: Podrías añadir lógica para capturar 'Tab', 'Enter', 'Shift', etc., si son relevantes para tus métricas.
+    });  
+
+
+
+    // Verificar la frase completa
+    $inputElement.on('input', function() {
+        const userText = $(this).val();
+        
+        // La validación es estricta (case sensitive y espacios)
+        if (userText === targetPhrase) {
+            $outputElement
+                .text('¡Correcto! Frase ingresada con éxito. 🎉')
+                .css('color', 'green');
+        } else if (userText.length >= targetPhrase.length) {
+             // Si el texto es más largo o no coincide después de la longitud completa
+            $outputElement
+                .text('El texto no coincide con la frase objetivo. Inténtalo de nuevo.')
+                .css('color', 'red');
+        }
+        else {
+             $outputElement
+                .text(`Escribiendo... (Faltan ${targetPhrase.length - userText.length} caracteres)`)
+                .css('color', '#888');
+        }
+    });
+}
+
 function monitorScreen2Interactions() {
   const $screenContent = $('#screen-content');
   const $imagenConejo = $screenContent.find('.imagen-conejo');
@@ -191,11 +266,15 @@ function monitorScreen2Interactions() {
 
   // Scrolls de la ventana
   $(window).on('scroll', e => {
-    const scrollData = {
+    /*const scrollData = {
       scrollX: window.scrollX,
       scrollY: window.scrollY
-    };
-    logEvent({ type: 'scroll', scrollData });
+    };*/
+    logEvent({ 
+      type: 'scroll', 
+      scrollX: window.scrollX,
+      scrollY: window.scrollY
+    });
   });
 }
 

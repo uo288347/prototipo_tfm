@@ -5,7 +5,40 @@ export function renderScreen1(attachButtonEvents) {
   attachButtonEvents($btn, $output);
 }
 
-export function renderScreen2(monitorInteractions) {
+export function renderScreen2(attachInputEvents) {
+    // 1. Seleccionar y limpiar el contenedor principal
+    const $screenContent = $('#screen-content');
+    $screenContent.empty();
+
+    // 2. Definir la frase objetivo
+    const fraseObjetivo = "Mi animal favorito son los conejos";
+
+    // 3. Crear el párrafo de instrucción
+    const $instruccionP = $('<p>').html(`Por favor, escribe exactamente la siguiente frase en el campo de abajo: <br><strong>"${fraseObjetivo}"</strong>`);
+
+    // 4. Crear el campo de entrada de texto (el input)
+    const $textInput = $('<input>', {
+        id: 'textInput',
+        type: 'text',
+        placeholder: 'Escribe la frase aquí...',
+        // Estilo básico para móviles
+    });
+
+    // 5. Crear el área de feedback (el output)
+    const $feedbackOutput = $('<p>', { 
+        id: 'output', 
+        text: 'Esperando que escribas la frase...'
+    });
+
+    // 6. Añadir todos los elementos al contenedor principal
+    $screenContent.append($instruccionP, $textInput, $feedbackOutput);
+
+    // 7. Adjuntar los eventos al input usando la función pasada como parámetro
+    // Pasamos el input y el output al manejador de eventos.
+    attachInputEvents($textInput, $feedbackOutput, fraseObjetivo);
+}
+
+export function renderScreen3(monitorInteractions) {
   // 1. Seleccionar y limpiar el contenedor principal
   const $screenContent = $('#screen-content');
   $screenContent.empty();
