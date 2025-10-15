@@ -5,7 +5,7 @@ export function renderScreen1(attachButtonEvents) {
   attachButtonEvents($btn, $output);
 }
 
-export function renderScreen2() {
+export function renderScreen2(monitorInteractions) {
   // 1. Seleccionar y limpiar el contenedor principal
   const $screenContent = $('#screen-content');
   $screenContent.empty();
@@ -44,12 +44,12 @@ export function renderScreen2() {
   });
 
     // 5. Añadir el manejador de eventos click a la imagen
-  $imagenConejo.on('click', function() {
+  /*$imagenConejo.on('click', function() {
         // Lógica de JavaScript a ejecutar cuando el usuario encuentre el conejo
       alert('🐰 ¡Éxito! Has encontrado y clickeado la foto del conejo.');
         // Aquí podrías llamar a otra función para pasar al siguiente nivel o pantalla
         // ejemplo: renderScreen3();
-  });
+  });*/
 
     // 6. Añadir todos los elementos al contenedor principal
   $screenContent
@@ -57,6 +57,8 @@ export function renderScreen2() {
       .append($('<hr>'))
       .append($textoLargoDiv)
       .append($imagenConejo);
+
+  monitorInteractions();
 }
 
 
