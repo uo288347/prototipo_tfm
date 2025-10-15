@@ -113,7 +113,7 @@ function attachButtonEvents($btn, $output) {
 function attachInputEvents($inputElement, $outputElement, targetPhrase) {
   
   function showData(data) {
-    //console.log(data); 
+    console.log(data); 
     $outputElement.html(`<pre>${JSON.stringify(data, null, 2)}</pre>`);
   }
       $inputElement.on('keydown', function(e) {
@@ -136,7 +136,7 @@ function attachInputEvents($inputElement, $outputElement, targetPhrase) {
             logEntry.expectedChar = (currentValue.length > 0) 
                 ? targetPhrase[currentValue.length - 1] // Carácter que se estaba a punto de borrar
                 : null;
-            keystrokeLogs.push(logEntry);
+            showData(logEntry);
             return; // Continúa con el evento keydown normal
         }
         
@@ -161,8 +161,6 @@ function attachInputEvents($inputElement, $outputElement, targetPhrase) {
             }
             showData(logEntry);
         }
-
-        // NOTA: Podrías añadir lógica para capturar 'Tab', 'Enter', 'Shift', etc., si son relevantes para tus métricas.
     });  
 
 
