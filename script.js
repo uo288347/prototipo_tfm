@@ -20,14 +20,16 @@ function renderScreen() {
   }
 }
 
+function showData(data) {
+    //console.log(data); 
+    $output.html(`<pre>${JSON.stringify(data, null, 2)}</pre>`);
+  }
+
 function attachButtonEvents($btn, $output) {
   let downTime = null, upTime = null, moves = [];
   $btn.off(); // Limpia eventos previos
 
-  function showData(data) {
-    //console.log(data); 
-    $output.html(`<pre>${JSON.stringify(data, null, 2)}</pre>`);
-  }
+  
 
   $btn.on('pointerdown', function(e) {
     downTime = Date.now();
