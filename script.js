@@ -102,6 +102,7 @@ function attachButtonEvents($btn, $output) {
       y: e.clientY,
       screenX: e.screenX,
       screenY: e.screenY,
+      pressure: e.pressure || null,
       button: e.button,
       width: e.width || null,
       height: e.height || null,
