@@ -1,4 +1,4 @@
-import { renderScreen1, renderScreen2, renderScreen3 } from './pantallas.js';
+import { renderScreen1, renderScreen2, renderScreen3, renderScreen4 } from './pantallas.js';
 
 const TOTAL_SCREENS = 10;
 let currentScreen = 1;

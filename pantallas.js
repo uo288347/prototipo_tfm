@@ -87,6 +87,7 @@ export function renderScreen3(monitorInteractions) {
 
   monitorInteractions();
 }
+
 export function renderScreen4(attachCarouselEvents) {
   // 1. Seleccionar y limpiar contenedor
   const $screenContent = $('#screen-content');
