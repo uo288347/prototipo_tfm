@@ -38,7 +38,7 @@ export function renderScreen2() {
     // 4. Crear la imagen del conejo clickeable
   const $imagenConejo = $('<img>', {
       class: 'imagen-conejo',
-      src: "https://es.wikipedia.org/wiki/Neerland%C3%A9s_enano", // Usa tu propia URL de imagen
+      src: "https://i0.wp.com/www.elconejo.net/wp-content/uploads/2017/11/Nuestras-razas.jpg?fit=1920%2C650&ssl=1", // Usa tu propia URL de imagen
       alt: "Foto del conejo clickeable.",
       title: "¡Haz clic o toca aquí!"
   });
