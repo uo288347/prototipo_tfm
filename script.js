@@ -289,7 +289,9 @@ function monitorScreen2Interactions() {
     });
   });
 }
-export function attachSwipeEvents($container, $wrapper, $output, totalSlides) {
+
+
+function attachSwipeEvents($container, $wrapper, $output, totalSlides) {
     let startX = 0;          // Posición X inicial al tocar
     let currentSlide = 0;    // Índice de la imagen actual
     const SWIPE_THRESHOLD = 50; // Mínimo de píxeles a moverse para considerarlo un swipe
@@ -355,3 +357,21 @@ export function attachSwipeEvents($container, $wrapper, $output, totalSlides) {
     // Inicializar la primera imagen
     updateCarousel(0);
 }
+
+
+$('#prevBtn').on('click', function() {
+  if (currentScreen > 1) {
+    currentScreen--;
+    renderScreen();
+  }
+});
+$('#nextBtn').on('click', function() {
+  if (currentScreen < TOTAL_SCREENS) {
+    currentScreen++;
+    renderScreen();
+  }
+});
+
+$(document).ready(function() {
+  renderScreen();
+});
