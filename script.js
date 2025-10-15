@@ -117,6 +117,7 @@ function attachInputEvents($inputElement, $outputElement, targetPhrase) {
     $outputElement.html(`<pre>${JSON.stringify(data, null, 2)}</pre>`);
   }
       $inputElement.on('keydown', function(e) {
+        console.log("Esto es una prueba");
         const currentTime = Date.now();
         const currentValue = $(this).val();
         let keyChar = e.key;
@@ -287,14 +288,12 @@ function monitorScreen2Interactions() {
 $('#prevBtn').on('click', function() {
   if (currentScreen > 1) {
     currentScreen--;
-    console.log(currentScreen);
     renderScreen();
   }
 });
 $('#nextBtn').on('click', function() {
   if (currentScreen < TOTAL_SCREENS) {
     currentScreen++;
-    console.log(currentScreen);
     renderScreen();
   }
 });
