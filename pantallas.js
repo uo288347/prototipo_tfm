@@ -156,6 +156,3 @@ function renderPantallaConejo() {
         //     renderPantallaConejo();
         // });
 
-export function renderScreen3() {
-  $('#screen-content').empty();
-}
