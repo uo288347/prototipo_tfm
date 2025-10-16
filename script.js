@@ -1,5 +1,6 @@
 import { renderScreen1, renderScreen2, renderScreen3, renderScreen5 } from './pantallas.js';
 import { renderScreen4 } from './pantalla4.js';
+import { renderScreen6 } from './pantalla6.js';
 
 const TOTAL_SCREENS = 10;
 let currentScreen = 1;
@@ -10,7 +11,8 @@ const screens = [
   () => renderScreen2(attachInputEvents),
   () => renderScreen3(monitorScreen2Interactions),
   () => renderScreen4(),
-  () => renderScreen5(attachSwipeEvents)
+  () => renderScreen5(attachSwipeEvents),
+  () => renderScreen6()
   // ...añade más funciones importadas aquí
 ];
 
