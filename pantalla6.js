@@ -63,6 +63,7 @@ function attachImageInteractions($img, $container, $metricsContent) {
             let dragStartTime = null;
 
             // Variables para pinch
+            const activePointers = new Map();
             let isPinching = false;
             let initialDistance = 0;
             let pinchStartTime = null;
