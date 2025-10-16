@@ -297,7 +297,7 @@ function attachSwipeEvents($carousel, $slides, $output, totalSlides) {
     let isDragging = false;
     const SWIPE_THRESHOLD = 5;
     let currentSlide = 0;
-    console.log('Total slides:', slides.length); //Debug
+    console.log('Total slides:', $slides.length); //Debug
 
     function updateCarousel() {
       $carousel.css('transform', `translateX(${-index * 100}%)`);
@@ -390,7 +390,8 @@ function attachSwipeEvents($carousel, $slides, $output, totalSlides) {
       
       const newTransform = -currentSlide * 100;
       $carousel.css('transition',`translateX(${newTransform}vw)`);
-      console.log('Transform aplicado:', newTransform + 'vw'); // Debug      updateCarousel();
+      console.log('Transform aplicado:', newTransform + 'vw'); // Debug      
+      updateCarousel();
 
       //metrics
       upTime = Date.now();
