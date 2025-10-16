@@ -107,8 +107,13 @@ export function renderScreen4(attachSwipeEvents) {
 
     // Crear las diapositivas dinámicamente
     carruselImagenes.forEach(url => {
-      const $slide = $('<div>', {class:'slide'}).css('background-image', `url(${url})`);
-      $carousel.append($slide);
+        const $slide = $('<div>', {class:'slide'});
+        const $img = $('<img>', {
+            src: url,
+            alt: 'Imagen del carrusel'
+        });
+        $slide.append($img);
+        $carousel.append($slide);
     });
 
     const $feedbackOutput = $('<p>', { 

@@ -324,6 +324,7 @@ function attachSwipeEvents($carousel, $slides, $output, totalSlides) {
     $carousel.on('pointerdown', function (e) {
       startX = e.clientX;
       isDragging = true;
+      $carousel.css('transition', `none`);
       //metrics
       downTime = Date.now();
       moves = [];
@@ -342,6 +343,13 @@ function attachSwipeEvents($carousel, $slides, $output, totalSlides) {
     $carousel.on('pointermove', function (e) {
       if (!isDragging) return;
       currentX = e.clientX;
+  
+      const diff = currentX - startX;
+      const currentTranslate = -currentSlide * window.innerWidth;
+      
+      $carousel.css('transform', `translateX(${currentTranslate + diff}px)`);
+
+      //metrics
       const moveData = {
         timestamp: Date.now(),
         x: e.clientX,
@@ -356,14 +364,27 @@ function attachSwipeEvents($carousel, $slides, $output, totalSlides) {
 
     $carousel.on('pointerup', function (e) {
       if (!isDragging) return;
+      isDragging = false;
       const diff = startX - currentX;
-      if (diff > SWIPE_THRESHOLD && index < $slides.length - 1) index++;
+      const threshold = window.innerWidth * 0.2; // 20% del ancho de la pantalla
+      $carousel.css('transition', 'transform 0.4s ease-in-out');
+      /*if (diff > SWIPE_THRESHOLD && index < $slides.length - 1) index++;
       if (diff < -SWIPE_THRESHOLD && index > 0) index--;
       if (diff < SWIPE_THRESHOLD || diff > -SWIPE_THRESHOLD) {
         $output.text('Toque registrado, movimiento insuficiente.');
+      }*/
+      if (Math.abs(diff) > threshold) {
+        if (diff > 0 && currentSlide > 0) {
+          // Swipe a la derecha - slide anterior
+          currentSlide--;
+        } else if (diff < 0 && currentSlide < totalSlides - 1) {
+          // Swipe a la izquierda - slide siguiente
+          currentSlide++;
+        }
       }
+      $carousel.css('transform', `translateX(-${currentSlide * 100}vw)`);
       updateCarousel();
-      isDragging = false;
+
       //metrics
       upTime = Date.now();
       moves = [];
