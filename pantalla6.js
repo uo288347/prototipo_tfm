@@ -60,6 +60,7 @@ function attachImageInteractions($img, $container, $metricsContent) {
             let startY = 0;
             let currentX = 0;
             let currentY = 0;
+            let currentScale = 1;
             let dragStartTime = null;
 
             // Variables para pinch
@@ -139,7 +140,6 @@ function attachImageInteractions($img, $container, $metricsContent) {
 
     // --- 2. pointermove (Mover Drag o Pinch) ---
     $container.on('pointermove', function(e) {
-        // Prevenir la acción predeterminada para evitar la selección de la imagen
         if (activePointers.has(e.pointerId) && (isDragging || isPinching)) {
             e.preventDefault(); 
         }
@@ -156,10 +156,12 @@ function attachImageInteractions($img, $container, $metricsContent) {
             const p2 = pointers[1];
             
             const currentDistance = getDistance(p1, p2);
-            const scale = currentDistance / initialDistance;
-
-            // Para el requisito "volverá al soltarla", sólo aplicamos el scale
-            $img.css('transform', `scale(${scale})`);
+            currentScale = currentDistance / initialDistance; // Actualiza la escala
+            
+            // APLICACIÓN COMBINADA: Solo escala, ya que el pinch se resetea al soltar.
+            // Si quieres que un pinch activo pueda ser arrastrado simultáneamente, 
+            // la lógica es mucho más compleja, pero para el "zoom temporal", solo el scale es suficiente.
+            $img.css('transform', `scale(${currentScale})`);
             return; 
         }
 
@@ -168,7 +170,12 @@ function attachImageInteractions($img, $container, $metricsContent) {
             currentX = e.clientX - startX;
             currentY = e.clientY - startY;
 
-            $img.css('transform', `translate(${currentX}px, ${currentY}px)`);
+            // APLICACIÓN COMBINADA: El Drag DEBE combinar el translate con la escala de Doble Clic (si está activa)
+            // La escala base es 1, a menos que el doble clic esté activo (isZoomed).
+            const scaleForDrag = isZoomed ? 2 : 1; 
+
+            // COMBINAMOS la traslación con la escala actual (que es 1 si no hay Doble Clic)
+            $img.css('transform', `scale(${scaleForDrag}) translate(${currentX}px, ${currentY}px)`);
         }
     });
 
@@ -192,8 +199,12 @@ function attachImageInteractions($img, $container, $metricsContent) {
 
             // Volver a posición inicial
             $img.css('transition', 'transform 0.3s ease');
-            $img.css('transform', 'scale(1) translate(0, 0)');
+        
+            // RESTAURAR AL ESTADO BASE (escala del doble clic + 0,0 de traslación)
+            const scaleBase = isZoomed ? 2 : 1;
+            $img.css('transform', `scale(${scaleBase}) translate(0, 0)`); // Aquí restauramos
             
+            currentScale = scaleBase; // Reiniciar la escala de movimiento
             isPinching = false;
             actualizarMetricas();
             return;
@@ -213,10 +224,13 @@ function attachImageInteractions($img, $container, $metricsContent) {
 
             // Volver a posición inicial
             $img.css('transition', 'transform 0.3s ease');
-            $img.css('transform', 'translate(0px, 0px)');
+        
+            // RESTAURAR AL ESTADO BASE (escala del doble clic + 0,0 de traslación)
+            const scaleBase = isZoomed ? 2 : 1;
+            $img.css('transform', `scale(${scaleBase}) translate(0px, 0px)`);
+            
             currentX = 0;
             currentY = 0;
-            
             isDragging = false;
             $img.css('cursor', 'move');
             
