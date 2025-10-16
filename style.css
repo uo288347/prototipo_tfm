@@ -112,6 +112,7 @@ body {
     .carousel {
       display: flex;
       width: 100vw;
+      min-height: 50vh;
       transition: transform 0.4s ease-in-out;
       overflow: hidden;
     }
