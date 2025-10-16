@@ -60,11 +60,10 @@ function attachImageInteractions($img, $container, $metricsContent) {
             let startY = 0;
             let currentX = 0;
             let currentY = 0;
-            let currentScale = 1;
             let dragStartTime = null;
+            let dragPointerId = null; // Para asegurar que solo rastreamos 1 puntero
 
-            // Variables para pinch
-            const activePointers = new Map();
+            // --- VARIABLES DE PINCH (Touch Events) ---
             let isPinching = false;
             let initialDistance = 0;
             let pinchStartTime = null;
@@ -79,115 +78,139 @@ function attachImageInteractions($img, $container, $metricsContent) {
                 e.preventDefault();
             });
 
-            // ========== DRAG ==========
-            // ========== PINCH (Multi-touch) ==========
-    $container.on('pointerdown', function(e) {
-        // Ignorar si ya estamos en un pinch (para evitar conflictos de inicio)
-        if (isPinching) return; 
-
-        // 1. Agregar el puntero al mapa
-        activePointers.set(e.pointerId, e.originalEvent); // Almacenar el evento original para las coordenadas
-        
-        // 2. Comprobar si hay 2 punteros para iniciar el PINCH
-        if (activePointers.size === 2) {
-            e.preventDefault(); // Prevenir zoom/scroll del navegador
-            isDragging = false; // Detener Drag si estaba activo
-
-            isPinching = true;
-            pinchStartTime = Date.now();
-            $img.css('transition', 'none');
-
-            // Obtener los dos punteros
-            const pointers = Array.from(activePointers.values());
-            const p1 = pointers[0];
-            const p2 = pointers[1];
-
-            initialDistance = getDistance(p1, p2);
-
-            pinchCenter = {
-                x: (p1.clientX + p2.clientX) / 2,
-                y: (p1.clientY + p2.clientY) / 2
-            };
-            
-            return; // Salir, es un pinch
-        }
-
-        // 3. Si no es un Pinch, iniciar el DRAG (solo con 1 puntero)
-        if (activePointers.size === 1) {
-            isDragging = true;
-            dragStartTime = Date.now();
-            
-            // Obtener la posición actual de la imagen (0,0 si no hay zoom/drag previo)
-            const transform = $img.css('transform');
-            if (transform && transform !== 'none') {
-                 const match = transform.match(/translate\(([^,]+)px, ([^)]+)px\)/);
-                 if (match) {
-                    currentX = parseFloat(match[1]);
-                    currentY = parseFloat(match[2]);
-                 }
-            } else {
-                 currentX = 0;
-                 currentY = 0;
+            function getDistance(touch1, touch2) {
+                return Math.hypot(
+                    touch2.clientX - touch1.clientX,
+                    touch2.clientY - touch1.clientY
+                );
             }
 
-            startX = e.clientX - currentX;
-            startY = e.clientY - currentY;
-            
-            $img.css('transition', 'none');
-            $(this).css('cursor', 'grabbing');
-        }
-    });
-
-    // --- 2. pointermove (Mover Drag o Pinch) ---
-    $container.on('pointermove', function(e) {
-        if (activePointers.has(e.pointerId) && (isDragging || isPinching)) {
-            e.preventDefault(); 
-        }
-
-        // Actualizar la posición del puntero en el mapa
-        if (activePointers.has(e.pointerId)) {
-            activePointers.set(e.pointerId, e.originalEvent);
-        }
-
-        // PINCH MOVE
-        if (isPinching && activePointers.size === 2) {
-            const pointers = Array.from(activePointers.values());
-            const p1 = pointers[0];
-            const p2 = pointers[1];
-            
-            const currentDistance = getDistance(p1, p2);
-            currentScale = currentDistance / initialDistance; // Actualiza la escala
-            
-            // APLICACIÓN COMBINADA: Solo escala, ya que el pinch se resetea al soltar.
-            // Si quieres que un pinch activo pueda ser arrastrado simultáneamente, 
-            // la lógica es mucho más compleja, pero para el "zoom temporal", solo el scale es suficiente.
-            $img.css('transform', `scale(${currentScale})`);
+            // ========== DRAG ==========
+            // ========== 1. DRAG (Pointer Events) ==========
+    // =======================================
+    $container.on('pointerdown', function(e) {
+        // Solo iniciar DRAG si es el primer puntero (dragPointerId es null)
+        if (dragPointerId !== null) return;
+        
+        // Excluir dispositivos táctiles para permitir que los Touch Events manejen el pinch
+        if (e.originalEvent.pointerType === 'touch') {
+            // Este puntero es táctil. Dejamos que los Touch Events decidan si es drag o pinch.
             return; 
         }
 
-        // DRAG MOVE
-        if (isDragging) {
-            currentX = e.clientX - startX;
-            currentY = e.clientY - startY;
+        // Si es mouse/pen y no estamos ya en drag, iniciar el DRAG
+        isDragging = true;
+        dragPointerId = e.pointerId;
+        dragStartTime = Date.now();
+        
+        // Obtener la posición inicial de forma similar a tu lógica original
+        startX = e.clientX - currentX;
+        startY = e.clientY - currentY;
+        
+        $img.css('transition', 'none');
+        //$(this).css('cursor', 'grabbing');
+    });
 
-            // APLICACIÓN COMBINADA: El Drag DEBE combinar el translate con la escala de Doble Clic (si está activa)
-            // La escala base es 1, a menos que el doble clic esté activo (isZoomed).
-            const scaleForDrag = isZoomed ? 2 : 1; 
+    $(document).on('pointermove', function(e) {
+        if (!isDragging || e.pointerId !== dragPointerId) return;
 
-            // COMBINAMOS la traslación con la escala actual (que es 1 si no hay Doble Clic)
-            $img.css('transform', `scale(${scaleForDrag}) translate(${currentX}px, ${currentY}px)`);
+        currentX = e.clientX - startX;
+        currentY = e.clientY - startY;
+        
+        const scaleBase = isZoomed ? 2 : 1;
+        $img.css('transform', `scale(${scaleBase}) translate(${currentX}px, ${currentY}px)`);
+    });
+
+    $(document).on('pointerup pointercancel', function(e) {
+        if (!isDragging || e.pointerId !== dragPointerId) return;
+        
+        // DRAG END
+        const duracion = Date.now() - dragStartTime;
+        
+        metricas.drags.push({
+            momento: new Date().toLocaleTimeString(),
+            duracion: duracion,
+            coordenadasInicio: { x: startX, y: startY },
+            coordenadasFin: { x: e.clientX, y: e.clientY },
+            desplazamiento: { x: currentX, y: currentY }
+        });
+
+        // Volver a posición inicial
+        $img.css('transition', 'transform 0.3s ease');
+        const scaleBase = isZoomed ? 2 : 1;
+        $img.css('transform', `scale(${scaleBase}) translate(0px, 0px)`);
+        currentX = 0;
+        currentY = 0;
+        
+        isDragging = false;
+        dragPointerId = null;
+        $img.css('cursor', 'move');
+        
+        actualizarMetricas();
+    });
+
+    // ========== 2. PINCH (Touch Events) & DRAG TÁCTIL (Touch Events) ==========
+    // =======================================
+    
+    $container.on('touchstart', function(e) {
+        // Usar e.originalEvent para acceder a las propiedades nativas
+        const touches = e.originalEvent.touches;
+        
+        if (touches.length > 1) {
+            e.preventDefault(); // Prevenir el zoom/scroll del navegador
+
+            // Si hay 2 o más toques, es un PINCH
+            isPinching = true;
+            isDragging = false; // Asegurarse de que el Drag no esté activo
+            pinchStartTime = Date.now();
+
+            const touch1 = touches[0];
+            const touch2 = touches[1];
+
+            initialDistance = getDistance(touch1, touch2);
+
+            pinchCenter = {
+                x: (touch1.clientX + touch2.clientX) / 2,
+                y: (touch1.clientY + touch2.clientY) / 2
+            };
+
+            $img.css('transition', 'none');
+            
+        } else if (touches.length === 1 && dragPointerId === null) {
+            // Si es un solo toque (y no hay Drag de mouse/pen activo), iniciar DRAG TÁCTIL
+            // La lógica de DRAG ya está cubierta por los Pointer Events si no ignoramos el 'touch'
+            // Pero para asegurarnos de que el pinch anula el drag, ponemos el flag.
+            // Para simplicidad, DEJAMOS QUE EL DRAG ANTERIOR MANEJE EL TOQUE ÚNICO, 
+            // y solo usamos touchstart/move/end para EL PINCH.
+            
+            // **IMPORTANTE**: No hacer nada aquí para el single-touch, 
+            // dejamos que el pointerdown lo maneje cuando no es multi-touch.
         }
     });
 
-    // --- 3. pointerup/pointercancel (Fin de Drag o Pinch) ---
-    $container.on('pointerup pointercancel', function(e) {
-        // Eliminar el puntero del mapa
-        if (activePointers.has(e.pointerId)) {
-            activePointers.delete(e.pointerId);
-        }
+    $container.on('touchmove', function(e) {
+        if (isPinching) {
+            e.preventDefault();
 
-        // PINCH END
-        if (isPinching && activePointers.size < 2) {
+            const touches = e.originalEvent.touches;
+            if (touches.length < 2) return; // Se levantó un dedo, pero aún estamos en transición
+            
+            const touch1 = touches[0];
+            const touch2 = touches[1];
+
+            const currentDistance = getDistance(touch1, touch2);
+            const currentScale = currentDistance / initialDistance;
+            
+            const scaleBase = isZoomed ? 2 : 1;
+            // Combina el scale del pinch con el scale base del doble clic si es necesario
+            $img.css('transform', `scale(${scaleBase * currentScale})`);
+        }
+    });
+
+    $container.on('touchend touchcancel', function(e) {
+        if (isPinching) {
+            // Un dedo se levantó, o se canceló el gesto
+
             const duracion = Date.now() - pinchStartTime;
             
             metricas.pinches.push({
@@ -197,47 +220,18 @@ function attachImageInteractions($img, $container, $metricsContent) {
                 distanciaInicial: Math.round(initialDistance)
             });
 
-            // Volver a posición inicial
+            // Volver a posición inicial del pinch
             $img.css('transition', 'transform 0.3s ease');
-        
-            // RESTAURAR AL ESTADO BASE (escala del doble clic + 0,0 de traslación)
-            const scaleBase = isZoomed ? 2 : 1;
-            $img.css('transform', `scale(${scaleBase}) translate(0, 0)`); // Aquí restauramos
             
-            currentScale = scaleBase; // Reiniciar la escala de movimiento
+            // Restaurar la escala al estado base (la del doble clic)
+            const scaleBase = isZoomed ? 2 : 1;
+            $img.css('transform', `scale(${scaleBase}) translate(0, 0)`);
+            
             isPinching = false;
-            actualizarMetricas();
-            return;
-        }
-        
-        // DRAG END
-        if (isDragging && activePointers.size === 0) {
-            const duracion = Date.now() - dragStartTime;
-            
-            metricas.drags.push({
-                momento: new Date().toLocaleTimeString(),
-                duracion: duracion,
-                coordenadasInicio: { x: startX, y: startY },
-                coordenadasFin: { x: e.clientX, y: e.clientY },
-                desplazamiento: { x: currentX, y: currentY }
-            });
-
-            // Volver a posición inicial
-            $img.css('transition', 'transform 0.3s ease');
-        
-            // RESTAURAR AL ESTADO BASE (escala del doble clic + 0,0 de traslación)
-            const scaleBase = isZoomed ? 2 : 1;
-            $img.css('transform', `scale(${scaleBase}) translate(0px, 0px)`);
-            
-            currentX = 0;
-            currentY = 0;
-            isDragging = false;
-            $img.css('cursor', 'move');
-            
             actualizarMetricas();
         }
     });
-            
+
             // ========== DOBLE CLIC ==========
             $img.on('click', function(e) {
                 const currentTime = Date.now();
