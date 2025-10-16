@@ -303,17 +303,17 @@ function attachSwipeEvents($carousel, $slides, $output, totalSlides) {
     }
 
     // Eventos táctiles
-    $carousel.on('touchstart', function (e) {
+    $carousel.on('pointerstart', function (e) {
       startX = e.touches[0].clientX;
       isDragging = true;
     });
 
-    $carousel.on('touchmove', function (e) {
+    $carousel.on('pointermove', function (e) {
       if (!isDragging) return;
       currentX = e.touches[0].clientX;
     });
 
-    $carousel.on('touchend', function () {
+    $carousel.on('pointerend', function () {
       if (!isDragging) return;
       const diff = startX - currentX;
       if (diff > SWIPE_THRESHOLD && index < $slides.length - 1) index++;
