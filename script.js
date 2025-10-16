@@ -377,7 +377,8 @@ function attachSwipeEvents($carousel, $slides, $output, totalSlides) {
 
       isDragging = false;
       const diff = currentX - startX;
-      const threshold = window.innerWidth * 0.2; // 20% del ancho de la pantalla
+      //const threshold = window.innerWidth * 0.2; // 20% del ancho de la pantalla
+      const threshold = SWIPE_THRESHOLD; // Umbral fijo en píxeles
       console.log('Diff:', diff, 'Threshold:', threshold); //Debug
       $carousel.css('transition', 'transform 0.4s ease-in-out');
       /*if (diff > SWIPE_THRESHOLD && index < $slides.length - 1) index++;
