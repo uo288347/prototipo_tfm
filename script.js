@@ -354,7 +354,7 @@ function attachSwipeEvents($carousel, $slides, $output, totalSlides) {
       logEvent({ type: 'pointermove', move: moveData });
     });
 
-    $carousel.on('pointerup', function () {
+    $carousel.on('pointerup', function (e) {
       if (!isDragging) return;
       const diff = startX - currentX;
       if (diff > SWIPE_THRESHOLD && index < $slides.length - 1) index++;
