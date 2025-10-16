@@ -117,6 +117,8 @@ body {
       overflow: hidden;
     }
 
-    .carousel div {
+    .slide {
       width: 100vw;
+      min-height: 50vh;
+      overflow: hidden;
     }
