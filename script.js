@@ -299,7 +299,7 @@ function attachSwipeEvents($carousel, $slides, $output, totalSlides) {
 
     function updateCarousel() {
       $carousel.css('transform', `translateX(${-index * 100}%)`);
-      $output.text(`Imagen ${currentSlide + 1} de ${totalSlides}. ¡Swipe detectado!`);
+      $output.text(`Imagen ${index} de ${totalSlides}. ¡Swipe detectado!`);
     }
 
     // Eventos táctiles
@@ -319,7 +319,6 @@ function attachSwipeEvents($carousel, $slides, $output, totalSlides) {
       if (diff > SWIPE_THRESHOLD && index < $slides.length - 1) index++;
       if (diff < -SWIPE_THRESHOLD && index > 0) index--;
       if (diff < SWIPE_THRESHOLD || diff > -SWIPE_THRESHOLD) {
-        updateCarousel(currentSlide);
         $output.text('Toque registrado, movimiento insuficiente.');
       }
       updateCarousel();
