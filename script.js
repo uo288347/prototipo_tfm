@@ -400,7 +400,7 @@ function attachSwipeEvents($carousel, $slides, $output, totalSlides) {
         }
       }
       
-      const newTransform = -currentSlide * 100;
+      const newTransform = currentSlide * 100;
       $carousel.css('transform',`translateX(${newTransform}vw)`);
       console.log('Transform aplicado:', newTransform + 'vw'); // Debug      
       updateCarousel();
