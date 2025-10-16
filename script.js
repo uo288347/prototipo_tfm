@@ -296,6 +296,8 @@ function attachSwipeEvents($carousel, $slides, $output, totalSlides) {
     let currentX = 0;
     let isDragging = false;
     const SWIPE_THRESHOLD = 5;
+    let currentSlide = 0;
+    const totalSlides = $slides.length;
 
     function updateCarousel() {
       $carousel.css('transform', `translateX(${-index * 100}%)`);
