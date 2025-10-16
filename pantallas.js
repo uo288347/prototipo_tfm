@@ -97,7 +97,7 @@ const carruselImagenes = [
 const CAROUSEL_WIDTH_PERCENT = 80;
 const ASPECT_RATIO = 200 / 300;
 
-export function renderScreen4(attachSwipeEvents) {
+export function renderScreen5(attachSwipeEvents) {
     const $screenContent = $('#screen-content');
     $screenContent.empty();
 

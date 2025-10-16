@@ -1,4 +1,5 @@
-import { renderScreen1, renderScreen2, renderScreen3, renderScreen4 } from './pantallas.js';
+import { renderScreen1, renderScreen2, renderScreen3, renderScreen5 } from './pantallas.js';
+import { renderScreen4 } from './pantalla4.js';
 
 const TOTAL_SCREENS = 10;
 let currentScreen = 1;
@@ -8,7 +9,8 @@ const screens = [
   () => renderScreen1(attachButtonEvents),
   () => renderScreen2(attachInputEvents),
   () => renderScreen3(monitorScreen2Interactions),
-  () => renderScreen4(attachSwipeEvents)
+  () => renderScreen4(),
+  () => renderScreen5(attachSwipeEvents)
   // ...añade más funciones importadas aquí
 ];
 
@@ -417,100 +419,6 @@ function attachSwipeEvents($carousel, $slides, $output, totalSlides) {
         button: e.button
       });
     });
-}
-
-function attachSwipeEvents2($container, $wrapper, $output, totalSlides) {
-    let startX = 0;          // Posición X inicial al tocar
-    let currentSlide = 0;    // Índice de la imagen actual
-    const SWIPE_THRESHOLD = 50; // Mínimo de píxeles a moverse para considerarlo un swipe
-
-    // 1. Función para actualizar la imagen visible
-    const moveCarousel = (newIndex) => {
-        const slideWidth = $container.width(); 
-
-        // Asegura un índice cíclico
-        currentSlide = (newIndex + totalSlides) % totalSlides; 
-        
-        const offset = -currentSlide * slideWidth; 
-        
-        $wrapper.css('transform', `translateX(${offset}px)`);
-    };
-
-    const updateCarouselAndFeedback = (newIndex, swiped = false) => {
-        moveCarousel(newIndex); // Mueve el carrusel
-
-        if (swiped) {
-            // Muestra este mensaje SOLO si ha habido un swipe real
-            $output.text(`Imagen ${currentSlide + 1} de ${totalSlides}. ¡Swipe detectado!`);
-        } else {
-            // Muestra este mensaje en la inicialización o si el movimiento fue insuficiente
-            $output.text('Esperando gesto de deslizamiento...');
-        }
-    };
-
-    moveCarousel(0);
-    $output.text('Esperando gesto de deslizamiento...');
-    /*const updateCarousel = (newIndex) => {
-        const slideWidth = $container.width();
-        currentSlide = (newIndex + totalSlides) % totalSlides; // Asegura un índice cíclico
-        const offset = -currentSlide * slideWidth; // 300px es el ancho del contenedor
-        
-        $wrapper.css('transform', `translateX(${offset}px)`);
-        $output.text(`Imagen ${currentSlide + 1} de ${totalSlides}. ¡Swipe detectado!`);
-    };*/
-
-    // 2. Captura del inicio del toque (pointerdown)
-    $container.on('pointerdown', function(e) {
-        // Solo para el primer toque o toque primario
-        if (e.isPrimary) {
-            startX = e.clientX;
-            // Opcional: Desactivar la transición CSS temporalmente
-            $wrapper.css('transition', 'none'); 
-            // Capturar el puntero para que los eventos 'move' sigan al dedo fuera del contenedor
-            $container[0].setPointerCapture(e.pointerId);
-            $output.text('Iniciando toque...');
-        }
-    });
-
-    // 3. Seguimiento del movimiento (pointermove)
-    $container.on('pointermove', function(e) {
-        if (startX !== 0 && e.isPrimary) {
-            const deltaX = e.clientX - startX;
-            const slideWidth = $container.width();
-            // Mover el wrapper en tiempo real para un efecto visual de arrastre
-           const currentOffset = -currentSlide * slideWidth;
-            $wrapper.css('transform', `translateX(${currentOffset + deltaX}px)`);
-        }
-    });
-
-    // 4. Fin del toque (pointerup)
-    $container.on('pointerup', function(e) {
-        if (startX !== 0 && e.isPrimary) {
-            const deltaX = e.clientX - startX;
-            startX = 0; // Resetear la posición inicial
-
-            // Volver a activar la transición
-            $wrapper.css('transition', 'transform 0.3s ease-out');
-            
-            // Liberar el puntero
-            $container[0].releasePointerCapture(e.pointerId);
-
-            if (deltaX < -SWIPE_THRESHOLD) {
-                // Swipe a la izquierda (quiere ver la siguiente imagen)
-                updateCarousel(currentSlide + 1);
-            } else if (deltaX > SWIPE_THRESHOLD) {
-                // Swipe a la derecha (quiere ver la imagen anterior)
-                updateCarousel(currentSlide - 1);
-            } else {
-                // Movimiento menor que el umbral, regresa a la posición actual
-                updateCarousel(currentSlide);
-                $output.text('Toque registrado, movimiento insuficiente.');
-            }
-        }
-    });
-
-    // Inicializar la primera imagen
-    updateCarousel(0);
 }
 
 
