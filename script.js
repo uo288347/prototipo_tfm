@@ -297,13 +297,39 @@ function attachSwipeEvents($container, $wrapper, $output, totalSlides) {
     const SWIPE_THRESHOLD = 50; // Mínimo de píxeles a moverse para considerarlo un swipe
 
     // 1. Función para actualizar la imagen visible
-    const updateCarousel = (newIndex) => {
+    const moveCarousel = (newIndex) => {
+        const slideWidth = $container.width(); 
+
+        // Asegura un índice cíclico
+        currentSlide = (newIndex + totalSlides) % totalSlides; 
+        
+        const offset = -currentSlide * slideWidth; 
+        
+        $wrapper.css('transform', `translateX(${offset}px)`);
+    };
+
+    const updateCarouselAndFeedback = (newIndex, swiped = false) => {
+        moveCarousel(newIndex); // Mueve el carrusel
+
+        if (swiped) {
+            // Muestra este mensaje SOLO si ha habido un swipe real
+            $output.text(`Imagen ${currentSlide + 1} de ${totalSlides}. ¡Swipe detectado!`);
+        } else {
+            // Muestra este mensaje en la inicialización o si el movimiento fue insuficiente
+            $output.text('Esperando gesto de deslizamiento...');
+        }
+    };
+
+    moveCarousel(0);
+    $output.text('Esperando gesto de deslizamiento...');
+    /*const updateCarousel = (newIndex) => {
+        const slideWidth = $container.width();
         currentSlide = (newIndex + totalSlides) % totalSlides; // Asegura un índice cíclico
-        const offset = -currentSlide * 300; // 300px es el ancho del contenedor
+        const offset = -currentSlide * slideWidth; // 300px es el ancho del contenedor
         
         $wrapper.css('transform', `translateX(${offset}px)`);
         $output.text(`Imagen ${currentSlide + 1} de ${totalSlides}. ¡Swipe detectado!`);
-    };
+    };*/
 
     // 2. Captura del inicio del toque (pointerdown)
     $container.on('pointerdown', function(e) {
@@ -322,8 +348,9 @@ function attachSwipeEvents($container, $wrapper, $output, totalSlides) {
     $container.on('pointermove', function(e) {
         if (startX !== 0 && e.isPrimary) {
             const deltaX = e.clientX - startX;
+            const slideWidth = $container.width();
             // Mover el wrapper en tiempo real para un efecto visual de arrastre
-            const currentOffset = -currentSlide * 300;
+           const currentOffset = -currentSlide * slideWidth;
             $wrapper.css('transform', `translateX(${currentOffset + deltaX}px)`);
         }
     });

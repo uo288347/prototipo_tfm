@@ -94,6 +94,8 @@ const carruselImagenes = [
     'https://picsum.photos/id/1018/300/200', // Puente
     'https://picsum.photos/id/1025/300/200'  // Cebra
 ];
+const CAROUSEL_WIDTH_PERCENT = 80;
+const ASPECT_RATIO = 200 / 300;
 export function renderScreen4(attachSwipeEvents) {
     const $screenContent = $('#screen-content');
     $screenContent.empty();
@@ -101,17 +103,25 @@ export function renderScreen4(attachSwipeEvents) {
     // 1. Título e Instrucciones
     const $instruccionP = $('<p>', {
         style: "font-size: 1.2em; font-weight: bold; color: #333;"
-    }).text('Desliza (Swipe) la imagen hacia la izquierda o derecha para cambiarla. 👈👉');
+    }).text('Desliza (Swipe) la imagen hacia la izquierda o derecha para cambiarla');
 
     // 2. Contenedor del Carrusel y la Imagen
+    const SLIDE_WIDTH = 300; // Ancho fijo del contenedor y de cada diapositiva
+    const totalSlides = carruselImagenes.length;
+    const WRAPPER_TOTAL_WIDTH = totalSlides * 100;
     const $carruselContainer = $('<div>', {
         id: 'carruselContainer',
-        style: 'position: relative; overflow: hidden; width: 300px; height: 200px; margin: 20px auto; border: 3px solid #007bff; border-radius: 8px;'
+        style: `position: relative; overflow: hidden; width: ${CAROUSEL_WIDTH_PERCENT}%; padding-top: ${ASPECT_RATIO * CAROUSEL_WIDTH_PERCENT}%;
+         margin: 20px auto; border-radius: 8px;`
+    });
+
+    const $innerContainer = $('<div>', {
+        style: 'position: absolute; top: 0; left: 0; width: 100%; height: 100%;'
     });
     
     const $imagenWrapper = $('<div>', {
         id: 'imagenWrapper',
-        style: 'display: flex; transition: transform 0.3s ease-out; width: 100%; height: 100%;'
+        style: `display: flex; transition: transform 0.3s ease-out; ${WRAPPER_TOTAL_WIDTH_PERCENT}%; height: 100%;`
     });
 
     // 3. Crear los elementos <img> dentro del wrapper
@@ -120,7 +130,7 @@ export function renderScreen4(attachSwipeEvents) {
             src: url,
             class: 'carrusel-img',
             'data-index': index,
-            style: 'min-width: 100%; height: 100%; object-fit: cover;' // min-width 100% es clave
+            style: `width: ${100 / totalSlides}%; height: 100%; object-fit: cover;` // min-width 100% es clave
         });
         $imagenWrapper.append($img);
     });
@@ -133,7 +143,8 @@ export function renderScreen4(attachSwipeEvents) {
     });
 
     // 5. Ensamblar y añadir al DOM
-    $carruselContainer.append($imagenWrapper);
+    $innerContainer.append($imagenWrapper);
+    $carruselContainer.append($innerContainer);
     $screenContent.append($instruccionP, $carruselContainer, $feedbackOutput);
 
     // 6. Adjuntar los eventos de swipe al contenedor
