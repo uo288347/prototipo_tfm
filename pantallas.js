@@ -108,7 +108,7 @@ export function renderScreen4(attachSwipeEvents) {
     // 2. Contenedor del Carrusel y la Imagen
     const SLIDE_WIDTH = 300; // Ancho fijo del contenedor y de cada diapositiva
     const totalSlides = carruselImagenes.length;
-    const WRAPPER_TOTAL_WIDTH = totalSlides * 100;
+    const WRAPPER_TOTAL_WIDTH_PERCENT = totalSlides * 100;
     const $carruselContainer = $('<div>', {
         id: 'carruselContainer',
         style: `position: relative; overflow: hidden; width: ${CAROUSEL_WIDTH_PERCENT}%; padding-top: ${ASPECT_RATIO * CAROUSEL_WIDTH_PERCENT}%;
