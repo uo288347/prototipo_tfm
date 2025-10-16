@@ -295,9 +295,11 @@ function attachSwipeEvents($carousel, $slides, $output, totalSlides) {
     let startX = 0;
     let currentX = 0;
     let isDragging = false;
+    let pointerId = null;
     const SWIPE_THRESHOLD = 5;
     let currentSlide = 0;
     console.log('Total slides:', $slides.length); //Debug
+    const carousel = $carousel[0];
 
     function updateCarousel() {
       $carousel.css('transform', `translateX(${-index * 100}%)`);
@@ -326,7 +328,8 @@ function attachSwipeEvents($carousel, $slides, $output, totalSlides) {
     $carousel.on('pointerdown', function (e) {
       startX = e.clientX;
       isDragging = true;
-      $carousel.setPointerCapture(e.pointerId);
+      pointerId = e.pointerId;
+      carousel.setPointerCapture(e.pointerId);
       $carousel.css('transition', `none`);
       //metrics
       downTime = Date.now();
@@ -367,8 +370,13 @@ function attachSwipeEvents($carousel, $slides, $output, totalSlides) {
 
     $carousel.on('pointerup', function (e) {
       if (!isDragging) return;
+      if (pointerId !== null) {
+        carousel.releasePointerCapture(pointerId);
+        pointerId = null;
+      }
+
       isDragging = false;
-      const diff = startX - currentX;
+      const diff = currentX - startX;
       const threshold = window.innerWidth * 0.2; // 20% del ancho de la pantalla
       console.log('Diff:', diff, 'Threshold:', threshold); //Debug
       $carousel.css('transition', 'transform 0.4s ease-in-out');
@@ -390,7 +398,7 @@ function attachSwipeEvents($carousel, $slides, $output, totalSlides) {
       }
       
       const newTransform = -currentSlide * 100;
-      $carousel.css('transition',`translateX(${newTransform}vw)`);
+      $carousel.css('transform',`translateX(${newTransform}vw)`);
       console.log('Transform aplicado:', newTransform + 'vw'); // Debug      
       updateCarousel();
 
