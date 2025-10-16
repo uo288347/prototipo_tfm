@@ -88,66 +88,53 @@ function attachImageInteractions($img, $container, $metricsContent) {
             // ========== DRAG ==========
             // ========== 1. DRAG (Pointer Events) ==========
     // =======================================
-    $container.on('pointerdown', function(e) {
-        // Solo iniciar DRAG si es el primer puntero (dragPointerId es null)
-        if (dragPointerId !== null) return;
-        
-        // Excluir dispositivos táctiles para permitir que los Touch Events manejen el pinch
-        if (e.originalEvent.pointerType === 'touch') {
-            // Este puntero es táctil. Dejamos que los Touch Events decidan si es drag o pinch.
-            return; 
-        }
+            $img.on('pointerdown', function(e) {
+                if (e.pointerType === 'touch' && e.originalEvent.touches && e.originalEvent.touches.length > 1) {
+                    return; // Ignorar si es multi-touch
+                }
 
-        // Si es mouse/pen y no estamos ya en drag, iniciar el DRAG
-        isDragging = true;
-        dragPointerId = e.pointerId;
-        dragStartTime = Date.now();
-        
-        // Obtener la posición inicial de forma similar a tu lógica original
-        startX = e.clientX - currentX;
-        startY = e.clientY - currentY;
-        
-        $img.css('transition', 'none');
-        //$(this).css('cursor', 'grabbing');
-    });
+                isDragging = true;
+                dragStartTime = Date.now();
+                startX = e.clientX - currentX;
+                startY = e.clientY - currentY;
+                
+                $img.css('transition', 'none');
+                $(this).css('cursor', 'grabbing');
+            });
 
-    $(document).on('pointermove', function(e) {
-        if (!isDragging || e.pointerId !== dragPointerId) return;
+            $(document).on('pointermove', function(e) {
+                if (!isDragging) return;
 
-        currentX = e.clientX - startX;
-        currentY = e.clientY - startY;
-        
-        const scaleBase = isZoomed ? 2 : 1;
-        $img.css('transform', `scale(${scaleBase}) translate(${currentX}px, ${currentY}px)`);
-    });
+                currentX = e.clientX - startX;
+                currentY = e.clientY - startY;
 
-    $(document).on('pointerup pointercancel', function(e) {
-        if (!isDragging || e.pointerId !== dragPointerId) return;
-        
-        // DRAG END
-        const duracion = Date.now() - dragStartTime;
-        
-        metricas.drags.push({
-            momento: new Date().toLocaleTimeString(),
-            duracion: duracion,
-            coordenadasInicio: { x: startX, y: startY },
-            coordenadasFin: { x: e.clientX, y: e.clientY },
-            desplazamiento: { x: currentX, y: currentY }
-        });
+                $img.css('transform', `translate(${currentX}px, ${currentY}px)`);
+            });
 
-        // Volver a posición inicial
-        $img.css('transition', 'transform 0.3s ease');
-        const scaleBase = isZoomed ? 2 : 1;
-        $img.css('transform', `scale(${scaleBase}) translate(0px, 0px)`);
-        currentX = 0;
-        currentY = 0;
-        
-        isDragging = false;
-        dragPointerId = null;
-        $img.css('cursor', 'move');
-        
-        actualizarMetricas();
-    });
+            $(document).on('pointerup', function(e) {
+                if (isDragging) {
+                    const duracion = Date.now() - dragStartTime;
+                    
+                    metricas.drags.push({
+                        momento: new Date().toLocaleTimeString(),
+                        duracion: duracion,
+                        coordenadasInicio: { x: startX, y: startY },
+                        coordenadasFin: { x: e.clientX, y: e.clientY },
+                        desplazamiento: { x: currentX, y: currentY }
+                    });
+
+                    // Volver a posición inicial
+                    $img.css('transition', 'transform 0.3s ease');
+                    $img.css('transform', 'translate(0px, 0px)');
+                    currentX = 0;
+                    currentY = 0;
+                    
+                    isDragging = false;
+                    $img.css('cursor', 'move');
+                    
+                    actualizarMetricas();
+                }
+            });
 
     // ========== 2. PINCH (Touch Events) & DRAG TÁCTIL (Touch Events) ==========
     // =======================================
