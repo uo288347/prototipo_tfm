@@ -297,10 +297,11 @@ function attachSwipeEvents($carousel, $slides, $output, totalSlides) {
     let isDragging = false;
     const SWIPE_THRESHOLD = 5;
     let currentSlide = 0;
+    console.log('Total slides:', slides.length); //Debug
 
     function updateCarousel() {
       $carousel.css('transform', `translateX(${-index * 100}%)`);
-      $output.text(`Imagen ${index} de ${totalSlides}. ¡Swipe detectado!`);
+      $output.text(`Imagen ${index+1} de ${totalSlides}. ¡Swipe detectado!`);
     }
 
     let downTime = null, upTime = null;
@@ -368,6 +369,7 @@ function attachSwipeEvents($carousel, $slides, $output, totalSlides) {
       isDragging = false;
       const diff = startX - currentX;
       const threshold = window.innerWidth * 0.2; // 20% del ancho de la pantalla
+      console.log('Diff:', diff, 'Threshold:', threshold); //Debug
       $carousel.css('transition', 'transform 0.4s ease-in-out');
       /*if (diff > SWIPE_THRESHOLD && index < $slides.length - 1) index++;
       if (diff < -SWIPE_THRESHOLD && index > 0) index--;
@@ -378,13 +380,17 @@ function attachSwipeEvents($carousel, $slides, $output, totalSlides) {
         if (diff > 0 && currentSlide > 0) {
           // Swipe a la derecha - slide anterior
           currentSlide--;
+          console.log('Anterior → Slide:', currentSlide); // Debug
         } else if (diff < 0 && currentSlide < totalSlides - 1) {
           // Swipe a la izquierda - slide siguiente
           currentSlide++;
+          console.log('Siguiente → Slide:', currentSlide); // Debug
         }
       }
-      $carousel.css('transform', `translateX(-${currentSlide * 100}vw)`);
-      updateCarousel();
+      
+      const newTransform = -currentSlide * 100;
+      $carousel.css('transition',`translateX(${newTransform}vw)`);
+      console.log('Transform aplicado:', newTransform + 'vw'); // Debug      updateCarousel();
 
       //metrics
       upTime = Date.now();
