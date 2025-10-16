@@ -297,23 +297,62 @@ function attachSwipeEvents($carousel, $slides, $output, totalSlides) {
     let isDragging = false;
     const SWIPE_THRESHOLD = 5;
 
+    function logEvent(data) {
+      data.timestamp = Date.now();
+      data.time = new Date().toLocaleString();
+      allEvents.push(data);
+
+      if (data.type === 'scroll') {
+        scrollMoves.push(data.scrollData);
+      }
+
+      console.log(data);
+    }
+
     function updateCarousel() {
       $carousel.css('transform', `translateX(${-index * 100}%)`);
       $output.text(`Imagen ${index} de ${totalSlides}. ¡Swipe detectado!`);
     }
 
+    let downTime = null, upTime = null;
+    let moves = [];
+    let allEvents = [];
+    let scrollMoves = [];
+
     // Eventos táctiles
-    $carousel.on('pointerstart', function (e) {
+    $carousel.on('pointerdown', function (e) {
       startX = e.touches[0].clientX;
       isDragging = true;
+      downTime = Date.now();
+      moves = [];
+      logEvent({
+        type: 'pointerdown',
+        pointerType: e.pointerType,
+        x: e.clientX,
+        y: e.clientY,
+        screenX: e.screenX,
+        screenY: e.screenY,
+        pressure: e.pressure,
+        button: e.button
+      });
     });
 
     $carousel.on('pointermove', function (e) {
       if (!isDragging) return;
       currentX = e.touches[0].clientX;
+      const moveData = {
+        timestamp: Date.now(),
+        x: e.clientX,
+        y: e.clientY,
+        screenX: e.screenX,
+        screenY: e.screenY,
+        pressure: e.pressure
+      };
+      moves.push(moveData);
+      logEvent({ type: 'pointermove', move: moveData });
     });
 
-    $carousel.on('pointerend', function () {
+    $carousel.on('pointerup', function () {
       if (!isDragging) return;
       const diff = startX - currentX;
       if (diff > SWIPE_THRESHOLD && index < $slides.length - 1) index++;
