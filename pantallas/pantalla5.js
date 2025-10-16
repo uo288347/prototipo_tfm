@@ -1,5 +1,11 @@
+const carruselImagenes = [
+    "http://googleusercontent.com/image_collection/image_retrieval/17026540104275499652_0",
+    "http://googleusercontent.com/image_collection/image_retrieval/17026540104275499652_1",
+    "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1d/Oryctolagus_cuniculus_dorsal_view.jpg/1280px-Oryctolagus_cuniculus_dorsal_view.jpg",
+    "https://images.pexels.com/photos/103986/pexels-photo-103986.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
+];
 
-export function renderScreen5(attachSwipeEvents) {
+export function renderScreen5() {
     const $screenContent = $('#screen-content');
     $screenContent.empty();
 

@@ -1,5 +1,5 @@
 
-export function renderScreen3(monitorInteractions) {
+export function renderScreen3() {
   // 1. Seleccionar y limpiar el contenedor principal
   const $screenContent = $('#screen-content');
   $screenContent.empty();
@@ -48,7 +48,7 @@ export function renderScreen3(monitorInteractions) {
 }
 
 
-function monitorScreen2Interactions() {
+function monitorInteractions() {
   const $screenContent = $('#screen-content');
   const $imagenConejo = $screenContent.find('.imagen-conejo');
 

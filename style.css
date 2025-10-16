@@ -1,4 +1,315 @@
+/*
+ * 🎨 Base & Layout Styles
+ * ========================================
+ * General body, container, and main structural elements.
+ */
 body {
+    /* ❌ FIX: Removed unwanted margins/padding to start from the edge of the viewport. */
+    margin: 0;
+    padding: 0;
+    /* Basic typography and flex-layout for full-height pages */
+    font-family: Arial, sans-serif;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    /* Prevents horizontal scrolling from elements like 'width: 100vw' on mobile */
+    overflow-x: hidden;
+    /* Default background color from the form example */
+    background-color: #f5f5f5; 
+}
+
+/* A main container for centered content (from the form/metrics example) */
+.container {
+    max-width: 1200px; /* Use a generous max-width for overall content */
+    margin: 50px auto; /* 50px margin top/bottom, centered horizontally */
+    padding: 20px; /* Internal padding */
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+main {
+    flex: 1; /* Allows main content to grow and fill available vertical space */
+    display: block;
+    /* Override for the case where main is used without .container on simple pages */
+    /* margin: 0.5rem; /* Optional: Restore a small margin if needed for simple pages */
+}
+
+/*
+ * 🖼️ Header and Indicators
+ * ========================================
+ */
+header {
+    text-align: center;
+    margin-top: 2rem;
+    /* Use max-width for centering or width: 100% inside a container */
+    width: 100%; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#screen-indicator {
+    font-size: 1.5rem;
+    color: #374151;
+    letter-spacing: 0.1em;
+    margin: 0 auto;
+}
+
+/*
+ * 🧭 Navigation Bar (Fixed Bottom)
+ * ========================================
+ */
+nav {
+    position: fixed;
+    left: 50%;
+    bottom: 2vh;
+    transform: translateX(-50%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
+    padding: 0.75rem 2rem;
+    border-radius: 2rem;
+    z-index: 10;
+    /* Add a background for visibility against content */
+    background-color: rgba(255, 255, 255, 0.9);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); 
+}
+
+/*
+ * 🔘 Buttons and Forms
+ * ========================================
+ */
+/* Style for generic buttons inside the nav */
+nav button {
+    background: #6366f1; /* Indigo */
+    color: #fff;
+    border: none;
+    border-radius: 0.75rem;
+    width: 4rem;
+    height: 2.5rem;
+    font-size: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 8px rgba(99, 102, 241, 0.10);
+    cursor: pointer;
+    transition: background 0.2s, transform 0.2s;
+}
+
+nav button:active {
+    background: #4338ca; /* Darker Indigo */
+    transform: scale(0.97);
+}
+
+/* Style for the large, prominent click button */
+#clickBtn {
+    width: 95vw; /* Almost full width */
+    max-width: 400px; /* Optional: Limit size on larger screens */
+    height: 15vh;
+    min-height: 60px;
+    font-size: 2rem;
+    color: white;
+    background-color: #6366f1;
+    border-radius: 1rem;
+    border: none;
+    margin: 0 auto 2rem auto; /* Center with bottom margin */
+    display: block;
+    touch-action: none;
+    box-shadow: 0 2px 8px rgba(99, 102, 241, 0.10);
+    transition: background 0.2s, transform 0.2s;
+}
+
+#clickBtn:active {
+    background: #4338ca;
+    transform: scale(0.98);
+}
+
+/* Input field styles */
+input {
+    width: 90%; /* Use percentage or max-width for responsiveness inside a container */
+    max-width: 400px; /* Optional max-width */
+    padding: 1rem;
+    margin-top: 1rem;
+    font-size: 1em;
+    border: 2px solid #ccc;
+    border-radius: 5px;
+    display: block; /* Ensure it takes up its own line */
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Select field styles (from metrics example) */
+select {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border: 2px solid #ddd;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-bottom: 20px;
+}
+
+select:focus {
+    outline: none;
+    border-color: #4CAF50;
+}
+
+/*
+ * 🖼️ Image and Media Styles
+ * ========================================
+ */
+img {
+    max-width: 100%; /* Changed from 100vw to 100% for proper containment */
+    height: auto;
+    display: block;
+    margin: 1rem auto;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+/* Interactive Image Container */
+.image-container {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+    min-height: 400px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    position: relative;
+    touch-action: none; /* Prevents default touch actions like pull-to-refresh */
+}
+
+#interactiveImage {
+    max-width: 400px;
+    max-height: 400px;
+    cursor: move;
+    transition: transform 0.3s ease;
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+/*
+ * 🎠 Carousel Component Styles
+ * ========================================
+ */
+section[class="carousel"] {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    touch-action: pan-y; /* Allows normal vertical scrolling */
+}
+
+.carousel {
+    touch-action: none; /* Disables browser-level pan/zoom for custom swiping */
+    display: flex;
+    width: 100%; /* Changed from 100vw to 100% to fit inside parent */
+    height: 50vh;
+    transition: transform 0.4s ease-in-out;
+    overflow: hidden;
+    position: relative;
+}
+
+.slide {
+    flex: 0 0 100%; /* Each slide occupies exactly 100% of the carousel width */
+    width: 100%;
+    height: 50vh;
+    overflow: hidden;
+}
+
+.slide img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Ensures images cover the slide area */
+}
+
+/*
+ * 📊 Metrics and Output Styles
+ * ========================================
+ */
+#output {
+    margin: 2rem auto;
+    padding: 1rem;
+    font-size: 0.75rem;
+    word-break: break-all;
+    max-width: 400px;
+}
+
+.instrucciones {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.instrucciones h2 {
+    margin-top: 0;
+    color: #333;
+}
+
+.instrucciones ul {
+    line-height: 1.8;
+}
+
+.metricas {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.metricas h3 {
+    margin-top: 0;
+    color: #2196F3;
+    border-bottom: 2px solid #2196F3;
+    padding-bottom: 10px;
+}
+
+.metrica-item {
+    margin: 10px 0;
+    padding: 12px;
+    background: #f9f9f9;
+    border-radius: 4px;
+    border-left: 4px solid #4CAF50; /* Default: Exito/Success color */
+    font-family: monospace;
+    font-size: 13px;
+}
+
+/* Specific metric item color coding */
+.metrica-item.pinch {
+    border-left-color: #FF9800; /* Orange */
+}
+
+.metrica-item.drag {
+    border-left-color: #2196F3; /* Blue */
+}
+
+.metrica-item.doubleclick {
+    border-left-color: #9C27B0; /* Purple */
+}
+
+.metrica-header {
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #333;
+}
+
+.exito {
+    color: #4CAF50;
+    font-weight: bold;
+}
+
+.error {
+    color: #f44336;
+}
+
+/*body {
       margin: 0.5rem;
       font-family: Arial, sans-serif;
       min-height: 100vh;
@@ -107,7 +418,7 @@ body {
       position: relative;
       width: 100%;
       overflow: hidden;
-      touch-action: pan-y; /* permite desplazamiento vertical normal */
+      touch-action: pan-y; /* permite desplazamiento vertical normal 
     }
     
     .carousel {
@@ -121,7 +432,7 @@ body {
     }
 
     .slide {
-      flex: 0 0 100vw; /* Importante: cada slide ocupa exactamente 100vw */
+      flex: 0 0 100vw; /* Importante: cada slide ocupa exactamente 100vw 
       width: 100vw;
       height: 50vh;
       overflow: hidden;
@@ -130,7 +441,7 @@ body {
     .slide img {
       width: 100%;
       height: 100%;
-      object-fit: cover; /* Para que las imágenes se ajusten bien */
+      object-fit: cover; /* Para que las imágenes se ajusten bien 
     }
 
     body {
@@ -264,4 +575,4 @@ body {
             font-weight: bold;
             margin-bottom: 5px;
             color: #333;
-        }
+        }*/

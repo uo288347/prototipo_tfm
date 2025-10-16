@@ -1,24 +1,4 @@
 export function renderScreen6() {
-    /*
-    <div class="instrucciones">
-            <h2>🖼️ Interactúa con la imagen</h2>
-            <ul>
-                <li><strong>Pinch (pellizcar):</strong> Usa dos dedos para hacer zoom. La imagen se ampliará y volverá al soltarla.</li>
-                <li><strong>Drag (arrastrar):</strong> Arrastra la imagen por la pantalla. Volverá a su posición al soltarla.</li>
-                <li><strong>Doble clic:</strong> Haz doble clic para ampliar la imagen al doble. Vuelve a hacer doble clic para restaurar.</li>
-            </ul>
-        </div>
-
-        <div class="image-container" id="imageContainer">
-            <img id="interactiveImage" 
-                 src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&h=600&fit=crop" 
-                 alt="Imagen interactiva">
-        </div>
-
-        <div class="metricas">
-            <h3>📊 Métricas de Interacción</h3>
-            <div id="metricasContenido">Esperando interacción...</div>
-        </div>*/
     const $instructions = $('<div>', { class: 'instrucciones'});
     const $h2_inst = $('<h2>').text('🖼️ Interactúa con la imagen');
     const $ul_inst = $('<ul>');

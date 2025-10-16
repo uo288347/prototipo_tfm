@@ -1,5 +1,5 @@
 
-export function renderScreen2(attachInputEvents) {
+export function renderScreen2() {
     // 1. Seleccionar y limpiar el contenedor principal
     const $screenContent = $('#screen-content');
 
