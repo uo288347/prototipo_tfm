@@ -116,7 +116,7 @@ export function renderScreen4(attachSwipeEvents) {
         text: 'Esperando gesto de deslizamiento...'
     });
 
-    $screenContent.append($instruccionP, $carruselContainer, $feedbackOutput);
+    $screenContent.append($instruccionP, $carousel, $feedbackOutput);
     attachSwipeEvents($carousel, $carousel.find('.slide'), $feedbackOutput, carruselImagenes.length);
 }
 

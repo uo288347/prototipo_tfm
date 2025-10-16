@@ -318,6 +318,10 @@ function attachSwipeEvents($carousel, $slides, $output, totalSlides) {
       const diff = startX - currentX;
       if (diff > SWIPE_THRESHOLD && index < $slides.length - 1) index++;
       if (diff < -SWIPE_THRESHOLD && index > 0) index--;
+      if (diff < SWIPE_THRESHOLD || diff > -SWIPE_THRESHOLD) {
+        updateCarousel(currentSlide);
+        $output.text('Toque registrado, movimiento insuficiente.');
+      }
       updateCarousel();
       isDragging = false;
     });
