@@ -109,3 +109,10 @@ body {
       touch-action: pan-y; /* permite desplazamiento vertical normal */
     }
     
+    .carousel {
+      display: flex;
+      width: 100%;
+      height: 100vh;
+      transition: transform 0.4s ease-in-out;
+      overflow: hidden;
+    }

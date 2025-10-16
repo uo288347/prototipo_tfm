@@ -290,8 +290,40 @@ function monitorScreen2Interactions() {
   });
 }
 
+function attachSwipeEvents($carousel, $slides, $output, totalSlides) {
+    let index = 0;
+    let startX = 0;
+    let currentX = 0;
+    let isDragging = false;
+    const SWIPE_THRESHOLD = 50;
 
-function attachSwipeEvents($container, $wrapper, $output, totalSlides) {
+    function updateCarousel() {
+      $carousel.css('transform', `translateX(${-index * 100}%)`);
+      $output.text(`Imagen ${currentSlide + 1} de ${totalSlides}. ¡Swipe detectado!`);
+    }
+
+    // Eventos táctiles
+    $carousel.on('touchstart', function (e) {
+      startX = e.touches[0].clientX;
+      isDragging = true;
+    });
+
+    $carousel.on('touchmove', function (e) {
+      if (!isDragging) return;
+      currentX = e.touches[0].clientX;
+    });
+
+    $carousel.on('touchend', function () {
+      if (!isDragging) return;
+      const diff = startX - currentX;
+      if (diff > SWIPE_THRESHOLD && index < $slides.length - 1) index++;
+      if (diff < -SWIPE_THRESHOLD && index > 0) index--;
+      updateCarousel();
+      isDragging = false;
+    });
+}
+
+function attachSwipeEvents2($container, $wrapper, $output, totalSlides) {
     let startX = 0;          // Posición X inicial al tocar
     let currentSlide = 0;    // Índice de la imagen actual
     const SWIPE_THRESHOLD = 50; // Mínimo de píxeles a moverse para considerarlo un swipe

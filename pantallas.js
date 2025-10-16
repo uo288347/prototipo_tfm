@@ -96,14 +96,36 @@ const carruselImagenes = [
 ];
 const CAROUSEL_WIDTH_PERCENT = 80;
 const ASPECT_RATIO = 200 / 300;
+
 export function renderScreen4(attachSwipeEvents) {
     const $screenContent = $('#screen-content');
     $screenContent.empty();
 
     // 1. Título e Instrucciones
-    const $instruccionP = $('<p>', {
-        style: "font-size: 1.2em; font-weight: bold; color: #333;"
-    }).text('Desliza (Swipe) la imagen hacia la izquierda o derecha para cambiarla');
+    const $instruccionP = $('<p>').text('Desliza (Swipe) la imagen hacia la izquierda o derecha para cambiarla');
+    const $carousel = $('<div>', {class:'carousel', id:"carousel"});
+
+    // Crear las diapositivas dinámicamente
+    carruselImagenes.forEach(url => {
+      const $slide = $('<div>', {class:'slide'}).css('background-image', `url(${url})`);
+      $carousel.append($slide);
+    });
+
+    const $feedbackOutput = $('<p>', { 
+        id: 'output', 
+        text: 'Esperando gesto de deslizamiento...'
+    });
+
+    $screenContent.append($instruccionP, $carruselContainer, $feedbackOutput);
+    attachSwipeEvents($carousel, $carousel.find('.slide'), $feedbackOutput, carruselImagenes.length);
+}
+
+export function renderScreen5(attachSwipeEvents) {
+    const $screenContent = $('#screen-content');
+    $screenContent.empty();
+
+    // 1. Título e Instrucciones
+    const $instruccionP = $('<p>').text('Desliza (Swipe) la imagen hacia la izquierda o derecha para cambiarla');
 
     // 2. Contenedor del Carrusel y la Imagen
     const SLIDE_WIDTH = 300; // Ancho fijo del contenedor y de cada diapositiva
@@ -111,9 +133,7 @@ export function renderScreen4(attachSwipeEvents) {
     const WRAPPER_TOTAL_WIDTH_PERCENT = totalSlides * 100;
     const $carruselContainer = $('<div>', {
         id: 'carruselContainer',
-        style: `position: relative; overflow: hidden; width: ${CAROUSEL_WIDTH_PERCENT}%; padding-top: ${ASPECT_RATIO * CAROUSEL_WIDTH_PERCENT}%;
-         margin: 20px auto; border-radius: 8px;`
-    });
+        class: 'carrusel'});
 
     const $innerContainer = $('<div>', {
         style: 'position: absolute; top: 0; left: 0; width: 100%; height: 100%;'
