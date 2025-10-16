@@ -326,6 +326,7 @@ function attachSwipeEvents($carousel, $slides, $output, totalSlides) {
     $carousel.on('pointerdown', function (e) {
       startX = e.clientX;
       isDragging = true;
+      $carousel.setPointerCapture(e.pointerId);
       $carousel.css('transition', `none`);
       //metrics
       downTime = Date.now();
