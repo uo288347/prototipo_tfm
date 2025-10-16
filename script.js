@@ -317,12 +317,12 @@ function attachSwipeEvents($carousel, $slides, $output, totalSlides) {
       }
 
       console.log(data);
-      
+
     }
 
     // Eventos táctiles
     $carousel.on('pointerdown', function (e) {
-      startX = e.touches[0].clientX;
+      startX = e.clientX;
       isDragging = true;
       //metrics
       downTime = Date.now();
@@ -341,7 +341,7 @@ function attachSwipeEvents($carousel, $slides, $output, totalSlides) {
 
     $carousel.on('pointermove', function (e) {
       if (!isDragging) return;
-      currentX = e.touches[0].clientX;
+      currentX = e.clientX;
       const moveData = {
         timestamp: Date.now(),
         x: e.clientX,
