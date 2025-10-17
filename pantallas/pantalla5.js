@@ -1,8 +1,8 @@
 const carruselImagenes = [
-    "http://googleusercontent.com/image_collection/image_retrieval/17026540104275499652_0",
-    "http://googleusercontent.com/image_collection/image_retrieval/17026540104275499652_1",
-    "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1d/Oryctolagus_cuniculus_dorsal_view.jpg/1280px-Oryctolagus_cuniculus_dorsal_view.jpg",
-    "https://images.pexels.com/photos/103986/pexels-photo-103986.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
+    "https://i.pinimg.com/736x/6a/d3/76/6ad3762e02232480e29edd0de4b9ede5.jpg",
+    "https://i.pinimg.com/736x/06/d2/40/06d240b3857a6d601f7f658f1a174f35.jpg",
+    "https://i.pinimg.com/736x/2b/bb/67/2bbb676ffbca0ccfdd597d0908d84867.jpg",
+    "https://i.pinimg.com/1200x/62/60/fd/6260fdf070d4ba5f1d42f6a9694cacd5.jpg"
 ];
 
 export function renderScreen5() {
