@@ -41,14 +41,16 @@ function monitorLongPress($area, $metrics) {
     });
 
     $area.on('touchstart', function(e) {
+            const newTouches = e.changedTouches;
+            const lastTouch = newTouches[newTouches.length - 1];
             touch_moves.push({
                 timestamp: Date.now(),
-                x: e.touches[e.touches.length-1].clientX,
-                y: e.touches[e.touches.length-1].clientY,
-                radiusX: e.touches[e.touches.length-1].radiusX || null,
-                radiusY: e.touches[e.touches.length-1].radiusY || null,
-                area: Math.PI * e.touches[e.touches.length-1].radiusX * e.touches[e.touches.length-1].radiusY || null,
-                force: e.touches[e.touches.length-1].force || null
+                x: e.touches[lastTouch].clientX,
+                y: e.touches[lastTouch].clientY,
+                radiusX: e.touches[lastTouch].radiusX || null,
+                radiusY: e.touches[lastTouch].radiusY || null,
+                area: Math.PI * e.touches[lastTouch].radiusX * e.touches[lastTouch].radiusY || null,
+                force: e.touches[lastTouch].force || null
             });
     
         
