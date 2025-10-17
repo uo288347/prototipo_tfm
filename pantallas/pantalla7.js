@@ -69,6 +69,7 @@ function monitorLongPress($area, $metrics) {
                 moves: moves,
                 touch_moves: touch_moves
             }
+            console.log("metrics", metrics);
         }
         actualizarMetricas();
     });
