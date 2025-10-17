@@ -90,15 +90,13 @@ function monitorLongPress($area, $metrics) {
             Posición inicial: (${Math.round(metrics.startX)}, ${Math.round(metrics.startY)}<br>
             Posición final: (${Math.round(metrics.endX)}, ${Math.round(metrics.endY)}<br>            
             <strong>Movimientos: ${metrics.moves.length} registros</strong><br>`;
-        html += `Touch Moves: ${metrics.touch_moves.length} registros<br>
-            ${metrics.touch_moves.timestamp ? `Timestamp: ${metrics.touch_moves.timestamp}<br>` : ''}
-            ${metrics.touch_moves.x ? `(${metrics.touch_moves.x}, ` : ''}   
-            ${metrics.touch_moves.y ? `${metrics.touch_moves.y})` : ''} 
+        html += `${metrics.touch_moves.timestamp ? `Timestamp: ${metrics.touch_moves.timestamp}<br>` : ''}
+            Posición: ${metrics.touch_moves.x ? `(${metrics.touch_moves.x}, ` : ''}   
+            ${metrics.touch_moves.y ? `${metrics.touch_moves.y})<br>` : ''} 
             ${metrics.touch_moves.radiusX ? `Radio X inicial: ${metrics.touch_moves.radiusX}<br>` : ''}
             ${metrics.touch_moves.radiusY ? `Radio Y inicial: ${metrics.touch_moves.radiusY}<br>` : ''}
             ${metrics.touch_moves.area ? `Área: ${metrics.touch_moves.area}<br>` : ''}
             ${metrics.touch_moves.force ? `Fuerza inicial: ${metrics.touch_moves.force}<br>` : ''}`
-        }
         html += '</div>';
         $metrics.html(html);
 
