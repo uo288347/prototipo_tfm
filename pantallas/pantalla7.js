@@ -51,6 +51,7 @@ function monitorLongPress($area, $metrics) {
                 radiusX: lastTouch.radiusX || null,
                 radiusY: lastTouch.radiusY || null,
                 area: Math.PI * lastTouch.radiusX * lastTouch.radiusY || null,
+                rotationAngle: lastTouch.rotationAngle || null,
                 force: lastTouch.force || null
             };
     
@@ -87,15 +88,17 @@ function monitorLongPress($area, $metrics) {
             Momento inicial: ${metrics.startTime}<br>
             Momento final: ${metrics.endTime}<br>
             Duración: ${metrics.duration}ms<br>
-            Posición inicial: (${Math.round(metrics.startX)}, ${Math.round(metrics.startY)}<br>
-            Posición final: (${Math.round(metrics.endX)}, ${Math.round(metrics.endY)}<br>            
-            <strong>Movimientos: ${metrics.moves.length} registros</strong><br>`;
-        html += `${metrics.touch_moves.timestamp ? `Timestamp: ${metrics.touch_moves.timestamp}<br>` : ''}
+            Posición inicial: (${Math.round(metrics.startX)}, ${Math.round(metrics.startY)})<br>
+            Posición final: (${Math.round(metrics.endX)}, ${Math.round(metrics.endY)})<br>            
+            Movimientos: ${metrics.moves.length} registros<br>`;
+        html += `<strong>Datos last touch:</strong><br>
+            ${metrics.touch_moves.timestamp ? `Timestamp: ${metrics.touch_moves.timestamp}<br>` : ''}
             Posición: ${metrics.touch_moves.x ? `(${metrics.touch_moves.x}, ` : ''}   
             ${metrics.touch_moves.y ? `${metrics.touch_moves.y})<br>` : ''} 
             ${metrics.touch_moves.radiusX ? `Radio X inicial: ${metrics.touch_moves.radiusX}<br>` : ''}
             ${metrics.touch_moves.radiusY ? `Radio Y inicial: ${metrics.touch_moves.radiusY}<br>` : ''}
             ${metrics.touch_moves.area ? `Área: ${metrics.touch_moves.area}<br>` : ''}
+            ${metrics.touch_moves.rotationAngle ? `Ángulo de inclinación: ${metrics.touch_moves.rotationAngle}<br>` : ''}
             ${metrics.touch_moves.force ? `Fuerza inicial: ${metrics.touch_moves.force}<br>` : ''}`
         html += '</div>';
         $metrics.html(html);
