@@ -1,8 +1,6 @@
 export function renderScreen7() {
     const $instructions = $('<p>').text('Pulsación larga sobre la pantalla');
-    const $area = $('<div>', { id: 'longPressArea' }).css({
-        'width': '100vw',
-        'height': '80vh'});
+    const $area = $('<div>', { id: 'longPressArea' });
     const $metrics = $('<div>', { class: 'metricas'}).text('Esperando pulsación...');
     $('#screen-content').empty().append($instructions, $metrics);
 
@@ -76,7 +74,7 @@ function monitorLongPress($area, $metrics) {
 
     function actualizarMetricas(){
         let html = '';
-        html += '<div class="metrics">';
+        html += '<div class="metricas">';
         html += `           
             Momento inicial: ${metrics.startTime}<br>
             Momento final: ${metrics.endTime}<br>

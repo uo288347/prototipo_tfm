@@ -257,7 +257,7 @@ section[class="carousel"] {
     line-height: 1.8;
 }
 
-.metricas {
+.metricas, .longPressArea {
     background-color: white;
     padding: 20px;
     border-radius: 8px;
@@ -307,6 +307,11 @@ section[class="carousel"] {
 
 .error {
     color: #f44336;
+}
+
+.longPressArea {
+    min-width: 100vw;
+    min-height: 80vh;
 }
 
 /*body {
