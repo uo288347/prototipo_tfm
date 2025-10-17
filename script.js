@@ -4,6 +4,7 @@ import { renderScreen3 } from './pantallas/pantalla3.js';
 import { renderScreen5 } from './pantallas/pantalla5.js';
 import { renderScreen4 } from './pantallas/pantalla4.js';
 import { renderScreen6 } from './pantallas/pantalla6.js';
+import { renderScreen7 } from './pantallas/pantalla7.js';
 
 let currentScreen = 1;
 
@@ -14,7 +15,8 @@ const screens = [
   () => renderScreen3(),
   () => renderScreen4(),
   () => renderScreen5(),
-  () => renderScreen6()
+  () => renderScreen6(),
+  () => renderScreen7()
   // ...añade más funciones importadas aquí
 ];
 
