@@ -70,7 +70,7 @@ function monitorLongPress($metrics) {
                 touch_moves: touch_moves
             }
         }
-        actualizarMetricas
+        actualizarMetricas();
     });
 
     function actualizarMetricas(){
