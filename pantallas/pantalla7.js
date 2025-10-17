@@ -49,8 +49,8 @@ function monitorLongPress($metrics) {
             });
         }
         
-        console.log(touch_moves);
-        console.log(e);
+        //console.log(touch_moves);
+        //console.log(e);
     });
 
     $metrics.on('pointerup', function(e) {
@@ -75,22 +75,22 @@ function monitorLongPress($metrics) {
 
     function actualizarMetricas(){
         let html = '';
-        html += '<div class="metrica-item pinch"><div class="metrica-header">🤏 PINCH (Pellizcar)</div>';
-        html += `
-            <div style="margin-top: 8px;">
+        html += '<div class="metrics">';
+        html += `           
             Momento inicial: ${metrics.startTime}<br>
             Momento final: ${metrics.endTime}<br>
             Duración: ${metrics.duration}ms<br>
             Posición inicial: (${Math.round(metrics.startX)}, ${Math.round(metrics.startY)}<br>
             Posición final: (${Math.round(metrics.endX)}, ${Math.round(metrics.endY)}<br>            
-            Movimientos: ${metrics.moves.length} registros<br>
-            Touch Moves: ${touch_moves.length} registros<br>
-                ${metrics.touch_moves[0].startTime ? `Momento inicial: ${metrics.touch_moves[0].startTime}<br>` : ''}
-                ${metrics.touch_moves[touch_moves.length - 1].endTime ? `Momento final: ${metrics.touch_moves[touch_moves.length - 1].endTime}<br>` : ''}   
-                ${metrics.touch_moves[0].radiusX ? `Radio X inicial: ${metrics.touch_moves[0].radiusX}<br>` : ''}
-                ${metrics.touch_moves[0].radiusY ? `Radio Y inicial: ${metrics.touch_moves[0].radiusY}<br>` : ''}
-                ${metrics.touch_moves[0].force ? `Fuerza inicial: ${metrics.touch_moves[0].force}<br>` : ''}
-            </div>`;
+            Movimientos: ${metrics.moves.length} registros<br>`;
+        if(metrics.touch_moves.length > 0){ 
+            html += `Touch Moves: ${metrics.touch_moves.length} registros<br>
+            ${metrics.touch_moves[0].startTime ? `Momento inicial: ${metrics.touch_moves[0].startTime}<br>` : ''}
+            ${metrics.touch_moves[touch_moves.length - 1].endTime ? `Momento final: ${metrics.touch_moves[touch_moves.length - 1].endTime}<br>` : ''}   
+            ${metrics.touch_moves[0].radiusX ? `Radio X inicial: ${metrics.touch_moves[0].radiusX}<br>` : ''}
+            ${metrics.touch_moves[0].radiusY ? `Radio Y inicial: ${metrics.touch_moves[0].radiusY}<br>` : ''}
+            ${metrics.touch_moves[0].force ? `Fuerza inicial: ${metrics.touch_moves[0].force}<br>` : ''}`
+        }
         html += '</div>';
         $metrics.html(html);
     }
