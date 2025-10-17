@@ -6,7 +6,7 @@ import { renderScreen4 } from './pantallas/pantalla4.js';
 import { renderScreen6 } from './pantallas/pantalla6.js';
 import { renderScreen7 } from './pantallas/pantalla7.js';
 
-let currentScreen = 1;
+let currentScreen = 7;
 
 // Array de funciones, cada una renderiza una pantalla
 const screens = [

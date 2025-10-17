@@ -1,5 +1,5 @@
 export function renderScreen4() {
-    const $instructions = $('<p>', { class: 'instrucciones', text: 'Seleccionar el color: <strong>Azul</strong>' });
+    const $instructions = $('<p>', { class: 'instrucciones', text: 'Seleccionar el color: Azul' });
     const $selector = $('<select>', { id: 'colorSelector' });
     const colors = [
         { value: '', text: '-- Selecciona un color --' },

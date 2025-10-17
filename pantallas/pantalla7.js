@@ -17,7 +17,7 @@ function monitorLongPress($area, $metrics) {
     let startTime = null;
     let metrics = null;
     let moves = [];
-    let touch_moves = [];
+    let touch_moves = null;
 
     $area.on('pointerdown', function(e) {
         startX = e.clientX;
@@ -43,15 +43,16 @@ function monitorLongPress($area, $metrics) {
     $area.on('touchstart', function(e) {
             const newTouches = e.changedTouches;
             const lastTouch = newTouches[newTouches.length - 1];
-            touch_moves.push({
+            console.log("newTouches", newTouches, lastTouch);
+            touch_moves={
                 timestamp: Date.now(),
-                x: e.touches[lastTouch].clientX,
-                y: e.touches[lastTouch].clientY,
-                radiusX: e.touches[lastTouch].radiusX || null,
-                radiusY: e.touches[lastTouch].radiusY || null,
-                area: Math.PI * e.touches[lastTouch].radiusX * e.touches[lastTouch].radiusY || null,
-                force: e.touches[lastTouch].force || null
-            });
+                x: lastTouch.clientX,
+                y: lastTouch.clientY,
+                radiusX: lastTouch.radiusX || null,
+                radiusY: lastTouch.radiusY || null,
+                area: Math.PI * lastTouch.radiusX * lastTouch.radiusY || null,
+                force: lastTouch.force || null
+            };
     
         
         //console.log(touch_moves);
@@ -89,15 +90,14 @@ function monitorLongPress($area, $metrics) {
             Posición inicial: (${Math.round(metrics.startX)}, ${Math.round(metrics.startY)}<br>
             Posición final: (${Math.round(metrics.endX)}, ${Math.round(metrics.endY)}<br>            
             <strong>Movimientos: ${metrics.moves.length} registros</strong><br>`;
-        if(metrics.touch_moves.length > 0){ 
-            html += `Touch Moves: ${metrics.touch_moves.length} registros<br>
-            ${metrics.touch_moves[0].timestamp ? `Timestamp: ${metrics.touch_moves[0].timestamp}<br>` : ''}
-            ${metrics.touch_moves[0].x ? `(${metrics.touch_moves[0].x}, ` : ''}   
-            ${metrics.touch_moves[0].y ? `${metrics.touch_moves[0].y})` : ''} 
-            ${metrics.touch_moves[0].radiusX ? `Radio X inicial: ${metrics.touch_moves[0].radiusX}<br>` : ''}
-            ${metrics.touch_moves[0].radiusY ? `Radio Y inicial: ${metrics.touch_moves[0].radiusY}<br>` : ''}
-            ${metrics.touch_moves[0].area ? `Área: ${metrics.touch_moves[0].area}<br>` : ''}
-            ${metrics.touch_moves[0].force ? `Fuerza inicial: ${metrics.touch_moves[0].force}<br>` : ''}`
+        html += `Touch Moves: ${metrics.touch_moves.length} registros<br>
+            ${metrics.touch_moves.timestamp ? `Timestamp: ${metrics.touch_moves.timestamp}<br>` : ''}
+            ${metrics.touch_moves.x ? `(${metrics.touch_moves.x}, ` : ''}   
+            ${metrics.touch_moves.y ? `${metrics.touch_moves.y})` : ''} 
+            ${metrics.touch_moves.radiusX ? `Radio X inicial: ${metrics.touch_moves.radiusX}<br>` : ''}
+            ${metrics.touch_moves.radiusY ? `Radio Y inicial: ${metrics.touch_moves.radiusY}<br>` : ''}
+            ${metrics.touch_moves.area ? `Área: ${metrics.touch_moves.area}<br>` : ''}
+            ${metrics.touch_moves.force ? `Fuerza inicial: ${metrics.touch_moves.force}<br>` : ''}`
         }
         html += '</div>';
         $metrics.html(html);
