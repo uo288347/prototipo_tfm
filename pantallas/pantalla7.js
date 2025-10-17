@@ -44,6 +44,7 @@ function monitorLongPress($area, $metrics) {
                 y: e.touches[i].clientY,
                 radiusX: e.touches[i].radiusX || null,
                 radiusY: e.touches[i].radiusY || null,
+                area: Math.PI * e.touches[i].radiusX * e.touches[i].radiusY || null,
                 force: e.touches[i].force || null
             });
         }
@@ -88,9 +89,12 @@ function monitorLongPress($area, $metrics) {
             ${metrics.touch_moves[touch_moves.length - 1].endTime ? `Momento final: ${metrics.touch_moves[touch_moves.length - 1].endTime}<br>` : ''}   
             ${metrics.touch_moves[0].radiusX ? `Radio X inicial: ${metrics.touch_moves[0].radiusX}<br>` : ''}
             ${metrics.touch_moves[0].radiusY ? `Radio Y inicial: ${metrics.touch_moves[0].radiusY}<br>` : ''}
+            ${metrics.touch_moves[0].area ? `Área: ${metrics.touch_moves[0].area}<br>` : ''}
             ${metrics.touch_moves[0].force ? `Fuerza inicial: ${metrics.touch_moves[0].force}<br>` : ''}`
         }
         html += '</div>';
         $metrics.html(html);
+
+        console.log("touch moves", metrics.touch_moves)
     }
 }
