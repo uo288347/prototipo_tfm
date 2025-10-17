@@ -138,7 +138,8 @@ function monitorInteractions() {
     logEvent({ 
       type: 'scroll', 
       scrollX: window.scrollX,
-      scrollY: window.scrollY
+      scrollY: window.scrollY,
+      prueba: e.moves
     });
   });
 }
