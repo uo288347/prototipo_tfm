@@ -44,7 +44,7 @@ function monitorLongPress($area, $metrics) {
                 y: e.touches[0].clientY,
                 radiusX: e.touches[0].radiusX || null,
                 radiusY: e.touches[0].radiusY || null,
-                area: Math.PI * e.touches[0].radiusX * e.touches[i].radiusY || null,
+                area: Math.PI * e.touches[0].radiusX * e.touches[0].radiusY || null,
                 force: e.touches[0].force || null
             });
     
