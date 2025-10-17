@@ -20,6 +20,7 @@ function monitorLongPress($metrics) {
         startX = e.clientX;
         startY = e.clientY;
         startTime = Date.now();
+        $metrics.text('Dedo presionado... suelta para ver métricas');
     });
 
     $metrics.on('pointermove', function(e) {
@@ -34,7 +35,6 @@ function monitorLongPress($metrics) {
                 height: e.height || null,
                 area: (e.width && e.height) ? e.width * e.height : null
             });
-        $metrics.text('Dedo presionado... suelta para ver métricas');
     });
 
     $metrics.on('touchmove', function(e) {
@@ -78,7 +78,7 @@ function monitorLongPress($metrics) {
         html += '<div class="metrica-item pinch"><div class="metrica-header">🤏 PINCH (Pellizcar)</div>';
         html += `
             <div style="margin-top: 8px;">
-            ${idx + 1}. Momento inicial: ${metrics.startTime}<br>
+            Momento inicial: ${metrics.startTime}<br>
             Momento final: ${metrics.endTime}<br>
             Duración: ${metrics.duration}ms<br>
             Posición inicial: (${Math.round(metrics.startX)}, ${Math.round(metrics.startY)}<br>
