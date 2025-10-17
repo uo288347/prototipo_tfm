@@ -1,14 +1,15 @@
 export function renderScreen7() {
     const $instructions = $('<p>').text('Pulsación larga sobre la pantalla');
-    const $metrics = $('<div>', { class: 'metricas'}).text('Esperando pulsación...').css({
-        'width': '100%',
-        'height': '100vh',});
+    const $area = $('<div>', { id: 'longPressArea' }).css({
+        'width': '100vw',
+        'height': '80vh'});
+    const $metrics = $('<div>', { class: 'metricas'}).text('Esperando pulsación...');
     $('#screen-content').empty().append($instructions, $metrics);
 
-    monitorLongPress($metrics);
+    monitorLongPress($area, $metrics);
 }
 
-function monitorLongPress($metrics) {
+function monitorLongPress($area, $metrics) {
     let startX = 0;
     let startY = 0;
     let startTime = null;
@@ -16,14 +17,14 @@ function monitorLongPress($metrics) {
     let moves = [];
     let touch_moves = [];
 
-    $metrics.on('pointerdown', function(e) {
+    $area.on('pointerdown', function(e) {
         startX = e.clientX;
         startY = e.clientY;
         startTime = Date.now();
         $metrics.text('Dedo presionado... suelta para ver métricas');
     });
 
-    $metrics.on('pointermove', function(e) {
+    $area.on('pointermove', function(e) {
         moves.push({
                 timestamp: Date.now(),
                 x: e.clientX,
@@ -37,7 +38,7 @@ function monitorLongPress($metrics) {
             });
     });
 
-    $metrics.on('touchmove', function(e) {
+    $area.on('touchmove', function(e) {
         for(let i=0; i<e.touches.length; i++) {
             touch_moves.push({
                 timestamp: Date.now(),
@@ -53,7 +54,7 @@ function monitorLongPress($metrics) {
         //console.log(e);
     });
 
-    $metrics.on('pointerup', function(e) {
+    $area.on('pointerup', function(e) {
         const endTime = Date.now();
         const duration = endTime - startTime;
 
