@@ -1,8 +1,8 @@
 export function renderScreen7() {
     const $instructions = $('<p>').text('Pulsación larga sobre la pantalla');
     const $metrics = $('<div>', { class: 'metricas'}).text('Esperando pulsación...').css({
-        'padding-top': '2rem',
-        'padding-bottom': '2rem'});
+        'width': '100%',
+        'height': '100vh',});
     $('#screen-content').empty().append($instructions, $metrics);
 
     monitorLongPress($metrics);
