@@ -36,18 +36,17 @@ function monitorLongPress($area, $metrics) {
             });
     });
 
-    $area.on('touchmove', function(e) {
-        for(let i=0; i<e.touches.length; i++) {
+    $area.on('touchstart', function(e) {
             touch_moves.push({
                 timestamp: Date.now(),
-                x: e.touches[i].clientX,
-                y: e.touches[i].clientY,
-                radiusX: e.touches[i].radiusX || null,
-                radiusY: e.touches[i].radiusY || null,
-                area: Math.PI * e.touches[i].radiusX * e.touches[i].radiusY || null,
-                force: e.touches[i].force || null
+                x: e.touches[0].clientX,
+                y: e.touches[0].clientY,
+                radiusX: e.touches[0].radiusX || null,
+                radiusY: e.touches[0].radiusY || null,
+                area: Math.PI * e.touches[0].radiusX * e.touches[i].radiusY || null,
+                force: e.touches[0].force || null
             });
-        }
+    
         
         //console.log(touch_moves);
         //console.log(e);
