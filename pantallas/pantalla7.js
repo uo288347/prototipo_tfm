@@ -1,6 +1,8 @@
 export function renderScreen7() {
     const $instructions = $('<p>').text('Pulsación larga sobre la pantalla');
-    const $metrics = $('<div>', { class: 'metricas' }).text('Esperando pulsación...');
+    const $metrics = $('<div>', { class: 'metricas'}).text('Esperando pulsación...').css({
+        'padding-top': '2rem',
+        'padding-bottom': '2rem'});
     $('#screen-content').empty().append($instructions, $metrics);
 
     monitorLongPress($metrics);
@@ -32,7 +34,7 @@ function monitorLongPress($metrics) {
                 height: e.height || null,
                 area: (e.width && e.height) ? e.width * e.height : null
             });
-
+        $metrics.text('Dedo presionado... suelta para ver métricas');
     });
 
     $metrics.on('touchmove', function(e) {
@@ -90,6 +92,6 @@ function monitorLongPress($metrics) {
                 ${metrics.touch_moves[0].force ? `Fuerza inicial: ${metrics.touch_moves[0].force}<br>` : ''}
             </div>`;
         html += '</div>';
-        $metricsContent.html(html);
+        $metrics.html(html);
     }
 }

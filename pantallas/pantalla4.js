@@ -1,21 +1,4 @@
 export function renderScreen4() {
-    /*
-    <p class="instrucciones">Seleccionar el color: <strong>Azul</strong></p>
-        
-        <select id="colorSelector">
-            <option value="">-- Selecciona un color --</option>
-            <option value="rojo">Rojo</option>
-            <option value="verde">Verde</option>
-            <option value="azul">Azul</option>
-            <option value="amarillo">Amarillo</option>
-            <option value="naranja">Naranja</option>
-            <option value="morado">Morado</option>
-        </select>
-
-        <p class="metricas" id="metricasDisplay">
-            <h3>📊 Métricas de Interacción</h3>
-            <div id="metricasContenido">Esperando interacción...</div>
-        </p>*/
     const $instructions = $('<p>', { class: 'instrucciones', text: 'Seleccionar el color: <strong>Azul</strong>' });
     const $selector = $('<select>', { id: 'colorSelector' });
     const colors = [
@@ -134,20 +117,3 @@ function attachMenuEvents($selector, $metricsContent) {
             } 
 }
 
-
-// MULTITOUCH
-const activePointers = new Map();
-
-window.addEventListener("pointerdown", e => {
-  activePointers.set(e.pointerId, e);
-});
-
-window.addEventListener("pointermove", e => {
-  if (activePointers.has(e.pointerId)) {
-    console.log(`Moviendo ${e.pointerType}:`, e.clientX, e.clientY);
-  }
-});
-
-window.addEventListener("pointerup", e => {
-  activePointers.delete(e.pointerId);
-});

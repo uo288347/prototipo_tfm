@@ -17,7 +17,6 @@ const screens = [
   () => renderScreen5(),
   () => renderScreen6(),
   () => renderScreen7()
-  // ...añade más funciones importadas aquí
 ];
 
 const TOTAL_SCREENS = screens.length;
