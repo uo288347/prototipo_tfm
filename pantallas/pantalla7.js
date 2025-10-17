@@ -40,12 +40,12 @@ function monitorLongPress($area, $metrics) {
     $area.on('touchstart', function(e) {
             touch_moves.push({
                 timestamp: Date.now(),
-                x: e.touches[0].clientX,
-                y: e.touches[0].clientY,
-                radiusX: e.touches[0].radiusX || null,
-                radiusY: e.touches[0].radiusY || null,
-                area: Math.PI * e.touches[0].radiusX * e.touches[0].radiusY || null,
-                force: e.touches[0].force || null
+                x: e.touches[e.touches.length-1].clientX,
+                y: e.touches[e.touches.length-1].clientY,
+                radiusX: e.touches[e.touches.length-1].radiusX || null,
+                radiusY: e.touches[e.touches.length-1].radiusY || null,
+                area: Math.PI * e.touches[e.touches.length-1].radiusX * e.touches[e.touches.length-1].radiusY || null,
+                force: e.touches[e.touches.length-1].force || null
             });
     
         
