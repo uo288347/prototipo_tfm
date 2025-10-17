@@ -76,7 +76,8 @@ function monitorLongPress($area, $metrics) {
 
     function actualizarMetricas(){
         let html = '';
-        html += '<div class="metricas">';
+        console.log("updating metrics", metrics);
+        /*html += '<div class="metricas">';
         html += `           
             Momento inicial: ${metrics.startTime}<br>
             Momento final: ${metrics.endTime}<br>
@@ -93,7 +94,7 @@ function monitorLongPress($area, $metrics) {
             ${metrics.touch_moves[0].area ? `Área: ${metrics.touch_moves[0].area}<br>` : ''}
             ${metrics.touch_moves[0].force ? `Fuerza inicial: ${metrics.touch_moves[0].force}<br>` : ''}`
         }
-        html += '</div>';
+        html += '</div>';*/
         $metrics.html(html);
 
         console.log("touch moves", metrics.touch_moves)
