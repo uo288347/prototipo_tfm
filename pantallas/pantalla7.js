@@ -1,7 +1,7 @@
 export function renderScreen7() {
     const $instructions = $('<p>').text('Pulsación larga sobre la pantalla');
     const $area = $('<div>', { id: 'longPressArea' });
-    const $p = $('<p>').text('                                   ');
+    const $p = $('<p>').text('       Prueba                            ');
     $area.append($p);    const $metrics = $('<div>', { class: 'metricas'}).text('Esperando pulsación...');
     $('#screen-content').empty().append($instructions, $area, $metrics);
 
