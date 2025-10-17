@@ -1,6 +1,10 @@
 export function renderScreen7() {
     const $instructions = $('<p>').text('Pulsación larga sobre la pantalla');
-    const $area = $('<div>', { id: 'longPressArea' }).html('<br><br><br><br><br><br><br>');
+
+    const $area = $('<div>', { id: 'longPressArea' });
+    for(let i=0; i<10; i++){
+        $area.append('<br>');
+    }
     const $metrics = $('<div>', { class: 'metricas'}).text('Esperando pulsación...');
     $('#screen-content').empty().append($instructions, $area, $metrics);
 
@@ -82,11 +86,12 @@ function monitorLongPress($area, $metrics) {
             Duración: ${metrics.duration}ms<br>
             Posición inicial: (${Math.round(metrics.startX)}, ${Math.round(metrics.startY)}<br>
             Posición final: (${Math.round(metrics.endX)}, ${Math.round(metrics.endY)}<br>            
-            Movimientos: ${metrics.moves.length} registros<br>`;
+            <strong>Movimientos: ${metrics.moves.length} registros</strong><br>`;
         if(metrics.touch_moves.length > 0){ 
             html += `Touch Moves: ${metrics.touch_moves.length} registros<br>
-            ${metrics.touch_moves[0].startTime ? `Momento inicial: ${metrics.touch_moves[0].startTime}<br>` : ''}
-            ${metrics.touch_moves[touch_moves.length - 1].endTime ? `Momento final: ${metrics.touch_moves[touch_moves.length - 1].endTime}<br>` : ''}   
+            ${metrics.touch_moves[0].timestamp ? `Timestamp: ${metrics.touch_moves[0].timestamp}<br>` : ''}
+            ${metrics.touch_moves[0].x ? `(${metrics.touch_moves[0].x}, ` : ''}   
+            ${metrics.touch_moves[0].y ? `${metrics.touch_moves[0].y})` : ''} 
             ${metrics.touch_moves[0].radiusX ? `Radio X inicial: ${metrics.touch_moves[0].radiusX}<br>` : ''}
             ${metrics.touch_moves[0].radiusY ? `Radio Y inicial: ${metrics.touch_moves[0].radiusY}<br>` : ''}
             ${metrics.touch_moves[0].area ? `Área: ${metrics.touch_moves[0].area}<br>` : ''}
