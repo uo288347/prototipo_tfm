@@ -1,36 +1,7 @@
 export function renderScreen8() {
-    /*
-     <div id="canvas" aria-label="Área de prueba de toques"></div>
-
-  <div class="debug" id="debug" aria-hidden="true">
-    <strong>Toques activos:</strong>
-    <ul id="debug-list" style="padding-left:1rem;margin:0.4rem 0 0 0;"></ul>
-    <small style="display:block;margin-top:6px;color:#666;">Nota: no todos los dispositivos reportan el tamaño del contacto.</small>
-  </div>
-
-  <div class="controls">
-        <h3>🎨 Controles</h3>
-        <div class="control-group">
-            <label>Color:</label>
-            <input type="color" id="colorPicker" value="#ff6b6b">
-        </div>
-        <div class="control-group">
-            <label>Opacidad: <span id="opacityValue">0.6</span></label>
-            <input type="range" id="opacitySlider" min="0.1" max="1" step="0.1" value="0.6">
-        </div>
-        <div class="control-group">
-            <label>Multiplicador: <span id="scaleValue">2</span>x</label>
-            <input type="range" id="scaleSlider" min="1" max="5" step="0.5" value="2">
-        </div>
-        <button id="clearBtn">🗑️ Limpiar Canvas</button>
-    </div>
-*/
     const $instructions = $('<p>').text('Pulsa sobre la pantalla para pintar');
 
     const $area = $('<canvas>', { id: 'canvas' });
-    for(let i=0; i<10; i++){
-        $area.append('<br>');
-    }
 
     const $controls = $('<div>', { class: 'controls' });
     $controls.append('<h3>🎨 Controles</h3>');
@@ -66,8 +37,9 @@ function monitorPress($canvas, $metrics, $controls) {
         
         // Configurar canvas
         function resizeCanvas() {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
+            const rect = canvas.getBoundingClientRect();
+            canvas.width = rect.width;
+            canvas.height = rect.height;
         }
         resizeCanvas();
         window.addEventListener('resize', resizeCanvas);
@@ -89,24 +61,28 @@ function monitorPress($canvas, $metrics, $controls) {
             
             // Borde
             ctx.strokeStyle = 'rgba(255, 255, 255, 0.3)';
-            ctx.lineWidth = 2;
+            ctx.lineWidth = 1;
             ctx.globalAlpha = opacity * 0.5;
             ctx.stroke();
             ctx.restore();
         }
         
         // Manejar eventos táctiles
-        $canvas.on('touchstart', handleTouch, { passive: false });
-        $canvas.on('touchmove', handleTouch, { passive: false });
+        canvas.addEventListener('touchstart', handleTouch, { passive: false });
+        canvas.addEventListener('touchmove', handleTouch, { passive: false });
+        /*$canvas.on('touchstart', handleTouch);
+        $canvas.on('touchmove', handleTouch);*/
         
         function handleTouch(e) {
+            console.log("handleTouch", e, e.touches.length);
             e.preventDefault();
             
+            const rect = canvas.getBoundingClientRect(); 
             const color = colorPicker.value;
             
             for (let touch of e.touches) {
-                const x = touch.clientX;
-                const y = touch.clientY;
+                const x = touch.clientX - rect.left;
+                const y = touch.clientY - rect.top;
                 
                 // radiusX y radiusY representan el tamaño del área de contacto
                 // Si no están disponibles, usar valores por defecto
