@@ -5,6 +5,7 @@ import { renderScreen5 } from './pantallas/pantalla5.js';
 import { renderScreen4 } from './pantallas/pantalla4.js';
 import { renderScreen6 } from './pantallas/pantalla6.js';
 import { renderScreen7 } from './pantallas/pantalla7.js';
+import { renderScreen8 } from './pantallas/pantalla8.js';
 
 let currentScreen = 7;
 
@@ -16,7 +17,8 @@ const screens = [
   () => renderScreen4(),
   () => renderScreen5(),
   () => renderScreen6(),
-  () => renderScreen7()
+  () => renderScreen7(),
+  () => renderScreen8()
 ];
 
 const TOTAL_SCREENS = screens.length;
