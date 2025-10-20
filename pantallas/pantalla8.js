@@ -27,7 +27,7 @@ export function renderScreen8() {
 */
     const $instructions = $('<p>').text('Pulsa sobre la pantalla para pintar');
 
-    const $area = $('<div>', { id: 'canvas' });
+    const $area = $('<canvas>', { id: 'canvas' });
     for(let i=0; i<10; i++){
         $area.append('<br>');
     }
@@ -57,16 +57,17 @@ export function renderScreen8() {
 }
 
 function monitorPress($canvas, $metrics, $controls) {
-        const ctx = $canvas.getContext('2d');
-        const colorPicker = $controls.getElementById('colorPicker');
-        const scaleSlider = $controls.getElementById('scaleSlider');
-        const scaleValue = $controls.getElementById('scaleValue');
-        const clearBtn = $controls.getElementById('clearBtn');
+        const canvas = $canvas[0];
+        const ctx = canvas.getContext('2d');
+        const colorPicker = $controls.find('#colorPicker')[0];
+        const scaleSlider = $controls.find('#scaleSlider')[0];
+        const scaleValue = $controls.find('#scaleValue')[0];
+        const clearBtn = $controls.find('#clearBtn')[0];
         
         // Configurar canvas
         function resizeCanvas() {
-            $canvas.width = window.innerWidth;
-            $canvas.height = window.innerHeight;
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
         }
         resizeCanvas();
         window.addEventListener('resize', resizeCanvas);
@@ -113,12 +114,30 @@ function monitorPress($canvas, $metrics, $controls) {
                 const radiusY = touch.radiusY || 20;
                 
                 drawEllipse(x, y, radiusX, radiusY, color);
+                console.log(`Dibujado en (${x}, ${y}) con área (${radiusX}, ${radiusY})`);
             }
+
+             const newTouches = e.changedTouches;
+            console.log("touches", e.changedTouches);
+            
+            const lastTouch = newTouches[newTouches.length - 1];
+            console.log("newTouches", newTouches, lastTouch);
+            const { radiusX, radiusY } = normalizeTouchRadius(lastTouch);
+            touch={
+                timestamp: Date.now(),
+                x: lastTouch.clientX,
+                y: lastTouch.clientY,
+                radiusX: radiusX || null,
+                radiusY: radiusY || null,
+                area: Math.PI * radiusX * radiusY || null,
+                rotationAngle: lastTouch.rotationAngle || null,
+                force: lastTouch.force || null
+            };
         }
         
         // Limpiar canvas
         clearBtn.addEventListener('click', () => {
-            ctx.clearRect(0, 0, $canvas.width, $canvas.height);
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
         });
 
     let startX = 0;
@@ -126,16 +145,16 @@ function monitorPress($canvas, $metrics, $controls) {
     let startTime = null;
     let metrics = null;
     let moves = [];
-    let touch_moves = null;
+    let touch = null;
 
-    $area.on('pointerdown', function(e) {
+    $canvas.on('pointerdown', function(e) {
         startX = e.clientX;
         startY = e.clientY;
         startTime = Date.now();
         $metrics.text('Dedo presionado... suelta para ver métricas');
     });
 
-    $area.on('pointermove', function(e) {
+    $canvas.on('pointermove', function(e) {
         moves.push({
                 timestamp: Date.now(),
                 x: e.clientX,
@@ -149,24 +168,7 @@ function monitorPress($canvas, $metrics, $controls) {
             });
     });
 
-    $area.on('touchstart', function(e) {
-            const newTouches = e.changedTouches;
-            const lastTouch = newTouches[newTouches.length - 1];
-            console.log("newTouches", newTouches, lastTouch);
-            const { radiusX, radiusY } = normalizeTouchRadius(lastTouch);
-            touch_moves={
-                timestamp: Date.now(),
-                x: lastTouch.clientX,
-                y: lastTouch.clientY,
-                radiusX: radiusX || null,
-                radiusY: radiusY || null,
-                area: Math.PI * radiusX * radiusY || null,
-                rotationAngle: lastTouch.rotationAngle || null,
-                force: lastTouch.force || null
-            };
-    });
-
-    $area.on('pointerup', function(e) {
+    $canvas.on('pointerup', function(e) {
         const endTime = Date.now();
         const duration = endTime - startTime;
 
@@ -179,7 +181,7 @@ function monitorPress($canvas, $metrics, $controls) {
                 endX: e.clientX,
                 endY: e.clientY,
                 moves: moves,
-                touch_moves: touch_moves
+                touch: touch
         }            
         console.log("metrics", metrics);
         actualizarMetricas();
@@ -195,13 +197,13 @@ function monitorPress($canvas, $metrics, $controls) {
             Posición inicial: (${Math.round(metrics.startX)}, ${Math.round(metrics.startY)})<br>
             Posición final: (${Math.round(metrics.endX)}, ${Math.round(metrics.endY)})<br>            
             Movimientos: ${metrics.moves.length} registros<br>`;
-        html += `
-            ${metrics.touch_moves.radiusX ? `Radio X inicial: ${metrics.touch_moves.radiusX}<br>` : ''}
-            ${metrics.touch_moves.radiusY ? `Radio Y inicial: ${metrics.touch_moves.radiusY}<br>` : ''}
-            ${metrics.touch_moves.area ? `Área: ${metrics.touch_moves.area}<br>` : ''}
-            ${metrics.touch_moves.rotationAngle ? `Ángulo de inclinación: ${metrics.touch_moves.rotationAngle}<br>` : 
+        /*html += `
+            ${metrics.touch.radiusX ? `Radio X inicial: ${metrics.touch.radiusX}<br>` : ''}
+            ${metrics.touch.radiusY ? `Radio Y inicial: ${metrics.touch.radiusY}<br>` : ''}
+            ${metrics.touch.area ? `Área: ${metrics.touch.area}<br>` : ''}
+            ${metrics.touch.rotationAngle ? `Ángulo de inclinación: ${metrics.touch.rotationAngle}<br>` : 
                 'Ángulo de inclinación: 0<br>'}
-            ${metrics.touch_moves.force ? `Fuerza inicial: ${metrics.touch_moves.force}<br>` : ''}`
+            ${metrics.touch.force ? `Fuerza inicial: ${metrics.touch.force}<br>` : ''}`*/
         html += '</div>';
         $metrics.html(html);
     }
