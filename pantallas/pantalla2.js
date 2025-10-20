@@ -55,6 +55,12 @@ function attachInputEvents($inputElement, $outputElement, $monitorization, targe
             eventSource: 'keydown'
         };
 
+        console.log(`Tecla modificadora test: ${e.ctrlKey} ${e.altKey} ${e.metaKey}`);
+        if(e.ctrlKey || e.altKey || e.metaKey){
+            // Ignorar combinaciones de teclas con Ctrl, Alt o Meta
+            console.log(`Tecla modificadora detectada, ignorando... ${e.ctrlKey} ${e.altKey} ${e.metaKey}`);
+        }
+
         // 1. Manejar Teclas Especiales (Eliminar/Backspace)
         if (keyChar === 'Backspace' || keyChar === 'Delete') {
             logEntry.matchStatus = 'Correction';
@@ -67,20 +73,15 @@ function attachInputEvents($inputElement, $outputElement, $monitorization, targe
         
         // 2. Manejar Teclas de Carácter (si no es una tecla de control como Shift, Alt, etc.)
         if (keyChar.length === 1) { 
-          console.log("Primer if");
             const currentIndex = currentValue.length;
             const expected = targetPhrase[currentIndex];
             
             // Si el índice es válido para la frase objetivo
             if (expected !== undefined) {
-                console.log("Segundo if");
-
                 logEntry.expectedChar = expected;
                 
                 // Comparación para determinar si el carácter es correcto o un error
                 if (keyChar === expected) {
-                    console.log("Tercer if");
-
                     logEntry.matchStatus = 'Correct';
                 } else {
                     logEntry.matchStatus = 'Error';
@@ -92,8 +93,6 @@ function attachInputEvents($inputElement, $outputElement, $monitorization, targe
             showData(logEntry);
         }
     });  
-
-
 
     // Verificar la frase completa
     $inputElement.on('input', function() {

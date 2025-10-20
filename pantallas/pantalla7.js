@@ -44,13 +44,14 @@ function monitorLongPress($area, $metrics) {
             const newTouches = e.changedTouches;
             const lastTouch = newTouches[newTouches.length - 1];
             console.log("newTouches", newTouches, lastTouch);
+            const { radiusX, radiusY } = normalizeTouchRadius(lastTouch);
             touch_moves={
                 timestamp: Date.now(),
                 x: lastTouch.clientX,
                 y: lastTouch.clientY,
-                radiusX: lastTouch.radiusX || null,
-                radiusY: lastTouch.radiusY || null,
-                area: Math.PI * lastTouch.radiusX * lastTouch.radiusY || null,
+                radiusX: radiusX || null,
+                radiusY: radiusY || null,
+                area: Math.PI * radiusX * radiusY || null,
                 rotationAngle: lastTouch.rotationAngle || null,
                 force: lastTouch.force || null
             };
@@ -98,11 +99,21 @@ function monitorLongPress($area, $metrics) {
             ${metrics.touch_moves.radiusX ? `Radio X inicial: ${metrics.touch_moves.radiusX}<br>` : ''}
             ${metrics.touch_moves.radiusY ? `Radio Y inicial: ${metrics.touch_moves.radiusY}<br>` : ''}
             ${metrics.touch_moves.area ? `Área: ${metrics.touch_moves.area}<br>` : ''}
-            ${metrics.touch_moves.rotationAngle ? `Ángulo de inclinación: ${metrics.touch_moves.rotationAngle}<br>` : ''}
+            ${metrics.touch_moves.rotationAngle ? `Ángulo de inclinación: ${metrics.touch_moves.rotationAngle}<br>` : 
+                'Ángulo de inclinación: 0<br>'}
             ${metrics.touch_moves.force ? `Fuerza inicial: ${metrics.touch_moves.force}<br>` : ''}`
         html += '</div>';
         $metrics.html(html);
 
         console.log("touch moves", metrics.touch_moves)
+    }
+
+    function normalizeTouchRadius(touch) {
+        const dpr = window.devicePixelRatio || 1;
+
+        return {
+            radiusX: touch.radiusX / dpr,
+            radiusY: touch.radiusY / dpr
+        };
     }
 }
