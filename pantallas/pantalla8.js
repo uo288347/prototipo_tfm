@@ -173,13 +173,13 @@ function monitorPress($canvas, $metrics, $controls) {
             Posición inicial: (${Math.round(metrics.startX)}, ${Math.round(metrics.startY)})<br>
             Posición final: (${Math.round(metrics.endX)}, ${Math.round(metrics.endY)})<br>            
             Movimientos: ${metrics.moves.length} registros<br>`;
-        /*html += `
+        html += `
             ${metrics.touch.radiusX ? `Radio X inicial: ${metrics.touch.radiusX}<br>` : ''}
             ${metrics.touch.radiusY ? `Radio Y inicial: ${metrics.touch.radiusY}<br>` : ''}
             ${metrics.touch.area ? `Área: ${metrics.touch.area}<br>` : ''}
             ${metrics.touch.rotationAngle ? `Ángulo de inclinación: ${metrics.touch.rotationAngle}<br>` : 
                 'Ángulo de inclinación: 0<br>'}
-            ${metrics.touch.force ? `Fuerza inicial: ${metrics.touch.force}<br>` : ''}`*/
+            ${metrics.touch.force ? `Fuerza inicial: ${metrics.touch.force}<br>` : ''}`
         html += '</div>';
         $metrics.html(html);
     }
