@@ -55,7 +55,6 @@ function attachInputEvents($inputElement, $outputElement, $monitorization, targe
             eventSource: 'keydown'
         };
 
-        console.log(`Tecla modificadora test: ${e.ctrlKey} ${e.altKey} ${e.metaKey}`);
         if(e.ctrlKey || e.altKey || e.metaKey){
             // Ignorar combinaciones de teclas con Ctrl, Alt o Meta
             console.log(`Tecla modificadora detectada, ignorando... ${e.ctrlKey} ${e.altKey} ${e.metaKey}`);
