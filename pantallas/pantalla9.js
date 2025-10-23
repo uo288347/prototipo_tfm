@@ -16,8 +16,6 @@ function monitorPress($area, $metrics) {
     let widthInit, widthEnd = null;
     let heightInit, heightEnd = null;
     let areaInit, areaEnd = null;
-    let radiusXareaTInit, radiusYareaTInit = null;
-    let radiusXTEnd, radiusYTEnd = null;
     let areaTInit, areaTEnd = null;
     let newTouches, lastTouch = null;
 
@@ -42,7 +40,7 @@ function monitorPress($area, $metrics) {
         newTouches = e.changedTouches;
         lastTouch = newTouches[newTouches.length - 1];
         console.log("newTouches", newTouches, lastTouch);
-        radiusXareaTInit, radiusYareaTInit = normalizeTouchRadius(lastTouch);
+        const {radiusXareaTInit, radiusYareaTInit} = normalizeTouchRadius(lastTouch);
         console.log("radiusXTInit, radiusYTInit", radiusXTEnd, radiusYTEnd);
         areaTInit = Math.PI * radiusXareaTInit * radiusYareaTInit || null;
     });
@@ -51,7 +49,7 @@ function monitorPress($area, $metrics) {
         newTouches = e.changedTouches;
         lastTouch = newTouches[newTouches.length - 1];
         console.log("newTouches", newTouches, lastTouch);
-        radiusXTEnd, radiusYTEnd = normalizeTouchRadius(lastTouch);
+        const {radiusXTEnd, radiusYTEnd} = normalizeTouchRadius(lastTouch);
         console.log("radiusXTEnd, radiusYTEnd", radiusXTEnd, radiusYTEnd);
         areaTEnd = Math.PI * radiusXTEnd * radiusYTEnd || null;
         actualizarMetricas();
