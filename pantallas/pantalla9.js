@@ -19,12 +19,13 @@ function monitorPress($area, $metrics) {
     let radiusXareaTInit, radiusYareaTInit = null;
     let radiusXTEnd, radiusYTEnd = null;
     let areaTInit, areaTEnd = null;
+    let newTouches, lastTouch = null;
+
     $area.on('pointerdown', function(e) {
         pressureInit = e.pressure;
         widthInit = e.width || null;
         heightInit = e.height || null;
         areaInit = (e.width && e.height) ? e.width * e.height : null;
-        actualizarMetricas();
     });
 
     $area.on('pointerup', function(e) {
@@ -32,6 +33,7 @@ function monitorPress($area, $metrics) {
         widthEnd = e.width || null;
         heightEnd = e.height || null;
         areaEnd = (e.width && e.height) ? e.width * e.height : null;
+        actualizarMetricas();
     });
 
     $area.on('touchstart', function(e) {
