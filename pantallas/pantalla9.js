@@ -23,17 +23,17 @@ function monitorPress($area, $metrics) {
 
     $area.on('pointerdown', function(e) {
         pressureInit = e.pressure;
-        widthInit = e.width || null;
-        heightInit = e.height || null;
-        areaInit = (e.width && e.height) ? e.width * e.height : null;
+        widthInit = e.radiusX || null;
+        heightInit = e.radiusY || null;
+        areaInit = (e.radiusX && e.radiusY) ? e.radiusX * e.radiusY : null;
     });
 
     $area.on('pointerup', function(e) {
         pressureEnd = e.pressure;
-        widthEnd = e.width || null;
-        heightEnd = e.height || null;
-        areaEnd = (e.width && e.height) ? e.width * e.height : null;
-        actualizarMetricas();
+        widthEnd = e.radiusX || null;
+        heightEnd = e.radiusY || null;
+        areaEnd = (e.radiusX && e.radiusY) ? e.radiusX * e.radiusY : null;
+        
     });
 
     $area.on('touchstart', function(e) {
@@ -50,6 +50,7 @@ function monitorPress($area, $metrics) {
         console.log("newTouches", newTouches, lastTouch);
         radiusXTEnd, radiusYTEnd = normalizeTouchRadius(lastTouch);
         areaTEnd = Math.PI * radiusXTEnd * radiusYTEnd || null;
+        actualizarMetricas();
     });
 
     function normalizeTouchRadius(touch) {
