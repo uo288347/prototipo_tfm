@@ -25,6 +25,7 @@ function monitorPress($area, $metrics) {
         pressureInit = e.pressure;
         widthInit = e.radiusX || null;
         heightInit = e.radiusY || null;
+        console.log("radiusXInit, radiusYInit", widthInit, heightInit);
         areaInit = (e.radiusX && e.radiusY) ? e.radiusX * e.radiusY : null;
     });
 
@@ -32,6 +33,7 @@ function monitorPress($area, $metrics) {
         pressureEnd = e.pressure;
         widthEnd = e.radiusX || null;
         heightEnd = e.radiusY || null;
+        console.log("radiusXEnd, radiusYEnd", widthEnd, heightEnd);
         areaEnd = (e.radiusX && e.radiusY) ? e.radiusX * e.radiusY : null;
         
     });
@@ -41,6 +43,7 @@ function monitorPress($area, $metrics) {
         lastTouch = newTouches[newTouches.length - 1];
         console.log("newTouches", newTouches, lastTouch);
         radiusXareaTInit, radiusYareaTInit = normalizeTouchRadius(lastTouch);
+        console.log("radiusXTInit, radiusYTInit", radiusXTEnd, radiusYTEnd);
         areaTInit = Math.PI * radiusXareaTInit * radiusYareaTInit || null;
     });
 
@@ -49,6 +52,7 @@ function monitorPress($area, $metrics) {
         lastTouch = newTouches[newTouches.length - 1];
         console.log("newTouches", newTouches, lastTouch);
         radiusXTEnd, radiusYTEnd = normalizeTouchRadius(lastTouch);
+        console.log("radiusXTEnd, radiusYTEnd", radiusXTEnd, radiusYTEnd);
         areaTEnd = Math.PI * radiusXTEnd * radiusYTEnd || null;
         actualizarMetricas();
     });
