@@ -1,8 +1,8 @@
-import {HomeComponent} from "./components/HomeComponent"
+import {HomeComponent} from "./components/homeComponent/HomeComponent"
 
 export default function Home() {
     return (
-    <div>
+    <div style={{padding: "0px 10px"}}>
       <HomeComponent />
     </div>
   ); 

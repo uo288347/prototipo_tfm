@@ -1,10 +1,12 @@
 import Link from "next/link";
 import { useEffect } from "react";
-import { Row, Col, Pagination } from "antd";
+import { Row, Col, Pagination, Modal } from "antd";
 import { useState } from "react";
-import { ProductCard } from "./ProductCard";
+import { ProductCard } from "./homeComponent/ProductCard";
 import { getProducts } from "@/utils/UtilsProducts";
 import { useRouter } from "next/router";
+import {LongPressWrapper} from "./shared/LongPressWrapper"
+import { ModalProductCard } from "./homeComponent/ModalProductCard";
 
 const ProductGrid = ({}) => {
   const router = useRouter();
@@ -12,9 +14,15 @@ const ProductGrid = ({}) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
 
   const handleTouchStart = (product) => {
+    console.log("handle: ", product)
     setSelectedProduct(product);
-    setIsModalVisible(true);
   };
+
+  useEffect(() => {
+    if (selectedProduct) {
+      setIsModalVisible(true);
+    }
+  }, [selectedProduct]);
 
   const handleTouchEnd = () => {
     setIsModalVisible(false);
@@ -39,11 +47,29 @@ const ProductGrid = ({}) => {
     <Row gutter={[8,8]} align="center">
       {products.map((p, index) => (
         <Col xs={12} sm={12} md={8} lg={6} xl={6} key={p.id}>
-            <ProductCard p={p} index={index} onClick={() => router.push(`/detailProduct/${p.id}`)}
-              onTouchStart={handleTouchStart} onTouchEnd={handleTouchEnd}/>
+          <LongPressWrapper 
+          onLongPressHold={() => handleTouchStart(p)}
+          onLongPressRelease={handleTouchEnd}
+          onClick={() => router.push(`/detailProduct/${p.id}`)}>
+            <ProductCard p={p} index={index}/>
+          </LongPressWrapper>
         </Col>
       ))}
     </Row>
+
+
+      <Modal
+        open={isModalVisible}
+        onCancel={handleTouchEnd}
+        footer={null}
+        closable={false}
+      >
+        {selectedProduct && (
+          <>
+            <ModalProductCard product={selectedProduct}/>
+          </>
+        )}
+      </Modal>
     </>
   );
 };

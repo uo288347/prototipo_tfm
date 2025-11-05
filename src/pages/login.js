@@ -3,7 +3,7 @@ import LoginFormComponent from "./components/LoginFormComponent";
 export default function LoginPage({}) {
 
   return (
-    <div>
+    <div style={{padding: "20px 20px"}}>
       <LoginFormComponent />
     </div>
   );

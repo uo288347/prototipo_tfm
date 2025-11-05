@@ -19,6 +19,5 @@ export default function App({ Component, pageProps }) {
           </Content>
           <Footer style={{ textAlign: "center" }}> Teresa González - Universidad de Oviedo </Footer>
       </Layout>
-
   );
 }

@@ -13,29 +13,28 @@ import {
 
 const {Meta} = Card;
 
-export const ProductCard = ({p, index, onClick, onTouchStart, onTouchEnd}) => {
-
+export const ModalProductCard = ({product})=> {
+    const imageSrc = Array.isArray(product?.images) && product.images.length > 0
+        ? product.images[0]
+        : "/picture3.jpg";
     return (
-        <Card key={p.id}
-              className="hover-card"
-              hoverable 
-              onClick={onClick}
-              onTouchStart={onTouchStart}
-              onTouchEnd={onTouchEnd}
+        <Card key={product.id}
+              style={{border:"none", padding:0}}
+              bodyStyle={{ padding: 0 }}
               cover={<div style={{ width: "100%", paddingTop: "100%", position: "relative" }}>
-                    <img alt={p.title} src={p.images[0]}
+                    <img alt={product?.title} src={imageSrc}
                       style={{position: "absolute", top: 0, left: 0, width: "100%", height: "100%", objectFit: 'cover',
                         objectPosition: 'top'}}/>
                   </div>}>
 
-                <div className="card-content" style={{ transition: "opacity 0.3s" }}>
+                <div style={{ width: "100%",  paddingTop:"1rem"}}>
                 <Meta title={
-                  <span style={{ fontSize: "1rem" }}>{p.title}</span>
+                  <span style={{ fontSize: "1rem"}}>{product?.title}</span>
                 }/>
-                <p style={{ fontSize: "0.9rem", color: "#666" , paddingTop:"0.5rem"}}>{p.description}</p>
+                <p style={{ fontSize: "0.9rem", color: "#666" }}>{product?.description}</p>
                 <Meta description={
                   <span style={{ fontSize: "2rem", fontWeight: "bold", display: "block" , color: "#000"}}>
-                    {p.price}€
+                    {product?.price}€
                   </span>
                 }/>
                 </div>

@@ -111,6 +111,11 @@ export const addToCart = (id, size, quantity) => {
     shoppingCart.push({ id, size, quantity });
   }
 };
+export const deleteFromCart = (targets) => {
+    shoppingCart = shoppingCart.filter(item =>
+      !targets.some(target => target.id === item.id && target.size === item.size)
+    );
+}
 
 export const removeFromCart = (id) => {
   shoppingCart = shoppingCart.filter(item => item.id !== id);

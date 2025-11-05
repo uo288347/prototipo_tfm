@@ -17,8 +17,9 @@ export const CategoryFilter = ({filters, setFilters}) => {
         <div style={{ display: 'inline-flex', gap: '16px', }}>
             {categories.map((cat) => (
             <Card
-                onClick={(value) => {
-                    setFilters((f) => ({...f, category: value === "all" ? "" : value}))
+                onClick={() => {
+                    setFilters((f) => ({...f, category: cat.name === "all" ? null : cat.name}))
+                    console.log(cat)
                 }}
                 key={cat.name}
                 cover={
