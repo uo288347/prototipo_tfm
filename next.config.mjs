@@ -1,7 +1,7 @@
-/** @type {import('next').NextConfig} */
+// next.config.mjs
 const nextConfig = {
-  /* config options here */
   reactStrictMode: true,
+  transpilePackages: ['antd-mobile'],
 };
 
 export default nextConfig;

@@ -4,16 +4,15 @@ import { useRouter } from "next/router";
 
 const {Title} = Typography
 
-export const ConfigurableMenu = ({icon, text}) => {
-    const router = useRouter();
+export const ConfigurableMenu = ({icon, text, onClick}) => {
     return (
         <>
-        <Row justify="left" align="middle" style={{padding:"1rem"}}>
-            <Button size="large" style={{border:"none", marginRight:"1rem"}} 
+        <Row align="middle" style={{paddingBottom:"1rem"}}>
+            <Button size="large" style={{border:"none", marginRight:"1rem", fontSize:"1.5rem"}} 
                 icon={<ArrowLeftOutlined/>}
-                onClick={() => {router.push("/home")}}/>
+                onClick={onClick}/>
             
-            <Title level={3} style={{margin:0, padding: 0 }}>{icon} {text}</Title>
+            <Title level={4} style={{margin:0, padding: 0, fontWeight:"normal" }}>{icon} {text}</Title>
         </Row>
         </>
     );

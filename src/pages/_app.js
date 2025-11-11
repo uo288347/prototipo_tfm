@@ -1,23 +1,34 @@
-import { Layout, Menu, notification } from 'antd';
+import { notification, ConfigProvider as AntdConfigProvider } from 'antd';
+import esESAntd from 'antd/locale/es_ES';
 import 'antd/dist/reset.css';
+import 'antd-mobile/es/global';
+import '../styles/output.css';
 import { initNotification } from "../utils/UtilsNotifications";
 import { useEffect } from 'react';
-
-let { Header, Content, Footer } = Layout;
+import { ConfigProvider as AntdMobileConfigProvider } from 'antd-mobile';
+import esESMobile from 'antd-mobile/es/locales/es-ES';
 
 export default function App({ Component, pageProps }) {
     const [api, contextHolder] = notification.useNotification();
 
     useEffect(() => {
         initNotification(api);
+        //getShoppingCart();
     }, [api]);
 
     return (
-      <Layout className="layout" style={{ minHeight: "100vh", display: "flex", flexDirection: "column", backgroundColor:"#fff" }}>
-          <Content style={{ padding: "0px 0px" }}>
-              <Component {...pageProps}/>
-          </Content>
-          <Footer style={{ textAlign: "center" }}> Teresa González - Universidad de Oviedo </Footer>
-      </Layout>
-  );
+        <AntdConfigProvider locale={esESAntd}>
+            <AntdMobileConfigProvider locale={esESMobile}>
+                {contextHolder}
+                <div style={{ minHeight: "100vh", display: "flex", flexDirection: "column", backgroundColor: "#fff" }}>
+                    <div style={{ flex: 1, padding: "0px 0px" }}>
+                        <Component {...pageProps} />
+                    </div>
+                    <footer style={{ textAlign: "center", padding: "16px" }}>
+                        Teresa González - Universidad de Oviedo
+                    </footer>
+                </div>
+            </AntdMobileConfigProvider>
+        </AntdConfigProvider>
+    );
 }

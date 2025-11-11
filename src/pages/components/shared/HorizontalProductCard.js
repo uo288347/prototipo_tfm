@@ -3,76 +3,110 @@ import { Card, Button, Tooltip, Avatar, Row, Col, Divider, Typography, InputNumb
 import { getProduct } from "@/utils/UtilsProducts";
 import { LongPressWrapper } from "./LongPressWrapper";
 import { useDrag } from 'react-dnd';
+import { CheckCircleFilled } from "@ant-design/icons";
+import { Stepper } from "antd-mobile";
 
-const {Text, Title} = Typography;
+const { Text, Title } = Typography;
 
-export const HorizontalProductCard = ({item, index, isSelected, selectedItems , onClick, onLongClick}) => {
+export const HorizontalProductCard = ({ item, index, isSelected, selectedItems, onClick, updateUnits }) => {
     const router = useRouter();
     const product = getProduct(item.id);
 
     const [{ isDragging }, dragRef] = useDrag({
         type: 'CARD',
-        item: { draggedId: item.id, selectedItems  },
+        item: { draggedId: item.id, selectedItems },
         canDrag: isSelected, // solo si está seleccionada
         collect: (monitor) => ({
             isDragging: monitor.isDragging(),
         }),
     });
     return (
-        <div ref={dragRef} style={{ opacity: isDragging ? 0.5 : 1 }}>
-            <LongPressWrapper onLongPressRelease={onLongClick}>
-                <Card key={index} 
+        <div ref={dragRef} style={{ opacity: isDragging ? 0.4 : 1, }}>
+            <Card key={index}
                 style={{
-                marginBottom: "1rem", position: "relative",
-                border: isSelected ? '2px solid #1890ff' : '1px solid #d9d9d9',
-                backgroundColor: isSelected ? '#e6f7ff' : 'white',
+                    marginBottom: "1rem",
+                    position: "relative",
+                    border: isSelected ? '2px solid #1890ff' : '1px solid #d9d9d9',
+                    backgroundColor: isSelected ? '#e6f7ff' : 'white',
+                    boxShadow: isSelected ? '0 10px 15px -3px rgba(0, 0, 0, 0.1)' : 'none',
+                    transition: 'all 0.2s',
+                    height: "160px",
+                    overflow: "hidden",
                 }}
-                bodyStyle={{padding:0}}
+                bodyStyle={{ padding: 0, height: "100%" }}
                 onClick={onClick}>
-                    <Row gutter={16} align="middle">
-                    {/* Imagen a la izquierda */}
+
+                {/* Check when is selected */}
+                {isSelected && (
+                    <div style={{
+                        position: "absolute",
+                        right: "1rem",
+                        top: "50%",
+                        transform: "translateY(-50%)",
+                        zIndex: 10,
+                        backgroundColor: "white",
+                        borderRadius: "50%",
+                    }}>
+                        <CheckCircleFilled style={{ fontSize: "1.5rem", color: "#1890ff" }} />
+                    </div>
+                )}
+                <Row gutter={16} align="center">
+                    {/* Image */}
                     <Col xs={8} sm={6}>
                         <img
-                        src={product.images[0]}
-                        alt={product.title}
-                        style={{
-                            width: "100%", height:"150px",
-                            margin:"0", padding:0,
-                            objectPosition:"top",
-                            objectFit: "cover",
-                            borderRadius: "8px",
-                        }}
+                            src={product.images[0]}
+                            alt={product.title}
+                            style={{
+                                height: "100%",
+                                display: "flex",
+                                position: "center",
+                                alignItems: "center",
+                                overflow: "hidden"
+                            }}
                         />
                     </Col>
 
-                    {/* Información a la derecha */}
-                    <Col xs={16} sm={18}>
-                        <Title level={5} >
-                        {product.title}
+                    {/* Information */}
+                    <Col xs={16} sm={18} style={{
+                        height: "100%",
+                        padding: "0.5rem",
+
+                        display: "flex",
+                        flexDirection: "column",
+                        justifyContent: "space-between",
+                        overflow: "hidden"
+                    }}>
+                        <Title level={5} style={{ fontWeight: "normal", padding: 0, margin: 0 }}>
+                            {product.title}
                         </Title>
-                        <Text >Size {item.size}</Text>
-                        <br />
-                        <Text >Number of units</Text>
-                        <InputNumber
-                        style={{marginBottom: "0.5rem", marginTop: "0.1rem", marginLeft: "0.5rem"}} 
-                        value={item.quantity}
-                        min={1}
-                        max={10}
-                        onChange={(value) => updateUnits(product.id, value)}></InputNumber>
-                        <br />
-                        <Row align="middle" style={{display:"flex", flexDirection:"row", justifyContent:"space-between", alignContent:"bottom"}}>
-                            <Title level={3}> <strong>{product.price}€</strong><Text> /unit</Text></Title> 
+                        <Text style={{ marginTop: "0.5rem" }} >Size {item.size}</Text>
+
+                        <Stepper
+                            style={{ marginTop: "0.5rem", marginBottom: "0.5rem" }}
+                            min={1}
+                            max={10}
+                            value={item.quantity}
+                            onChange={val => updateUnits(product.id, item.size, val)}
+                        />
+                        <Row align="top" style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", alignContent: "center" }}>
+                            <Title level={4} style={{ fontWeight: "normal" }}> {item.quantity * product.price}€</Title>
                             <Button style={{ margin: 0 }}
                                 type="link"
                                 onClick={() => router.push(`/detailProduct/${item.id}`)}
                             >
                                 View Product
                             </Button>
-                        </Row>                       
+                        </Row>
+
                     </Col>
-                    </Row>
-                </Card>
-        </LongPressWrapper>
+
+                </Row>
+            </Card>
         </div>
     );
 };
+
+/*
+<LongPressWrapper onLongPressRelease={onLongClick}>
+            </LongPressWrapper>
+*/

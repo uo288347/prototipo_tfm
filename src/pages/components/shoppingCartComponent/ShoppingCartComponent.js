@@ -1,114 +1,321 @@
-import { getShoppingCart, deleteFromCart } from "@/utils/UtilsProducts";
+import { getShoppingCart, deleteFromCart, updateCart, updateUnits } from "@/utils/UtilsProducts";
 import { ConfigurableMenu } from "../shared/ConfigurableMenu";
-import {Card, Typography, Col, Row, Divider, Button} from 'antd';
+import { Card, Typography, Col, Row, Divider, Button } from 'antd';
 import { getProduct } from "@/utils/UtilsProducts";
 import { HorizontalProductCard } from "../shared/HorizontalProductCard";
-import { ShoppingCartOutlined } from "@ant-design/icons";
-import { useState } from "react";
-import {DeleteZone} from "./DeleteZone"
-const {Text, Title} = Typography
+import { DeleteOutlined, ShoppingCartOutlined } from "@ant-design/icons";
+import { useEffect, useState, useRef } from "react";
+import { DeleteZone } from "./DeleteZone"
+import { useRouter } from "next/router";
+import { NavBar } from "antd-mobile";
+import { SelectionIndicator } from "./SelectionIndicator";
+import { BottomSection } from "./BottomSection";
 
-export const ShoppingCartComponent = ({}) => {
-    const [selectedItems, setSelectedItems] = useState([]);
+const { Text, Title } = Typography
+
+export const ShoppingCartComponent = ({ }) => {
+    const router = useRouter();
+
+    const [products, setProducts] = useState([]);
+    const [selectedItems, setSelectedItems] = useState(new Set());
     const [selectionMode, setSelectionMode] = useState(false);
+    const [draggedOver, setDraggedOver] = useState(false);
+    const [dragging, setDragging] = useState(false);
 
-    const [cartItems, setCartItems] = useState(getShoppingCart());
+    const longPressTimer = useRef(null);
+    const longPressTriggered = useRef(false);
 
-    const toggleSelectItem = (itemId) => {
+    const getItemKey = (item) => `${item.id}-${item.size}`;
+
+    useEffect(() => {
+        setProducts(getShoppingCart());
+    }, []);
+
+    /*useEffect(() => {
+        setCartItems(getShoppingCart());
+    }, [])*/
+
+    // Select product when selection mode is active
+    /*const toggleSelectItem = (item) => {
         if (!selectionMode) return;
         if (selectedItems.length === 0) {
             setSelectionMode(false);
             return;
         }
         setSelectedItems((prev) =>
-            prev.includes(itemId) ? prev.filter(id => id !== itemId) : [...prev, itemId]
+            prev.includes(item.id) ? prev.filter(i => i.id !== item.id && i.size !== item.size) : [...prev, item]
         );
+        if (selectedItems.length === 0) {
+            endSelectionMode();
+        }
     };
 
-    const startSelectionMode = (itemId) => {
+    const startSelectionMode = (item) => {
         setSelectionMode(true);
-        setSelectedItems([itemId]);
+        setSelectedItems([item]);
     };
-    const isSelected = (itemId) => selectedItems.includes(itemId);
-
-    const handleDeleteItem = (selectedItems) => {
-        const updatedCart = cartItems.filter(
-            item =>
-            !selectedItems.some(
-                delItem => delItem.id === item.id && delItem.size === item.size
-            )
-        );
-
-        setCartItems(updatedCart);    
+    const endSelectionMode = () => {
+        setSelectionMode(false);
         setSelectedItems([]);
-        deleteFromCart(selectedItems);// También elimina del carrito si lo estás guardando en estado
-        {console.log("updated: ",cartItems)}
+    }*/
 
+    /*const isSelected = (item) =>
+        selectedItems.some(
+            selected => selected.id === item.id && selected.size === item.size
+        );*/
+
+
+    /*const handleDeleteItem = (selectedItems) => {
+        const updated = deleteFromCart(selectedItems)
+        setCartItems(updated);
+        endSelectionMode();
+        // También elimina del carrito si lo estás guardando en estado
+
+    };*/
+
+
+    const handleTouchStart = (e, item) => {
+        longPressTriggered.current = false;
+
+        longPressTimer.current = setTimeout(() => {
+            longPressTriggered.current = true;
+            if (!selectionMode) {
+                setSelectionMode(true);
+
+                setSelectedItems(new Set([getItemKey(item)]));
+                navigator.vibrate?.(50);
+            }
+        }, 500);
     };
+
+    const handleTouchEnd = async (e, item) => {
+        if (longPressTimer.current) {
+            clearTimeout(longPressTimer.current);
+        }
+
+        /*if (!longPressTriggered.current && selectionMode) {
+            toggleSelection(item);
+        }*/
+        const touch = e.changedTouches[0];
+        if (draggedOver) {
+            // Simula el drop
+            try {
+                const itemsToDelete = Array.from(selectedItems).map(key => {
+                    const [productId, size] = key.split('-');
+                    console.log("key: ", key)
+                    return { id: productId, size };
+                });
+
+                //const itemsToDelete = JSON.parse(e.dataTransfer.getData('text/plain'));
+                console.log("items to delete: ", itemsToDelete)
+                const updated = deleteFromCart(itemsToDelete);
+                console.log("updated cart: ", updated)
+
+                setProducts(updated)
+
+                /*setProducts(prev => prev.filter(p => {
+                    const itemKey = getItemKey(p);
+                    return !selectedItems.has(itemKey);
+                }));*/
+
+                setSelectedItems(new Set());
+                setSelectionMode(false);
+                setDraggedOver(false);
+
+                console.log(`${itemsToDelete.length} prenda(s) eliminada(s)`);
+            } catch (error) {
+                console.log('Error al eliminar prendas', error);
+            }
+        } else if (!longPressTriggered.current && selectionMode) {
+            toggleSelection(item);
+        }
+    };
+
+    const handleTouchMove = (e) => {
+        if (longPressTimer.current) {
+            clearTimeout(longPressTimer.current);
+        }
+
+        const touch = e.touches[0];
+        console.log("is over: ", isOverDeleteZone(touch))
+        if (isOverDeleteZone(touch)) {
+            setDraggedOver(true);
+        } else {
+            setDraggedOver(false);
+        }
+    };
+
+    const toggleSelection = (item) => {
+        const itemKey = getItemKey(item);
+        setSelectedItems(prev => {
+            const newSet = new Set(prev);
+            if (newSet.has(itemKey)) {
+                newSet.delete(itemKey);
+            } else {
+                newSet.add(itemKey);
+            }
+
+            if (newSet.size === 0) {
+                setSelectionMode(false);
+            }
+
+            return newSet;
+        });
+    };
+
+    const handleDragStart = (e, item) => {
+        const itemKey = getItemKey(item);
+        if (selectedItems.has(itemKey)) {
+            setDragging(true);
+            e.dataTransfer.effectAllowed = 'move';
+
+            // Convertir los keys seleccionados a objetos { productId, size, quantity }
+            const selectedItemsData = Array.from(selectedItems).map(key => {
+                const [productId, size] = key.split('-');
+                const product = products.find(
+                    p => p.id === parseInt(productId) && p.size === size
+                );
+                const quantity = product ? product.quantity : 1;
+                return { productId: parseInt(productId), size, quantity };
+            });
+
+            e.dataTransfer.setData('text/plain', JSON.stringify(selectedItemsData));
+        } else {
+            e.preventDefault();
+        }
+    };
+
+    const handleDragEnd = () => {
+        setDragging(false);
+        setDraggedOver(false);
+    };
+
+    const handleDrop = async (e) => {
+        e.preventDefault();
+        setDraggedOver(false);
+        setDragging(false);
+
+        try {
+            const itemsToDelete = JSON.parse(e.dataTransfer.getData('text/plain'));
+            console.log("items to delete: ", itemsToDelete)
+            const updated = deleteFromCart(itemsToDelete);
+            console.log("updated cart: ", updated)
+
+            setProducts(updated)
+
+            // Filtrar productos eliminados del carrito
+            /*setProducts(prev => prev.filter(p => {
+                const itemKey = getItemKey(p);
+                return !selectedItems.has(itemKey);
+            }));*/
+
+            setSelectedItems(new Set());
+            setSelectionMode(false);
+
+            console.log(`${itemsToDelete.length} products deleted`);
+        } catch (error) {
+            console.log('Error while deleting products');
+        }
+    };
+
+    const handleDragOver = (e) => {
+        e.preventDefault();
+        setDraggedOver(true);
+    };
+
+    const handleDragLeave = () => {
+        setDraggedOver(false);
+    };
+
+    const cancelSelection = () => {
+        setSelectedItems(new Set());
+        setSelectionMode(false);
+    };
+
+    const isOverDeleteZone = (touch) => {
+        const element = document.elementFromPoint(touch.clientX, touch.clientY);
+        return element?.closest('.delete-zone') !== null;
+    };
+
+
+
+    //    const total = products.reduce((sum, p) => sum + (p.price * p.quantity), 0);
+    const onUpdateUnits = (id, size, units) => {
+        updateUnits(id, size, units)
+        setProducts(getShoppingCart())
+    }
 
     const calculateTotal = () => {
-        return cartItems.reduce((acc, item) => {
+        return products.reduce((acc, item) => {
             const product = getProduct(item.id);
             if (!product) return acc;
             return acc + product.price * item.quantity;
         }, 0).toFixed(2); // redondea a 2 decimales
     };
+
+    /*                    <ConfigurableMenu icon={<ShoppingCartOutlined />} text={"Shopping cart"} onClick={() => router.push("/home")} />
+                        <NavBar onBack={() => router.push("/home")}><ShoppingCartOutlined/> Shopping Cart</NavBar>
+
+*/
     return (
         <>
-        <div style={{flex: 1, display: "flex", flexDirection: "column", justifyContent: "space-between"}}>
-        <div>
-        <ConfigurableMenu icon={<ShoppingCartOutlined/>} text={"Shopping cart"}/>
-
-        <div style={{ display: "flex", justifyContent: "center", paddingBottom:"0.5rem" }}>
-            <Text>{cartItems.length} total items</Text>
-        </div>
-        
-        <div style={{  paddingBottom:0 }}>
-            {console.log("cartItems: ",cartItems)}
-            {cartItems.length === 0 ? (
-            <Text type="secondary">Your cart is empty.</Text>
-            ) : (
-            cartItems.map((item, index) => (
-                <HorizontalProductCard item={item} index={index} 
-                isSelected={isSelected(item.id)}
-                selectedItems={selectedItems} 
-                onClick={() => toggleSelectItem(item.id)}
-                onLongClick={() => startSelectionMode(item.id)}/>
-            ))
-            )}
-        </div>
-
-        {selectionMode && (
-        <div>
-            <div style={{ display: "flex", justifyContent: "center"}}>
-                <Button 
-                danger 
-                onClick={() => {
-                setSelectionMode(false);
-                setSelectedItems([]);
+            <div style={{ flex: 1, display: "flex", flexDirection: "column", justifyContent: "space-between", height: "100vh", }}>
+                <div style={{
+                    flex: 1,
+                    overflowY: "auto",
+                    paddingBottom: selectionMode ? "5rem" : "10rem",
+                    marginBottom: "1rem"
                 }}>
-                Cancelar selección
-                </Button>
-            </div>
-         </div>
-        )}
-        </div>
-        
-        <div>
-        {selectionMode && 
-            <DeleteZone onDropItem={handleDeleteItem} />
-        }
-        </div>
+                    <ConfigurableMenu icon={<ShoppingCartOutlined />} text={"Shopping cart"} onClick={() => router.push("/home")} />
+                    <SelectionIndicator selectionMode={selectionMode} nSelectedItems={selectedItems.size} cancelSelection={cancelSelection} />
 
-        </div>
-        
-        <Divider/>
-        <Row style={{display:"flex", flexDirection:"row", justifyContent: "space-between", paddingBottom: "1rem"}}>
-            <Title style={{padding:0, margin: 0}}>Total</Title>
-            <Title style={{padding:0, margin: 0}}>{calculateTotal()}€</Title>
-        </Row>
-        <Button type="primary" block size="large" style={{padding:"1rem", marginTop:"1rem"}}>
-            Continue
-        </Button></>
+                    <div style={{ paddingBottom: 0 }}>
+                        {products.length === 0 ? (
+                            <div style={{ display: "flex", justifyContent: "center", paddingBottom: "0.5rem" }}>
+                                <Text type="secondary">Your shopping cart is empty.</Text>
+                            </div>
+                        ) : (
+                            <>
+                                <div style={{ display: "flex", justifyContent: "center", paddingBottom: "0.5rem" }}>
+                                    <Text>{products.length} total products</Text>
+                                </div>
+                                {products.map((item, index) => {
+                                    const itemKey = getItemKey(item);
+                                    const isSelected = selectedItems.has(itemKey);
+
+                                    return (
+                                        <div
+                                            key={itemKey}
+                                            draggable={isSelected}
+                                            onTouchStart={(e) => handleTouchStart(e, item)}
+                                            onTouchEnd={(e) => handleTouchEnd(e, item)}
+                                            onTouchMove={handleTouchMove}
+                                            style={{
+                                                position: "relative",
+                                                transition: "all 0.2s",
+                                                opacity: dragging && isSelected ? 0.5 : 1,
+                                                transform: dragging && isSelected ? "scale(0.95)" : "scale(1)"
+                                            }}
+                                        >
+                                            <HorizontalProductCard item={item} index={index}
+                                                isSelected={isSelected}
+                                                selectedItems={selectedItems}
+                                                updateUnits={onUpdateUnits}
+                                            /></div>
+                                    )
+                                })}
+                            </>
+                        )}
+                    </div>
+                </div>
+
+                <DeleteZone handleDrop={handleDrop} handleDragOver={handleDragOver} handleDragLeave={handleDragLeave}
+                    selectionMode={selectionMode} draggedOver={draggedOver} />
+            </div>
+
+            <Divider />
+
+            <BottomSection productsLength={products.length} selectionMode={selectionMode} calculateTotal={calculateTotal} />
+        </>
     );
 }

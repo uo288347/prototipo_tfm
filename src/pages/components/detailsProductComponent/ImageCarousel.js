@@ -21,7 +21,6 @@ export const ImageCarousel = ({product}) => {
             }}
         />
         <Carousel
-                autoplay
                 dots
                 swipeToSlide
                 style={{ width: "100%", height: "100%", overflow: "hidden" }}

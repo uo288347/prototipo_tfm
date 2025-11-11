@@ -81,46 +81,66 @@ export const getProducts = () => {
 export const getProduct = (id) => {
     return products.find(product => product.id === id);
 }
+// UtilsProducts.js
 
-let shoppingCart = [
-  {
-    id: "mw1",
-    size: "M",
-    quantity: 2,
-  },
-  {
-    id: "md2",
-    size: "L",
-    quantity: 1,
-  }]
-  
+// Obtiene el carrito desde localStorage
 export const getShoppingCart = () => {
-    return shoppingCart
-}
+    const cart = localStorage.getItem("shoppingCart");
+    return cart ? JSON.parse(cart) : [];
+};
 
+// Guarda el carrito en localStorage
+const saveCart = (cart) => {
+    localStorage.setItem("shoppingCart", JSON.stringify(cart));
+};
+
+// Añade un item al carrito
 export const addToCart = (id, size, quantity) => {
-  const existingItem = shoppingCart.find(
-    item => item.id === id && item.size === size
-  );
+    const cart = getShoppingCart();
+    const existingItem = cart.find(item => item.id === id && item.size === size);
 
-  if (existingItem) {
-    // Si existe, suma la cantidad
-    existingItem.quantity += quantity;
-  } else {
-    // Si no existe, lo añade con la cantidad especificada
-    shoppingCart.push({ id, size, quantity });
-  }
+    if (existingItem) {
+        existingItem.quantity += quantity; // Suma si ya existe
+    } else {
+        cart.push({ id, size, quantity });
+    }
+
+    saveCart(cart);
 };
+
+// Elimina items específicos del carrito
 export const deleteFromCart = (targets) => {
-    shoppingCart = shoppingCart.filter(item =>
-      !targets.some(target => target.id === item.id && target.size === item.size)
+    let cart = getShoppingCart();
+    cart = cart.filter(item =>
+        !targets.some(target => target.id === item.id && target.size === item.size)
     );
-}
+    saveCart(cart);
+    return getShoppingCart()
+};
 
+// Actualiza todo el carrito con un array nuevo
+export const updateCart = (items) => {
+    saveCart(items);
+};
+
+// Elimina un item por id (independientemente del tamaño)
 export const removeFromCart = (id) => {
-  shoppingCart = shoppingCart.filter(item => item.id !== id);
+    let cart = getShoppingCart();
+    cart = cart.filter(item => item.id !== id);
+    saveCart(cart);
 };
 
+// Vacía el carrito
 export const clearCart = () => {
-  shoppingCart = [];
+    saveCart([]);
 };
+
+export const updateUnits=(id, size, units) => {
+    const cart = getShoppingCart();
+    const existingItem = cart.find(item => item.id === id && item.size === size);
+
+    if (existingItem) {
+        existingItem.quantity = units; 
+    } 
+    saveCart(cart);
+}
