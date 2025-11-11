@@ -1,0 +1,202 @@
+import { ConfigurableMenu } from "../shared/ConfigurableMenu";
+import { Card, Typography, Col, Row, Divider, Button } from 'antd';
+import { getProduct } from "@/utils/UtilsProducts";
+import { HorizontalProductCard } from "../shared/HorizontalProductCard";
+import { DeleteOutlined, HeartOutlined, ShoppingCartOutlined } from "@ant-design/icons";
+import { useEffect, useState, useRef } from "react";
+import { DeleteZone } from "../shared/DeleteZone"
+import { useRouter } from "next/router";
+import { NavBar } from "antd-mobile";
+import { SelectionIndicator } from "../shared/SelectionIndicator";
+import { deleteFromFavorites, getFavorites } from "@/utils/UtilsFavorites";
+import { HeartOutline } from "antd-mobile-icons";
+import { FavoriteCard } from "./FavoriteCard";
+
+const { Text, Title } = Typography
+
+
+export const FavoritesComponent = ({ }) => {
+    const router = useRouter();
+
+    const [ids, setIds] = useState([]);
+    const [selectedItems, setSelectedItems] = useState(new Set());
+    const [selectionMode, setSelectionMode] = useState(false);
+    const [draggedOver, setDraggedOver] = useState(false);
+    const [dragging, setDragging] = useState(false);
+
+    const longPressTimer = useRef(null);
+    const longPressTriggered = useRef(false);
+
+    useEffect(() => {
+        setIds(getFavorites());
+    }, []);
+
+
+    const handleTouchStart = (e, item) => {
+        longPressTriggered.current = false;
+
+        longPressTimer.current = setTimeout(() => {
+            longPressTriggered.current = true;
+            if (!selectionMode) {
+                setSelectionMode(true);
+
+                setSelectedItems(new Set([item]));
+                navigator.vibrate?.(50);
+            }
+        }, 500);
+    };
+
+    const handleTouchEnd = async (e, item) => {
+        if (longPressTimer.current) {
+            clearTimeout(longPressTimer.current);
+        }
+
+        const touch = e.changedTouches[0];
+        if (draggedOver) {
+            // Simula el drop
+            try {
+                const itemsToDelete = Array.from(selectedItems)
+
+                console.log("items to delete: ", itemsToDelete)
+                const updated = deleteFromFavorites(itemsToDelete);
+                console.log("updated cart: ", updated)
+
+                setIds(updated)
+
+                setSelectedItems(new Set());
+                setSelectionMode(false);
+                setDraggedOver(false);
+
+                console.log(`${itemsToDelete.length} deleted from favorites`);
+            } catch (error) {
+                console.log('Error while deleting favorites', error);
+            }
+        } else if (!longPressTriggered.current && selectionMode) {
+            toggleSelection(item);
+        }
+    };
+
+    const handleTouchMove = (e) => {
+        if (longPressTimer.current) {
+            clearTimeout(longPressTimer.current);
+        }
+
+        const touch = e.touches[0];
+        console.log("is over: ", isOverDeleteZone(touch))
+        if (isOverDeleteZone(touch)) {
+            setDraggedOver(true);
+        } else {
+            setDraggedOver(false);
+        }
+    };
+
+    const toggleSelection = (item) => {
+        setSelectedItems(prev => {
+            const newSet = new Set(prev);
+            if (newSet.has(item)) {
+                newSet.delete(item);
+            } else {
+                newSet.add(item);
+            }
+
+            if (newSet.size === 0) {
+                setSelectionMode(false);
+            }
+
+            return newSet;
+        });
+    };
+
+    const handleDrop = async (e) => {
+        e.preventDefault();
+        setDraggedOver(false);
+        setDragging(false);
+
+        try {
+            const itemsToDelete = JSON.parse(e.dataTransfer.getData('text/plain'));
+            console.log("items to delete: ", itemsToDelete)
+            const updated = deleteFromFavorites(itemsToDelete);
+            console.log("updated cart: ", updated)
+
+            setIds(updated)
+
+            setSelectedItems(new Set());
+            setSelectionMode(false);
+
+            console.log(`${itemsToDelete.length} products deleted from favorites`);
+        } catch (error) {
+            console.log('Error while deleting favorites');
+        }
+    };
+
+    const handleDragOver = (e) => {
+        e.preventDefault();
+        setDraggedOver(true);
+    };
+
+    const handleDragLeave = () => {
+        setDraggedOver(false);
+    };
+
+    const cancelSelection = () => {
+        setSelectedItems(new Set());
+        setSelectionMode(false);
+    };
+
+    const isOverDeleteZone = (touch) => {
+        const element = document.elementFromPoint(touch.clientX, touch.clientY);
+        return element?.closest('.delete-zone') !== null;
+    };
+
+    return (<>
+        <div style={{ flex: 1, display: "flex", flexDirection: "column", justifyContent: "space-between", height: "100vh", }}>
+            <div style={{
+                flex: 1,
+                overflowY: "auto",
+                paddingBottom: selectionMode ? "5rem" : "10rem",
+                marginBottom: "1rem"
+            }}>
+                <ConfigurableMenu icon={<HeartOutlined />} text={"Favorites"} onClick={() => router.push("/home")} />
+                <SelectionIndicator selectionMode={selectionMode} nSelectedItems={selectedItems.size} cancelSelection={cancelSelection} />
+
+                <div style={{ paddingBottom: 0 }}>
+                    {ids.length === 0 ? (
+                        <div style={{ display: "flex", justifyContent: "center", paddingBottom: "0.5rem" }}>
+                            <Text type="secondary">You don't have favorite products.</Text>
+                        </div>
+                    ) : (
+                        <>
+                            <div style={{ display: "flex", justifyContent: "center", paddingBottom: "0.5rem" }}>
+                                <Text>{[...ids].length} total favorites</Text>
+                            </div>
+                            {[...ids].map((item, index) => {
+                                const isSelected = selectedItems.has(item);
+
+                                return (
+                                    <div
+                                        key={item}
+                                        draggable={isSelected}
+                                        onTouchStart={(e) => handleTouchStart(e, item)}
+                                        onTouchEnd={(e) => handleTouchEnd(e, item)}
+                                        onTouchMove={handleTouchMove}
+                                        style={{
+                                            position: "relative",
+                                            transition: "all 0.2s",
+                                            opacity: dragging && isSelected ? 0.5 : 1,
+                                            transform: dragging && isSelected ? "scale(0.95)" : "scale(1)"
+                                        }}
+                                    >
+                                        <FavoriteCard item={item} index={index} isSelected={isSelected} selectedItems={selectedItems}/>
+                                    </div>
+                                )
+                            })}
+                        </>
+                    )}
+                </div>
+            </div>
+
+            <DeleteZone handleDrop={handleDrop} handleDragOver={handleDragOver} handleDragLeave={handleDragLeave}
+                selectionMode={selectionMode} draggedOver={draggedOver} />
+        </div>
+    </>);
+}

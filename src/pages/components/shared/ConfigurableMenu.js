@@ -12,7 +12,7 @@ export const ConfigurableMenu = ({icon, text, onClick}) => {
                 icon={<ArrowLeftOutlined/>}
                 onClick={onClick}/>
             
-            <Title level={4} style={{margin:0, padding: 0, fontWeight:"normal" }}>{icon} {text}</Title>
+            <Title level={4} style={{margin:0, padding: 0, fontWeight:"normal", display:"flex", justifyContent:"center", gap:"0.7rem" }}>{icon} {text}</Title>
         </Row>
         </>
     );

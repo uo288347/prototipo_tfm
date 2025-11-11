@@ -26,8 +26,9 @@ export const ProductCard = ({p, index, onClick, onTouchStart, onTouchEnd}) => {
                     <img alt={p.title} src={p.images[0]}
                       style={{position: "absolute", top: 0, left: 0, width: "100%", height: "100%", objectFit: 'cover',
                         objectPosition: 'top'}}/>
-                  </div>}>
-
+                  </div>}
+              bodyStyle={{padding:"1rem"}}
+              >
                 <div className="card-content" style={{ transition: "opacity 0.3s" }}>
                 <Meta title={
                   <span style={{ fontSize: "1rem" }}>{p.title}</span>
@@ -36,7 +37,7 @@ export const ProductCard = ({p, index, onClick, onTouchStart, onTouchEnd}) => {
                   WebkitLineClamp: 2, WebkitBoxOrient: "vertical", overflow: "hidden", textOverflow: "ellipsis"}}
                 >{p.description}</p>
                 <Meta description={
-                  <span style={{ fontSize: "2rem", fontWeight: "bold", display: "block" , color: "#000"}}>
+                  <span style={{ fontSize: "1.5rem", fontWeight: "bold", display: "block" , color: "#000"}}>
                     {p.price}€
                   </span>
                 }/>

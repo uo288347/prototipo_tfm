@@ -14,6 +14,7 @@ import {modifyStateProperty} from "../../../utils/UtilsState";
  */
 export const TextInputField = ({
   name,
+  icon, 
   placeholder,
   formData,
   setFormData,
@@ -39,7 +40,7 @@ export const TextInputField = ({
         name={name}
         validateStatus={isValid ? "success" : "error"}
       >
-        <Input placeholder={placeholder} value={formData[name]} onChange={handleChange} />
+        <Input prefix={icon} placeholder={placeholder} value={formData[name]} onChange={handleChange} />
       </Form.Item>
     </>
   );

@@ -2,7 +2,8 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import { Typography, Card, Carousel, Image, Button, Link, Row, Col, Select, InputNumber, FloatButton, Breadcrumb, Radio } from 'antd';
 const { Title, Paragraph } = Typography;
-import { addToCart, getProduct } from "@/utils/UtilsProducts";
+import { getProduct } from "@/utils/UtilsProducts";
+import { addToCart } from "@/utils/UtilsCart";
 import { StandardMenu } from "../shared/StandardMenu";
 import { useFormState } from "react-dom";
 import { HeartFilled, HeartOutlined, ShoppingCartOutlined } from "@ant-design/icons";
@@ -10,6 +11,8 @@ import { openNotification } from "@/utils/UtilsNotifications";
 import { ImageCarousel } from "./ImageCarousel";
 import { Step } from "antd-mobile/es/components/steps/step";
 import { Stepper } from "antd-mobile";
+import { HeartFill, HeartOutline } from "antd-mobile-icons";
+import { getFavorite, toggleFavorite } from "@/utils/UtilsFavorites";
 
 let DetailsProductComponent = ({ id }) => {
     const router = useRouter();
@@ -18,11 +21,12 @@ let DetailsProductComponent = ({ id }) => {
     let [quantity, setQuantity] = useState(1)
     let [favorite, setFavorite] = useState(false)
 
-    let toggleFavorite = () => {
-        if (!favorite) openNotification("top", "Product added to favorites", "success")
-        else openNotification("top", "Deleted product from favorites", "success")
-        setFavorite(!favorite)
-
+    let onToggleFavorite = () => {
+        toggleFavorite(id)
+        setFavorite(getFavorite(id))
+        if (!favorite) {
+            openNotification("top", "Product added to favorites", "success")
+        } else { openNotification("top", "Deleted product from favorites", "success") }
     }
 
     let addToShoppingCart = () => {
@@ -78,8 +82,8 @@ let DetailsProductComponent = ({ id }) => {
                         </Title>
 
                         <Button size="large" style={{ border: "none", flex: "0 0 auto" }}
-                            onClick={() => toggleFavorite()}
-                            icon={favorite ? <HeartFilled style={{ fontSize: "30px", color: "#b90104ff" }} /> : <HeartOutlined style={{ fontSize: "30px" }} />} />
+                            onClick={() => onToggleFavorite()}
+                            icon={favorite ? <HeartFill style={{ fontSize: "30px", color: "#b90104ff" }} /> : <HeartOutline style={{ fontSize: "30px" }} />} />
 
                     </Row>
 
