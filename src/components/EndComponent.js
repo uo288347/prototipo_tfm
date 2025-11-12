@@ -3,8 +3,10 @@ import { Button, Typography } from "antd"
 const {Title} = Typography
 import confetti from 'canvas-confetti';
 import { useRef } from "react";
+import { useRouter } from "next/router";
 
 export const EndComponent = ({}) => {
+    const router = useRouter();
     const lastTapRef = useRef(0);
 
     const handleDoubleTap = () => {
@@ -22,19 +24,12 @@ export const EndComponent = ({}) => {
 
         lastTapRef.current = now;
     };
-    const handleDoubleClick = () => {
-        // Dispara el confetti 🎊
-        confetti({
-        particleCount: 150,
-        spread: 80,
-        origin: { y: 0.6 },
-        });
-    };
 
     return(<>
         <Title style={{paddingBottom:"4rem"}} level={2}>Thanks for participating!</Title>
         <Button type="primary" size="large" block
         icon={<CheckOutlined/>}
         onTouchStart={handleDoubleTap}>Double-tap to finish</Button>
+        <Button type="text" onClick={() => router.push("/")} block>Back to start</Button>
     </>)
 }

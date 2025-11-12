@@ -57,6 +57,7 @@ export const removeFromCart = (id) => {
 export const clearCart = () => {
   if (!isBrowser()) return;
   saveCart([]);
+  saveItemsAsOffer([])
 };
 
 // Actualiza unidades de un producto
@@ -68,6 +69,16 @@ export const updateUnits = (id, size, units) => {
     existingItem.quantity = units;
   }
   saveCart(cart);
+};
+
+
+
+// ==========================
+
+// Guarda el carrito en localStorage
+const saveItemsAsOffer = (items) => {
+  if (!isBrowser()) return;
+  localStorage.setItem("freeProductOffers", JSON.stringify(items));
 };
 
 // Marca un producto como oferta gratuita
