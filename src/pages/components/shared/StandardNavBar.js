@@ -50,7 +50,7 @@ export const StandardNavBar = ({ }) => {
     )
 
     return (
-        <NavBar style={{marginTop:"1rem"}} back={<img src="/logo.png" width="40" height="40" />} onBack={home}
+        <NavBar style={{marginTop:"1rem"}} back={<img src="/logo.png" width="30" height="30" />} onBack={home}
             backIcon={false} right={right} />
     )
 }
