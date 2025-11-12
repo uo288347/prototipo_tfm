@@ -7,12 +7,14 @@ import { initNotification } from "../utils/UtilsNotifications";
 import { useEffect } from 'react';
 import { ConfigProvider as AntdMobileConfigProvider } from 'antd-mobile';
 import esESMobile from 'antd-mobile/es/locales/es-ES';
+import { clearCart } from '@/utils/UtilsCart';
 
 export default function App({ Component, pageProps }) {
     const [api, contextHolder] = notification.useNotification();
 
     useEffect(() => {
         initNotification(api);
+        clearCart();
         //getShoppingCart();
     }, [api]);
 

@@ -3,11 +3,21 @@ import { Row, Col, Menu } from "antd"
 import Link from "next/link";
 import { Badge, Button } from "antd-mobile";
 import { useRouter } from "next/router";
+import { useState, useEffect } from "react";
 import { getShoppingCart } from "@/utils/UtilsCart";
 import { HeartOutline } from "antd-mobile-icons";
 import { getFavorites } from "@/utils/UtilsFavorites";
 
 export const StandardMenu = () => {
+const [favorites, setFavorites] = useState(new Set());
+const [cart, setCart] = useState([]);
+
+    useEffect(() => {
+        const favs = getFavorites();
+        setFavorites(favs);
+        const cart = getShoppingCart();
+        setCart(cart)
+    }, []);
     const router = useRouter();
     return (
         <Row justify="space-between" align="middle" style={{ paddingTop: "1rem" }}>
@@ -21,8 +31,8 @@ export const StandardMenu = () => {
                 <Menu mode="horizontal" items={[
                     {
                         key: "menuFavorites",
-                        label: getFavorites().size > 0 ? ( 
-                            <Badge content={getFavorites().length} style={{ '--top': '20%', '--right': '12%' }}>
+                        label: favorites.size > 0 ? ( 
+                            <Badge content={favorites.length} style={{ '--top': '20%', '--right': '12%' }}>
                                 <Button type="icon" style={{ border: "none" }} onClick={() => router.push("/favorites")}>
                                     <HeartOutline style={{ fontSize: 24 }} />
                                 </Button>
@@ -35,8 +45,8 @@ export const StandardMenu = () => {
                     },
                     {
                         key: "menuCart",
-                        label: getShoppingCart().length > 0 ? ( // Solo mostrar si hay items en carrito
-                            <Badge content={getShoppingCart().length} style={{ '--top': '20%', '--right': '12%' }}>
+                        label: cart.length > 0 ? ( // Solo mostrar si hay items en carrito
+                            <Badge content={cart.length} style={{ '--top': '20%', '--right': '12%' }}>
                                 <Button type="icon" style={{ border: "none" }} onClick={() => router.push("/shoppingCart")}>
                                     <ShoppingCartOutlined style={{ fontSize: 24 }} />
                                 </Button>

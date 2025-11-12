@@ -1,17 +1,39 @@
 import Link from "next/link";
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 import { Row, Col, Pagination, Modal } from "antd";
 import { useState } from "react";
 import { ProductCard } from "./homeComponent/ProductCard";
 import { getProducts } from "@/utils/UtilsProducts";
 import { useRouter } from "next/router";
-import {LongPressWrapper} from "./shared/LongPressWrapper"
+import { LongPressWrapper } from "./shared/LongPressWrapper"
 import { ModalProductCard } from "./homeComponent/ModalProductCard";
 
-const ProductGrid = ({}) => {
+const ProductGrid = ({ category, filter }) => {
   const router = useRouter();
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [isModalVisible, setIsModalVisible] = useState(false);
+
+  let [products, setProducts] = useState([]);
+  let [filteredProducts, setFilteredProducts] = useState([]);
+  useEffect(() => {
+    setProducts(getProducts())
+  }, [])
+
+  useEffect(() => {
+        console.log("filters: ", category)
+
+    if (products.length == 0) setFilteredProducts([])
+    else {
+      let prs = products.filter((p) => {
+        console.log("comparison categories: ", p.category, category)
+        const matchCategory = !category || p.category.toLowerCase() === category.toLowerCase();
+        const matchFilter = !filter || p.filter.toLowerCase() === filter;
+        return matchCategory && matchFilter;
+      })
+      console.log("products",products, prs)
+      setFilteredProducts(prs)
+    }
+  }, [products, category, filter])
 
   const handleTouchStart = (product) => {
     console.log("handle: ", product)
@@ -29,14 +51,10 @@ const ProductGrid = ({}) => {
     setSelectedProduct(null);
   };
 
-  let [products, setProducts] = useState([]);
-  useEffect( ()=> {
-    setProducts(getProducts())
-  }, [])
 
-  if (products.length === 0) {
+  if (filteredProducts.length === 0) {
     return (
-      <div style={{ textAlign: "center", marginTop: 40 }}>
+      <div style={{ textAlign: "center" }}>
         <p>No products found with selected filters</p>
       </div>
     );
@@ -44,18 +62,18 @@ const ProductGrid = ({}) => {
 
   return (
     <>
-    <Row gutter={[8,8]} align="center">
-      {products.map((p, index) => (
-        <Col xs={12} sm={12} md={8} lg={6} xl={6} key={p.id}>
-          <LongPressWrapper 
-          onLongPressHold={() => handleTouchStart(p)}
-          onLongPressRelease={handleTouchEnd}
-          onClick={() => router.push(`/detailProduct/${p.id}`)}>
-            <ProductCard p={p} index={index}/>
-          </LongPressWrapper>
-        </Col>
-      ))}
-    </Row>
+      <Row gutter={[8, 8]} align="center">
+        {filteredProducts.map((p, index) => (
+          <Col xs={12} sm={12} md={8} lg={6} xl={6} key={p.id}>
+            <LongPressWrapper
+              onLongPressHold={() => handleTouchStart(p)}
+              onLongPressRelease={handleTouchEnd}
+              onClick={() => router.push(`/detailProduct/${p.id}`)}>
+              <ProductCard p={p} index={index} />
+            </LongPressWrapper>
+          </Col>
+        ))}
+      </Row>
 
 
       <Modal
@@ -66,7 +84,7 @@ const ProductGrid = ({}) => {
       >
         {selectedProduct && (
           <>
-            <ModalProductCard product={selectedProduct}/>
+            <ModalProductCard product={selectedProduct} />
           </>
         )}
       </Modal>
