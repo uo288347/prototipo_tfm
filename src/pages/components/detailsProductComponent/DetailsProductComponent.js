@@ -21,6 +21,13 @@ let DetailsProductComponent = ({ id }) => {
     let [quantity, setQuantity] = useState(1)
     let [favorite, setFavorite] = useState(false)
 
+    useEffect(() => {
+        let p = getProduct(id);
+        console.log("product: ", p)
+        setProduct(p);
+        setFavorite(getFavorite(id))
+    }, [])
+
     let onToggleFavorite = () => {
         toggleFavorite(id)
         setFavorite(getFavorite(id))
@@ -39,11 +46,6 @@ let DetailsProductComponent = ({ id }) => {
         setSelectedSize(e.target.value);
     };
 
-    useEffect(() => {
-        let p = getProduct(id);
-        console.log("product: ", p)
-        setProduct(p);
-    }, [])
 
     const { Text } = Typography;
 

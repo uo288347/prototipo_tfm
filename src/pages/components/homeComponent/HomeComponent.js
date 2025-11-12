@@ -8,6 +8,7 @@ import ProductGrid from "../ProductGrid";
 import { filter } from "framer-motion/client";
 import { useSearchParams, useRouter, usePathname } from "next/navigation";
 import { getCategory, getCategoryLabel } from "@/utils/UtilsCategories";
+import { StandardNavBar } from "../shared/StandardNavBar";
 
 const { Title } = Typography
 
@@ -60,9 +61,9 @@ export const HomeComponent = ({ }) => {
 
     return (
         <>
-            <StandardMenu />
+            <StandardNavBar/>
 
-            <Row style={{ minWidth: "100%", paddingTop: "2rem" }}>
+            <Row style={{ minWidth: "100%", paddingTop: "1rem" }}>
                 <Col xs={24}>
                     <Select
                         size="large"

@@ -10,6 +10,7 @@ import { TextInputField } from "./shared/TextInputField";
 import { allowSubmitForm, validateFormDataInputRequired } from "@/utils/UtilsValidations";
 import { Collapse } from "antd-mobile";
 import { CollapsePanel } from "antd-mobile/es/components/collapse/collapse";
+import { clearFavorites } from "@/utils/UtilsFavorites";
 
 
 export const CheckoutComponent = () => {
@@ -19,9 +20,7 @@ export const CheckoutComponent = () => {
 
     let [formData, setFormData] = useState({})
 
-
     const [cartItems, setCartItems] = useState(getShoppingCart());
-
 
     const calculateTotal = () => {
         return cartItems.reduce((acc, item) => {
@@ -33,6 +32,7 @@ export const CheckoutComponent = () => {
 
     let clickCheckout = () => {
         clearCart();
+        clearFavorites();
         router.push("/end")
     }
     return (

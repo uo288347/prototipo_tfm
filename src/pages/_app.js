@@ -8,6 +8,7 @@ import { useEffect } from 'react';
 import { ConfigProvider as AntdMobileConfigProvider } from 'antd-mobile';
 import esESMobile from 'antd-mobile/es/locales/es-ES';
 import { clearCart } from '@/utils/UtilsCart';
+import { clearFavorites } from '@/utils/UtilsFavorites';
 
 export default function App({ Component, pageProps }) {
     const [api, contextHolder] = notification.useNotification();
@@ -15,7 +16,7 @@ export default function App({ Component, pageProps }) {
     useEffect(() => {
         initNotification(api);
         clearCart();
-        //getShoppingCart();
+        clearFavorites();
     }, [api]);
 
     return (

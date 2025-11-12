@@ -49,13 +49,13 @@ export const updateFavorites = (newFavs) => {
 };
 // Elimina un item por id (independientemente del tamaño)
 
-export const removeFromFavorites = (id) => {
+/*export const removeFromFavorites = (id) => {
     let cart = getShoppingCart();
     cart = cart.filter(item => item.id !== id);
     saveCart(cart);
-};
+};*/
 
 // Vacía los favoritos
 export const clearFavorites = () => {
-    saveCart([]);
+    saveFavorites([]);
 };
