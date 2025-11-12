@@ -1,4 +1,4 @@
-import { InitialFormComponent } from "./components/InitialFormComponent";
+import { InitialFormComponent } from "@/components/InitialFormComponent";
 
 export default function InitialForm() {
 

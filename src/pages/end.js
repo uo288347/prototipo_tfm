@@ -1,4 +1,4 @@
-import { EndComponent } from "./components/EndComponent";
+import { EndComponent } from "@/components/EndComponent";
 
 export default function End() {
 

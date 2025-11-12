@@ -2,8 +2,8 @@ import {Col, Form, Row, Select, Card, Rate, Button} from "antd"
 import { useRouter } from "next/router";
 import { useState, useRef } from "react";
 import { TextInputField } from "./shared/TextInputField";
-import {validateFormDataInputYear, allowSubmitForm} from "../../utils/UtilsValidations"
-import { modifyStateProperty } from "../../utils/UtilsState";
+import {validateFormDataInputYear, allowSubmitForm} from "../utils/UtilsValidations"
+import { modifyStateProperty } from "../utils/UtilsState";
 
 export const InitialFormComponent = ({}) => {
     const router = useRouter();

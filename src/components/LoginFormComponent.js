@@ -1,6 +1,6 @@
 import { useState, useRef } from "react";
 import { useRouter } from "next/router";
-import {modifyStateProperty} from "../../utils/UtilsState";
+import {modifyStateProperty} from "../utils/UtilsState";
 import {Card, Col, Row, Form, Input, Button , Typography } from "antd";
 import {
     validateFormDataInputRequired,
@@ -8,8 +8,8 @@ import {
     allowSubmitForm,
     setServerErrors,
     joinAllServerErrorMessages
- } from "../../utils/UtilsValidations"
-import { openNotification } from '../../utils/UtilsNotifications';
+ } from "../utils/UtilsValidations"
+import { openNotification } from '../utils/UtilsNotifications';
 import {TextInputField} from "./shared/TextInputField";
 import { PasswordInputField } from "./shared/PasswordInputField";
 

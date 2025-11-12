@@ -81,7 +81,7 @@ export const FavoriteCard = ({item, index, isSelected, selectedItems, onClick}) 
                             <Title level={4} style={{ fontWeight: "normal" }}>{product.price}€</Title>
                             <Button style={{ margin: 0 }}
                                 type="link"
-                                onClick={() => router.push(`/detailProduct/${item.id}`)}
+                                onClick={() => router.push(`/detailProduct/${product.id}`)}
                             >
                                 View Product
                             </Button>

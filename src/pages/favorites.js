@@ -1,8 +1,6 @@
-import { ShoppingCartComponent } from "./components/shoppingCartComponent/ShoppingCartComponent";
-
+import { FavoritesComponent } from '@/components/favoritesComponent/FavoritesComponent';
 import { DndProvider } from 'react-dnd';
 import { TouchBackend } from 'react-dnd-touch-backend';
-import { FavoritesComponent } from "./components/favoritesComponent/FavoritesComponent";
 
 export default function Favorites({ }) {
     return (

@@ -4,18 +4,14 @@ import { Typography, Card, Carousel, Image, Button, Link, Row, Col, Select, Inpu
 const { Title, Paragraph } = Typography;
 import { getProduct } from "@/utils/UtilsProducts";
 import { addToCart } from "@/utils/UtilsCart";
-import { StandardMenu } from "../shared/StandardMenu";
-import { useFormState } from "react-dom";
 import { HeartFilled, HeartOutlined, ShoppingCartOutlined } from "@ant-design/icons";
 import { openNotification } from "@/utils/UtilsNotifications";
 import { ImageCarousel } from "./ImageCarousel";
-import { Step } from "antd-mobile/es/components/steps/step";
 import { Collapse, Stepper } from "antd-mobile";
 import { HeartFill, HeartOutline } from "antd-mobile-icons";
 import { getFavorite, toggleFavorite } from "@/utils/UtilsFavorites";
 import { FreeProductOffer } from "./FreeProductOffer";
 import { getCategoryLabel } from "@/utils/UtilsCategories";
-import { isProductFree } from "@/utils/UtilsCart";
 
 let DetailsProductComponent = ({ id }) => {
     const router = useRouter();

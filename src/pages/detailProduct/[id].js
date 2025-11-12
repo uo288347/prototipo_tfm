@@ -1,5 +1,5 @@
+import DetailsProductComponent from "@/components/detailsProductComponent/DetailsProductComponent";
 import { useRouter } from "next/router";
-import DetailsProductComponent from "../components/detailsProductComponent/DetailsProductComponent";
 
 export default function DetailsProductPage() {
   const router = useRouter();

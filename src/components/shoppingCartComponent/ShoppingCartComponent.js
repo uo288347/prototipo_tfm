@@ -2,13 +2,12 @@ import { getShoppingCart, deleteFromCart, updateCart, updateUnits } from "@/util
 import { ConfigurableMenu } from "../shared/ConfigurableMenu";
 import { Card, Typography, Col, Row, Divider, Button } from 'antd';
 import { getProduct } from "@/utils/UtilsProducts";
-import { HorizontalProductCard } from "../shared/HorizontalProductCard";
+import { HorizontalProductCard } from "../shared/HorizontalProductCard";  
 import { DeleteOutlined, ShoppingCartOutlined } from "@ant-design/icons";
 import { useEffect, useState, useRef } from "react";
-import { DeleteZone } from "../shared/DeleteZone"
+import { DeleteZone } from "../shared/DeleteZone"; 
 import { useRouter } from "next/router";
-import { NavBar } from "antd-mobile";
-import { SelectionIndicator } from "../shared/SelectionIndicator";
+import { SelectionIndicator } from "../shared/SelectionIndicator"; 
 import { BottomSection } from "./BottomSection";
 
 const { Text, Title } = Typography

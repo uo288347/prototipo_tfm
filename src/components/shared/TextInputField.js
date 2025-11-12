@@ -1,6 +1,6 @@
 import React from "react";
 import { Form, Input, Typography } from "antd";
-import {modifyStateProperty} from "../../../utils/UtilsState";
+import {modifyStateProperty} from "../../utils/UtilsState";
 
 /**
  * Componente de Input de formulario reutilizable con validación
