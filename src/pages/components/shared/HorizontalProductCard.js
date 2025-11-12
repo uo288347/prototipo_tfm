@@ -89,7 +89,10 @@ export const HorizontalProductCard = ({ item, index, isSelected, selectedItems, 
                             onChange={val => updateUnits(product.id, item.size, val)}
                         />
                         <Row align="top" style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", alignContent: "center" }}>
-                            <Title level={4} style={{ fontWeight: "normal" }}> {item.quantity * product.price}€</Title>
+                            <Title level={4} style={{ fontWeight: "normal" }}> 
+                                {item.price === 0
+                                ? `🎁 ${item.price}€`
+                                : `${item.quantity * item.price}€`}</Title>
                             <Button style={{ margin: 0 }}
                                 type="link"
                                 onClick={() => router.push(`/detailProduct/${item.id}`)}

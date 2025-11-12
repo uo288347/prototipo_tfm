@@ -10,22 +10,29 @@ import { HeartFilled, HeartOutlined, ShoppingCartOutlined } from "@ant-design/ic
 import { openNotification } from "@/utils/UtilsNotifications";
 import { ImageCarousel } from "./ImageCarousel";
 import { Step } from "antd-mobile/es/components/steps/step";
-import { Stepper } from "antd-mobile";
+import { Collapse, Stepper } from "antd-mobile";
 import { HeartFill, HeartOutline } from "antd-mobile-icons";
 import { getFavorite, toggleFavorite } from "@/utils/UtilsFavorites";
+import { FreeProductOffer } from "./FreeProductOffer";
+import { getCategoryLabel } from "@/utils/UtilsCategories";
+import { isProductFree } from "@/utils/UtilsCart";
 
 let DetailsProductComponent = ({ id }) => {
     const router = useRouter();
     let [product, setProduct] = useState({})
+    let [category, setCategory] = useState(null)
     let [selectedSize, setSelectedSize] = useState("S")
     let [quantity, setQuantity] = useState(1)
     let [favorite, setFavorite] = useState(false)
+    let [isApplied, setIsApplied] = useState(false);
+
 
     useEffect(() => {
         let p = getProduct(id);
         console.log("product: ", p)
         setProduct(p);
         setFavorite(getFavorite(id))
+        setCategory(getCategoryLabel(p.category))
     }, [])
 
     let onToggleFavorite = () => {
@@ -37,7 +44,8 @@ let DetailsProductComponent = ({ id }) => {
     }
 
     let addToShoppingCart = () => {
-        addToCart(id, selectedSize, quantity)
+        let price = isApplied ? 0 : product.price
+        addToCart(id, selectedSize, quantity, price)
         console.log("product added to cart")
         openNotification("top", "Product added to shopping cart", "success")
     };
@@ -64,7 +72,7 @@ let DetailsProductComponent = ({ id }) => {
                     <Row style={{ paddingBottom: "0.5rem", }}>
                         <Breadcrumb
                             items={[{ title: <a href="/home">Home</a>, },
-                            { title: <a href="/home">{product.category}</a> }]}
+                            { title: <a href="/home">{category}</a> }]}
                         />
                     </Row>
                     <Row align="middle" justify="space-between" style={{
@@ -77,8 +85,8 @@ let DetailsProductComponent = ({ id }) => {
                             whiteSpace: "nowrap",
                             overflow: "hidden",
                             textOverflow: "ellipsis",
-                            flex: "1 1 auto", 
-                            minWidth: 0, 
+                            flex: "1 1 auto",
+                            minWidth: 0,
                         }}>
                             {product.title}
                         </Title>
@@ -123,9 +131,18 @@ let DetailsProductComponent = ({ id }) => {
                                 onChange={val => setQuantity(val)} />
                         </Col>
                         <Col xs={12} align="right">
-                            <Title level={1} >
-                                {product.price}€
-                            </Title>
+                            {isApplied ? (
+                                <div style={{ display: "flex", justifyContent: "flex-end", alignItems: "center", gap: "0.5rem" }}>
+                                    <Text style={{ textDecoration: "line-through", color: "red", fontSize: "1rem" }}>
+                                        {product.price}€
+                                    </Text>
+                                    <Title level={1} style={{ margin: 0 }}>
+                                        0€
+                                    </Title>
+                                </div>
+                            ) : (
+                                <Title level={1}>{product.price}€</Title>
+                            )}
                         </Col>
                     </Row>
 
@@ -135,6 +152,8 @@ let DetailsProductComponent = ({ id }) => {
                     >Add to cart</Button>
                 </Col>
             </Row>
+
+            <FreeProductOffer id={id} isApplied={isApplied} setIsApplied={setIsApplied}/>
         </>
     )
 }

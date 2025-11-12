@@ -7,7 +7,7 @@ const {Title} = Typography
 export const ConfigurableMenu = ({icon, text, onClick}) => {
     return (
         <>
-        <Row align="middle" style={{paddingBottom:"1rem"}}>
+        <Row align="middle" style={{paddingBottom:"1rem", paddingTop:"1rem"}}>
             <Button size="large" style={{border:"none", marginRight:"1rem", fontSize:"1.5rem"}} 
                 icon={<ArrowLeftOutlined/>}
                 onClick={onClick}/>

@@ -31,49 +31,6 @@ export const ShoppingCartComponent = ({ }) => {
         setProducts(getShoppingCart());
     }, []);
 
-    /*useEffect(() => {
-        setCartItems(getShoppingCart());
-    }, [])*/
-
-    // Select product when selection mode is active
-    /*const toggleSelectItem = (item) => {
-        if (!selectionMode) return;
-        if (selectedItems.length === 0) {
-            setSelectionMode(false);
-            return;
-        }
-        setSelectedItems((prev) =>
-            prev.includes(item.id) ? prev.filter(i => i.id !== item.id && i.size !== item.size) : [...prev, item]
-        );
-        if (selectedItems.length === 0) {
-            endSelectionMode();
-        }
-    };
-
-    const startSelectionMode = (item) => {
-        setSelectionMode(true);
-        setSelectedItems([item]);
-    };
-    const endSelectionMode = () => {
-        setSelectionMode(false);
-        setSelectedItems([]);
-    }*/
-
-    /*const isSelected = (item) =>
-        selectedItems.some(
-            selected => selected.id === item.id && selected.size === item.size
-        );*/
-
-
-    /*const handleDeleteItem = (selectedItems) => {
-        const updated = deleteFromCart(selectedItems)
-        setCartItems(updated);
-        endSelectionMode();
-        // También elimina del carrito si lo estás guardando en estado
-
-    };*/
-
-
     const handleTouchStart = (e, item) => {
         longPressTriggered.current = false;
 
@@ -112,11 +69,6 @@ export const ShoppingCartComponent = ({ }) => {
                 console.log("updated cart: ", updated)
 
                 setProducts(updated)
-
-                /*setProducts(prev => prev.filter(p => {
-                    const itemKey = getItemKey(p);
-                    return !selectedItems.has(itemKey);
-                }));*/
 
                 setSelectedItems(new Set());
                 setSelectionMode(false);
@@ -249,14 +201,10 @@ export const ShoppingCartComponent = ({ }) => {
         return products.reduce((acc, item) => {
             const product = getProduct(item.id);
             if (!product) return acc;
-            return acc + product.price * item.quantity;
+            return acc + item.price * item.quantity;
         }, 0).toFixed(2); // redondea a 2 decimales
     };
 
-    /*                    <ConfigurableMenu icon={<ShoppingCartOutlined />} text={"Shopping cart"} onClick={() => router.push("/home")} />
-                        <NavBar onBack={() => router.push("/home")}><ShoppingCartOutlined/> Shopping Cart</NavBar>
-
-*/
     return (
         <>
             <div style={{ flex: 1, display: "flex", flexDirection: "column", justifyContent: "space-between", height: "100vh", }}>

@@ -11,14 +11,14 @@ const saveCart = (cart) => {
 };
 // Añade un item al carrito
 
-export const addToCart = (id, size, quantity) => {
+export const addToCart = (id, size, quantity, price) => {
     const cart = getShoppingCart();
     const existingItem = cart.find(item => item.id === id && item.size === size);
 
     if (existingItem) {
         existingItem.quantity += quantity; // Suma si ya existe
     } else {
-        cart.push({ id, size, quantity });
+        cart.push({ id, size, quantity, price });
     }
 
     saveCart(cart);
@@ -58,4 +58,42 @@ export const updateUnits = (id, size, units) => {
         existingItem.quantity = units;
     }
     saveCart(cart);
+};
+
+
+export const setItemAsOffer = (id) => {
+  try {
+    // Obtener la lista actual de ofertas desde localStorage
+    const storedOffers = localStorage.getItem("freeProductOffers");
+    let offers = storedOffers ? JSON.parse(storedOffers) : [];
+
+    // Evitar duplicados
+    if (!offers.includes(id)) {
+      offers.push(id);
+      localStorage.setItem("freeProductOffers", JSON.stringify(offers));
+    }
+  } catch (error) {
+    console.error("Error saving free product offer:", error);
+  }
+};
+
+export const getFreeProductOffers = () => {
+  try {
+    const storedOffers = localStorage.getItem("freeProductOffers");
+    return storedOffers ? JSON.parse(storedOffers) : [];
+  } catch (error) {
+    console.error("Error reading free product offers:", error);
+    return [];
+  }
+};
+
+// Comprueba si un producto es gratuito
+export const isProductFree = (id) => {
+  try {
+    const offers = getFreeProductOffers();
+    return offers.includes(id);
+  } catch (error) {
+    console.error("Error checking if product is free:", error);
+    return false;
+  }
 };

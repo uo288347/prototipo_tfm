@@ -26,7 +26,7 @@ export const CheckoutComponent = () => {
         return cartItems.reduce((acc, item) => {
             const product = getProduct(item.id);
             if (!product) return acc;
-            return acc + product.price * item.quantity;
+            return acc + item.price * item.quantity;
         }, 0).toFixed(2); // redondea a 2 decimales
     };
 
@@ -36,8 +36,8 @@ export const CheckoutComponent = () => {
         router.push("/end")
     }
     return (
-        <div style={{ flex: "1", display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
-            <div>
+        <div style={{ flex: "1", display: "flex", flexDirection: "column", justifyContent: "space-between", height: "100vh" }}>
+            <div style={{flex:1}}>
                 <ConfigurableMenu icon={<CreditCardOutlined />} text={"Checkout"} onClick={() => router.push("/shoppingCart")} />
 
                 <Collapse>
@@ -49,7 +49,7 @@ export const CheckoutComponent = () => {
                                     <Text>{c.quantity}x </Text>
                                     <Text>{p.title}</Text>
                                 </div>
-                                <Text>{c.quantity * p.price} €</Text>
+                                <Text>{c.quantity * c.price} €</Text>
                             </Row>)
                         })}
                     </CollapsePanel>
