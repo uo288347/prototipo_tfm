@@ -3,7 +3,7 @@ import { Divider, Form, Row, Typography, Button } from 'antd';
 import { ConfigurableMenu } from "./shared/ConfigurableMenu";
 import { getProduct } from "@/utils/UtilsProducts";
 import { clearCart, getShoppingCart } from "@/utils/UtilsCart";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 const { Title, Text } = Typography
 import { useRouter } from "next/router";
 import { TextInputField } from "./shared/TextInputField";
@@ -20,7 +20,12 @@ export const CheckoutComponent = () => {
 
     let [formData, setFormData] = useState({})
 
-    const [cartItems, setCartItems] = useState(getShoppingCart());
+    const [cartItems, setCartItems] = useState([]);
+
+    useEffect(() => {
+        let cart = getShoppingCart()
+        setCartItems(cart)
+    }, [])
 
     const calculateTotal = () => {
         return cartItems.reduce((acc, item) => {

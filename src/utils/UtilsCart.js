@@ -1,73 +1,81 @@
+const isBrowser = () => typeof window !== "undefined";
 
-// UtilsProducts.js
-// Obtiene el carrito desde localStorage
+
 export const getShoppingCart = () => {
-    const cart = localStorage.getItem("shoppingCart");
-    return cart ? JSON.parse(cart) : [];
+  if (!isBrowser()) return []; // Previene error SSR
+  const cart = localStorage.getItem("shoppingCart");
+  return cart ? JSON.parse(cart) : [];
 };
+
 // Guarda el carrito en localStorage
 const saveCart = (cart) => {
-    localStorage.setItem("shoppingCart", JSON.stringify(cart));
+  if (!isBrowser()) return;
+  localStorage.setItem("shoppingCart", JSON.stringify(cart));
 };
+
 // Añade un item al carrito
-
 export const addToCart = (id, size, quantity, price) => {
-    const cart = getShoppingCart();
-    const existingItem = cart.find(item => item.id === id && item.size === size);
+  if (!isBrowser()) return;
+  const cart = getShoppingCart();
+  const existingItem = cart.find(item => item.id === id && item.size === size);
 
-    if (existingItem) {
-        existingItem.quantity += quantity; // Suma si ya existe
-    } else {
-        cart.push({ id, size, quantity, price });
-    }
+  if (existingItem) {
+    existingItem.quantity += quantity;
+  } else {
+    cart.push({ id, size, quantity, price });
+  }
 
-    saveCart(cart);
+  saveCart(cart);
 };
+
 // Elimina items específicos del carrito
-
 export const deleteFromCart = (targets) => {
-    let cart = getShoppingCart();
-    cart = cart.filter(item => !targets.some(target => target.id === item.id && target.size === item.size)
-    );
-    saveCart(cart);
-    return getShoppingCart();
+  if (!isBrowser()) return [];
+  let cart = getShoppingCart();
+  cart = cart.filter(
+    item => !targets.some(target => target.id === item.id && target.size === item.size)
+  );
+  saveCart(cart);
+  return getShoppingCart();
 };
+
 // Actualiza todo el carrito con un array nuevo
-
 export const updateCart = (items) => {
-    saveCart(items);
+  if (!isBrowser()) return;
+  saveCart(items);
 };
-// Elimina un item por id (independientemente del tamaño)
 
+// Elimina un item por id
 export const removeFromCart = (id) => {
-    let cart = getShoppingCart();
-    cart = cart.filter(item => item.id !== id);
-    saveCart(cart);
+  if (!isBrowser()) return;
+  let cart = getShoppingCart();
+  cart = cart.filter(item => item.id !== id);
+  saveCart(cart);
 };
+
 // Vacía el carrito
-
 export const clearCart = () => {
-    saveCart([]);
+  if (!isBrowser()) return;
+  saveCart([]);
 };
 
+// Actualiza unidades de un producto
 export const updateUnits = (id, size, units) => {
-    const cart = getShoppingCart();
-    const existingItem = cart.find(item => item.id === id && item.size === size);
-
-    if (existingItem) {
-        existingItem.quantity = units;
-    }
-    saveCart(cart);
+  if (!isBrowser()) return;
+  const cart = getShoppingCart();
+  const existingItem = cart.find(item => item.id === id && item.size === size);
+  if (existingItem) {
+    existingItem.quantity = units;
+  }
+  saveCart(cart);
 };
 
-
+// Marca un producto como oferta gratuita
 export const setItemAsOffer = (id) => {
+  if (!isBrowser()) return;
   try {
-    // Obtener la lista actual de ofertas desde localStorage
     const storedOffers = localStorage.getItem("freeProductOffers");
     let offers = storedOffers ? JSON.parse(storedOffers) : [];
-
-    // Evitar duplicados
     if (!offers.includes(id)) {
       offers.push(id);
       localStorage.setItem("freeProductOffers", JSON.stringify(offers));
@@ -77,7 +85,9 @@ export const setItemAsOffer = (id) => {
   }
 };
 
+// Obtiene las ofertas gratuitas
 export const getFreeProductOffers = () => {
+  if (!isBrowser()) return [];
   try {
     const storedOffers = localStorage.getItem("freeProductOffers");
     return storedOffers ? JSON.parse(storedOffers) : [];
@@ -89,6 +99,7 @@ export const getFreeProductOffers = () => {
 
 // Comprueba si un producto es gratuito
 export const isProductFree = (id) => {
+  if (!isBrowser()) return false;
   try {
     const offers = getFreeProductOffers();
     return offers.includes(id);

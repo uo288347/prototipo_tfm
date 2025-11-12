@@ -1,61 +1,65 @@
-
 // UtilsFavorites.js
+
+// Helper para comprobar si estamos en el cliente (navegador)
+const isBrowser = () => typeof window !== "undefined";
+
 // Obtiene los favoritos desde localStorage
 export const getFavorites = () => {
-    const favs = localStorage.getItem("favorites");
-     return new Set(favs ? JSON.parse(favs) : []);
+  if (!isBrowser()) return new Set();
+  const favs = localStorage.getItem("favorites");
+  return new Set(favs ? JSON.parse(favs) : []);
 };
 
+// Obtiene un favorito por id
 export const getFavorite = (id) => {
-    const favs = getFavorites();
-    return favs.has(id)
-}
+  if (!isBrowser()) return false;
+  const favs = getFavorites();
+  return favs.has(id);
+};
 
 // Guarda los favoritos en localStorage
 const saveFavorites = (favs) => {
-    localStorage.setItem("favorites", JSON.stringify([...favs]));
+  if (!isBrowser()) return;
+  localStorage.setItem("favorites", JSON.stringify([...favs]));
 };
-// Añade un item al carrito
 
+// Añade o elimina un item de favoritos
 export const toggleFavorite = (id) => {
-    const favs = getFavorites();
+  if (!isBrowser()) return [];
+  const favs = getFavorites();
 
-    if (favs.has(id)) {
-        favs.delete(id);
-    } else {
-        favs.add(id);
-    }
+  if (favs.has(id)) {
+    favs.delete(id);
+  } else {
+    favs.add(id);
+  }
 
-    saveFavorites(favs);
-    return [...favs];
+  saveFavorites(favs);
+  return [...favs];
 };
 
-// Elimina items específicos de favorites
+// Elimina uno o varios items de favoritos
 export const deleteFromFavorites = (targets) => {
-    let favs = getFavorites();
-    const idsToDelete = Array.isArray(targets) ? targets : [targets];
+  if (!isBrowser()) return [];
+  let favs = getFavorites();
+  const idsToDelete = Array.isArray(targets) ? targets : [targets];
 
-    idsToDelete.forEach(id => favs.delete(id));
+  idsToDelete.forEach((id) => favs.delete(id));
 
-    saveFavorites(favs);
-    return [...favs];
+  saveFavorites(favs);
+  return [...favs];
 };
-// Actualiza todo el carrito con un array nuevo
 
+// Actualiza toda la lista de favoritos
 export const updateFavorites = (newFavs) => {
-    const favsSet = new Set(newFavs);
-    saveFavorites(favsSet);
-    return [...favsSet];
+  if (!isBrowser()) return [];
+  const favsSet = new Set(newFavs);
+  saveFavorites(favsSet);
+  return [...favsSet];
 };
-// Elimina un item por id (independientemente del tamaño)
-
-/*export const removeFromFavorites = (id) => {
-    let cart = getShoppingCart();
-    cart = cart.filter(item => item.id !== id);
-    saveCart(cart);
-};*/
 
 // Vacía los favoritos
 export const clearFavorites = () => {
-    saveFavorites([]);
+  if (!isBrowser()) return;
+  saveFavorites([]);
 };
