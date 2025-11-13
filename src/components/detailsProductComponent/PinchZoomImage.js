@@ -109,24 +109,8 @@ export const PinchZoomImage = ({ src, alt }) => {
         if (e.touches.length === 2) {
             // Pinch zoom
             e.preventDefault();
-            const newScale = Math.min(Math.max(lastScale.current * scaleMultiplier, 1), 5);
 
-            // recalcular límites
-            const rect = imageRef.current.getBoundingClientRect();
-            const scaledWidth = rect.width * newScale;
-            const scaledHeight = rect.height * newScale;
-
-            const maxX = (scaledWidth - rect.width) / 2;
-            const maxY = (scaledHeight - rect.height) / 2;
-
-            // ajustar posición actual dentro de los límites
-            setPosition(prev => ({
-                x: Math.min(Math.max(prev.x, -maxX), maxX),
-                y: Math.min(Math.max(prev.y, -maxY), maxY)
-            }));
-
-            setScale(newScale);
-            /*const currentDistance = getDistance(e.touches[0], e.touches[1]);
+            const currentDistance = getDistance(e.touches[0], e.touches[1]);
             const scaleMultiplier = currentDistance / touchStartDistance.current;
             const newScale = Math.min(Math.max(lastScale.current * scaleMultiplier, 1), 5);
 
@@ -144,7 +128,7 @@ export const PinchZoomImage = ({ src, alt }) => {
                 y: prev.y - deltaScale * (originPx.y - rect.height / 2)
             }));
 
-            setScale(newScale);*/
+            setScale(newScale);
         } else if (e.touches.length === 1 && isDragging && scale > 1) {
             // Drag
             e.preventDefault();
@@ -183,7 +167,7 @@ export const PinchZoomImage = ({ src, alt }) => {
         setPosition({ x: 0, y: 0 });
         lastScale.current = 1;
         lastPosition.current = { x: 0, y: 0 };
-        //setOrigin({ x: 50, y: 50 });
+        setOrigin({ x: 50, y: 50 });
     }, [src]);
 
     return (
