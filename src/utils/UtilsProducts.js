@@ -5,9 +5,10 @@ const products = [
         title: "Green Coat",
         description: "Long winter coat with fleece lining and classic style.",
         price: 19.03,
-        images: ["/mw1.jpg", "/picture1.jpg", "/picture2.jpg", "/picture3.jpg"],
+        images: ["/mw1.jpg", "/picture1.jpg", "/picture2.jpg", "/picture3.jpg", "/free.png"],
         category: "women",
-        filter: "Clothing"
+        filter: "Clothing",
+        freeCode: "FREE123"
     },
     {
         id: "mw2",
@@ -25,9 +26,10 @@ const products = [
         title: "Green Bomber Jacket",
         description: "Lightweight jacket with high collar and embroidery.",
         price: 11.06,
-        images: ["/mh1.jpg", "/picture1.jpg", "/picture2.jpg", "/picture3.jpg"],
+        images: ["/mh1.jpg", "/picture1.jpg", "/picture2.jpg", "/picture3.jpg", "/free.png"],
         category: "men",
-        filter: "Clothing"
+        filter: "Clothing",
+        freeCode: "FREE123"
     },
     {
         id: "mh2",
@@ -45,9 +47,10 @@ const products = [
         title: "Boys Dinosaur Tracksuit",
         description: "Sweatshirt and jogging pants with dinosaur print.",
         price: 5.66,
-        images: ["/mi1.jpg", "/picture1.jpg", "/picture2.jpg", "/picture3.jpg"],
+        images: ["/mi1.jpg", "/picture1.jpg", "/picture2.jpg", "/picture3.jpg", "/free.png"],
         category: "children",
-        filter: "Clothing"
+        filter: "Clothing",
+        freeCode: "FREE123"
     },
     {
         id: "mi2",
@@ -65,9 +68,10 @@ const products = [
         title: "Women's Gym Jacket",
         description: "Sports jacket with high collar and zipper closure.",
         price: 11.57,
-        images: ["/md1.jpg", "/picture1.jpg", "/picture2.jpg", "/picture3.jpg"],
+        images: ["/md1.jpg", "/picture1.jpg", "/picture2.jpg", "/picture3.jpg", "/free.png"],
         category: "sports",
-        filter: "Clothing"
+        filter: "Clothing",
+        freeCode: "FREE123"
     },
     {
         id: "md2",

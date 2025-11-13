@@ -1,3 +1,5 @@
+import { saveItemsAsOffer } from "./UtilsOffer";
+
 const isBrowser = () => typeof window !== "undefined";
 
 
@@ -75,6 +77,8 @@ export const updateUnits = (id, size, units) => {
 
 // ==========================
 
+
+/*
 // Guarda el carrito en localStorage
 const saveItemsAsOffer = (items) => {
   if (!isBrowser()) return;
@@ -118,4 +122,4 @@ export const isProductFree = (id) => {
     console.error("Error checking if product is free:", error);
     return false;
   }
-};
+};*/

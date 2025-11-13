@@ -149,7 +149,7 @@ let DetailsProductComponent = ({ id }) => {
                 </Col>
             </Row>
 
-            <FreeProductOffer id={id} isApplied={isApplied} setIsApplied={setIsApplied}/>
+            <FreeProductOffer id={id} freeCode={product.freeCode} isApplied={isApplied} setIsApplied={setIsApplied}/>
         </>
     )
 }

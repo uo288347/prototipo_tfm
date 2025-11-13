@@ -1,8 +1,8 @@
 import { Collapse, Input, Button } from "antd-mobile";
 import { useState, useEffect } from "react";
-import { isProductFree, setItemAsOffer } from "@/utils/UtilsCart";
+import { isEligibleForFree, isProductFree, setItemAsOffer } from "@/utils/UtilsOffer";
 
-export const FreeProductOffer = ({ id, isApplied, setIsApplied }) => {
+export const FreeProductOffer = ({ id, freeCode, isApplied, setIsApplied }) => {
     const [code, setCode] = useState("");
     const [message, setMessage] = useState("");
 
@@ -18,11 +18,13 @@ export const FreeProductOffer = ({ id, isApplied, setIsApplied }) => {
     const handleApplyCode = () => {
         // Replace "FREE123" with your real codes logic
         const validCodes = ["FREE123", "BONUS2025"];
-        if (validCodes.includes(code.toUpperCase())) {
+        if (isEligibleForFree(id) && code.toUpperCase() === freeCode.toUpperCase()) {
             setMessage("🎉 Congratulations! This product is now FREE!");
             setIsApplied(true);
             setItemAsOffer(id);
         } else {
+            console.log("is eligible", isEligibleForFree(id))
+
             setMessage("❌ Sorry, this code is not valid for a free product.");
         }
     };
@@ -32,7 +34,7 @@ export const FreeProductOffer = ({ id, isApplied, setIsApplied }) => {
             <Collapse>
                 <Collapse.Panel
                     key="1"
-                    title={"🎁 Unlock a Free Product!" }
+                    title={"🎁 Unlock a Free Product!"}
                 >
                     <p>
                         Some of our products come with a special <strong style={{ color: "red" }}>red code</strong> displayed on their image.
@@ -55,7 +57,11 @@ export const FreeProductOffer = ({ id, isApplied, setIsApplied }) => {
                             {isApplied ? "Applied" : "Apply"}
                         </Button>
                     </div>
-                    
+                    {message && (
+                        <p style={{ marginTop: "0.5rem", color: message.startsWith("❌") ? "red" : "green" }}>
+                            {message}
+                        </p>
+                    )}
                 </Collapse.Panel>
             </Collapse>
         </div>
