@@ -122,10 +122,15 @@ export const PinchZoomImage = ({ src, alt }) => {
 
             const deltaScale = newScale - lastScale.current;
 
-            setPosition(prev => ({
-                x: prev.x - deltaScale * (originPx.x - rect.width / 2),
-                y: prev.y - deltaScale * (originPx.y - rect.height / 2)
-            }));
+            const center = getCenter(e.touches[0], e.touches[1]);
+            const offsetX = center.x - (rect.left + rect.width / 2);
+            const offsetY = center.y - (rect.top + rect.height / 2);
+
+            setPosition({
+                x: offsetX * (newScale / lastScale.current - 1) + lastPosition.current.x,
+                y: offsetY * (newScale / lastScale.current - 1) + lastPosition.current.y
+            });
+
 
             setScale(newScale);
         } else if (e.touches.length === 1 && isDragging && scale > 1) {
@@ -192,7 +197,7 @@ export const PinchZoomImage = ({ src, alt }) => {
                     height: "500px",
                     objectFit: 'cover',
                     objectPosition: 'top',
-                    transform: `scale(${scale}) translate(${position.x / scale}px, ${position.y / scale}px)`,
+                    transform: `translate(${position.x}px, ${position.y}px) scale(${scale})`,
                     transformOrigin: `${origin.x}% ${origin.y}%`,
                     transition: isDragging ? 'none' : 'transform 0.1s ease-out',
                     userSelect: 'none',
