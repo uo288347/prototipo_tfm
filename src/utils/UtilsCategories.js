@@ -2,7 +2,6 @@
 
 
 const categories = [
-    { key: "home", label: "Home", image: "/home.jpg" },
     { key:"sports", label: "Sports", image: "/sports.jpg" },
     { key: "children", label: "Children's fashion", image: "/clothes_children.png" },
     { key: "women", label: "Women's fashion", image: "/clothes_woman.png" },

@@ -2,19 +2,19 @@ const products = [
     // 🧥 Women's Fashion
     {
         id: "mw1",
-        title: "Elegant Green Coat",
+        title: "Green Coat",
         description: "Long winter coat with fleece lining and classic style.",
         price: 19.03,
-        images: ["/picture1.jpg", "/picture2.jpg", "/picture3.jpg"],
+        images: ["/mw1.jpg", "/picture1.jpg", "/picture2.jpg", "/picture3.jpg"],
         category: "women",
         filter: "Clothing"
     },
     {
         id: "mw2",
-        title: "Sarah Beach Short Dress",
+        title: "Pink Summer Dress",
         description: "Sleeveless pink dress, perfect for the beach.",
         price: 32.99,
-        images: ["/picture1.jpg", "/picture2.jpg", "/picture3.jpg"],
+        images: ["/mw2.jpg", "/picture1.jpg", "/picture2.jpg", "/picture3.jpg"],
         category: "women",
         filter: "Clothing"
     },
@@ -25,7 +25,7 @@ const products = [
         title: "Green Bomber Jacket",
         description: "Lightweight jacket with high collar and embroidery.",
         price: 11.06,
-        images: ["/picture1.jpg", "/picture2.jpg", "/picture3.jpg"],
+        images: ["/mh1.jpg", "/picture1.jpg", "/picture2.jpg", "/picture3.jpg"],
         category: "men",
         filter: "Clothing"
     },
@@ -34,7 +34,7 @@ const products = [
         title: "Casual Hooded Jacket",
         description: "Color-block design, perfect for autumn.",
         price: 19.91,
-        images: ["/picture1.jpg", "/picture2.jpg", "/picture3.jpg"],
+        images: ["/mh2.jpg", "/picture1.jpg", "/picture2.jpg", "/picture3.jpg"],
         category: "men",
         filter: "Clothing"
     },
@@ -43,9 +43,9 @@ const products = [
     {
         id: "mi1",
         title: "Boys Dinosaur Tracksuit",
-        description: "Hooded sweatshirt and jogging pants with dinosaur print.",
+        description: "Sweatshirt and jogging pants with dinosaur print.",
         price: 5.66,
-        images: ["/picture1.jpg", "/picture2.jpg", "/picture3.jpg"],
+        images: ["/mi1.jpg", "/picture1.jpg", "/picture2.jpg", "/picture3.jpg"],
         category: "children",
         filter: "Clothing"
     },
@@ -54,7 +54,7 @@ const products = [
         title: "Yellow Embroidered Dress",
         description: "Summer dress with floral embroidery for girls.",
         price: 5.12,
-        images: ["/picture1.jpg", "/picture2.jpg", "/picture3.jpg"],
+        images: ["/mi2.jpg", "/picture1.jpg", "/picture2.jpg", "/picture3.jpg"],
         category: "children",
         filter: "Clothing"
     },
@@ -65,7 +65,7 @@ const products = [
         title: "Women's Gym Jacket",
         description: "Sports jacket with high collar and zipper closure.",
         price: 11.57,
-        images: ["/picture1.jpg", "/picture2.jpg", "/picture3.jpg"],
+        images: ["/md1.jpg", "/picture1.jpg", "/picture2.jpg", "/picture3.jpg"],
         category: "sports",
         filter: "Clothing"
     },
@@ -74,7 +74,7 @@ const products = [
         title: "Red Sports Set",
         description: "Jacket and jeggings with letter print design.",
         price: 13.12,
-        images: ["/picture1.jpg", "/picture2.jpg", "/picture3.jpg"],
+        images: ["/md2.jpg", "/picture1.jpg", "/picture2.jpg", "/picture3.jpg"],
         category: "sports",
         filter: "Clothing"
     },
@@ -85,7 +85,7 @@ const products = [
         title: "Leather Handbag with Chain Strap",
         description: "Elegant shoulder bag made of soft leather with gold chain details.",
         price: 24.50,
-        images: ["/picture1.jpg", "/picture2.jpg", "/picture3.jpg"],
+        images: ["/aw1.jpg", "/picture1.jpg", "/picture2.jpg", "/picture3.jpg"],
         category: "women",
         filter: "Accessories"
     },
@@ -94,7 +94,7 @@ const products = [
         title: "Classic Heeled Sandals",
         description: "Beige open-toe sandals with adjustable strap and medium heel.",
         price: 28.75,
-        images: ["/picture1.jpg", "/picture2.jpg", "/picture3.jpg"],
+        images: ["/aw2.jpg", "/picture1.jpg", "/picture2.jpg", "/picture3.jpg"],
         category: "women",
         filter: "Footwear"
     },
@@ -105,7 +105,7 @@ const products = [
         title: "Brown Leather Belt",
         description: "Classic genuine leather belt with metal buckle.",
         price: 12.90,
-        images: ["/picture1.jpg", "/picture2.jpg", "/picture3.jpg"],
+        images: ["/am1.jpg", "/picture1.jpg", "/picture2.jpg", "/picture3.jpg"],
         category: "men",
         filter: "Accessories"
     },
@@ -114,7 +114,7 @@ const products = [
         title: "Casual Sneakers",
         description: "Comfortable men's sneakers with breathable mesh design.",
         price: 22.35,
-        images: ["/picture1.jpg", "/picture2.jpg", "/picture3.jpg"],
+        images: ["/am2.jpg", "/picture1.jpg", "/picture2.jpg", "/picture3.jpg"],
         category: "men",
         filter: "Footwear"
     },
@@ -125,16 +125,16 @@ const products = [
         title: "Kids Dinosaur Cap",
         description: "Fun green cap with 3D dinosaur spikes and adjustable strap.",
         price: 6.25,
-        images: ["/picture1.jpg", "/picture2.jpg", "/picture3.jpg"],
+        images: ["/ac1.jpg", "/picture1.jpg", "/picture2.jpg", "/picture3.jpg"],
         category: "children",
         filter: "Accessories"
     },
     {
         id: "ac2",
-        title: "Light-Up Sneakers for Girls",
+        title: "Light-Up Sneakers",
         description: "Pink LED sneakers with glitter details and velcro closure.",
         price: 14.80,
-        images: ["/picture1.jpg", "/picture2.jpg", "/picture3.jpg"],
+        images: ["/ac2.jpg", "/picture1.jpg", "/picture2.jpg", "/picture3.jpg"],
         category: "children",
         filter: "Footwear"
     },
