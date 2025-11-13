@@ -28,7 +28,6 @@ export const ImageCarousel = ({ product }) => {
             >
                 {product.images?.map((img, index) => (
                     <div key={index}>
-
                         <PinchZoomImage
                             src={img}
                             alt={`${product?.title || 'Product'} - Image ${index + 1}`}

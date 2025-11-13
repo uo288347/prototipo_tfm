@@ -101,7 +101,7 @@ export const PinchZoomImage = ({ src, alt }) => {
             e.preventDefault();
             const currentDistance = getDistance(e.touches[0], e.touches[1]);
             const scaleMultiplier = currentDistance / touchStartDistance.current;
-            const newScale = Math.min(Math.max(lastScale.current * scaleMultiplier, 1), 4);
+            const newScale = Math.min(Math.max(lastScale.current * scaleMultiplier, 1), 5);
             setScale(newScale);
         } else if (e.touches.length === 1 && isDragging && scale > 1) {
             // Drag
@@ -173,7 +173,12 @@ export const PinchZoomImage = ({ src, alt }) => {
                 }}
                 draggable={false}
             />
-            {scale > 1 && (
+        </div>
+    );
+};
+
+/*
+ {scale > 1 && (
                 <div
                     style={{
                         position: 'absolute',
@@ -190,6 +195,4 @@ export const PinchZoomImage = ({ src, alt }) => {
                     {Math.round(scale * 100)}%
                 </div>
             )}
-        </div>
-    );
-};
+                */
