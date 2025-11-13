@@ -109,7 +109,6 @@ export const PinchZoomImage = ({ src, alt }) => {
         if (e.touches.length === 2) {
             // Pinch zoom
             e.preventDefault();
-
             const currentDistance = getDistance(e.touches[0], e.touches[1]);
             const scaleMultiplier = currentDistance / touchStartDistance.current;
             const newScale = Math.min(Math.max(lastScale.current * scaleMultiplier, 1), 5);
@@ -156,7 +155,7 @@ export const PinchZoomImage = ({ src, alt }) => {
             if (scale < 1.1) {
                 setScale(1);
                 setPosition({ x: 0, y: 0 });
-                //setOrigin({ x: 50, y: 50 });
+                setOrigin({ x: 50, y: 50 });
             }
         }
     };
