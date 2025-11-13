@@ -4,7 +4,9 @@ import { Carousel } from 'antd';
 export const PinchZoomImage = ({ src, alt }) => {
     const [scale, setScale] = useState(1);
     const [position, setPosition] = useState({ x: 0, y: 0 });
+    const [origin, setOrigin] = useState({ x: 50, y: 50 });
     const [isDragging, setIsDragging] = useState(false);
+
     const imageRef = useRef(null);
     const touchStartDistance = useRef(0);
     const lastScale = useRef(1);
@@ -74,16 +76,22 @@ export const PinchZoomImage = ({ src, alt }) => {
             e.preventDefault();
             const distance = getDistance(e.touches[0], e.touches[1]);
             const center = getCenter(e.touches[0], e.touches[1]);
+            const rect = imageRef.current.getBoundingClientRect();
 
             touchStartDistance.current = distance;
             lastScale.current = scale;
+
+            // Calcular transformOrigin en %
+            setOrigin({
+                x: ((center.x - rect.left) / rect.width) * 100,
+                y: ((center.y - rect.top) / rect.height) * 100
+            });
 
             logEvent('PINCH_START', {
                 initialDistance: distance,
                 centerPoint: center,
                 currentScale: scale
             });
-
         } else if (e.touches.length === 1 && scale > 1) {
             // Drag cuando hay zoom
             setIsDragging(true);
@@ -102,6 +110,21 @@ export const PinchZoomImage = ({ src, alt }) => {
             const currentDistance = getDistance(e.touches[0], e.touches[1]);
             const scaleMultiplier = currentDistance / touchStartDistance.current;
             const newScale = Math.min(Math.max(lastScale.current * scaleMultiplier, 1), 5);
+
+            // Ajustar posición para que el zoom siga el punto de pinch
+            const rect = imageRef.current.getBoundingClientRect();
+            const originPx = {
+                x: (origin.x / 100) * rect.width,
+                y: (origin.y / 100) * rect.height
+            };
+
+            const deltaScale = newScale - lastScale.current;
+
+            setPosition(prev => ({
+                x: prev.x - deltaScale * (originPx.x - rect.width / 2),
+                y: prev.y - deltaScale * (originPx.y - rect.height / 2)
+            }));
+
             setScale(newScale);
         } else if (e.touches.length === 1 && isDragging && scale > 1) {
             // Drag
@@ -130,6 +153,7 @@ export const PinchZoomImage = ({ src, alt }) => {
             if (scale < 1.1) {
                 setScale(1);
                 setPosition({ x: 0, y: 0 });
+                setOrigin({ x: 50, y: 50 });
             }
         }
     };
@@ -140,6 +164,7 @@ export const PinchZoomImage = ({ src, alt }) => {
         setPosition({ x: 0, y: 0 });
         lastScale.current = 1;
         lastPosition.current = { x: 0, y: 0 };
+        setOrigin({ x: 50, y: 50 });
     }, [src]);
 
     return (
@@ -166,7 +191,7 @@ export const PinchZoomImage = ({ src, alt }) => {
                     objectFit: 'cover',
                     objectPosition: 'top',
                     transform: `scale(${scale}) translate(${position.x / scale}px, ${position.y / scale}px)`,
-                    transformOrigin: 'center center',
+                    transformOrigin: `${origin.x}% ${origin.y}%`,
                     transition: isDragging ? 'none' : 'transform 0.1s ease-out',
                     userSelect: 'none',
                     WebkitUserSelect: 'none'
