@@ -17,6 +17,6 @@ export const openNotification = (placement, text, type) => {
   apiHolder[type]({
     message: text,
     placement: placement,
-    duration: 3
+    duration: 1.5,
   });
 };

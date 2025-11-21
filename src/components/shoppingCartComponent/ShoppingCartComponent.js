@@ -138,7 +138,7 @@ export const ShoppingCartComponent = ({ }) => {
 
     const handleDragEnd = () => {
         setDragging(false);
-        setDraggedOver(false);
+        setDraggedOver(false); 
     };
 
     const handleDrop = async (e) => {
