@@ -1,4 +1,5 @@
 import { saveItemsAsOffer } from "./UtilsOffer";
+import { task1, UtilsTasks } from "./UtilsTasks";
 
 const isBrowser = () => typeof window !== "undefined";
 
@@ -27,6 +28,7 @@ export const addToCart = (id, size, quantity, price) => {
     cart.push({ id, size, quantity, price });
   }
 
+  task1(id);
   saveCart(cart);
 };
 

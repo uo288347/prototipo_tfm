@@ -14,9 +14,13 @@ export const openNotification = (placement, text, type) => {
     console.warn('Notification API no inicializada');
     return;
   }
+
+  const bannerHeight = 1200;
+
   apiHolder[type]({
     message: text,
-    placement: placement,
+    placement: 'top',
     duration: 1.5,
+    //top: bannerHeight,
   });
 };

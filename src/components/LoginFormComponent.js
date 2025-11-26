@@ -12,6 +12,7 @@ import {
 import { openNotification } from '../utils/UtilsNotifications';
 import {TextInputField} from "./shared/TextInputField";
 import { PasswordInputField } from "./shared/PasswordInputField";
+import { login } from "@/utils/UtilsLogin";
 
 
 let LoginFormComponent = ({setLogin}) => {
@@ -25,6 +26,7 @@ let LoginFormComponent = ({setLogin}) => {
     let [formData,setFormData] = useState({})
 
     let clickLogin = async () => {
+        login(formData.email, formData.password);
         router.push("/home");
    }
 

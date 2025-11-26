@@ -26,6 +26,12 @@ export const ProductCard = ({p, index, onClick, onTouchStart, onTouchEnd}) => {
                     <img alt={p.title} src={p.images[0]}
                       style={{position: "absolute", top: 0, left: 0, width: "100%", height: "100%", objectFit: 'cover',
                         objectPosition: 'top'}}/>
+                        {p.freeCode && (
+                    <div style={{ position: "absolute", top: "10px", right: "10px", backgroundColor: "#ff4d4f",
+                      color: "white", padding: "4px 12px", borderRadius: "4px", fontWeight: "bold",
+                      fontSize: "0.85rem", boxShadow: "0 2px 8px rgba(0,0,0,0.15)"
+                    }}>FREE</div>
+                  )}
                   </div>}
               bodyStyle={{padding:"1rem"}}
               >
