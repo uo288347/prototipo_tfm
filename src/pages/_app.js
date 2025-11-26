@@ -65,6 +65,11 @@ export default function App({ Component, pageProps }) {
         return () => clearInterval(interval);
     }, [isUserLoggedIn]);
 
+    const closeTour = () => { 
+        UtilsTasks.completeTask('task_tutorial_completed');
+        setOpenTour(false); 
+    };
+
     return (
         <AntdConfigProvider locale={customLocale}>
             <AntdMobileConfigProvider locale={esESMobile}>
@@ -82,7 +87,7 @@ export default function App({ Component, pageProps }) {
                 <Tour 
                     style={{margin: "0 30px"}}
                     open={openTour} 
-                    onClose={() => setOpenTour(false)} 
+                    onClose={closeTour} 
                     steps={getTourSteps({bannerRef})}
                 />
             </AntdMobileConfigProvider>

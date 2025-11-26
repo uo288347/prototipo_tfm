@@ -15,12 +15,10 @@ export const openNotification = (placement, text, type) => {
     return;
   }
 
-  const bannerHeight = 1200;
 
   apiHolder[type]({
     message: text,
-    placement: 'top',
+    placement: placement,
     duration: 1.5,
-    //top: bannerHeight,
   });
 };
