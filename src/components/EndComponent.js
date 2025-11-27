@@ -4,7 +4,10 @@ const {Title} = Typography
 import confetti from 'canvas-confetti';
 import { useRef } from "react";
 import { useRouter } from "next/router";
-import { task9 } from "@/utils/UtilsTasks";
+import { task9, UtilsTasks } from "@/utils/UtilsTasks";
+import { clearCart } from "@/utils/UtilsCart";
+import { clearFavorites } from "@/utils/UtilsFavorites";
+import { clearLogin } from "@/utils/UtilsLogin";
 
 export const EndComponent = ({}) => {
     const router = useRouter();
@@ -25,6 +28,7 @@ export const EndComponent = ({}) => {
         }
 
         lastTapRef.current = now;
+        
     };
 
     return(<>
@@ -32,6 +36,11 @@ export const EndComponent = ({}) => {
         <Button type="primary" size="large" block
         icon={<CheckOutlined/>}
         onTouchStart={handleDoubleTap}>Double-tap to finish</Button>
-        <Button type="text" onClick={() => router.push("/")} block>Back to start</Button>
+        <Button type="text" onClick={() => {
+            clearCart();
+            clearFavorites();
+            clearLogin();
+            UtilsTasks.resetAllTasks();
+            router.push("/")}} block>Back to start</Button>
     </>)
 }

@@ -42,9 +42,9 @@ export const InstructionsBanner = forwardRef((props, ref) => {
         confetti({
             particleCount: 100,
             spread: 80,
-            origin: { 
-                x: x / window.innerWidth, 
-                y: y / window.innerHeight 
+            origin: {
+                x: x / window.innerWidth,
+                y: y / window.innerHeight
             },
         });
     };
@@ -95,8 +95,15 @@ export const InstructionsBanner = forwardRef((props, ref) => {
 
     if (allCompleted) {
         return (
-            <div ref={ref}>
+            <div ref={ref} style={{
+                position: "fixed",
+                top: 0,
+                left: 0,
+                right: 0,
+                zIndex: 1000,
+            }}>
                 <NoticeBar
+                    icon={<BulbOutlined />}
                     content="🎉 All tasks completed! Excellent work!"
                     color="success"
                 />
@@ -111,13 +118,13 @@ export const InstructionsBanner = forwardRef((props, ref) => {
     const progressText = `(${progress.completed + 1}/${progress.total})`;
 
     return (
-        <div ref={ref} style={{ 
-                            position: "fixed", 
-                            top: 0, 
-                            left: 0, 
-                            right: 0, 
-                            zIndex: 1000,
-                        }}>
+        <div ref={ref} style={{
+            position: "fixed",
+            top: 0,
+            left: 0,
+            right: 0,
+            zIndex: 1000,
+        }}>
             <NoticeBar
                 icon={<BulbOutlined />}
                 content={
