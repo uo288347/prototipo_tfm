@@ -43,8 +43,9 @@ export const CheckoutComponent = () => {
         router.push("/end")
     }
     return (
-        <div style={{ flex: "1", display: "flex", flexDirection: "column", justifyContent: "space-between", height: "100%" }}>
-            <div style={{flex:1}}>
+        <div style={{ flex: "1", display: "flex", flexDirection: "column", justifyContent: "space-between", 
+            minHeight: "100%", height: "100%" }}>
+            <div style={{flex:1, overflowY: "auto", height: "100%"}}>
                 <ConfigurableMenu icon={<CreditCardOutlined />} text={"Checkout"} onClick={() => router.push("/shoppingCart")} />
 
                 <Collapse>
@@ -78,7 +79,7 @@ export const CheckoutComponent = () => {
                 </Form>
             </div>
             <Form>
-                <Form.Item>
+                <Form.Item style={{ margin: 0, marginBottom: 0, paddingBottom: 0 }}>
                     {allowSubmitForm(formData, formErrors, requiredInForm) ?
                         <Button type="primary" size="large" onClick={clickCheckout} block ><ShoppingCartOutlined style={{ fontSize: "1.3rem" }} />Confirm purchase</Button> :
                         <Button type="primary" size="large" block disabled><ShoppingCartOutlined style={{ fontSize: "1.3rem" }} />Confirm purchase</Button>

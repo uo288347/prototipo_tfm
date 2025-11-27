@@ -33,10 +33,10 @@ export default function App({ Component, pageProps }) {
     
     useEffect(() => {
         initNotification(api);
-        /*clearCart();
+        clearCart();
         clearFavorites();
         clearLogin();
-        UtilsTasks.resetAllTasks();*/
+        UtilsTasks.resetAllTasks();
     }, [api]);
 
     useEffect(() => {

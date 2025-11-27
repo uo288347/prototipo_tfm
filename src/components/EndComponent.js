@@ -28,7 +28,7 @@ export const EndComponent = ({}) => {
     };
 
     return(<>
-        <Title style={{paddingBottom:"4rem"}} level={2}>Thanks for participating!</Title>
+        <Title style={{paddingBottom:"3rem", textAlign: "center"}} level={3}>Thanks for participating!</Title>
         <Button type="primary" size="large" block
         icon={<CheckOutlined/>}
         onTouchStart={handleDoubleTap}>Double-tap to finish</Button>
