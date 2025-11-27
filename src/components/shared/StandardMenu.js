@@ -7,7 +7,7 @@ import { useState, useEffect } from "react";
 import { getShoppingCart, getShoppingCartLength } from "@/utils/UtilsCart";
 import { HeartOutline } from "antd-mobile-icons";
 import { getFavorites } from "@/utils/UtilsFavorites";
-import { task5, UtilsTasks } from "@/utils/UtilsTasks";
+import { task6, UtilsTasks } from "@/utils/UtilsTasks";
 
 export const StandardMenu = () => {
     const [favorites, setFavorites] = useState(new Set());
@@ -36,7 +36,7 @@ export const StandardMenu = () => {
                         label: favorites.size > 0 ? (
                             <Badge content={favorites.length} style={{ '--top': '20%', '--right': '12%' }}>
                                 <Button type="icon" style={{ border: "none" }} onClick={() => {
-                                    task5();
+                                    task6();
                                     router.push("/favorites")
                                 }}>
                                     <HeartOutline style={{ fontSize: 24 }} />

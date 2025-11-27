@@ -11,7 +11,7 @@ import { allowSubmitForm, validateFormDataInputRequired } from "@/utils/UtilsVal
 import { Collapse } from "antd-mobile";
 import { CollapsePanel } from "antd-mobile/es/components/collapse/collapse";
 import { clearFavorites } from "@/utils/UtilsFavorites";
-import { task7 } from "@/utils/UtilsTasks";
+import { task8 } from "@/utils/UtilsTasks";
 
 
 export const CheckoutComponent = () => {
@@ -37,7 +37,7 @@ export const CheckoutComponent = () => {
     };
 
     let clickCheckout = () => {
-        task7();
+        task8();
         clearCart();
         clearFavorites();
         router.push("/end")

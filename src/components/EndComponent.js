@@ -4,14 +4,14 @@ const {Title} = Typography
 import confetti from 'canvas-confetti';
 import { useRef } from "react";
 import { useRouter } from "next/router";
-import { task8 } from "@/utils/UtilsTasks";
+import { task9 } from "@/utils/UtilsTasks";
 
 export const EndComponent = ({}) => {
     const router = useRouter();
     const lastTapRef = useRef(0);
 
     const handleDoubleTap = () => {
-        task8();
+        task9();
         const now = Date.now();
         const DOUBLE_TAP_DELAY = 300; // milisegundos entre taps
 

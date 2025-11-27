@@ -1,6 +1,7 @@
 import { Collapse, Input, Button } from "antd-mobile";
 import { useState, useEffect } from "react";
 import { isEligibleForFree, isProductFree, setItemAsOffer } from "@/utils/UtilsOffer";
+import { task3 } from "@/utils/UtilsTasks";
 
 export const FreeProductOffer = ({ id, freeCode, isApplied, setIsApplied }) => {
     const [code, setCode] = useState("");
@@ -22,6 +23,7 @@ export const FreeProductOffer = ({ id, freeCode, isApplied, setIsApplied }) => {
             setMessage("🎉 Congratulations! This product is now FREE!");
             setIsApplied(true);
             setItemAsOffer(id);
+            task3(id, 0);
         } else {
             console.log("is eligible", isEligibleForFree(id))
 

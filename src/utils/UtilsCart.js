@@ -1,5 +1,5 @@
 import { saveItemsAsOffer } from "./UtilsOffer";
-import { task2, task3, task4, task6 } from "./UtilsTasks";
+import { task2, task3, task4, task5, task7 } from "./UtilsTasks";
 
 const isBrowser = () => typeof window !== "undefined";
 
@@ -32,8 +32,8 @@ export const addToCart = (id, size, quantity, price) => {
   saveCart(cart);
 
   task2(id, size, quantity);
-  task3(id, price);
-  task4(id);
+  task4(id, price);
+  task5(id);
 };
 
 // Elimina items específicos del carrito
@@ -44,7 +44,7 @@ export const deleteFromCart = (targets) => {
     item => !targets.some(target => target.id === item.id && target.size === item.size)
   );
   saveCart(cart);
-  task6(targets.map(t => t.id));
+  task7(targets.map(t => t.id));
   return getShoppingCart();
 };
 
