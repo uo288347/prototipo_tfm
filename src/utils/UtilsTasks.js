@@ -18,6 +18,17 @@ export const UtilsTasks = {
     { id: 'end', text: 'Double tap the final button', storageKey: 'task_end_completed' }
   ],
 
+  /*tasks: [
+    { id: 'accept_tutorial', text: 'Read instructions and finish the tutorial', storageKey: 'task_tutorial_completed' },
+    { id: 'add_pink_dresses', text: 'Add two pink summer dresses (size M) to shopping cart', storageKey: 'task_pink_summer_dress_completed' },
+    { id: 'offer_green_coat', text: 'Search and apply free code to the green coat. Add the green coat to shopping cart', storageKey: 'task_offer_green_coat_completed' },
+    { id: 'add_bomber_jacket', text: 'Add bomber jacket to favorites and shopping cart', storageKey: 'task_bomber_jacket_completed' },
+    { id: 'check_favorites', text: 'Check favorites list', storageKey: 'task_favorites_checked' },
+    { id: 'delete_item', text: 'Delete green coat from shopping cart', storageKey: 'task_delete_item_completed' },
+    { id: 'make_purchase', text: 'Buy shopping cart and fill in the shipping information', storageKey: 'task_purchase_completed' },
+    { id: 'end', text: 'Double tap the final button', storageKey: 'task_end_completed' }
+  ],*/
+
   // Obtener la tarea actual (primera no completada)
   getCurrentTask() {
     return this.tasks.find(task => !this.isTaskCompleted(task.storageKey));
