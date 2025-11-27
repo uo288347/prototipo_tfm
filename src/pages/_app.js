@@ -33,10 +33,10 @@ export default function App({ Component, pageProps }) {
     
     useEffect(() => {
         initNotification(api);
-        clearCart();
+        /*clearCart();
         clearFavorites();
         clearLogin();
-        UtilsTasks.resetAllTasks();
+        UtilsTasks.resetAllTasks();*/
     }, [api]);
 
     useEffect(() => {
@@ -75,7 +75,7 @@ export default function App({ Component, pageProps }) {
             <AntdMobileConfigProvider locale={esESMobile}>
                 {contextHolder}
                 <div style={{ minHeight: "100vh", display: "flex", flexDirection: "column", backgroundColor: "#fff" }}>
-                    <div style={{ flex: 1, padding: "0px 0px" }}>
+                    <div style={{ flex: 1, padding: "0px 0px", paddingTop: isUserLoggedIn ? "40px" : "0px" }}>
                         {isUserLoggedIn && <InstructionsBanner ref={bannerRef}/>}
                         <Component {...pageProps} />
                     </div>

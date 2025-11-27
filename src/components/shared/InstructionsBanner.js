@@ -111,7 +111,13 @@ export const InstructionsBanner = forwardRef((props, ref) => {
     const progressText = `(${progress.completed + 1}/${progress.total})`;
 
     return (
-        <div ref={ref}>
+        <div ref={ref} style={{ 
+                            position: "fixed", 
+                            top: 0, 
+                            left: 0, 
+                            right: 0, 
+                            zIndex: 1000,
+                        }}>
             <NoticeBar
                 icon={<BulbOutlined />}
                 content={

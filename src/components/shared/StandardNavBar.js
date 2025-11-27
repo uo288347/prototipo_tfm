@@ -5,6 +5,7 @@ import { getFavorites } from "@/utils/UtilsFavorites";
 import { getShoppingCartLength } from "@/utils/UtilsCart";
 import { HeartOutline } from "antd-mobile-icons";
 import { ShoppingCartOutlined } from "@ant-design/icons";
+import { task6 } from "@/utils/UtilsTasks";
 
 export const StandardNavBar = ({ }) => {
     const router = useRouter();
@@ -25,7 +26,9 @@ export const StandardNavBar = ({ }) => {
     const right = (<>
         {favorites.size > 0 ? (
             <Badge content={favorites.size} style={{ '--top': '20%', '--right': '12%' }}>
-                <Button type="icon" style={{ border: "none" }} onClick={() => router.push("/favorites")}>
+                <Button type="icon" style={{ border: "none" }} onClick={() => {
+                    task6();
+                    router.push("/favorites")}}>
                     <HeartOutline style={{ fontSize: 24 }} />
                 </Button>
             </Badge>

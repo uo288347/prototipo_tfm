@@ -7,7 +7,7 @@ import { isInCart } from "./UtilsCart";
 // Utilidad para gestionar las tareas
 export const UtilsTasks = {
   tasks: [
-    { id: 'accept_tutorial', text: 'Read instructions and finish the tutorial', storageKey: 'task_tutorial_completed' },
+    { id: 'accept_tutorial', text: 'Read the instructions and finish the tutorial', storageKey: 'task_tutorial_completed' },
     { id: 'add_pink_dresses', text: 'Add two pink summer dresses (size M) to shopping cart', storageKey: 'task_pink_summer_dress_completed' },
     { id: 'offer_green_coat', text: 'Search and apply free code to the green coat', storageKey: 'task_offer_green_coat_completed' },
     { id: 'add_green_coat', text: 'Add green coat to shopping cart', storageKey: 'task_green_coat_completed'},

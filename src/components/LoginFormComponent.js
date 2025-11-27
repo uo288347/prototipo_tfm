@@ -12,7 +12,7 @@ import {
 import { openNotification } from '../utils/UtilsNotifications';
 import {TextInputField} from "./shared/TextInputField";
 import { PasswordInputField } from "./shared/PasswordInputField";
-import { login } from "@/utils/UtilsLogin";
+import { clearLogin, login } from "@/utils/UtilsLogin";
 
 
 let LoginFormComponent = ({setLogin}) => {
@@ -26,7 +26,11 @@ let LoginFormComponent = ({setLogin}) => {
     let [formData,setFormData] = useState({})
 
     let clickLogin = async () => {
+        clearLogin();
         login(formData.email, formData.password);
+        clearCart();
+        clearFavorites();
+        UtilsTasks.resetAllTasks();
         router.push("/home");
    }
 
