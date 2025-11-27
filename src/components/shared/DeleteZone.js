@@ -8,6 +8,9 @@ export const DeleteZone = ({ handleDrop, handleDragOver, handleDragLeave, select
       {selectionMode && (
         <div
           className="delete-zone"
+          onTouchEnd={handleDrop}
+          onTouchMove={handleDragOver}
+          onTouchCancel={handleDragLeave}
           onPointerUp={handleDrop}
           onPointerOver={handleDragOver}
           onPointerLeave={handleDragLeave}
