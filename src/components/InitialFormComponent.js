@@ -48,7 +48,7 @@ export const InitialFormComponent = ({ }) => {
 
                 <Divider/>
 
-                <Form.Item name="frequency" label="How often do you use e-commerce websites">
+                <Form.Item name="frequency" label="How often do you use e-commerce websites?">
                     <Select
                         placeholder="Select frequency"
                         onChange={(value) => modifyStateProperty(formData, setFormData, "frequency", value)}

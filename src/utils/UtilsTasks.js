@@ -13,7 +13,7 @@ export const UtilsTasks = {
     { id: 'add_bomber_jacket', text: 'Add bomber jacket to favorites and shopping cart', storageKey: 'task_bomber_jacket_completed' },
     { id: 'check_favorites', text: 'Check favorites list', storageKey: 'task_favorites_checked' },
     { id: 'delete_item', text: 'Delete green coat from shopping cart', storageKey: 'task_delete_item_completed' },
-    { id: 'make_purchase', text: 'Buy shopping cart', storageKey: 'task_purchase_completed' },
+    { id: 'make_purchase', text: 'Buy shopping cart and fill in the shipping information', storageKey: 'task_purchase_completed' },
     { id: 'end', text: 'Double tap the final button', storageKey: 'task_end_completed' }
   ],
 
