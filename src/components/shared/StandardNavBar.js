@@ -2,20 +2,20 @@ import { NavBar, Button, Badge } from "antd-mobile";
 import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
 import { getFavorites } from "@/utils/UtilsFavorites";
-import { getShoppingCart } from "@/utils/UtilsCart";
+import { getShoppingCartLength } from "@/utils/UtilsCart";
 import { HeartOutline } from "antd-mobile-icons";
 import { ShoppingCartOutlined } from "@ant-design/icons";
 
 export const StandardNavBar = ({ }) => {
     const router = useRouter();
     const [favorites, setFavorites] = useState(new Set());
-    const [cart, setCart] = useState([]);
+    const [cartCount, setCartCount] = useState(0);
 
     useEffect(() => {
         const favs = getFavorites();
         setFavorites(favs);
-        const cart = getShoppingCart();
-        setCart(cart)
+        const cartLength = getShoppingCartLength();
+        setCartCount(cartLength);
     }, []);
 
     const home = () => {
@@ -35,8 +35,8 @@ export const StandardNavBar = ({ }) => {
             </Button>
         )}
 
-        {cart.length > 0 ? ( // Solo mostrar si hay items en carrito
-            <Badge content={cart.length} style={{ '--top': '20%', '--right': '12%' }}>
+        {cartCount > 0 ? (
+            <Badge content={cartCount} style={{ '--top': '20%', '--right': '12%' }}>
                 <Button type="icon" style={{ border: "none" }} onClick={() => router.push("/shoppingCart")}>
                     <ShoppingCartOutlined style={{ fontSize: 24 }} />
                 </Button>

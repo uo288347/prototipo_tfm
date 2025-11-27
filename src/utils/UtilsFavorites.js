@@ -1,4 +1,5 @@
 // UtilsFavorites.js
+import { task4 } from "@/utils/UtilsTasks";
 
 // Helper para comprobar si estamos en el cliente (navegador)
 const isBrowser = () => typeof window !== "undefined";
@@ -35,6 +36,7 @@ export const toggleFavorite = (id) => {
   }
 
   saveFavorites(favs);
+  task4(id);
   return [...favs];
 };
 

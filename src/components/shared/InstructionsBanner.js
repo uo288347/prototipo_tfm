@@ -46,7 +46,6 @@ export const InstructionsBanner = forwardRef((props, ref) => {
                 x: x / window.innerWidth, 
                 y: y / window.innerHeight 
             },
-            colors: ['#52c41a', '#73d13d', '#95de64', '#b7eb8f', '#ffd666', '#ffc53d']
         });
     };
     // Actualizar la tarea actual
@@ -84,7 +83,7 @@ export const InstructionsBanner = forwardRef((props, ref) => {
             setTimeout(() => {
                 setIsSuccess(false);
                 updateCurrentTask();
-            }, 2000);
+            }, 3000);
         };
 
         window.addEventListener('taskCompleted', handleTaskCompleted);
@@ -118,7 +117,7 @@ export const InstructionsBanner = forwardRef((props, ref) => {
                 content={
                     isSuccess
                         ? `✨ Great! Task Completed`
-                        : `📋 ${currentTask.text} ${progressText}`
+                        : `${currentTask.text} ${progressText}`
                 }
                 color={isSuccess ? "success" : "info"}
             />

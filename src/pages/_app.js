@@ -12,7 +12,7 @@ import { clearFavorites } from '@/utils/UtilsFavorites';
 import { InstructionsBanner } from '@/components/shared/InstructionsBanner';
 import { clearLogin, isLoggedIn } from '@/utils/UtilsLogin';
 import { getTourSteps } from '@/utils/UtilsTour';
-import { UtilsTasks } from '@/utils/UtilsTasks';
+import { task1, UtilsTasks } from '@/utils/UtilsTasks';
 
 // Personalizar los textos del Tour
 const customLocale = {
@@ -66,7 +66,7 @@ export default function App({ Component, pageProps }) {
     }, [isUserLoggedIn]);
 
     const closeTour = () => { 
-        UtilsTasks.completeTask('task_tutorial_completed');
+        task1();
         setOpenTour(false); 
     };
 

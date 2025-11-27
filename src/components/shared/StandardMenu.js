@@ -4,19 +4,21 @@ import Link from "next/link";
 import { Badge, Button } from "antd-mobile";
 import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
-import { getShoppingCart } from "@/utils/UtilsCart";
+import { getShoppingCart, getShoppingCartLength } from "@/utils/UtilsCart";
 import { HeartOutline } from "antd-mobile-icons";
 import { getFavorites } from "@/utils/UtilsFavorites";
+import { task5, UtilsTasks } from "@/utils/UtilsTasks";
 
 export const StandardMenu = () => {
-const [favorites, setFavorites] = useState(new Set());
-const [cart, setCart] = useState([]);
+    const [favorites, setFavorites] = useState(new Set());
+     const [cartCount, setCartCount] = useState(0);
 
     useEffect(() => {
         const favs = getFavorites();
         setFavorites(favs);
-        const cart = getShoppingCart();
-        setCart(cart)
+        const cartLength = getShoppingCartLength();
+        console.log("Cart length in StandardMenu useEffect: ", cartLength);
+        setCartCount(cartLength);
     }, []);
     const router = useRouter();
     return (
@@ -31,9 +33,12 @@ const [cart, setCart] = useState([]);
                 <Menu mode="horizontal" items={[
                     {
                         key: "menuFavorites",
-                        label: favorites.size > 0 ? ( 
+                        label: favorites.size > 0 ? (
                             <Badge content={favorites.length} style={{ '--top': '20%', '--right': '12%' }}>
-                                <Button type="icon" style={{ border: "none" }} onClick={() => router.push("/favorites")}>
+                                <Button type="icon" style={{ border: "none" }} onClick={() => {
+                                    task5();
+                                    router.push("/favorites")
+                                }}>
                                     <HeartOutline style={{ fontSize: 24 }} />
                                 </Button>
                             </Badge>
@@ -45,8 +50,8 @@ const [cart, setCart] = useState([]);
                     },
                     {
                         key: "menuCart",
-                        label: cart.length > 0 ? ( // Solo mostrar si hay items en carrito
-                            <Badge content={cart.length} style={{ '--top': '20%', '--right': '12%' }}>
+                        label: cartCount > 0 ? (
+                            <Badge content={cartCount} style={{ '--top': '20%', '--right': '12%' }}>
                                 <Button type="icon" style={{ border: "none" }} onClick={() => router.push("/shoppingCart")}>
                                     <ShoppingCartOutlined style={{ fontSize: 24 }} />
                                 </Button>

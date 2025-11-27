@@ -1,5 +1,5 @@
 import { saveItemsAsOffer } from "./UtilsOffer";
-import { task1, UtilsTasks } from "./UtilsTasks";
+import { task2, task3, task4, task6 } from "./UtilsTasks";
 
 const isBrowser = () => typeof window !== "undefined";
 
@@ -23,13 +23,17 @@ export const addToCart = (id, size, quantity, price) => {
   const existingItem = cart.find(item => item.id === id && item.size === size);
 
   if (existingItem) {
+    if(price===0) existingItem.price=0;
     existingItem.quantity += quantity;
   } else {
     cart.push({ id, size, quantity, price });
   }
 
-  task1(id);
   saveCart(cart);
+
+  task2(id, size, quantity);
+  task3(id, price);
+  task4(id);
 };
 
 // Elimina items específicos del carrito
@@ -40,6 +44,7 @@ export const deleteFromCart = (targets) => {
     item => !targets.some(target => target.id === item.id && target.size === item.size)
   );
   saveCart(cart);
+  task6(targets.map(t => t.id));
   return getShoppingCart();
 };
 
@@ -75,7 +80,23 @@ export const updateUnits = (id, size, units) => {
   saveCart(cart);
 };
 
+export const isInCart = (id, size = null) => {
+  if (!isBrowser()) return false;
 
+  const cart = getShoppingCart();
+
+  return size
+    ? cart.find(item => item.id === id && item.size === size) || null
+    : cart.find(item => item.id === id) || null;
+};
+
+export const getShoppingCartLength = () => {
+  console.log("Cart length called");
+  if (!isBrowser()) return 0;
+  const cart = getShoppingCart();
+  console.log("Cart: ", cart);
+  return cart.reduce((total, item) => total + (item.quantity ?? 1), 0);
+};
 
 // ==========================
 

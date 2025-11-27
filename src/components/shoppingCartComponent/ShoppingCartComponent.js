@@ -1,4 +1,4 @@
-import { getShoppingCart, deleteFromCart, updateCart, updateUnits } from "@/utils/UtilsCart";
+import { getShoppingCart, deleteFromCart, updateCart, updateUnits, getShoppingCartLength } from "@/utils/UtilsCart";
 import { ConfigurableMenu } from "../shared/ConfigurableMenu";
 import { Card, Typography, Col, Row, Divider, Button } from 'antd';
 import { getProduct } from "@/utils/UtilsProducts";
@@ -16,6 +16,7 @@ export const ShoppingCartComponent = ({ }) => {
     const router = useRouter();
 
     const [products, setProducts] = useState([]);
+    const [productsLength, setProductsLength] = useState(0);
     const [selectedItems, setSelectedItems] = useState(new Set());
     const [selectionMode, setSelectionMode] = useState(false);
     const [draggedOver, setDraggedOver] = useState(false);
@@ -28,6 +29,7 @@ export const ShoppingCartComponent = ({ }) => {
 
     useEffect(() => {
         setProducts(getShoppingCart());
+        setProductsLength(getShoppingCartLength());
     }, []);
 
     const handleTouchStart = (e, item) => {
@@ -68,6 +70,8 @@ export const ShoppingCartComponent = ({ }) => {
                 console.log("updated cart: ", updated)
 
                 setProducts(updated)
+                setProductsLength(getShoppingCartLength());
+
 
                 setSelectedItems(new Set());
                 setSelectionMode(false);
@@ -114,33 +118,6 @@ export const ShoppingCartComponent = ({ }) => {
         });
     };
 
-    const handleDragStart = (e, item) => {
-        const itemKey = getItemKey(item);
-        if (selectedItems.has(itemKey)) {
-            setDragging(true);
-            e.dataTransfer.effectAllowed = 'move';
-
-            // Convertir los keys seleccionados a objetos { productId, size, quantity }
-            const selectedItemsData = Array.from(selectedItems).map(key => {
-                const [productId, size] = key.split('-');
-                const product = products.find(
-                    p => p.id === parseInt(productId) && p.size === size
-                );
-                const quantity = product ? product.quantity : 1;
-                return { productId: parseInt(productId), size, quantity };
-            });
-
-            e.dataTransfer.setData('text/plain', JSON.stringify(selectedItemsData));
-        } else {
-            e.preventDefault();
-        }
-    };
-
-    const handleDragEnd = () => {
-        setDragging(false);
-        setDraggedOver(false); 
-    };
-
     const handleDrop = async (e) => {
         e.preventDefault();
         setDraggedOver(false);
@@ -153,6 +130,7 @@ export const ShoppingCartComponent = ({ }) => {
             console.log("updated cart: ", updated)
 
             setProducts(updated)
+            setProductsLength(getShoppingCartLength());
 
             // Filtrar productos eliminados del carrito
             /*setProducts(prev => prev.filter(p => {
@@ -194,6 +172,7 @@ export const ShoppingCartComponent = ({ }) => {
     const onUpdateUnits = (id, size, units) => {
         updateUnits(id, size, units)
         setProducts(getShoppingCart())
+        setProductsLength(getShoppingCartLength());
     }
 
     const calculateTotal = () => {
@@ -224,7 +203,7 @@ export const ShoppingCartComponent = ({ }) => {
                         ) : (
                             <>
                                 <div style={{ display: "flex", justifyContent: "center", paddingBottom: "0.5rem" }}>
-                                    <Text>{products.length} total products</Text>
+                                    <Text>{productsLength} total products</Text>
                                 </div>
                                 {products.map((item, index) => {
                                     const itemKey = getItemKey(item);
