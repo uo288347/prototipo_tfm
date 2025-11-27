@@ -43,7 +43,7 @@ export const CheckoutComponent = () => {
         router.push("/end")
     }
     return (
-        <div style={{ flex: "1", display: "flex", flexDirection: "column", justifyContent: "space-between", height: "100vh" }}>
+        <div style={{ flex: "1", display: "flex", flexDirection: "column", justifyContent: "space-between", height: "100%" }}>
             <div style={{flex:1}}>
                 <ConfigurableMenu icon={<CreditCardOutlined />} text={"Checkout"} onClick={() => router.push("/shoppingCart")} />
 

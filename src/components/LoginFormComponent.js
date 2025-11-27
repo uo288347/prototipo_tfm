@@ -13,7 +13,9 @@ import { openNotification } from '../utils/UtilsNotifications';
 import {TextInputField} from "./shared/TextInputField";
 import { PasswordInputField } from "./shared/PasswordInputField";
 import { clearLogin, login } from "@/utils/UtilsLogin";
-
+import { UtilsTasks } from "@/utils/UtilsTasks";
+import { clearCart } from "@/utils/UtilsCart";
+import { clearFavorites } from "@/utils/UtilsFavorites";
 
 let LoginFormComponent = ({setLogin}) => {
     let router = useRouter()
@@ -35,7 +37,7 @@ let LoginFormComponent = ({setLogin}) => {
    }
 
     return (
-        <Row align="middle" justify="center" style={{ minHeight: "100vh", minWidth:"100%"}}>
+        <Row align="middle" justify="center" style={{  minHeight:"100%", minWidth:"100%"}}>
             <Col xs={24} sm={24} md={12} lg={8} xl={7} justify="center" >
                 <Card title="Login" style={{ width: "100%" }}>
                     <Form>
