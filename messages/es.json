@@ -1,0 +1,104 @@
+{
+  "common": {
+    "all": "Todo",
+    "selectAll": "Seleccionar todo",
+    "cancel": "Cancelar",
+    "delete": "Eliminar",
+    "save": "Guardar",
+    "back": "Atrás",
+    "next": "Siguiente",
+    "finish": "Finalizar"
+  },
+  "auth": {
+    "login": "Iniciar sesión",
+    "register": "Registrarse",
+    "email": "Correo electrónico",
+    "password": "Contraseña",
+    "yourEmail": "tu correo electrónico",
+    "yourPassword": "tu contraseña"
+  },
+  "navigation": {
+    "home": "Inicio",
+    "favorites": "Favoritos",
+    "shoppingCart": "Carrito de compra",
+    "checkout": "Finalizar compra"
+  },
+  "categories": {
+    "all": "Todo",
+    "clothing": "Ropa",
+    "accessories": "Accesorios",
+    "footwear": "Calzado"
+  },
+  "product": {
+    "addToCart": "Añadir al carrito",
+    "removeFromCart": "Quitar del carrito",
+    "addToFavorites": "Añadir a favoritos",
+    "removeFromFavorites": "Quitar de favoritos",
+    "price": "Precio",
+    "quantity": "Cantidad",
+    "total": "Total",
+    "subtotal": "Subtotal",
+    "details": "Detalles",
+    "description": "Descripción",
+    "size": "Talla",
+    "color": "Color"
+  },
+  "cart": {
+    "emptyCart": "Tu carrito está vacío",
+    "goToCheckout": "Ir a pagar",
+    "continueShopping": "Seguir comprando",
+    "removeItem": "Eliminar artículo",
+    "updateQuantity": "Actualizar cantidad"
+  },
+  "favorites": {
+    "emptyFavorites": "Aún no tienes favoritos",
+    "addToFavorites": "Añadir a favoritos",
+    "removeFromFavorites": "Quitar de favoritos"
+  },
+  "checkout": {
+    "shippingInformation": "Información de envío",
+    "city": "Ciudad",
+    "country": "País",
+    "paymentMethod": "Método de pago",
+    "completeOrder": "Completar pedido",
+    "orderSummary": "Resumen del pedido"
+  },
+  "initialForm": {
+    "title": "Formulario inicial",
+    "handedness": "Mano dominante",
+    "rightHanded": "Diestro",
+    "leftHanded": "Zurdo",
+    "sex": "Sexo",
+    "man": "Hombre",
+    "woman": "Mujer",
+    "birthYear": "Año de nacimiento",
+    "ecommerceFrequency": "¿Con qué frecuencia utilizas sitios web de comercio electrónico?",
+    "selectFrequency": "Selecciona la frecuencia",
+    "never": "Nunca",
+    "onceMonth": "Una vez al mes",
+    "twoThreeTimesMonth": "2-3 veces al mes",
+    "oneThreeTimesWeek": "1-3 veces por semana",
+    "almostEveryday": "Casi todos los días / Todos los días",
+    "deviceQuestion": "¿Qué dispositivo utilizas más para comprar en línea?",
+    "deviceType": "Tipo de dispositivo",
+    "laptop": "Portátil / Ordenador",
+    "smartphone": "Teléfono móvil",
+    "tablet": "Tableta"
+  },
+  "end": {
+    "thanksMessage": "¡Gracias por participar!",
+    "doubleTapFinish": "Toca dos veces para finalizar",
+    "backToStart": "Volver al inicio"
+  },
+  "instructions": {
+    "allTasksCompleted": "🎉 ¡Todas las tareas completadas! ¡Excelente trabajo!",
+    "taskCompleted": "Tarea completada",
+    "taskPending": "Tarea pendiente"
+  },
+  "errors": {
+    "required": "Este campo es obligatorio",
+    "invalidEmail": "Formato de correo electrónico no válido",
+    "invalidYear": "Año no válido",
+    "somethingWrong": "Algo salió mal"
+  }
+}

@@ -8,8 +8,10 @@ import { task9, UtilsTasks } from "@/utils/UtilsTasks";
 import { clearCart } from "@/utils/UtilsCart";
 import { clearFavorites } from "@/utils/UtilsFavorites";
 import { clearLogin } from "@/utils/UtilsLogin";
+import { useTranslations } from 'next-intl';
 
 export const EndComponent = ({}) => {
+    const t = useTranslations();
     const router = useRouter();
     const lastTapRef = useRef(0);
 
@@ -32,15 +34,15 @@ export const EndComponent = ({}) => {
     };
 
     return(<>
-        <Title style={{paddingBottom:"3rem", textAlign: "center"}} level={3}>Thanks for participating!</Title>
+        <Title style={{paddingBottom:"3rem", textAlign: "center"}} level={3}>{t('end.thanksMessage')}</Title>
         <Button type="primary" size="large" block
         icon={<CheckOutlined/>}
-        onTouchStart={handleDoubleTap}>Double-tap to finish</Button>
+        onTouchStart={handleDoubleTap}>{t('end.doubleTapFinish')}</Button>
         <Button type="text" onClick={() => {
             clearCart();
             clearFavorites();
             clearLogin();
             UtilsTasks.resetAllTasks();
-            router.push("/")}} block>Back to start</Button>
+            router.push("/")}} block>{t('end.backToStart')}</Button>
     </>)
 }

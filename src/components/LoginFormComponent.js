@@ -16,8 +16,11 @@ import { clearLogin, login } from "@/utils/UtilsLogin";
 import { UtilsTasks } from "@/utils/UtilsTasks";
 import { clearCart } from "@/utils/UtilsCart";
 import { clearFavorites } from "@/utils/UtilsFavorites";
+import { useTranslations } from 'next-intl';
+import { LanguageSwitcher } from "./shared/LanguageSwitcher";
 
 let LoginFormComponent = ({setLogin}) => {
+    const t = useTranslations();
     let router = useRouter()
 
     // validación
@@ -39,18 +42,21 @@ let LoginFormComponent = ({setLogin}) => {
     return (
         <Row align="middle" justify="center" style={{  minHeight:"100%", minWidth:"100%"}}>
             <Col xs={24} sm={24} md={12} lg={8} xl={7} justify="center" >
-                <Card title="Login" style={{ width: "100%" }}>
+                <div style={{ display: "flex", justifyContent: "flex-end", marginBottom: "1rem" }}>
+                    <LanguageSwitcher />
+                </div>
+                <Card title={t('auth.login')} style={{ width: "100%" }}>
                     <Form>
-                    <TextInputField name="email" placeholder="your email" formData={formData} setFormData={setFormData}
+                    <TextInputField name="email" placeholder={t('auth.yourEmail')} formData={formData} setFormData={setFormData}
                         formErrors={formErrors} setFormErrors={setFormErrors} validateFunc={validateFormDataInputEmail}
                     />
-                    <PasswordInputField name="password" placeholder="your password" formData={formData} setFormData={setFormData}
+                    <PasswordInputField name="password" placeholder={t('auth.yourPassword')} formData={formData} setFormData={setFormData}
                         formErrors={formErrors} setFormErrors={setFormErrors} validateFunc={validateFormDataInputRequired}
                     />
                     <Form.Item>
                         { allowSubmitForm(formData,formErrors,requiredInForm) ?
-                            <Button type="primary" onClick={clickLogin} block >Login</Button> :
-                            <Button type="primary" block disabled>Login</Button>
+                            <Button type="primary" onClick={clickLogin} block >{t('auth.login')}</Button> :
+                            <Button type="primary" block disabled>{t('auth.login')}</Button>
                         }
                     </Form.Item>
                     </Form>

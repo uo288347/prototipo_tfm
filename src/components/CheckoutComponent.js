@@ -12,9 +12,11 @@ import { Collapse } from "antd-mobile";
 import { CollapsePanel } from "antd-mobile/es/components/collapse/collapse";
 import { clearFavorites } from "@/utils/UtilsFavorites";
 import { task8 } from "@/utils/UtilsTasks";
+import { useTranslations } from 'next-intl';
 
 
 export const CheckoutComponent = () => {
+    const t = useTranslations();
     const router = useRouter();
     let requiredInForm = []
     let [formErrors, setFormErrors] = useState({})
@@ -46,10 +48,10 @@ export const CheckoutComponent = () => {
         <div style={{ flex: "1", display: "flex", flexDirection: "column", justifyContent: "space-between", 
             minHeight: "100%", height: "100%" }}>
             <div style={{flex:1, overflowY: "auto", height: "100%"}}>
-                <ConfigurableMenu icon={<CreditCardOutlined />} text={"Checkout"} onClick={() => router.push("/shoppingCart")} />
+                <ConfigurableMenu icon={<CreditCardOutlined />} text={t('navigation.checkout')} onClick={() => router.push("/shoppingCart")} />
 
                 <Collapse>
-                    <CollapsePanel key='1' title="Subtotal" style={{ margin: 0, padding: 0 }}>
+                    <CollapsePanel key='1' title={t('product.subtotal')} style={{ margin: 0, padding: 0 }}>
                         {cartItems.map(c => {
                             let p = getProduct(c.id)
                             return (<Row style={{ display: "flex", flexDirection: "row", justifyContent: "space-between" }}>
@@ -64,16 +66,16 @@ export const CheckoutComponent = () => {
                 </Collapse>
 
                 <Row style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", paddingTop: "1rem", }}>
-                    <Title level={2} style={{ padding: 0, margin: 0, }}>Total</Title>
+                    <Title level={2} style={{ padding: 0, margin: 0, }}>{t('product.total')}</Title>
                     <Title level={2} style={{ padding: 0, margin: 0, }}>{calculateTotal()}€</Title>
                 </Row>
 
                 <Divider />
-                <Title style={{ padding: "1rem 0rem", fontWeight: "normal" }} level={3}>Shipping information</Title>
+                <Title style={{ padding: "1rem 0rem", fontWeight: "normal" }} level={3}>{t('checkout.shippingInformation')}</Title>
                 <Form>
-                    <TextInputField name={"city"} placeholder={"City"} formData={formData} icon={<HomeOutlined/>}
+                    <TextInputField name={"city"} placeholder={t('checkout.city')} formData={formData} icon={<HomeOutlined/>}
                         formErrors={formErrors} setFormData={setFormData} setFormErrors={setFormErrors} validateFunc={validateFormDataInputRequired} />
-                    <TextInputField name={"country"} placeholder={"Country"} formData={formData} icon={<EnvironmentOutlined/>}
+                    <TextInputField name={"country"} placeholder={t('checkout.country')} formData={formData} icon={<EnvironmentOutlined/>}
                         formErrors={formErrors} setFormData={setFormData} setFormErrors={setFormErrors} validateFunc={validateFormDataInputRequired} />
 
                 </Form>

@@ -9,3 +9,13 @@ export default function End() {
         </div>
     );
 }
+
+export async function getServerSideProps(context) {
+  const locale = context.locale || 'en';
+  
+  return {
+    props: {
+      messages: (await import(`../../messages/${locale}.json`)).default,
+    },
+  };
+}

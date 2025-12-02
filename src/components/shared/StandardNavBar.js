@@ -6,6 +6,7 @@ import { getShoppingCartLength } from "@/utils/UtilsCart";
 import { HeartOutline } from "antd-mobile-icons";
 import { ShoppingCartOutlined } from "@ant-design/icons";
 import { task6 } from "@/utils/UtilsTasks";
+import { LanguageSwitcher } from "./LanguageSwitcher";
 
 export const StandardNavBar = ({ }) => {
     const router = useRouter();
@@ -24,6 +25,9 @@ export const StandardNavBar = ({ }) => {
     }
 
     const right = (<>
+        <div style={{ display: "flex", justifyContent: "flex-end", marginBottom: "1rem" }}>
+            <LanguageSwitcher />
+        </div>
         {favorites.size > 0 ? (
             <Badge content={favorites.size} style={{ '--top': '20%', '--right': '12%' }}>
                 <Button type="icon" style={{ border: "none" }} onClick={() => {

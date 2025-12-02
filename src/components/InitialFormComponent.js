@@ -6,83 +6,93 @@ import { TextInputField } from "./shared/TextInputField";
 import { validateFormDataInputYear, allowSubmitForm } from "../utils/UtilsValidations"
 import { modifyStateProperty } from "../utils/UtilsState";
 import { LaptopOutlined, MobileOutlined, TabletOutlined } from "@ant-design/icons";
+import { useTranslations } from 'next-intl';
+import { LanguageSwitcher } from "./shared/LanguageSwitcher";
 
 export const InitialFormComponent = ({ }) => {
+    const t = useTranslations();
     const router = useRouter();
     let [formData, setFormData] = useState({})
     //let requiredInForm = ["handedness","sex","birthYear","rating"]
     let requiredInForm = []
     let [formErrors, setFormErrors] = useState({})
 
-    let tooltipsFrequency = ["Never", "Once a month", "2-3 times a month", "1-3 times a week", "Almost everyday / Everyday"]
+    let tooltipsFrequency = [t('initialForm.never'), t('initialForm.onceMonth'), t('initialForm.twoThreeTimesMonth'), t('initialForm.oneThreeTimesWeek'), t('initialForm.almostEveryday')]
 
     return (
-        <Card title="Initial form">
+        <Row align="middle" justify="center" style={{  minHeight:"100%", minWidth:"100%"}}>
+            <Col xs={24} sm={24} md={12} lg={8} xl={7} justify="center" >
+                <div style={{ display: "flex", justifyContent: "flex-end", marginBottom: "1rem" }}>
+                    <LanguageSwitcher />
+                </div>
+            <Card title={t('initialForm.title')}>
             <Form>
                 <Form.Item>
                     <Select
-                        placeholder="Handedness"
+                        placeholder={t('initialForm.handedness')}
                         onChange={(value) => {
                             modifyStateProperty(formData, setFormData, "handedness", value);
                         }}
                         options={[
-                            { value: 'right', label: <span>Right-handed</span> },
-                            { value: 'left', label: <span>Left-handed</span> },
+                            { value: 'right', label: <span>{t('initialForm.rightHanded')}</span> },
+                            { value: 'left', label: <span>{t('initialForm.leftHanded')}</span> },
                         ]}
                     />
                 </Form.Item>
                 <Form.Item>
                     <Select
-                        placeholder="Sex"
+                        placeholder={t('initialForm.sex')}
                         onChange={(value) => {
                             modifyStateProperty(formData, setFormData, "sex", value);
                         }}
                         options={[
-                            { value: 'man', label: <span>Man</span> },
-                            { value: 'woman', label: <span>Woman</span> },
+                            { value: 'man', label: <span>{t('initialForm.man')}</span> },
+                            { value: 'woman', label: <span>{t('initialForm.woman')}</span> },
                         ]}
                     />
                 </Form.Item>
-                <TextInputField name={"birthYear"} placeholder={"Birth year"} formData={formData}
+                <TextInputField name={"birthYear"} placeholder={t('initialForm.birthYear')} formData={formData}
                     setFormData={setFormData} formErrors={formErrors} setFormErrors={setFormErrors} validateFunc={validateFormDataInputYear} />
 
                 <Divider/>
 
-                <Form.Item name="frequency" label="How often do you use e-commerce websites?">
+                <Form.Item name="frequency" label={t('initialForm.ecommerceFrequency')}>
                     <Select
-                        placeholder="Select frequency"
+                        placeholder={t('initialForm.selectFrequency')}
                         onChange={(value) => modifyStateProperty(formData, setFormData, "frequency", value)}
                         options={[
-                            { value: 'never', label: "Never" },
-                            { value: 'once_month', label: "Once a month" },
-                            { value: '2_3_times_month', label: "2-3 times a month" },
-                            { value: '1_3_times_week', label: "1-3 times a week" },
-                            { value: 'everyday', label: "Almost everyday / Everyday" },
+                            { value: 'never', label: t('initialForm.never') },
+                            { value: 'once_month', label: t('initialForm.onceMonth') },
+                            { value: '2_3_times_month', label: t('initialForm.twoThreeTimesMonth') },
+                            { value: '1_3_times_week', label: t('initialForm.oneThreeTimesWeek') },
+                            { value: 'everyday', label: t('initialForm.almostEveryday') },
                         ]}
                     />
                 </Form.Item>
 
-                <Form.Item label="Which device do you use most for online shopping?">
+                <Form.Item label={t('initialForm.deviceQuestion')}>
                     <Select
-                        placeholder="Device type"
+                        placeholder={t('initialForm.deviceType')}
                         onChange={(value) => {
                             modifyStateProperty(formData, setFormData, "device", value);
                         }}
                         options={[
-                            { value: 'computer', label: <span><LaptopOutlined /> Laptop / Computer</span> },
-                            { value: 'phone', label: <span><MobileOutlined /> Smartphone</span> },
-                            { value: 'tablet', label: <span><TabletOutlined /> Tablet</span> },
+                            { value: 'computer', label: <span><LaptopOutlined /> {t('initialForm.laptop')}</span> },
+                            { value: 'phone', label: <span><MobileOutlined /> {t('initialForm.smartphone')}</span> },
+                            { value: 'tablet', label: <span><TabletOutlined /> {t('initialForm.tablet')}</span> },
                         ]}
                     />
                 </Form.Item>
 
                 <Form.Item style={{ marginBottom: 0 }}>
                     {allowSubmitForm(formData, formErrors, requiredInForm) ?
-                        <Button type="primary" size="large" onClick={() => { router.push("/login") }} block >Register</Button> :
-                        <Button type="primary" size="large" block disabled>Register</Button>
+                        <Button type="primary" size="large" onClick={() => { router.push("/login") }} block >{t('auth.register')}</Button> :
+                        <Button type="primary" size="large" block disabled>{t('auth.register')}</Button>
                     }
                 </Form.Item>
             </Form>
         </Card>
+        </Col>
+    </Row>
     );
 }

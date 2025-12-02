@@ -4,8 +4,10 @@ import { useState, useEffect } from "react";
 import { UtilsTasks } from "@/utils/UtilsTasks";
 import { BulbOutlined } from "@ant-design/icons";
 import confetti from 'canvas-confetti';
+import { useTranslations } from 'next-intl';
 
 export const InstructionsBanner = forwardRef((props, ref) => {
+    const t = useTranslations();
     const [currentTask, setCurrentTask] = useState(null);
     const [isSuccess, setIsSuccess] = useState(false);
     const [allCompleted, setAllCompleted] = useState(false);
@@ -104,7 +106,7 @@ export const InstructionsBanner = forwardRef((props, ref) => {
             }}>
                 <NoticeBar
                     icon={<BulbOutlined />}
-                    content="🎉 All tasks completed! Excellent work!"
+                    content={t('instructions.allTasksCompleted')}
                     color="success"
                 />
             </div>

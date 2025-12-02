@@ -9,20 +9,22 @@ import { filter } from "framer-motion/client";
 import { useSearchParams, useRouter, usePathname } from "next/navigation";
 import { getCategory, getCategoryLabel } from "@/utils/UtilsCategories";
 import { StandardNavBar } from "../shared/StandardNavBar";
+import { useTranslations } from 'next-intl';
 
 const { Title } = Typography
 
 export const HomeComponent = ({ }) => {
+    const t = useTranslations();
     const [filters, setFilters] = useState({
         category: null,
         filter: ""
     });
 
     let getFilters = [
-        { value: "", label: "All" },
-        { value: "clothing", label: "Clothing" },
-        { value: "accessories", label: "Accessories" },
-        { value: "footwear", label: "Footwear" }];
+        { value: "", label: t('categories.all') },
+        { value: "clothing", label: t('categories.clothing') },
+        { value: "accessories", label: t('categories.accessories') },
+        { value: "footwear", label: t('categories.footwear') }];
 
 
     const searchParams = useSearchParams();

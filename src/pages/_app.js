@@ -1,5 +1,6 @@
 import { notification, Tour, ConfigProvider as AntdConfigProvider } from 'antd';
 import esESAntd from 'antd/locale/es_ES';
+import enUSAntd from 'antd/locale/en_US';
 import 'antd/dist/reset.css';
 import 'antd-mobile/es/global';
 import '../styles/output.css';
@@ -7,29 +8,38 @@ import { initNotification } from "../utils/UtilsNotifications";
 import { useEffect, useState, useRef } from 'react';
 import { ConfigProvider as AntdMobileConfigProvider } from 'antd-mobile';
 import esESMobile from 'antd-mobile/es/locales/es-ES';
+import enUSMobile from 'antd-mobile/es/locales/en-US';
 import { clearCart } from '@/utils/UtilsCart';
 import { clearFavorites } from '@/utils/UtilsFavorites';
 import { InstructionsBanner } from '@/components/shared/InstructionsBanner';
 import { clearLogin, isLoggedIn } from '@/utils/UtilsLogin';
 import { getTourSteps } from '@/utils/UtilsTour';
 import { task1, UtilsTasks } from '@/utils/UtilsTasks';
-
-// Personalizar los textos del Tour
-const customLocale = {
-    ...esESAntd,
-    Tour: {
-        Next: 'Continue',
-        Previous: 'Back',
-        Finish: 'Finish',
-    },
-};
+import { NextIntlClientProvider } from 'next-intl';
+import { useRouter } from 'next/router';
 
 export default function App({ Component, pageProps }) {
+    const router = useRouter();
+    const locale = router.locale || 'en';
     const [api, contextHolder] = notification.useNotification();
     const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
     const [openTour, setOpenTour] = useState(false);
 
     const bannerRef = useRef(null);
+
+    // Seleccionar los locales de Ant Design según el idioma
+    const antdLocale = locale === 'es' ? esESAntd : enUSAntd;
+    const antdMobileLocale = locale === 'es' ? esESMobile : enUSMobile;
+
+    // Personalizar los textos del Tour según el idioma
+    const customLocale = {
+        ...antdLocale,
+        Tour: {
+            Next: locale === 'es' ? 'Continuar' : 'Continue',
+            Previous: locale === 'es' ? 'Atrás' : 'Back',
+            Finish: locale === 'es' ? 'Finalizar' : 'Finish',
+        },
+    };
     
     useEffect(() => {
         initNotification(api);
@@ -71,27 +81,29 @@ export default function App({ Component, pageProps }) {
     };
 
     return (
-        <AntdConfigProvider locale={customLocale}>
-            <AntdMobileConfigProvider locale={esESMobile}>
-                {contextHolder}
-                <div style={{ minHeight: "100vh", display: "flex", flexDirection: "column", backgroundColor: "#fff" }}>
-                    <div style={{ flex: 1, display: "flex",
-                    flexDirection: "column", padding: "0px 0px", paddingTop: isUserLoggedIn ? "40px" : "0px", minHeight: "100%" }}>
-                        {isUserLoggedIn && <InstructionsBanner ref={bannerRef}/>}
-                        <Component {...pageProps} />
+        <NextIntlClientProvider locale={locale} messages={pageProps.messages}>
+            <AntdConfigProvider locale={customLocale}>
+                <AntdMobileConfigProvider locale={antdMobileLocale}>
+                    {contextHolder}
+                    <div style={{ minHeight: "100vh", display: "flex", flexDirection: "column", backgroundColor: "#fff" }}>
+                        <div style={{ flex: 1, display: "flex",
+                        flexDirection: "column", padding: "0px 0px", paddingTop: isUserLoggedIn ? "40px" : "0px", minHeight: "100%" }}>
+                            {isUserLoggedIn && <InstructionsBanner ref={bannerRef}/>}
+                            <Component {...pageProps} />
+                        </div>
+                        <footer style={{ textAlign: "center", padding: "16px" }}>
+                            Teresa González - Universidad de Oviedo
+                        </footer>
                     </div>
-                    <footer style={{ textAlign: "center", padding: "16px" }}>
-                        Teresa González - Universidad de Oviedo
-                    </footer>
-                </div>
 
-                <Tour 
-                    style={{margin: "0 30px"}}
-                    open={openTour} 
-                    onClose={closeTour} 
-                    steps={getTourSteps({bannerRef})}
-                />
-            </AntdMobileConfigProvider>
-        </AntdConfigProvider>
+                    <Tour 
+                        style={{margin: "0 30px"}}
+                        open={openTour} 
+                        onClose={closeTour} 
+                        steps={getTourSteps({bannerRef})}
+                    />
+                </AntdMobileConfigProvider>
+            </AntdConfigProvider>
+        </NextIntlClientProvider>
     );
 }
