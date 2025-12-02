@@ -10,11 +10,14 @@ import { useSearchParams, useRouter, usePathname } from "next/navigation";
 import { getCategory, getCategoryLabel } from "@/utils/UtilsCategories";
 import { StandardNavBar } from "../shared/StandardNavBar";
 import { useTranslations } from 'next-intl';
+import { useRouter as useNextRouter } from 'next/router';
 
 const { Title } = Typography
 
 export const HomeComponent = ({ }) => {
     const t = useTranslations();
+    const nextRouter = useNextRouter();
+    const locale = nextRouter.locale || 'es';
     const [filters, setFilters] = useState({
         category: null,
         filter: ""
@@ -43,13 +46,13 @@ export const HomeComponent = ({ }) => {
 
     // 🔹 Cada vez que cambian los parámetros de la URL, sincroniza el estado local
     useEffect(() => {
-        let label = getCategoryLabel(searchParams.get("category"))
+        let label = getCategoryLabel(searchParams.get("category"), locale)
         setFilters({
             category: searchParams.get("category") || null,
             categoryLabel: label || null,
             filter: searchParams.get("filter") || "",
         });
-    }, [searchParams]);
+    }, [searchParams, locale]);
 
     const handleCategorySelect = (value, label) => {
         setFilters((prev) => ({

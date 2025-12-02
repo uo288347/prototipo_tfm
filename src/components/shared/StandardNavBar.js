@@ -24,10 +24,8 @@ export const StandardNavBar = ({ }) => {
         router.push("/home")
     }
 
-    const right = (<>
-        <div style={{ display: "flex", justifyContent: "flex-end", marginBottom: "1rem" }}>
-            <LanguageSwitcher />
-        </div>
+    const right = (<div style={{ display: "flex", alignItems: "center", justifyContent: "flex-end", }}>
+        <LanguageSwitcher />
         {favorites.size > 0 ? (
             <Badge content={favorites.size} style={{ '--top': '20%', '--right': '12%' }}>
                 <Button type="icon" style={{ border: "none" }} onClick={() => {
@@ -53,7 +51,7 @@ export const StandardNavBar = ({ }) => {
                 <ShoppingCartOutlined style={{ fontSize: 24 }} />
             </Button>
         )}
-    </>
+    </div>
     )
 
     return (

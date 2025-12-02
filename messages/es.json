@@ -27,7 +27,11 @@
     "all": "Todo",
     "clothing": "Ropa",
     "accessories": "Accesorios",
-    "footwear": "Calzado"
+    "footwear": "Calzado",
+    "sports": "Deportes",
+    "children": "Moda infantil",
+    "women": "Moda mujer",
+    "men": "Moda hombre"
   },
   "product": {
     "addToCart": "Añadir al carrito",

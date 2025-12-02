@@ -3,14 +3,17 @@ import { Card, Col, Row, Image } from "antd";
 import { motion } from "framer-motion";
 import { label } from "framer-motion/client";
 import { getCategories } from "@/utils/UtilsCategories";
+import { useRouter } from "next/router";
 
 export const CategoryFilter = ({selectedCategory, onSelectCategory}) => {
+    const router = useRouter();
+    const locale = router.locale || 'es';
     const [categories, setCategories] = useState([])
 
     useEffect(() => {
-        let cats = getCategories()
+        let cats = getCategories(locale)
         setCategories(cats)
-    }, [])
+    }, [locale])
 
     return (
         <div style={{ overflowX: 'auto', whiteSpace: 'nowrap' }}>

@@ -15,6 +15,7 @@ import { getCategoryLabel } from "@/utils/UtilsCategories";
 
 let DetailsProductComponent = ({ id }) => {
     const router = useRouter();
+    const locale = router.locale || 'es';
     let [product, setProduct] = useState({})
     let [category, setCategory] = useState(null)
     let [selectedSize, setSelectedSize] = useState("S")
@@ -28,8 +29,8 @@ let DetailsProductComponent = ({ id }) => {
         console.log("product: ", p)
         setProduct(p);
         setFavorite(getFavorite(id))
-        setCategory(getCategoryLabel(p.category))
-    }, [])
+        setCategory(getCategoryLabel(p.category, locale))
+    }, [id, locale])
 
     let onToggleFavorite = () => {
         toggleFavorite(id)

@@ -27,7 +27,11 @@
     "all": "All",
     "clothing": "Clothing",
     "accessories": "Accessories",
-    "footwear": "Footwear"
+    "footwear": "Footwear",
+    "sports": "Sports",
+    "children": "Children's fashion",
+    "women": "Women's fashion",
+    "men": "Men's fashion"
   },
   "product": {
     "addToCart": "Add to cart",
