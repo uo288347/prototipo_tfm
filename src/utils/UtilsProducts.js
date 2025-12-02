@@ -1,24 +1,6 @@
 const products = [
     // 🧥 WOMEN'S CLOTHES
-    {
-        id: "mw1",
-        title: "Green Coat",
-        description: "Long winter coat with fleece lining and classic style.",
-        price: 19.03,
-        images: ["/mw1.jpg", "/picture1.jpg", "/picture2.jpg", "/picture3.jpg", "/free.png"],
-        category: "women",
-        filter: "Clothing",
-        freeCode: "FREE123"
-    },
-    {
-        id: "mw2",
-        title: "Pink Summer Dress",
-        description: "Sleeveless pink dress, perfect for the beach.",
-        price: 32.99,
-        images: ["/mw2.jpg", "/picture1.jpg", "/picture2.jpg", "/picture3.jpg"],
-        category: "women",
-        filter: "Clothing"
-    },
+    
     {
         id: "mw3",
         title: "Elegant Black Blazer",
@@ -850,6 +832,7 @@ const products = [
         category: "children",
         filter: "Footwear"
     }, 
+    
 
     // 🏋️ SPORTS CLOTHING 
     {
@@ -871,6 +854,29 @@ const products = [
         category: "sports",
         filter: "Clothing"
     },
+
+    // ****** INTERRUPTION FREE COAT ******
+    {
+        id: "mw1",
+        title: "Green Coat",
+        description: "Long winter coat with fleece lining and classic style.",
+        price: 19.03,
+        images: ["/mw1.jpg", "/picture1.jpg", "/picture2.jpg", "/picture3.jpg", "/free.png"],
+        category: "women",
+        filter: "Clothing",
+        freeCode: "FREE123"
+    },
+    {
+        id: "mw2",
+        title: "Pink Summer Dress",
+        description: "Sleeveless pink dress, perfect for the beach.",
+        price: 32.99,
+        images: ["/mw2.jpg", "/picture1.jpg", "/picture2.jpg", "/picture3.jpg"],
+        category: "women",
+        filter: "Clothing"
+    },
+    // ************************************
+
     {
         id: "md3",
         title: "Compression Leggings",
