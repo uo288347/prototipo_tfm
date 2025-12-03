@@ -11,7 +11,7 @@ export default function Index() {
   };
 
   return (
-    <div style={{flex: 1, minHeight: "100%", padding: "20px 20px", 
+    <div style={{flex: 1, padding: "20px 20px", 
       display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center"}}>
     <div style={{ position: "absolute", top: "20px", right: "20px" }}>
       <LanguageSwitcher />
