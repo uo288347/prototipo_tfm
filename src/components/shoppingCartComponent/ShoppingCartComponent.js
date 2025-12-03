@@ -31,6 +31,7 @@ export const ShoppingCartComponent = ({ }) => {
     const longPressTimer = useRef(null);
     const longPressTriggered = useRef(false);
     const dragStartPosition = useRef({ x: 0, y: 0 });
+    const hasVibrated = useRef(false);
 
     const getItemKey = (item) => `${item.id}-${item.size}`;
 
@@ -41,6 +42,7 @@ export const ShoppingCartComponent = ({ }) => {
 
     const handleTouchStart = (e, item) => {
         longPressTriggered.current = false;
+        hasVibrated.current = false; // Resetear la vibración al inicio
 
         const touch = e.touches[0];
         dragStartPosition.current = { x: touch.clientX, y: touch.clientY };
@@ -117,7 +119,12 @@ export const ShoppingCartComponent = ({ }) => {
                 // Iniciar arrastre: vibración + mostrar ghost
                 setDragging(true);
                 setShowDragGhost(true);
-                navigator.vibrate?.(30); // Vibración al iniciar el arrastre
+                
+                // Vibrar solo si no se ha vibrado ya
+                if (!hasVibrated.current) {
+                    navigator.vibrate?.(30);
+                    hasVibrated.current = true;
+                }
             }
 
             // Actualizar posición del ghost

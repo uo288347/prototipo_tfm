@@ -17,7 +17,7 @@ export const EndComponent = ({ }) => {
     const lastTapRef = useRef(0);
 
     const handleDoubleTap = () => {
-        task9();
+        
         const now = Date.now();
         const DOUBLE_TAP_DELAY = 300; // milisegundos entre taps
 
@@ -28,6 +28,7 @@ export const EndComponent = ({ }) => {
                 spread: 80,
                 origin: { y: 0.6 },
             });
+            task9();
         }
 
         lastTapRef.current = now;
