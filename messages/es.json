@@ -86,7 +86,9 @@
     "emptyMessage": "Tu carrito de compra está vacío.",
     "totalProducts": "productos en total",
     "total": "Total",
-    "continue": "Continuar"
+    "continue": "Continuar",
+    "product": "producto",
+    "products": "productos"
   },
   "favorites": {
     "emptyFavorites": "Aún no tienes favoritos",

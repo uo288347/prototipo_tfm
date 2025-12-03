@@ -2,7 +2,9 @@ import { getShoppingCart, deleteFromCart, updateCart, updateUnits, getShoppingCa
 import { ConfigurableMenu } from "../shared/ConfigurableMenu";
 import { Card, Typography, Col, Row, Divider, Button } from 'antd';
 import { getProduct } from "@/utils/UtilsProducts";
+import { getProductTitle } from "@/utils/UtilsProductTranslations";
 import { HorizontalProductCard } from "../shared/HorizontalProductCard";  
+import { GhostProductCard } from "../shared/GhostProductCard";
 import { DeleteOutlined, ShoppingCartOutlined } from "@ant-design/icons";
 import { useEffect, useState, useRef } from "react";
 import { DeleteZone } from "../shared/DeleteZone"; 
@@ -23,9 +25,12 @@ export const ShoppingCartComponent = ({ }) => {
     const [selectionMode, setSelectionMode] = useState(false);
     const [draggedOver, setDraggedOver] = useState(false);
     const [dragging, setDragging] = useState(false);
+    const [dragGhostPosition, setDragGhostPosition] = useState({ x: 0, y: 0 });
+    const [showDragGhost, setShowDragGhost] = useState(false);
 
     const longPressTimer = useRef(null);
     const longPressTriggered = useRef(false);
+    const dragStartPosition = useRef({ x: 0, y: 0 });
 
     const getItemKey = (item) => `${item.id}-${item.size}`;
 
@@ -36,6 +41,9 @@ export const ShoppingCartComponent = ({ }) => {
 
     const handleTouchStart = (e, item) => {
         longPressTriggered.current = false;
+
+        const touch = e.touches[0];
+        dragStartPosition.current = { x: touch.clientX, y: touch.clientY };
 
         longPressTimer.current = setTimeout(() => {
             longPressTriggered.current = true;
@@ -52,6 +60,10 @@ export const ShoppingCartComponent = ({ }) => {
         if (longPressTimer.current) {
             clearTimeout(longPressTimer.current);
         }
+
+        // Ocultar el ghost al soltar
+        setShowDragGhost(false);
+        setDragging(false);
 
         /*if (!longPressTriggered.current && selectionMode) {
             toggleSelection(item);
@@ -94,6 +106,26 @@ export const ShoppingCartComponent = ({ }) => {
         }
 
         const touch = e.touches[0];
+        
+        // Si hay items seleccionados y estamos en modo selección, activar el arrastre
+        if (selectionMode && selectedItems.size > 0) {
+            // Calcular si se ha movido lo suficiente para iniciar el drag
+            const deltaX = Math.abs(touch.clientX - dragStartPosition.current.x);
+            const deltaY = Math.abs(touch.clientY - dragStartPosition.current.y);
+            
+            if ((deltaX > 10 || deltaY > 10) && !dragging) {
+                // Iniciar arrastre: vibración + mostrar ghost
+                setDragging(true);
+                setShowDragGhost(true);
+                navigator.vibrate?.(30); // Vibración al iniciar el arrastre
+            }
+
+            // Actualizar posición del ghost
+            if (dragging || showDragGhost) {
+                setDragGhostPosition({ x: touch.clientX, y: touch.clientY });
+            }
+        }
+
         console.log("is over: ", isOverDeleteZone(touch))
         if (isOverDeleteZone(touch)) {
             setDraggedOver(true);
@@ -240,6 +272,52 @@ export const ShoppingCartComponent = ({ }) => {
                 <DeleteZone handleDrop={handleDrop} handleDragOver={handleDragOver} handleDragLeave={handleDragLeave}
                     selectionMode={selectionMode} draggedOver={draggedOver} />
             </div>
+
+            {/* Ghost element durante el arrastre - VERSIÓN BADGE SIMPLE (comentada) */}
+            {/* {showDragGhost && selectedItems.size > 0 && (
+                <div
+                    style={{
+                        position: 'fixed',
+                        left: dragGhostPosition.x,
+                        top: dragGhostPosition.y,
+                        transform: 'translate(-50%, -50%)',
+                        pointerEvents: 'none',
+                        zIndex: 9999,
+                        opacity: 0.8,
+                        transition: 'none',
+                    }}
+                >
+                    <div
+                        style={{
+                            background: 'white',
+                            borderRadius: '12px',
+                            padding: '12px',
+                            boxShadow: '0 8px 24px rgba(0,0,0,0.25)',
+                            border: '2px solid #1890ff',
+                            minWidth: '200px',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            gap: '8px'
+                        }}
+                    >
+                        <DeleteOutlined style={{ fontSize: '20px', color: '#1890ff' }} />
+                        <Text strong style={{ fontSize: '16px' }}>
+                            {selectedItems.size} {selectedItems.size === 1 ? t('cart.product') : t('cart.products')}
+                        </Text>
+                    </div>
+                </div>
+            )} */}
+
+            {/* Ghost element durante el arrastre - VERSIÓN CARDS VISUALES */}
+            {showDragGhost && selectedItems.size > 0 && (
+                <GhostProductCard 
+                    dragGhostPosition={dragGhostPosition}
+                    selectedItems={selectedItems}
+                    products={products}
+                    locale={router.locale}
+                />
+            )}
 
             <Divider />
 

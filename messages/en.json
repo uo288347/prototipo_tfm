@@ -84,9 +84,11 @@
     "updateQuantity": "Update quantity",
     "title": "Shopping cart",
     "emptyMessage": "Your shopping cart is empty.",
-    "totalProducts": "total products",
+    "totalProducts": "products in total",
     "total": "Total",
-    "continue": "Continue"
+    "continue": "Continue",
+    "product": "product",
+    "products": "products"
   },
   "favorites": {
     "emptyFavorites": "You don't have favorites yet",
