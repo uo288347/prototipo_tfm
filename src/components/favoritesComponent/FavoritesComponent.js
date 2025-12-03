@@ -12,7 +12,7 @@ import { deleteFromFavorites, getFavorites } from "@/utils/UtilsFavorites";
 import { HeartOutline } from "antd-mobile-icons";
 import { FavoriteCard } from "./FavoriteCard";
 import { useTranslations } from 'next-intl';
-import {GhostProductCard} from "../shared/GhostProductCard";
+import { GhostFavoriteCard } from "../shared/GhostFavoriteCard";
 
 const { Text, Title } = Typography
 
@@ -238,10 +238,9 @@ export const FavoritesComponent = ({ }) => {
                 selectionMode={selectionMode} draggedOver={draggedOver} />
         </div>
         {showDragGhost && selectedItems.size > 0 && (
-                <GhostProductCard 
+                <GhostFavoriteCard 
                     dragGhostPosition={dragGhostPosition}
                     selectedItems={selectedItems}
-                    products={products}
                     locale={router.locale}
                 />
             )}
