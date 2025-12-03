@@ -25,9 +25,13 @@ export const FavoritesComponent = ({ }) => {
     const [selectionMode, setSelectionMode] = useState(false);
     const [draggedOver, setDraggedOver] = useState(false);
     const [dragging, setDragging] = useState(false);
+    const [dragGhostPosition, setDragGhostPosition] = useState({ x: 0, y: 0 });
+    const [showDragGhost, setShowDragGhost] = useState(false);
 
     const longPressTimer = useRef(null);
     const longPressTriggered = useRef(false);
+    const dragStartPosition = useRef({ x: 0, y: 0 });
+    const hasVibrated = useRef(false);
 
     useEffect(() => {
         setIds(getFavorites());
@@ -36,6 +40,17 @@ export const FavoritesComponent = ({ }) => {
 
     const handleTouchStart = (e, item) => {
         longPressTriggered.current = false;
+        hasVibrated.current = false; // Resetear la vibración al inicio
+
+        const touch = e.touches[0];
+        dragStartPosition.current = { x: touch.clientX, y: touch.clientY };
+
+        // Si ya hay items seleccionados y tocamos uno seleccionado, preparar para arrastre
+        const itemKey = getItemKey(item);
+        if (selectionMode && selectedItems.has(itemKey)) {
+            // No hacer nada especial, el arrastre se iniciará en touchMove
+            return;
+        }
 
         longPressTimer.current = setTimeout(() => {
             longPressTriggered.current = true;
@@ -54,7 +69,13 @@ export const FavoritesComponent = ({ }) => {
         }
 
         const touch = e.changedTouches[0];
-        if (draggedOver) {
+        const wasDragging = dragging;
+
+        // Ocultar el ghost al soltar
+        setShowDragGhost(false);
+        setDragging(false);
+
+        if (wasDragging && draggedOver) {
             // Simula el drop
             try {
                 const itemsToDelete = Array.from(selectedItems)
@@ -73,7 +94,7 @@ export const FavoritesComponent = ({ }) => {
             } catch (error) {
                 console.log('Error while deleting favorites', error);
             }
-        } else if (!longPressTriggered.current && selectionMode) {
+        } else if (!longPressTriggered.current && !wasDragging && selectionMode) {
             toggleSelection(item);
         }
     };
@@ -84,6 +105,30 @@ export const FavoritesComponent = ({ }) => {
         }
 
         const touch = e.touches[0];
+
+        if (selectionMode && selectedItems.size > 0) {
+            // Calcular si se ha movido lo suficiente para iniciar el drag
+            const deltaX = Math.abs(touch.clientX - dragStartPosition.current.x);
+            const deltaY = Math.abs(touch.clientY - dragStartPosition.current.y);
+            
+            if ((deltaX > 10 || deltaY > 10) && !dragging) {
+                // Iniciar arrastre: vibración + mostrar ghost
+                setDragging(true);
+                setShowDragGhost(true);
+                
+                // Vibrar solo si no se ha vibrado ya
+                if (!hasVibrated.current) {
+                    navigator.vibrate?.(30);
+                    hasVibrated.current = true;
+                }
+            }
+
+            // Actualizar posición del ghost siempre durante el arrastre
+            if (dragging || (deltaX > 10 || deltaY > 10)) {
+                setDragGhostPosition({ x: touch.clientX, y: touch.clientY });
+            }
+        }
+
         console.log("is over: ", isOverDeleteZone(touch))
         if (isOverDeleteZone(touch)) {
             setDraggedOver(true);
