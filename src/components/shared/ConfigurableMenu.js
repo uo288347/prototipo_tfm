@@ -10,7 +10,7 @@ export const ConfigurableMenu = ({icon, text, onClick}) => {
         <>
         <Row align="middle" justify="space-between" style={{paddingBottom:"1rem", paddingTop:"1rem", alignItems:"center"}}>
             <div style={{display:"flex", alignItems:"center"}}>
-                <Button size="large" style={{border:"none", marginRight:"1rem", fontSize:"1.5rem"}} 
+                <Button type="text" size="large" style={{border:"none", marginRight:"1rem", fontSize:"1.5rem"}} 
                     icon={<ArrowLeftOutlined/>}
                     onClick={onClick}/>
                 
