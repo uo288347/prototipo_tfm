@@ -95,7 +95,7 @@ let DetailsProductComponent = ({ id }) => {
                             {productTitle}
                         </Title>
 
-                        <Button size="large" style={{ border: "none", flex: "0 0 auto" }}
+                        <Button type="text" size="large" style={{ border: "none", flex: "0 0 auto" }}
                             onClick={() => onToggleFavorite()}
                             icon={favorite ? <HeartFill style={{ fontSize: "30px", color: "#b90104ff" }} /> : <HeartOutline style={{ fontSize: "30px" }} />} />
 
