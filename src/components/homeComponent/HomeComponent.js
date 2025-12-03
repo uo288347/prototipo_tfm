@@ -75,7 +75,7 @@ export const HomeComponent = ({ }) => {
                         allowClear
                         style={{ width: "100%" }}
                         placeholder={<div>
-                            <FilterOutlined /> Filters
+                            <FilterOutlined /> {t('home.filters')}
                         </div>}
                         onChange={(value) => updateUrl("filter", value)}
                         options={getFilters}
@@ -86,19 +86,19 @@ export const HomeComponent = ({ }) => {
             {filters.category == null ?
                 <Row style={{ minWidth: "100%", paddingTop: "1rem" }}>
                     <Col xs={24}>
-                        <h2>Categories</h2>
+                        <h2>{t('home.categories')}</h2>
                         <CategoryFilter selectedCategory={filters.category} onSelectCategory={handleCategorySelect} />
                     </Col>
                 </Row>
                 :
                 <Breadcrumb style={{ paddingTop: "1rem" }} items={[
-                    { title: <a onClick={() => handleCategorySelect(null)}>Home</a> },
+                    { title: <a onClick={() => handleCategorySelect(null)}>{t('home.home')}</a> },
                     { title: filters.categoryLabel }
                 ]} />}
 
             <Row style={{ minWidth: "100%", paddingTop: "1.5rem" }}>
                 <Col xs={24}>
-                    {filters.category == null && <h2>Products</h2>}
+                    {filters.category == null && <h2>{t('home.products')}</h2>}
                     <ProductGrid category={filters.category}
                         filter={filters.filter} />
                 </Col>

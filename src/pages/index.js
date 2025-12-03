@@ -17,14 +17,14 @@ export default function Index() {
       <LanguageSwitcher />
     </div>
     <Button style={{width:"100%"}} size="large" type="primary" onClick={handleStart}>
-      Start
+      {t('auth.start')}
     </Button>
     </div>
   );
 }
 
 export async function getServerSideProps(context) {
-  const locale = context.locale || 'en';
+  const locale = context.locale || 'es';
   
   return {
     props: {

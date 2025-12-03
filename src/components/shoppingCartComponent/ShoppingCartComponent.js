@@ -9,11 +9,13 @@ import { DeleteZone } from "../shared/DeleteZone";
 import { useRouter } from "next/router";
 import { SelectionIndicator } from "../shared/SelectionIndicator"; 
 import { BottomSection } from "./BottomSection";
+import { useTranslations } from 'next-intl';
 
 const { Text, Title } = Typography
 
 export const ShoppingCartComponent = ({ }) => {
     const router = useRouter();
+    const t = useTranslations();
 
     const [products, setProducts] = useState([]);
     const [productsLength, setProductsLength] = useState(0);
@@ -192,18 +194,18 @@ export const ShoppingCartComponent = ({ }) => {
                     paddingBottom: selectionMode ? "5rem" : "10rem",
                     marginBottom: "1rem"
                 }}>
-                    <ConfigurableMenu icon={<ShoppingCartOutlined />} text={"Shopping cart"} onClick={() => router.push("/home")} />
+                    <ConfigurableMenu icon={<ShoppingCartOutlined />} text={t('cart.title')} onClick={() => router.push("/home")} />
                     <SelectionIndicator selectionMode={selectionMode} nSelectedItems={selectedItems.size} cancelSelection={cancelSelection} />
 
                     <div style={{ paddingBottom: 0 }}>
                         {products.length === 0 ? (
                             <div style={{ display: "flex", justifyContent: "center", paddingBottom: "0.5rem" }}>
-                                <Text type="secondary">Your shopping cart is empty.</Text>
+                                <Text type="secondary">{t('cart.emptyMessage')}</Text>
                             </div>
                         ) : (
                             <>
                                 <div style={{ display: "flex", justifyContent: "center", paddingBottom: "0.5rem" }}>
-                                    <Text>{productsLength} total products</Text>
+                                    <Text>{productsLength} {t('cart.totalProducts')}</Text>
                                 </div>
                                 {products.map((item, index) => {
                                     const itemKey = getItemKey(item);

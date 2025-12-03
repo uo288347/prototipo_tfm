@@ -1,6 +1,8 @@
 import { Button } from "antd-mobile";
+import { useTranslations } from 'next-intl';
 
 export const SelectionIndicator = ({selectionMode, nSelectedItems, cancelSelection}) => {
+    const t = useTranslations();
     return (
         <>
         {selectionMode && (
@@ -16,10 +18,10 @@ export const SelectionIndicator = ({selectionMode, nSelectedItems, cancelSelecti
                                 fontSize: "0.875rem",
                                 color: "#1e3a8a"
                             }}>
-                                {nSelectedItems} selected product(s)
+                                {nSelectedItems} {t('common.selectedProducts')}
                             </span>
                             <Button size="small" onClick={cancelSelection}>
-                                Cancel
+                                {t('common.cancel')}
                             </Button>
                         </div>
                     )}

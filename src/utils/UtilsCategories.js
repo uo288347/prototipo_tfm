@@ -1,13 +1,13 @@
 
 
 
-// Importar traducciones
-import enMessages from '../../messages/en.json';
-import esMessages from '../../messages/es.json';
+// Importar traducciones de categorías
+import categoriesEn from '../../messages/categories_en.json';
+import categoriesEs from '../../messages/categories_es.json';
 
-const messages = {
-  en: enMessages,
-  es: esMessages
+const categoriesMessages = {
+  en: categoriesEn,
+  es: categoriesEs
 };
 
 // Categorías base (las claves no cambian, solo las etiquetas)
@@ -22,7 +22,7 @@ const categoriesBase = [
 export const getCategories = (locale = 'es') => {
   return categoriesBase.map(cat => ({
     ...cat,
-    image: messages[locale]?.categories?.[cat.key] || cat.key
+    label: categoriesMessages[locale]?.[cat.key] || cat.key
   }));
 };
 
@@ -32,7 +32,7 @@ export const getCategory = (key, locale = 'es') => {
   
   return {
     ...category,
-    label: messages[locale]?.categories?.[key] || key
+    label: categoriesMessages[locale]?.[key] || key
   };
 };
 
@@ -40,6 +40,6 @@ export const getCategoryLabel = (value, locale = 'es') => {
   const category = categoriesBase.find(c => c.key === value);
   if (!category) return null;
   
-  return messages[locale]?.categories?.[value] || value;
+  return categoriesMessages[locale]?.[value] || value;
 };
 

@@ -13,11 +13,13 @@ import { CollapsePanel } from "antd-mobile/es/components/collapse/collapse";
 import { clearFavorites } from "@/utils/UtilsFavorites";
 import { task8 } from "@/utils/UtilsTasks";
 import { useTranslations } from 'next-intl';
+import { getProductTitle } from "@/utils/UtilsProductTranslations";
 
 
 export const CheckoutComponent = () => {
     const t = useTranslations();
     const router = useRouter();
+    const locale = router.locale || 'es';
     let requiredInForm = []
     let [formErrors, setFormErrors] = useState({})
 
@@ -54,10 +56,11 @@ export const CheckoutComponent = () => {
                     <CollapsePanel key='1' title={t('product.subtotal')} style={{ margin: 0, padding: 0 }}>
                         {cartItems.map(c => {
                             let p = getProduct(c.id)
-                            return (<Row style={{ display: "flex", flexDirection: "row", justifyContent: "space-between" }}>
+                            let productTitle = getProductTitle(c.id, locale)
+                            return (<Row key={`${c.id}-${c.size}`} style={{ display: "flex", flexDirection: "row", justifyContent: "space-between" }}>
                                 <div>
                                     <Text>{c.quantity}x </Text>
-                                    <Text>{p.title}</Text>
+                                    <Text>{productTitle}</Text>
                                 </div>
                                 <Text>{c.quantity * c.price} €</Text>
                             </Row>)
@@ -74,17 +77,19 @@ export const CheckoutComponent = () => {
                 <Title style={{ padding: "1rem 0rem", fontWeight: "normal" }} level={3}>{t('checkout.shippingInformation')}</Title>
                 <Form>
                     <TextInputField name={"city"} placeholder={t('checkout.city')} formData={formData} icon={<HomeOutlined/>}
-                        formErrors={formErrors} setFormData={setFormData} setFormErrors={setFormErrors} validateFunc={validateFormDataInputRequired} />
+                        formErrors={formErrors} setFormData={setFormData} setFormErrors={setFormErrors} validateFunc={validateFormDataInputRequired}
+                        validateParams={[t('errors.required')]} />
                     <TextInputField name={"country"} placeholder={t('checkout.country')} formData={formData} icon={<EnvironmentOutlined/>}
-                        formErrors={formErrors} setFormData={setFormData} setFormErrors={setFormErrors} validateFunc={validateFormDataInputRequired} />
+                        formErrors={formErrors} setFormData={setFormData} setFormErrors={setFormErrors} validateFunc={validateFormDataInputRequired}
+                        validateParams={[t('errors.required')]} />
 
                 </Form>
             </div>
             <Form>
                 <Form.Item style={{ margin: 0, marginBottom: 0, paddingBottom: 0 }}>
                     {allowSubmitForm(formData, formErrors, requiredInForm) ?
-                        <Button type="primary" size="large" onClick={clickCheckout} block ><ShoppingCartOutlined style={{ fontSize: "1.3rem" }} />Confirm purchase</Button> :
-                        <Button type="primary" size="large" block disabled><ShoppingCartOutlined style={{ fontSize: "1.3rem" }} />Confirm purchase</Button>
+                        <Button type="primary" size="large" onClick={clickCheckout} block ><ShoppingCartOutlined style={{ fontSize: "1.3rem" }} />{t('checkout.confirmPurchase')}</Button> :
+                        <Button type="primary" size="large" block disabled><ShoppingCartOutlined style={{ fontSize: "1.3rem" }} />{t('checkout.confirmPurchase')}</Button>
                     }
                 </Form.Item>
             </Form>

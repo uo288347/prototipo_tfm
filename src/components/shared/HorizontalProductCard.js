@@ -5,12 +5,17 @@ import { LongPressWrapper } from "./LongPressWrapper";
 import { useDrag } from 'react-dnd';
 import { CheckCircleFilled } from "@ant-design/icons";
 import { Stepper } from "antd-mobile";
+import { getProductTitle } from "@/utils/UtilsProductTranslations";
+import { useTranslations } from 'next-intl';
 
 const { Text, Title } = Typography;
 
 export const HorizontalProductCard = ({ item, index, isSelected, selectedItems, onClick, updateUnits }) => {
     const router = useRouter();
+    const locale = router.locale || 'es';
+    const t = useTranslations();
     const product = getProduct(item.id);
+    const productTitle = getProductTitle(item.id, locale);
 
     const [{ isDragging }, dragRef] = useDrag({
         type: 'CARD',
@@ -55,7 +60,7 @@ export const HorizontalProductCard = ({ item, index, isSelected, selectedItems, 
                     <Col xs={8} sm={6}>
                         <img
                             src={product.images[0]}
-                            alt={product.title}
+                            alt={productTitle}
                             style={{
                                 height: "100%",
                                 display: "flex",
@@ -77,9 +82,9 @@ export const HorizontalProductCard = ({ item, index, isSelected, selectedItems, 
                         overflow: "hidden"
                     }}>
                         <Title level={5} style={{ fontWeight: "normal", padding: 0, margin: 0 }}>
-                            {product.title}
+                            {productTitle}
                         </Title>
-                        <Text style={{ marginTop: "0.5rem" }} >Size {item.size}</Text>
+                        <Text style={{ marginTop: "0.5rem" }} >{t('product.size')} {item.size}</Text>
 
                         <Stepper
                             style={{ marginTop: "0.5rem", marginBottom: "0.5rem" }}
@@ -97,7 +102,7 @@ export const HorizontalProductCard = ({ item, index, isSelected, selectedItems, 
                                 type="link"
                                 onClick={() => router.push(`/detailProduct/${item.id}`)}
                             >
-                                View Product
+                                {t('product.viewProduct')}
                             </Button>
                         </Row>
 

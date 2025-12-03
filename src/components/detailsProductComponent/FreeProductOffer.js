@@ -2,8 +2,10 @@ import { Collapse, Input, Button } from "antd-mobile";
 import { useState, useEffect } from "react";
 import { isEligibleForFree, isProductFree, setItemAsOffer } from "@/utils/UtilsOffer";
 import { task3 } from "@/utils/UtilsTasks";
+import { useTranslations } from 'next-intl';
 
 export const FreeProductOffer = ({ id, freeCode, isApplied, setIsApplied }) => {
+    const t = useTranslations();
     const [code, setCode] = useState("");
     const [message, setMessage] = useState("");
 
@@ -12,22 +14,22 @@ export const FreeProductOffer = ({ id, freeCode, isApplied, setIsApplied }) => {
         if (isProductFree(id)) {
             setIsApplied(true);
             setItemAsOffer(id);
-            setMessage("✅ This product is already FREE!");
+            setMessage(t('freeOffer.alreadyFree'));
         }
-    }, [id]);
+    }, [id, t]);
 
     const handleApplyCode = () => {
         // Replace "FREE123" with your real codes logic
         const validCodes = ["FREE123", "BONUS2025"];
         if (isEligibleForFree(id) && code.toUpperCase() === freeCode.toUpperCase()) {
-            setMessage("🎉 Congratulations! This product is now FREE!");
+            setMessage(t('freeOffer.success'));
             setIsApplied(true);
             setItemAsOffer(id);
             task3(id, 0);
         } else {
             console.log("is eligible", isEligibleForFree(id))
 
-            setMessage("❌ Sorry, this code is not valid for a free product.");
+            setMessage(t('freeOffer.invalid'));
         }
     };
 
@@ -36,27 +38,27 @@ export const FreeProductOffer = ({ id, freeCode, isApplied, setIsApplied }) => {
             <Collapse>
                 <Collapse.Panel
                     key="1"
-                    title={"🎁 Unlock a Free Product!"}
+                    title={t('freeOffer.title')}
                 >
                     <p>
-                        Some of our products come with a special <strong style={{ color: "red" }}>red code</strong> displayed on their image.
+                        {t('freeOffer.description1')} <strong style={{ color: "red" }}>{t('freeOffer.redCode')}</strong> {t('freeOffer.description2')}
                     </p>
                     <p>
-                        Enter this code in the input box below, and voilà — the product is yours for <strong>FREE</strong>!
+                        {t('freeOffer.description3')} <strong>{t('product.free')}</strong>!
                     </p>
                     <p style={{ fontStyle: "italic", color: "#555" }}>
-                        Look out for red-marked items and treat yourself to a special surprise. Only a few lucky products carry this offer!
+                        {t('freeOffer.description4')}
                     </p>
 
                     <div style={{ display: "flex", gap: "0.5rem", marginTop: "1rem" }}>
                         <Input
-                            placeholder="Enter your code"
+                            placeholder={t('freeOffer.placeholder')}
                             value={code}
                             onChange={val => setCode(val)}
                             disabled={isApplied}
                         />
                         <Button color="primary" onClick={handleApplyCode} disabled={isApplied}>
-                            {isApplied ? "Applied" : "Apply"}
+                            {isApplied ? t('freeOffer.applied') : t('freeOffer.apply')}
                         </Button>
                     </div>
                     {message && (

@@ -12,11 +12,16 @@ import { HeartFill, HeartOutline } from "antd-mobile-icons";
 import { getFavorite, toggleFavorite } from "@/utils/UtilsFavorites";
 import { FreeProductOffer } from "./FreeProductOffer";
 import { getCategoryLabel } from "@/utils/UtilsCategories";
+import { getProductTitle, getProductDescription } from "@/utils/UtilsProductTranslations";
+import { useTranslations } from 'next-intl';
 
 let DetailsProductComponent = ({ id }) => {
     const router = useRouter();
     const locale = router.locale || 'es';
+    const t = useTranslations();
     let [product, setProduct] = useState({})
+    let [productTitle, setProductTitle] = useState('')
+    let [productDescription, setProductDescription] = useState('')
     let [category, setCategory] = useState(null)
     let [selectedSize, setSelectedSize] = useState("S")
     let [quantity, setQuantity] = useState(1)
@@ -28,6 +33,8 @@ let DetailsProductComponent = ({ id }) => {
         let p = getProduct(id);
         console.log("product: ", p)
         setProduct(p);
+        setProductTitle(getProductTitle(id, locale))
+        setProductDescription(getProductDescription(id, locale))
         setFavorite(getFavorite(id))
         setCategory(getCategoryLabel(p.category, locale))
     }, [id, locale])
@@ -36,15 +43,15 @@ let DetailsProductComponent = ({ id }) => {
         toggleFavorite(id)
         setFavorite(getFavorite(id))
         if (!favorite) {
-            openNotification("top", "Product added to favorites", "success")
-        } else { openNotification("top", "Deleted product from favorites", "success") }
+            openNotification("top", t('product.addToFavorites'), "success")
+        } else { openNotification("top", t('product.removeFromFavorites'), "success") }
     }
 
     let addToShoppingCart = () => {
         let price = isApplied ? 0 : product.price
         addToCart(id, selectedSize, quantity, price)
         console.log("product added to cart")
-        openNotification("top", "Product added to shopping cart", "success")
+        openNotification("top", t('product.addedToCart'), "success")
     };
 
     const handleSizeChange = (e) => {
@@ -68,7 +75,7 @@ let DetailsProductComponent = ({ id }) => {
                 <Col xs={24}>
                     <Row style={{ paddingBottom: "0.5rem", }}>
                         <Breadcrumb
-                            items={[{ title: <a href="/home">Home</a>, },
+                            items={[{ title: <a href="/home">{t('home.home')}</a>, },
                             { title: <a href="/home">{category}</a> }]}
                         />
                     </Row>
@@ -85,7 +92,7 @@ let DetailsProductComponent = ({ id }) => {
                             flex: "1 1 auto",
                             minWidth: 0,
                         }}>
-                            {product.title}
+                            {productTitle}
                         </Title>
 
                         <Button size="large" style={{ border: "none", flex: "0 0 auto" }}
@@ -96,7 +103,7 @@ let DetailsProductComponent = ({ id }) => {
 
                     <Row align="middle" style={{ paddingBottom: "1rem" }}>
                         <Text style={{ fontSize: "1rem", color: "#666" }}>
-                            {product.description}
+                            {productDescription}
                         </Text>
                     </Row>
 
@@ -146,7 +153,7 @@ let DetailsProductComponent = ({ id }) => {
                     <Button type="primary" block id={product.id}
                         onClick={addToShoppingCart}
                         icon={<ShoppingCartOutlined />}
-                    >Add to cart</Button>
+                    >{t('product.addToCart')}</Button>
                 </Col>
             </Row>
 

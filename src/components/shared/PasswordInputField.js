@@ -11,6 +11,7 @@ import {modifyStateProperty} from "../../utils/UtilsState";
  * @param {object} formErrors - Errores del formulario
  * @param {function} setFormErrors - Setter de errores
  * @param {function} validateFunc - Función de validación que devuelve true/false
+ * @param {array} validateParams - Parámetros adicionales para la función de validación (ej: mensajes de error traducidos)
  */
 export const PasswordInputField = ({
   name,
@@ -19,14 +20,15 @@ export const PasswordInputField = ({
   setFormData,
   formErrors,
   setFormErrors,
-  validateFunc
+  validateFunc,
+  validateParams = []
 }) => {
   const handleChange = (i) => {
     const value = i.currentTarget.value;
     modifyStateProperty(formData, setFormData, name, value);
   };
 
-  const isValid = validateFunc ? validateFunc(formData, name, formErrors, setFormErrors) : true;
+  const isValid = validateFunc ? validateFunc(formData, name, formErrors, setFormErrors, ...validateParams) : true;
 
   return (
     <>

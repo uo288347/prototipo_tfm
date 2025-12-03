@@ -17,6 +17,7 @@ export const InitialFormComponent = ({ }) => {
     let requiredInForm = []
     let [formErrors, setFormErrors] = useState({})
 
+    const currentYear = new Date().getFullYear();
     let tooltipsFrequency = [t('initialForm.never'), t('initialForm.onceMonth'), t('initialForm.twoThreeTimesMonth'), t('initialForm.oneThreeTimesWeek'), t('initialForm.almostEveryday')]
 
     return (
@@ -52,7 +53,8 @@ export const InitialFormComponent = ({ }) => {
                     />
                 </Form.Item>
                 <TextInputField name={"birthYear"} placeholder={t('initialForm.birthYear')} formData={formData}
-                    setFormData={setFormData} formErrors={formErrors} setFormErrors={setFormErrors} validateFunc={validateFormDataInputYear} />
+                    setFormData={setFormData} formErrors={formErrors} setFormErrors={setFormErrors} validateFunc={validateFormDataInputYear}
+                    validateParams={[t('errors.required'), t('errors.invalidYear'), t('errors.yearRange', { year: currentYear - 1 })]} />
 
                 <Divider/>
 

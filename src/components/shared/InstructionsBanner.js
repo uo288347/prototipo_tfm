@@ -1,13 +1,16 @@
 import { NoticeBar } from "antd-mobile"
 import React, { forwardRef } from 'react';
 import { useState, useEffect } from "react";
-import { UtilsTasks } from "@/utils/UtilsTasks";
+import { UtilsTasks, getTaskText } from "@/utils/UtilsTasks";
 import { BulbOutlined } from "@ant-design/icons";
 import confetti from 'canvas-confetti';
 import { useTranslations } from 'next-intl';
+import { useRouter } from 'next/router';
 
 export const InstructionsBanner = forwardRef((props, ref) => {
     const t = useTranslations();
+    const router = useRouter();
+    const locale = router.locale || 'es';
     const [currentTask, setCurrentTask] = useState(null);
     const [isSuccess, setIsSuccess] = useState(false);
     const [allCompleted, setAllCompleted] = useState(false);
@@ -131,8 +134,8 @@ export const InstructionsBanner = forwardRef((props, ref) => {
                 icon={<BulbOutlined />}
                 content={
                     isSuccess
-                        ? `✨ Great! Task Completed`
-                        : `${currentTask.text} ${progressText}`
+                        ? t('instructions.taskCompleted')
+                        : `${getTaskText(currentTask.id, locale)} ${progressText}`
                 }
                 color={isSuccess ? "success" : "info"}
             />

@@ -1,0 +1,382 @@
+{
+  "mw3": {
+    "title": "Elegant Black Blazer",
+    "description": "Tailored blazer with satin lapels, perfect for office or evening events."
+  },
+  "mw4": {
+    "title": "Floral Maxi Dress",
+    "description": "Flowing maxi dress with delicate floral print and adjustable straps."
+  },
+  "mw5": {
+    "title": "Denim High-Waist Jeans",
+    "description": "Classic blue jeans with high waist and slight stretch for comfort."
+  },
+  "mw6": {
+    "title": "Cashmere Blend Sweater",
+    "description": "Soft cashmere blend pullover in cream with ribbed details."
+  },
+  "mw7": {
+    "title": "Silk Blouse with Bow",
+    "description": "Elegant silk blouse with neck tie detail, available in ivory."
+  },
+  "mw8": {
+    "title": "Pleated Midi Skirt",
+    "description": "Flowing pleated skirt in navy blue, ideal for any season."
+  },
+  "mw9": {
+    "title": "Leather Biker Jacket",
+    "description": "Edgy black leather jacket with asymmetric zipper and silver hardware."
+  },
+  "mw10": {
+    "title": "Striped Breton Top",
+    "description": "Classic navy and white striped cotton top with boat neck."
+  },
+  "mw11": {
+    "title": "Wool Trench Coat",
+    "description": "Double-breasted trench coat in camel with belt detail."
+  },
+  "mw12": {
+    "title": "Linen Summer Jumpsuit",
+    "description": "Breezy linen jumpsuit with wide legs and tie waist in terracotta."
+  },
+  "mw13": {
+    "title": "Velvet Evening Dress",
+    "description": "Luxurious emerald green velvet dress with V-neck and midi length."
+  },
+  "mw14": {
+    "title": "Cropped Cardigan",
+    "description": "Soft knit cardigan in blush pink with pearl button closure."
+  },
+  "mw15": {
+    "title": "Wide-Leg Palazzo Pants",
+    "description": "Elegant wide-leg pants in black with high waist and side zipper."
+  },
+  "mw16": {
+    "title": "Bohemian Tunic Dress",
+    "description": "Embroidered tunic dress with bell sleeves in white cotton."
+  },
+  "mw17": {
+    "title": "Quilted Puffer Vest",
+    "description": "Lightweight puffer vest in burgundy with gold zipper detail."
+  },
+  "mw18": {
+    "title": "Wrap Mini Dress",
+    "description": "Flirty wrap dress with floral pattern and ruffle hem."
+  },
+  "mw19": {
+    "title": "Turtleneck Knit Dress",
+    "description": "Cozy midi knit dress in charcoal gray with ribbed texture."
+  },
+  "mw20": {
+    "title": "Satin Slip Skirt",
+    "description": "Elegant bias-cut satin skirt in champagne with elastic waist."
+  },
+  "mw21": {
+    "title": "Oversized Denim Jacket",
+    "description": "Vintage-wash oversized denim jacket with distressed details."
+  },
+  "mw22": {
+    "title": "Printed Palazzo Romper",
+    "description": "Elegant wide-leg romper with tropical print and keyhole back."
+  },
+  "mh1": {
+    "title": "Green Bomber Jacket",
+    "description": "Lightweight jacket with high collar and embroidery."
+  },
+  "mh2": {
+    "title": "Casual Hooded Jacket",
+    "description": "Color-block design, perfect for autumn."
+  },
+  "mh3": {
+    "title": "Plaid Flannel Shirt",
+    "description": "Soft cotton flannel shirt in red and black plaid with button-down collar."
+  },
+  "mh4": {
+    "title": "Slim Fit Chinos",
+    "description": "Versatile khaki chinos with modern slim fit and stretch fabric."
+  },
+  "mh5": {
+    "title": "Quilted Vest",
+    "description": "Lightweight navy quilted vest with zip closure and side pockets."
+  },
+  "mh6": {
+    "title": "Crew Neck T-Shirt",
+    "description": "Premium cotton t-shirt in charcoal grey with comfortable fit."
+  },
+  "mh7": {
+    "title": "Denim Jeans",
+    "description": "Classic straight-leg jeans in medium wash with five-pocket design."
+  },
+  "mi1": {
+    "title": "Boys Dinosaur Tracksuit",
+    "description": "Sweatshirt and jogging pants with dinosaur print."
+  },
+  "mi2": {
+    "title": "Yellow Embroidered Dress",
+    "description": "Summer dress with floral embroidery for girls."
+  },
+  "mi3": {
+    "title": "Striped Long-Sleeve Shirt",
+    "description": "Comfortable cotton shirt with colorful horizontal stripes."
+  },
+  "mi4": {
+    "title": "Denim Overalls",
+    "description": "Classic denim overalls with adjustable straps and front pocket."
+  },
+  "mi5": {
+    "title": "Hooded Raincoat",
+    "description": "Waterproof yellow raincoat with hood and snap closure."
+  },
+  "mi6": {
+    "title": "Graphic Print T-Shirt",
+    "description": "Fun t-shirt with space rocket design and glow-in-the-dark details."
+  },
+  "mi7": {
+    "title": "Tutu Skirt",
+    "description": "Pink layered tulle skirt with elastic waistband, perfect for dress-up."
+  },
+  "mi8": {
+    "title": "Fleece Hoodie",
+    "description": "Soft fleece hoodie in navy blue with kangaroo pocket."
+  },
+  "mi9": {
+    "title": "Cargo Shorts",
+    "description": "Comfortable khaki cargo shorts with multiple pockets."
+  },
+  "mi10": {
+    "title": "Puffer Jacket",
+    "description": "Warm insulated jacket in bright red with zip and snap closure."
+  },
+  "mi11": {
+    "title": "Leggings Set",
+    "description": "Cotton leggings in rainbow colors, pack of three."
+  },
+  "mi12": {
+    "title": "Checkered Button-Up Shirt",
+    "description": "Long-sleeve shirt in blue and white gingham check."
+  },
+  "aw1": {
+    "title": "Leather Handbag with Chain Strap",
+    "description": "Elegant shoulder bag made of soft leather with gold chain details."
+  },
+  "aw3": {
+    "title": "Silk Scarf with Paisley Print",
+    "description": "Luxurious silk scarf in vibrant colors with classic paisley pattern."
+  },
+  "aw4": {
+    "title": "Wide-Brim Straw Hat",
+    "description": "Summer straw hat with black ribbon detail, perfect for sun protection."
+  },
+  "aw5": {
+    "title": "Leather Crossbody Bag",
+    "description": "Compact cognac leather crossbody with adjustable strap and multiple compartments."
+  },
+  "aw6": {
+    "title": "Pearl Drop Earrings",
+    "description": "Elegant gold-tone earrings with freshwater pearl drops."
+  },
+  "aw7": {
+    "title": "Cashmere Wrap Shawl",
+    "description": "Soft cashmere blend shawl in dove gray, perfect for layering."
+  },
+  "aw2": {
+    "title": "Classic Heeled Sandals",
+    "description": "Beige open-toe sandals with adjustable strap and medium heel."
+  },
+  "aw8": {
+    "title": "Ankle Boots",
+    "description": "Black leather ankle boots with low heel and inside zipper closure."
+  },
+  "aw9": {
+    "title": "Ballet Flats",
+    "description": "Comfortable nude ballet flats with bow detail and cushioned insole."
+  },
+  "aw10": {
+    "title": "White Canvas Sneakers",
+    "description": "Classic low-top sneakers with lace-up design and rubber sole."
+  },
+  "aw11": {
+    "title": "Platform Sandals",
+    "description": "Summer platform sandals with cork heel and leather straps."
+  },
+  "aw12": {
+    "title": "Knee-High Boots",
+    "description": "Brown suede boots with block heel and inside zipper."
+  },
+  "am2": {
+    "title": "Casual Sneakers",
+    "description": "Comfortable men's sneakers with breathable mesh design."
+  },
+  "am3": {
+    "title": "Oxford Leather Shoes",
+    "description": "Classic black leather Oxford shoes with lace-up closure, perfect for formal occasions."
+  },
+  "am4": {
+    "title": "Suede Chelsea Boots",
+    "description": "Brown suede Chelsea boots with elastic side panels and rubber sole."
+  },
+  "am5": {
+    "title": "Running Trainers",
+    "description": "Lightweight running shoes with cushioned sole and breathable mesh upper."
+  },
+  "am6": {
+    "title": "Canvas Slip-On Shoes",
+    "description": "Casual navy canvas slip-ons with padded collar and flexible sole."
+  },
+  "am7": {
+    "title": "Hiking Boots",
+    "description": "Waterproof hiking boots with ankle support and rugged tread pattern."
+  },
+  "am8": {
+    "title": "Loafers with Tassels",
+    "description": "Elegant burgundy leather loafers with decorative tassel detail."
+  },
+  "am9": {
+    "title": "High-Top Basketball Sneakers",
+    "description": "Retro-style basketball sneakers with padded ankle support and rubber sole."
+  },
+  "am10": {
+    "title": "Desert Boots",
+    "description": "Tan suede desert boots with crepe sole and two-eyelet lacing."
+  },
+  "am11": {
+    "title": "Leather Boat Shoes",
+    "description": "Classic brown leather boat shoes with non-marking sole and rawhide laces."
+  },
+  "am12": {
+    "title": "Work Boots with Steel Toe",
+    "description": "Heavy-duty work boots with steel toe cap and oil-resistant sole."
+  },
+  "am13": {
+    "title": "Minimalist White Sneakers",
+    "description": "Clean white leather sneakers with subtle branding and comfortable fit."
+  },
+  "am14": {
+    "title": "Monk Strap Dress Shoes",
+    "description": "Sophisticated black leather shoes with double monk strap closure."
+  },
+  "am15": {
+    "title": "Trail Running Shoes",
+    "description": "All-terrain trail runners with aggressive tread and quick-dry mesh."
+  },
+  "am16": {
+    "title": "Brogue Wingtip Shoes",
+    "description": "Tan leather brogues with traditional wingtip design and perforated details."
+  },
+  "am17": {
+    "title": "Slide Sandals",
+    "description": "Comfortable black slide sandals with cushioned footbed and adjustable strap."
+  },
+  "am18": {
+    "title": "Chukka Boots",
+    "description": "Versatile gray suede chukka boots with two-eyelet design."
+  },
+  "am19": {
+    "title": "Cross-Training Shoes",
+    "description": "Multi-purpose training shoes with lateral support and flexible forefoot."
+  },
+  "am20": {
+    "title": "Espadrilles",
+    "description": "Summer canvas espadrilles with jute rope sole in navy blue."
+  },
+  "am21": {
+    "title": "Combat Boots",
+    "description": "Military-inspired black leather boots with lace-up front and side zipper."
+  },
+  "am22": {
+    "title": "Driving Moccasins",
+    "description": "Soft leather driving shoes with rubber pebble sole and comfort fit."
+  },
+  "am1": {
+    "title": "Brown Leather Belt",
+    "description": "Classic genuine leather belt with metal buckle."
+  },
+  "am23": {
+    "title": "Leather Wallet with RFID",
+    "description": "Bi-fold leather wallet with RFID protection and multiple card slots."
+  },
+  "am24": {
+    "title": "Wool Flat Cap",
+    "description": "Classic tweed flat cap in herringbone pattern with satin lining."
+  },
+  "am25": {
+    "title": "Silk Necktie Set",
+    "description": "Set of three silk ties in coordinating colors with matching pocket squares."
+  },
+  "am26": {
+    "title": "Leather Messenger Bag",
+    "description": "Professional brown leather messenger bag with laptop compartment."
+  },
+  "am27": {
+    "title": "Sunglasses with Polarized Lenses",
+    "description": "Classic aviator sunglasses with UV protection and polarized lenses."
+  },
+  "ac1": {
+    "title": "Kids Dinosaur Cap",
+    "description": "Fun green cap with 3D dinosaur spikes and adjustable strap."
+  },
+  "ac3": {
+    "title": "Unicorn Backpack",
+    "description": "Sparkly pink backpack with 3D unicorn horn and rainbow details."
+  },
+  "ac4": {
+    "title": "Character Lunch Box",
+    "description": "Insulated lunch box featuring favorite cartoon characters with handle."
+  },
+  "ac5": {
+    "title": "Knit Beanie with Pom-Pom",
+    "description": "Warm winter beanie in bright colors with oversized pom-pom."
+  },
+  "ac6": {
+    "title": "Kids Sunglasses",
+    "description": "Durable rubber-frame sunglasses with UV protection in fun colors."
+  },
+  "ac7": {
+    "title": "Patterned Hair Bows Set",
+    "description": "Set of five colorful hair bows with alligator clips."
+  },
+  "ac2": {
+    "title": "Light-Up Sneakers",
+    "description": "Pink LED sneakers with glitter details and velcro closure."
+  },
+  "ac8": {
+    "title": "Character Rain Boots",
+    "description": "Waterproof rubber boots with colorful animal print and easy pull-on handles."
+  },
+  "ac9": {
+    "title": "Canvas High-Tops",
+    "description": "Kids' high-top sneakers in bright red with lace-up design."
+  },
+  "ac10": {
+    "title": "Mary Jane Shoes",
+    "description": "Classic black patent leather shoes with strap and bow detail."
+  },
+  "ac11": {
+    "title": "Sport Sandals",
+    "description": "Adjustable water-friendly sandals with cushioned footbed."
+  },
+  "ac12": {
+    "title": "Winter Snow Boots",
+    "description": "Insulated boots with faux fur lining and non-slip sole."
+  },
+  "md1": {
+    "title": "Women's Gym Jacket",
+    "description": "Sports jacket with high collar and zipper closure."
+  },
+  "md2": {
+    "title": "Red Sports Set",
+    "description": "Jacket and jeggings with letter print design."
+  },
+  "mw1": {
+    "title": "Green Coat",
+    "description": "Long winter coat with fleece lining and classic style."
+  },
+  "mw2": {
+    "title": "Pink Summer Dress",
+    "description": "Sleeveless pink dress, perfect for the beach."
+  },
+  "md3": {
+    "title": "Compression Leggings",
+    "description": "High-performance leggings with moisture-wicking fabric and mesh panels."
+  }
+}

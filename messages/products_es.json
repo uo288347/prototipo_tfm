@@ -1,0 +1,382 @@
+{
+  "mw3": {
+    "title": "Blazer Negro Elegante",
+    "description": "Blazer a medida con solapas de satén, perfecta para la oficina o eventos nocturnos."
+  },
+  "mw4": {
+    "title": "Vestido Maxi Floral",
+    "description": "Vestido maxi fluido con delicado estampado floral y tirantes ajustables."
+  },
+  "mw5": {
+    "title": "Jeans de Cintura Alta",
+    "description": "Jeans azules clásicos de cintura alta con ligero estiramiento para mayor comodidad."
+  },
+  "mw6": {
+    "title": "Jersey de Mezcla de Cachemira",
+    "description": "Suéter de mezcla de cachemira suave en color crema con detalles acanalados."
+  },
+  "mw7": {
+    "title": "Blusa de Seda con Lazo",
+    "description": "Elegante blusa de seda con detalle de lazo en el cuello, disponible en marfil."
+  },
+  "mw8": {
+    "title": "Falda Midi Plisada",
+    "description": "Falda plisada fluida en azul marino, ideal para cualquier temporada."
+  },
+  "mw9": {
+    "title": "Chaqueta de Cuero Biker",
+    "description": "Chaqueta de cuero negro con cremallera asimétrica y herrajes plateados."
+  },
+  "mw10": {
+    "title": "Top Bretón a Rayas",
+    "description": "Top clásico de algodón a rayas azul marino y blancas con cuello barco."
+  },
+  "mw11": {
+    "title": "Abrigo de Lana Tipo Trench",
+    "description": "Abrigo trench de doble botonadura en color camel con detalle de cinturón."
+  },
+  "mw12": {
+    "title": "Mono de Lino de Verano",
+    "description": "Mono de lino ligero con piernas anchas y cintura con lazo en terracota."
+  },
+  "mw13": {
+    "title": "Vestido de Noche de Terciopelo",
+    "description": "Lujoso vestido de terciopelo verde esmeralda con cuello en V y largo midi."
+  },
+  "mw14": {
+    "title": "Cárdigan Corto",
+    "description": "Cárdigan de punto suave en rosa empolvado con cierre de botones de perlas."
+  },
+  "mw15": {
+    "title": "Pantalones Palazzo de Pierna Ancha",
+    "description": "Elegantes pantalones de pierna ancha en negro con cintura alta y cremallera lateral."
+  },
+  "mw16": {
+    "title": "Vestido Túnica Bohemio",
+    "description": "Vestido túnica bordado con mangas acampanadas en algodón blanco."
+  },
+  "mw17": {
+    "title": "Chaleco Acolchado Puffer",
+    "description": "Chaleco acolchado ligero en burdeos con detalle de cremallera dorada."
+  },
+  "mw18": {
+    "title": "Vestido Mini Cruzado",
+    "description": "Vestido cruzado coqueto con estampado floral y dobladillo con volantes."
+  },
+  "mw19": {
+    "title": "Vestido de Punto con Cuello Alto",
+    "description": "Acogedor vestido midi de punto en gris carbón con textura acanalada."
+  },
+  "mw20": {
+    "title": "Falda de Satén",
+    "description": "Elegante falda de satén cortada al bies en color champán con cintura elástica."
+  },
+  "mw21": {
+    "title": "Chaqueta Vaquera Oversize",
+    "description": "Chaqueta vaquera oversize con lavado vintage y detalles desgastados."
+  },
+  "mw22": {
+    "title": "Mono Palazzo Estampado",
+    "description": "Elegante mono de pierna ancha con estampado tropical y abertura en la espalda."
+  },
+  "mh1": {
+    "title": "Chaqueta Bomber Verde",
+    "description": "Chaqueta ligera con cuello alto y bordado."
+  },
+  "mh2": {
+    "title": "Chaqueta Casual con Capucha",
+    "description": "Diseño de bloques de color, perfecta para otoño."
+  },
+  "mh3": {
+    "title": "Camisa de Franela a Cuadros",
+    "description": "Camisa de franela de algodón suave a cuadros rojos y negros con cuello abotonado."
+  },
+  "mh4": {
+    "title": "Chinos de Corte Ajustado",
+    "description": "Chinos caqui versátiles con corte ajustado moderno y tela elástica."
+  },
+  "mh5": {
+    "title": "Chaleco Acolchado",
+    "description": "Chaleco acolchado ligero en azul marino con cierre de cremallera y bolsillos laterales."
+  },
+  "mh6": {
+    "title": "Camiseta de Cuello Redondo",
+    "description": "Camiseta de algodón premium en gris carbón con ajuste cómodo."
+  },
+  "mh7": {
+    "title": "Jeans Vaqueros",
+    "description": "Jeans clásicos de pierna recta en lavado medio con diseño de cinco bolsillos."
+  },
+  "mi1": {
+    "title": "Chándal de Dinosaurios para Niños",
+    "description": "Sudadera y pantalones de jogging con estampado de dinosaurios."
+  },
+  "mi2": {
+    "title": "Vestido Amarillo Bordado",
+    "description": "Vestido de verano con bordado floral para niñas."
+  },
+  "mi3": {
+    "title": "Camisa de Manga Larga a Rayas",
+    "description": "Camisa de algodón cómoda con rayas horizontales de colores."
+  },
+  "mi4": {
+    "title": "Peto Vaquero",
+    "description": "Peto vaquero clásico con tirantes ajustables y bolsillo frontal."
+  },
+  "mi5": {
+    "title": "Impermeable con Capucha",
+    "description": "Impermeable amarillo resistente al agua con capucha y cierre de broches."
+  },
+  "mi6": {
+    "title": "Camiseta con Estampado Gráfico",
+    "description": "Camiseta divertida con diseño de cohete espacial y detalles que brillan en la oscuridad."
+  },
+  "mi7": {
+    "title": "Falda de Tutú",
+    "description": "Falda de tul rosa en capas con cintura elástica, perfecta para disfrazarse."
+  },
+  "mi8": {
+    "title": "Sudadera de Forro Polar",
+    "description": "Sudadera suave de forro polar en azul marino con bolsillo canguro."
+  },
+  "mi9": {
+    "title": "Shorts Cargo",
+    "description": "Shorts cargo caqui cómodos con múltiples bolsillos."
+  },
+  "mi10": {
+    "title": "Chaqueta Puffer",
+    "description": "Chaqueta aislante cálida en rojo brillante con cierre de cremallera y broches."
+  },
+  "mi11": {
+    "title": "Set de Leggings",
+    "description": "Leggings de algodón en colores del arcoíris, paquete de tres."
+  },
+  "mi12": {
+    "title": "Camisa a Cuadros con Botones",
+    "description": "Camisa de manga larga a cuadros azules y blancos estilo vichy."
+  },
+  "aw1": {
+    "title": "Bolso de Cuero con Correa de Cadena",
+    "description": "Elegante bolso de hombro de cuero suave con detalles de cadena dorada."
+  },
+  "aw3": {
+    "title": "Pañuelo de Seda con Estampado Paisley",
+    "description": "Lujoso pañuelo de seda en colores vibrantes con patrón paisley clásico."
+  },
+  "aw4": {
+    "title": "Sombrero de Paja de Ala Ancha",
+    "description": "Sombrero de paja de verano con detalle de cinta negra, perfecto para protección solar."
+  },
+  "aw5": {
+    "title": "Bolso Cruzado de Cuero",
+    "description": "Bolso cruzado compacto de cuero coñac con correa ajustable y múltiples compartimentos."
+  },
+  "aw6": {
+    "title": "Pendientes de Perlas Colgantes",
+    "description": "Elegantes pendientes en tono dorado con perlas de agua dulce."
+  },
+  "aw7": {
+    "title": "Chal de Cachemira",
+    "description": "Chal suave de mezcla de cachemira en gris paloma, perfecto para capas."
+  },
+  "aw2": {
+    "title": "Sandalias Clásicas de Tacón",
+    "description": "Sandalias beige de punta abierta con correa ajustable y tacón medio."
+  },
+  "aw8": {
+    "title": "Botines",
+    "description": "Botines de cuero negro con tacón bajo y cierre de cremallera interior."
+  },
+  "aw9": {
+    "title": "Bailarinas",
+    "description": "Bailarinas nude cómodas con detalle de lazo y plantilla acolchada."
+  },
+  "aw10": {
+    "title": "Zapatillas de Lona Blancas",
+    "description": "Zapatillas clásicas de caña baja con diseño de cordones y suela de goma."
+  },
+  "aw11": {
+    "title": "Sandalias de Plataforma",
+    "description": "Sandalias de plataforma de verano con tacón de corcho y tiras de cuero."
+  },
+  "aw12": {
+    "title": "Botas Altas hasta la Rodilla",
+    "description": "Botas de ante marrón con tacón de bloque y cremallera interior."
+  },
+  "am2": {
+    "title": "Zapatillas Casuales",
+    "description": "Zapatillas cómodas para hombre con diseño de malla transpirable."
+  },
+  "am3": {
+    "title": "Zapatos Oxford de Cuero",
+    "description": "Zapatos Oxford clásicos de cuero negro con cierre de cordones, perfectos para ocasiones formales."
+  },
+  "am4": {
+    "title": "Botas Chelsea de Ante",
+    "description": "Botas Chelsea de ante marrón con paneles elásticos laterales y suela de goma."
+  },
+  "am5": {
+    "title": "Zapatillas para Correr",
+    "description": "Zapatillas ligeras para correr con suela acolchada y parte superior de malla transpirable."
+  },
+  "am6": {
+    "title": "Zapatos de Lona sin Cordones",
+    "description": "Zapatos casuales de lona azul marino sin cordones con cuello acolchado y suela flexible."
+  },
+  "am7": {
+    "title": "Botas de Senderismo",
+    "description": "Botas de senderismo impermeables con soporte de tobillo y patrón de banda de rodadura resistente."
+  },
+  "am8": {
+    "title": "Mocasines con Borlas",
+    "description": "Elegantes mocasines de cuero burdeos con detalle de borla decorativa."
+  },
+  "am9": {
+    "title": "Zapatillas de Baloncesto de Caña Alta",
+    "description": "Zapatillas de baloncesto estilo retro con soporte acolchado de tobillo y suela de goma."
+  },
+  "am10": {
+    "title": "Botas del Desierto",
+    "description": "Botas del desierto de ante tostado con suela de crepé y cordones de dos ojales."
+  },
+  "am11": {
+    "title": "Zapatos de Barco de Cuero",
+    "description": "Zapatos de barco clásicos de cuero marrón con suela que no marca y cordones de cuero crudo."
+  },
+  "am12": {
+    "title": "Botas de Trabajo con Puntera de Acero",
+    "description": "Botas de trabajo resistentes con puntera de acero y suela resistente al aceite."
+  },
+  "am13": {
+    "title": "Zapatillas Blancas Minimalistas",
+    "description": "Zapatillas limpias de cuero blanco con marca sutil y ajuste cómodo."
+  },
+  "am14": {
+    "title": "Zapatos de Vestir con Hebilla de Monje",
+    "description": "Sofisticados zapatos de cuero negro con cierre de doble hebilla de monje."
+  },
+  "am15": {
+    "title": "Zapatillas de Trail Running",
+    "description": "Zapatillas de trail para todo terreno con banda de rodadura agresiva y malla de secado rápido."
+  },
+  "am16": {
+    "title": "Zapatos Brogue con Puntera de Ala",
+    "description": "Brogues de cuero tostado con diseño tradicional de puntera de ala y detalles perforados."
+  },
+  "am17": {
+    "title": "Sandalias Deslizantes",
+    "description": "Sandalias deslizantes negras cómodas con plantilla acolchada y correa ajustable."
+  },
+  "am18": {
+    "title": "Botas Chukka",
+    "description": "Versátiles botas chukka de ante gris con diseño de dos ojales."
+  },
+  "am19": {
+    "title": "Zapatillas de Entrenamiento Cruzado",
+    "description": "Zapatillas de entrenamiento multiusos con soporte lateral y antepié flexible."
+  },
+  "am20": {
+    "title": "Alpargatas",
+    "description": "Alpargatas de lona de verano con suela de cuerda de yute en azul marino."
+  },
+  "am21": {
+    "title": "Botas de Combate",
+    "description": "Botas de cuero negro inspiradas en el ejército con cordones frontales y cremallera lateral."
+  },
+  "am22": {
+    "title": "Mocasines de Conducción",
+    "description": "Zapatos de conducción de cuero suave con suela de guijarros de goma y ajuste cómodo."
+  },
+  "am1": {
+    "title": "Cinturón de Cuero Marrón",
+    "description": "Cinturón clásico de cuero genuino con hebilla de metal."
+  },
+  "am23": {
+    "title": "Cartera de Cuero con RFID",
+    "description": "Cartera de cuero de doble pliegue con protección RFID y múltiples ranuras para tarjetas."
+  },
+  "am24": {
+    "title": "Gorra Plana de Lana",
+    "description": "Gorra plana clásica de tweed con patrón de espiga y forro de satén."
+  },
+  "am25": {
+    "title": "Set de Corbatas de Seda",
+    "description": "Set de tres corbatas de seda en colores coordinados con pañuelos de bolsillo a juego."
+  },
+  "am26": {
+    "title": "Bolso Mensajero de Cuero",
+    "description": "Bolso mensajero profesional de cuero marrón con compartimento para portátil."
+  },
+  "am27": {
+    "title": "Gafas de Sol con Lentes Polarizadas",
+    "description": "Gafas de sol clásicas estilo aviador con protección UV y lentes polarizadas."
+  },
+  "ac1": {
+    "title": "Gorra de Dinosaurio para Niños",
+    "description": "Divertida gorra verde con púas de dinosaurio en 3D y correa ajustable."
+  },
+  "ac3": {
+    "title": "Mochila de Unicornio",
+    "description": "Mochila rosa brillante con cuerno de unicornio en 3D y detalles de arcoíris."
+  },
+  "ac4": {
+    "title": "Fiambrera de Personajes",
+    "description": "Fiambrera aislante con personajes de dibujos animados favoritos con asa."
+  },
+  "ac5": {
+    "title": "Gorro de Punto con Pompón",
+    "description": "Gorro de invierno cálido en colores brillantes con pompón de gran tamaño."
+  },
+  "ac6": {
+    "title": "Gafas de Sol para Niños",
+    "description": "Gafas de sol duraderas con montura de goma y protección UV en colores divertidos."
+  },
+  "ac7": {
+    "title": "Set de Lazos para el Pelo Estampados",
+    "description": "Set de cinco lazos coloridos para el pelo con clips de cocodrilo."
+  },
+  "ac2": {
+    "title": "Zapatillas con Luces",
+    "description": "Zapatillas LED rosas con detalles de brillantina y cierre de velcro."
+  },
+  "ac8": {
+    "title": "Botas de Lluvia de Personajes",
+    "description": "Botas de goma impermeables con estampado de animales coloridos y asas de tracción fácil."
+  },
+  "ac9": {
+    "title": "Zapatillas de Caña Alta de Lona",
+    "description": "Zapatillas de caña alta para niños en rojo brillante con diseño de cordones."
+  },
+  "ac10": {
+    "title": "Zapatos Mary Jane",
+    "description": "Zapatos clásicos de charol negro con correa y detalle de lazo."
+  },
+  "ac11": {
+    "title": "Sandalias Deportivas",
+    "description": "Sandalias ajustables resistentes al agua con plantilla acolchada."
+  },
+  "ac12": {
+    "title": "Botas de Nieve de Invierno",
+    "description": "Botas aislantes con forro de piel sintética y suela antideslizante."
+  },
+  "md1": {
+    "title": "Chaqueta de Gimnasio para Mujer",
+    "description": "Chaqueta deportiva con cuello alto y cierre de cremallera."
+  },
+  "md2": {
+    "title": "Conjunto Deportivo Rojo",
+    "description": "Chaqueta y leggings con diseño de letras estampadas."
+  },
+  "mw1": {
+    "title": "Abrigo Verde",
+    "description": "Abrigo largo de invierno con forro polar y estilo clásico."
+  },
+  "mw2": {
+    "title": "Vestido de Verano Rosa",
+    "description": "Vestido rosa sin mangas, perfecto para la playa."
+  },
+  "md3": {
+    "title": "Leggings de Compresión",
+    "description": "Leggings de alto rendimiento con tela que absorbe la humedad y paneles de malla."
+  }
+}

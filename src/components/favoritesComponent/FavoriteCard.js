@@ -3,12 +3,17 @@ import { Card, Button, Tooltip, Avatar, Row, Col, Divider, Typography, InputNumb
 import { getProduct } from "@/utils/UtilsProducts";
 import { CheckCircleFilled } from "@ant-design/icons";
 import { useDrag } from 'react-dnd';
+import { getProductTitle } from "@/utils/UtilsProductTranslations";
+import { useTranslations } from 'next-intl';
 
 const { Text, Title } = Typography;
 
 export const FavoriteCard = ({item, index, isSelected, selectedItems, onClick}) => {
     const router = useRouter();
+    const locale = router.locale || 'es';
+    const t = useTranslations();
     const product = getProduct(item);
+    const productTitle = getProductTitle(item, locale);
 
     const [{ isDragging }, dragRef] = useDrag({
             type: 'CARD',
@@ -53,7 +58,7 @@ export const FavoriteCard = ({item, index, isSelected, selectedItems, onClick}) 
                     <Col xs={8} sm={6}>
                         <img
                             src={product.images[0]}
-                            alt={product.title}
+                            alt={productTitle}
                             style={{
                                 height: "100%",
                                 display: "flex",
@@ -74,7 +79,7 @@ export const FavoriteCard = ({item, index, isSelected, selectedItems, onClick}) 
                         overflow: "hidden"
                     }}>
                         <Title level={5} style={{ fontWeight: "normal", paddingTop:"0.5rem" }}>
-                            {product.title}
+                            {productTitle}
                         </Title>
 
                         <Row align="top" style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", alignContent: "center", }}>
@@ -83,7 +88,7 @@ export const FavoriteCard = ({item, index, isSelected, selectedItems, onClick}) 
                                 type="link"
                                 onClick={() => router.push(`/detailProduct/${product.id}`)}
                             >
-                                View Product
+                                {t('product.viewProduct')}
                             </Button>
                         </Row>
 

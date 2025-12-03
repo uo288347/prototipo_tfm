@@ -1,6 +1,8 @@
 import { DeleteOutlined } from '@ant-design/icons';
+import { useTranslations } from 'next-intl';
 
 export const DeleteZone = ({ handleDrop, handleDragOver, handleDragLeave, selectionMode, draggedOver}) => {
+  const t = useTranslations();
 
   return (
     <div>
@@ -38,7 +40,7 @@ export const DeleteZone = ({ handleDrop, handleDragOver, handleDragLeave, select
               marginBottom: "0.5rem" }} />
             <p style={{ color: draggedOver ?  "white" : "#818181ff",
               fontWeight: "lighter", margin: 0 }}>
-              {draggedOver ? 'Drop to delete!' : 'Drag and drop here to delete'}
+              {draggedOver ? t('deleteZone.dropToDelete') : t('deleteZone.dragAndDrop')}
             </p>
           </div>
         </div>

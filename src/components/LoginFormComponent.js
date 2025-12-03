@@ -49,9 +49,11 @@ let LoginFormComponent = ({setLogin}) => {
                     <Form>
                     <TextInputField name="email" placeholder={t('auth.yourEmail')} formData={formData} setFormData={setFormData}
                         formErrors={formErrors} setFormErrors={setFormErrors} validateFunc={validateFormDataInputEmail}
+                        validateParams={[t('errors.invalidEmail')]}
                     />
                     <PasswordInputField name="password" placeholder={t('auth.yourPassword')} formData={formData} setFormData={setFormData}
                         formErrors={formErrors} setFormErrors={setFormErrors} validateFunc={validateFormDataInputRequired}
+                        validateParams={[t('errors.required')]}
                     />
                     <Form.Item>
                         { allowSubmitForm(formData,formErrors,requiredInForm) ?

@@ -7,9 +7,11 @@
     "save": "Save",
     "back": "Back",
     "next": "Next",
-    "finish": "Finish"
+    "finish": "Finish",
+    "selectedProducts": "selected product(s)"
   },
   "auth": {
+    "start": "Start",
     "login": "Login",
     "register": "Register",
     "email": "Email",
@@ -33,11 +35,18 @@
     "women": "Women's fashion",
     "men": "Men's fashion"
   },
+  "home": {
+    "filters": "Filters",
+    "categories": "Categories",
+    "products": "Products",
+    "home": "Home"
+  },
   "product": {
     "addToCart": "Add to cart",
     "removeFromCart": "Remove from cart",
-    "addToFavorites": "Add to favorites",
-    "removeFromFavorites": "Remove from favorites",
+    "addToFavorites": "Product added to favorites",
+    "removeFromFavorites": "Product removed from favorites",
+    "addedToCart": "Product added to cart",
     "price": "Price",
     "quantity": "Quantity",
     "total": "Total",
@@ -45,24 +54,53 @@
     "details": "Details",
     "description": "Description",
     "size": "Size",
-    "color": "Color"
+    "color": "Color",
+    "free": "FREE",
+    "viewProduct": "View Product"
+  },
+  "freeOffer": {
+    "title": "🎁 Unlock a Free Product!",
+    "description1": "Some of our products come with a special",
+    "redCode": "red code",
+    "description2": "displayed on their image.",
+    "description3": "Enter this code in the input box below, and voilà — the product is yours for",
+    "description4": "Look out for red-marked items and treat yourself to a special surprise. Only a few lucky products carry this offer!",
+    "placeholder": "Enter your code",
+    "apply": "Apply",
+    "applied": "Applied",
+    "alreadyFree": "✅ This product is already FREE!",
+    "success": "🎉 Congratulations! This product is now FREE!",
+    "invalid": "❌ Sorry, this code is not valid for a free product."
+  },
+  "deleteZone": {
+    "dragAndDrop": "Drag and drop here to delete",
+    "dropToDelete": "Drop to delete!"
   },
   "cart": {
     "emptyCart": "Your cart is empty",
     "goToCheckout": "Go to checkout",
     "continueShopping": "Continue shopping",
     "removeItem": "Remove item",
-    "updateQuantity": "Update quantity"
+    "updateQuantity": "Update quantity",
+    "title": "Shopping cart",
+    "emptyMessage": "Your shopping cart is empty.",
+    "totalProducts": "total products",
+    "total": "Total",
+    "continue": "Continue"
   },
   "favorites": {
     "emptyFavorites": "You don't have favorites yet",
     "addToFavorites": "Add to favorites",
-    "removeFromFavorites": "Remove from favorites"
+    "removeFromFavorites": "Remove from favorites",
+    "title": "Favorites",
+    "emptyMessage": "You don't have favorite products.",
+    "totalFavorites": "total favorites"
   },
   "checkout": {
     "shippingInformation": "Shipping information",
     "city": "City",
     "country": "Country",
+    "confirmPurchase": "Confirm purchase",
     "paymentMethod": "Payment method",
     "completeOrder": "Complete order",
     "orderSummary": "Order summary"
@@ -96,13 +134,14 @@
   },
   "instructions": {
     "allTasksCompleted": "🎉 All tasks completed! Excellent work!",
-    "taskCompleted": "Task completed",
+    "taskCompleted": "✨ Great! Task Completed",
     "taskPending": "Task pending"
   },
   "errors": {
-    "required": "This field is required",
-    "invalidEmail": "Invalid email format",
-    "invalidYear": "Invalid year",
+    "required": "Required",
+    "invalidEmail": "Not email format",
+    "invalidYear": "Must be a 4-digit year",
+    "yearRange": "Year must be between 1926 and {year}",
     "somethingWrong": "Something went wrong"
   }
 }

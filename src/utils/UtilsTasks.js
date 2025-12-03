@@ -3,31 +3,32 @@ import React, { forwardRef, useState, useEffect } from 'react';
 import confetti from 'canvas-confetti';
 import { getFavorite } from "./UtilsFavorites";
 import { isInCart } from "./UtilsCart";
+import tasksEn from '../../messages/tasks_en.json';
+import tasksEs from '../../messages/tasks_es.json';
+
+const tasksTranslations = {
+  en: tasksEn,
+  es: tasksEs
+};
+
+export const getTaskText = (taskId, locale = 'es') => {
+  const translations = tasksTranslations[locale] || tasksTranslations['es'];
+  return translations[taskId] || taskId;
+};
 
 // Utilidad para gestionar las tareas
 export const UtilsTasks = {
   tasks: [
-    { id: 'accept_tutorial', text: 'Read the instructions and finish the tutorial', storageKey: 'task_tutorial_completed' },
-    { id: 'add_pink_dresses', text: 'Add two pink summer dresses (size M) to shopping cart', storageKey: 'task_pink_summer_dress_completed' },
-    { id: 'offer_green_coat', text: 'Search and apply free code to the green coat', storageKey: 'task_offer_green_coat_completed' },
-    { id: 'add_green_coat', text: 'Add green coat to shopping cart', storageKey: 'task_green_coat_completed'},
-    { id: 'add_bomber_jacket', text: 'Add bomber jacket to favorites and shopping cart', storageKey: 'task_bomber_jacket_completed' },
-    { id: 'check_favorites', text: 'Check favorites list', storageKey: 'task_favorites_checked' },
-    { id: 'delete_item', text: 'Delete green coat from shopping cart', storageKey: 'task_delete_item_completed' },
-    { id: 'make_purchase', text: 'Buy shopping cart and fill in the shipping information', storageKey: 'task_purchase_completed' },
-    { id: 'end', text: 'Double tap the final button', storageKey: 'task_end_completed' }
+    { id: 'accept_tutorial', storageKey: 'task_tutorial_completed' },
+    { id: 'add_pink_dresses', storageKey: 'task_pink_summer_dress_completed' },
+    { id: 'offer_green_coat', storageKey: 'task_offer_green_coat_completed' },
+    { id: 'add_green_coat', storageKey: 'task_green_coat_completed'},
+    { id: 'add_bomber_jacket', storageKey: 'task_bomber_jacket_completed' },
+    { id: 'check_favorites', storageKey: 'task_favorites_checked' },
+    { id: 'delete_item', storageKey: 'task_delete_item_completed' },
+    { id: 'make_purchase', storageKey: 'task_purchase_completed' },
+    { id: 'end', storageKey: 'task_end_completed' }
   ],
-
-  /*tasks: [
-    { id: 'accept_tutorial', text: 'Read instructions and finish the tutorial', storageKey: 'task_tutorial_completed' },
-    { id: 'add_pink_dresses', text: 'Add two pink summer dresses (size M) to shopping cart', storageKey: 'task_pink_summer_dress_completed' },
-    { id: 'offer_green_coat', text: 'Search and apply free code to the green coat. Add the green coat to shopping cart', storageKey: 'task_offer_green_coat_completed' },
-    { id: 'add_bomber_jacket', text: 'Add bomber jacket to favorites and shopping cart', storageKey: 'task_bomber_jacket_completed' },
-    { id: 'check_favorites', text: 'Check favorites list', storageKey: 'task_favorites_checked' },
-    { id: 'delete_item', text: 'Delete green coat from shopping cart', storageKey: 'task_delete_item_completed' },
-    { id: 'make_purchase', text: 'Buy shopping cart and fill in the shipping information', storageKey: 'task_purchase_completed' },
-    { id: 'end', text: 'Double tap the final button', storageKey: 'task_end_completed' }
-  ],*/
 
   // Obtener la tarea actual (primera no completada)
   getCurrentTask() {

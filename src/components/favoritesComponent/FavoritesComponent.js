@@ -11,12 +11,14 @@ import { SelectionIndicator } from "../shared/SelectionIndicator";
 import { deleteFromFavorites, getFavorites } from "@/utils/UtilsFavorites";
 import { HeartOutline } from "antd-mobile-icons";
 import { FavoriteCard } from "./FavoriteCard";
+import { useTranslations } from 'next-intl';
 
 const { Text, Title } = Typography
 
 
 export const FavoritesComponent = ({ }) => {
     const router = useRouter();
+    const t = useTranslations();
 
     const [ids, setIds] = useState([]);
     const [selectedItems, setSelectedItems] = useState(new Set());
@@ -156,18 +158,18 @@ export const FavoritesComponent = ({ }) => {
                 paddingBottom: selectionMode ? "5rem" : "10rem",
                 marginBottom: "1rem"
             }}>
-                <ConfigurableMenu icon={<HeartOutlined />} text={"Favorites"} onClick={() => router.push("/home")} />
+                <ConfigurableMenu icon={<HeartOutlined />} text={t('favorites.title')} onClick={() => router.push("/home")} />
                 <SelectionIndicator selectionMode={selectionMode} nSelectedItems={selectedItems.size} cancelSelection={cancelSelection} />
 
                 <div style={{ paddingBottom: 0 }}>
                     {ids.length === 0 ? (
                         <div style={{ display: "flex", justifyContent: "center", paddingBottom: "0.5rem" }}>
-                            <Text type="secondary">You don't have favorite products.</Text>
+                            <Text type="secondary">{t('favorites.emptyMessage')}</Text>
                         </div>
                     ) : (
                         <>
                             <div style={{ display: "flex", justifyContent: "center", paddingBottom: "0.5rem" }}>
-                                <Text>{[...ids].length} total favorites</Text>
+                                <Text>{[...ids].length} {t('favorites.totalFavorites')}</Text>
                             </div>
                             {[...ids].map((item, index) => {
                                 const isSelected = selectedItems.has(item);

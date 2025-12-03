@@ -7,9 +7,11 @@
     "save": "Guardar",
     "back": "Atrás",
     "next": "Siguiente",
-    "finish": "Finalizar"
+    "finish": "Finalizar",
+    "selectedProducts": "producto(s) seleccionado(s)"
   },
   "auth": {
+    "start": "Empezar",
     "login": "Iniciar sesión",
     "register": "Registrarse",
     "email": "Correo electrónico",
@@ -33,11 +35,18 @@
     "women": "Moda mujer",
     "men": "Moda hombre"
   },
+  "home": {
+    "filters": "Filtros",
+    "categories": "Categorías",
+    "products": "Productos",
+    "home": "Inicio"
+  },
   "product": {
     "addToCart": "Añadir al carrito",
     "removeFromCart": "Quitar del carrito",
-    "addToFavorites": "Añadir a favoritos",
-    "removeFromFavorites": "Quitar de favoritos",
+    "addToFavorites": "Producto añadido a favoritos",
+    "removeFromFavorites": "Producto eliminado de favoritos",
+    "addedToCart": "Producto añadido al carrito",
     "price": "Precio",
     "quantity": "Cantidad",
     "total": "Total",
@@ -45,24 +54,53 @@
     "details": "Detalles",
     "description": "Descripción",
     "size": "Talla",
-    "color": "Color"
+    "color": "Color",
+    "free": "GRATIS",
+    "viewProduct": "Ver Producto"
+  },
+  "freeOffer": {
+    "title": "🎁 ¡Desbloquea un Producto Gratis!",
+    "description1": "Algunos de nuestros productos vienen con un",
+    "redCode": "código rojo",
+    "description2": "especial mostrado en su imagen.",
+    "description3": "Introduce este código en el campo de abajo, y voilà — ¡el producto es tuyo",
+    "description4": "¡Busca los artículos marcados en rojo y date un capricho especial. Solo unos pocos productos tienen esta oferta!",
+    "placeholder": "Introduce tu código",
+    "apply": "Aplicar",
+    "applied": "Aplicado",
+    "alreadyFree": "✅ ¡Este producto ya es GRATIS!",
+    "success": "🎉 ¡Felicidades! ¡Este producto ahora es GRATIS!",
+    "invalid": "❌ Lo sentimos, este código no es válido para un producto gratis."
+  },
+  "deleteZone": {
+    "dragAndDrop": "Arrastra y suelta aquí para eliminar",
+    "dropToDelete": "¡Suelta para eliminar!"
   },
   "cart": {
     "emptyCart": "Tu carrito está vacío",
     "goToCheckout": "Ir a pagar",
     "continueShopping": "Seguir comprando",
     "removeItem": "Eliminar artículo",
-    "updateQuantity": "Actualizar cantidad"
+    "updateQuantity": "Actualizar cantidad",
+    "title": "Carrito de compra",
+    "emptyMessage": "Tu carrito de compra está vacío.",
+    "totalProducts": "productos en total",
+    "total": "Total",
+    "continue": "Continuar"
   },
   "favorites": {
     "emptyFavorites": "Aún no tienes favoritos",
     "addToFavorites": "Añadir a favoritos",
-    "removeFromFavorites": "Quitar de favoritos"
+    "removeFromFavorites": "Quitar de favoritos",
+    "title": "Favoritos",
+    "emptyMessage": "No tienes productos favoritos.",
+    "totalFavorites": "favoritos en total"
   },
   "checkout": {
     "shippingInformation": "Información de envío",
     "city": "Ciudad",
     "country": "País",
+    "confirmPurchase": "Confirmar compra",
     "paymentMethod": "Método de pago",
     "completeOrder": "Completar pedido",
     "orderSummary": "Resumen del pedido"
@@ -96,13 +134,14 @@
   },
   "instructions": {
     "allTasksCompleted": "🎉 ¡Todas las tareas completadas! ¡Excelente trabajo!",
-    "taskCompleted": "Tarea completada",
+    "taskCompleted": "✨ ¡Genial! Tarea Completada",
     "taskPending": "Tarea pendiente"
   },
   "errors": {
-    "required": "Este campo es obligatorio",
-    "invalidEmail": "Formato de correo electrónico no válido",
-    "invalidYear": "Año no válido",
+    "required": "Obligatorio",
+    "invalidEmail": "Formato de correo no válido",
+    "invalidYear": "Debe ser un año de 4 dígitos",
+    "yearRange": "El año debe estar entre 1926 y {year}",
     "somethingWrong": "Algo salió mal"
   }
 }

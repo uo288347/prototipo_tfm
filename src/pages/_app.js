@@ -100,7 +100,7 @@ export default function App({ Component, pageProps }) {
                         style={{margin: "0 30px"}}
                         open={openTour} 
                         onClose={closeTour} 
-                        steps={getTourSteps({bannerRef})}
+                        steps={getTourSteps({bannerRef, locale})}
                     />
                 </AntdMobileConfigProvider>
             </AntdConfigProvider>

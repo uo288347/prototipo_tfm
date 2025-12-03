@@ -1,30 +1,28 @@
 export let validateFormDataInputRequired =
-    (formData, inputKey, formErrors, setFormErrors) => {
+    (formData, inputKey, formErrors, setFormErrors, errorMessage = "Required") => {
 
         let regexNotEmpty = /^(.+)$/;
-        let errorMessage = "Required"
         return validateFormDataInput(
             formData, inputKey, formErrors, setFormErrors, regexNotEmpty, errorMessage)
     }
 
 
 export let validateFormDataInputEmail =
-    (formData, inputKey, formErrors, setFormErrors) => {
+    (formData, inputKey, formErrors, setFormErrors, errorMessage = "Not email format") => {
 
         let regexEmail = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/
-        let errorMessage = "Not email format"
         return validateFormDataInput(
             formData, inputKey, formErrors, setFormErrors, regexEmail, errorMessage)
     }
 
 export let validateFormDataInputYear =
-    (formData, inputKey, formErrors, setFormErrors) => {
+    (formData, inputKey, formErrors, setFormErrors, errorMessageRequired = "Required", errorMessageFormat = "Must be a 4-digit year", errorMessageRange = "Year must be between 1926 and {currentYear}") => {
         if (formData[inputKey] == null) {
             return true
         }
 
         // First, check if the input is provided
-        if (!validateFormDataInputRequired(formData, inputKey, formErrors, setFormErrors)) {
+        if (!validateFormDataInputRequired(formData, inputKey, formErrors, setFormErrors, errorMessageRequired)) {
             return false;
         }
 
@@ -35,7 +33,7 @@ export let validateFormDataInputYear =
         // If regex fails, set error
         if (!regexYear.test(value)) {
             if (!formErrors[inputKey]) {
-                formErrors[inputKey] = { msg: "Must be a 4-digit year" };
+                formErrors[inputKey] = { msg: errorMessageFormat };
                 setFormErrors(formErrors);
             }
             return false;
@@ -44,7 +42,7 @@ export let validateFormDataInputYear =
         const year = parseInt(value, 10);
         if (year <= 1925 || year >= currentYear) {
             if (!formErrors[inputKey]) {
-                formErrors[inputKey] = { msg: `Year must be between 1926 and ${currentYear - 1}` };
+                formErrors[inputKey] = { msg: errorMessageRange.replace("{year}", currentYear - 1) };
                 setFormErrors(formErrors);
             }
             return false;

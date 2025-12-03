@@ -1,16 +1,27 @@
+import tourEn from '../../messages/tour_en.json';
+import tourEs from '../../messages/tour_es.json';
 
-export const getTourSteps =({ bannerRef }) =>  [
-        {
-            title: 'Follow the Instructions',
-            description: 'Pay attention to the banner messages. This banner will tell you what to do',
-            target: () => bannerRef.current,
-            style: { margin: '0 0px'}
-        },
-        {
-            title: 'Dynamic Updates',
-            description: 'The banner content changes dynamically based on your progress. Follow along and complete each task as indicated.',
-            target: () => bannerRef.current,
-            style: { margin: '0 0px'}
+const tourTranslations = {
+  en: tourEn,
+  es: tourEs
+};
 
-        },
-    ];
+const getTourText = (key, locale = 'es') => {
+  const translations = tourTranslations[locale] || tourTranslations['es'];
+  return translations[key] || key;
+};
+
+export const getTourSteps = ({ bannerRef, locale = 'es' }) => [
+    {
+        title: getTourText('step1_title', locale),
+        description: getTourText('step1_description', locale),
+        target: () => bannerRef.current,
+        style: { margin: '0 0px' }
+    },
+    {
+        title: getTourText('step2_title', locale),
+        description: getTourText('step2_description', locale),
+        target: () => bannerRef.current,
+        style: { margin: '0 0px' }
+    },
+];
