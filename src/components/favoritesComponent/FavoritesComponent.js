@@ -32,7 +32,8 @@ export const FavoritesComponent = ({ }) => {
     const longPressTimer = useRef(null);
     const longPressTriggered = useRef(false);
     const dragStartPosition = useRef({ x: 0, y: 0 });
-    const hasVibrated = useRef(false);
+
+    const getItemKey = (item) => item; // En favoritos, el item es el ID del producto
 
     useEffect(() => {
         setIds(getFavorites());
@@ -41,23 +42,14 @@ export const FavoritesComponent = ({ }) => {
 
     const handleTouchStart = (e, item) => {
         longPressTriggered.current = false;
-        hasVibrated.current = false; // Resetear la vibración al inicio
 
         const touch = e.touches[0];
         dragStartPosition.current = { x: touch.clientX, y: touch.clientY };
-
-        // Si ya hay items seleccionados y tocamos uno seleccionado, preparar para arrastre
-        const itemKey = getItemKey(item);
-        if (selectionMode && selectedItems.has(itemKey)) {
-            // No hacer nada especial, el arrastre se iniciará en touchMove
-            return;
-        }
 
         longPressTimer.current = setTimeout(() => {
             longPressTriggered.current = true;
             if (!selectionMode) {
                 setSelectionMode(true);
-
                 setSelectedItems(new Set([item]));
                 navigator.vibrate?.(50);
             }
@@ -69,12 +61,12 @@ export const FavoritesComponent = ({ }) => {
             clearTimeout(longPressTimer.current);
         }
 
-        const touch = e.changedTouches[0];
-        const wasDragging = dragging;
-
-        // Ocultar el ghost al soltar
+        // SIEMPRE ocultar el ghost y resetear el arrastre al soltar el dedo
         setShowDragGhost(false);
         setDragging(false);
+
+        const touch = e.changedTouches[0];
+        const wasDragging = dragging;
 
         if (wasDragging && draggedOver) {
             // Simula el drop
@@ -112,20 +104,19 @@ export const FavoritesComponent = ({ }) => {
             const deltaX = Math.abs(touch.clientX - dragStartPosition.current.x);
             const deltaY = Math.abs(touch.clientY - dragStartPosition.current.y);
             
+            // Solo al inicio del arrastre (cuando NO estamos arrastrando aún)
             if ((deltaX > 10 || deltaY > 10) && !dragging) {
-                // Iniciar arrastre: vibración + mostrar ghost
+                // Vibrar una sola vez al inicio
+                if (navigator.vibrate) {
+                    navigator.vibrate(30);
+                }
+                
                 setDragging(true);
                 setShowDragGhost(true);
-                
-                // Vibrar solo si no se ha vibrado ya
-                if (!hasVibrated.current) {
-                    navigator.vibrate?.(30);
-                    hasVibrated.current = true;
-                }
             }
 
-            // Actualizar posición del ghost siempre durante el arrastre
-            if (dragging || (deltaX > 10 || deltaY > 10)) {
+            // Actualizar posición del ghost si está activo
+            if (dragging || showDragGhost) {
                 setDragGhostPosition({ x: touch.clientX, y: touch.clientY });
             }
         }
