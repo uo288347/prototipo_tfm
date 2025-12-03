@@ -47,9 +47,11 @@ export const CheckoutComponent = () => {
         router.push("/end")
     }
     return (
-        <div style={{ flex: "1", display: "flex", flexDirection: "column", justifyContent: "space-between", 
-            minHeight: "100%", height: "100%" }}>
-            <div style={{flex:1, overflowY: "auto", height: "100%"}}>
+        <div style={{
+            flex: "1", display: "flex", flexDirection: "column", justifyContent: "space-between",
+            minHeight: "100%", height: "100%"
+        }}>
+            <div style={{ flex: 1, overflowY: "auto", height: "100%" }}>
                 <ConfigurableMenu icon={<CreditCardOutlined />} text={t('navigation.checkout')} onClick={() => router.push("/shoppingCart")} />
 
                 <Collapse>
@@ -76,10 +78,10 @@ export const CheckoutComponent = () => {
                 <Divider />
                 <Title style={{ padding: "1rem 0rem", fontWeight: "normal" }} level={3}>{t('checkout.shippingInformation')}</Title>
                 <Form>
-                    <TextInputField name={"city"} placeholder={t('checkout.city')} formData={formData} icon={<HomeOutlined/>}
+                    <TextInputField name={"city"} placeholder={t('checkout.city')} formData={formData} icon={<HomeOutlined />}
                         formErrors={formErrors} setFormData={setFormData} setFormErrors={setFormErrors} validateFunc={validateFormDataInputRequired}
                         validateParams={[t('errors.required')]} />
-                    <TextInputField name={"country"} placeholder={t('checkout.country')} formData={formData} icon={<EnvironmentOutlined/>}
+                    <TextInputField name={"country"} placeholder={t('checkout.country')} formData={formData} icon={<EnvironmentOutlined />}
                         formErrors={formErrors} setFormData={setFormData} setFormErrors={setFormErrors} validateFunc={validateFormDataInputRequired}
                         validateParams={[t('errors.required')]} />
 

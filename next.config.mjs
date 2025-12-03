@@ -8,8 +8,7 @@ const nextConfig = {
   transpilePackages: ['antd-mobile'],
   i18n: {
     locales: ['en', 'es'],
-    defaultLocale: 'es',
-    localeDetection: false,
+    defaultLocale: 'en',
   },
 };
 

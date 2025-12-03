@@ -39,26 +39,17 @@ export const EndComponent = ({ }) => {
             flex: 1, minHeight: "100%", padding: "20px 20px",
             display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center"
         }}>
-            <div style={{ position: "absolute", top: "20px", right: "20px" }}>
-                <LanguageSwitcher />
-            </div>
-            <>
                 <Title style={{ paddingBottom: "3rem", textAlign: "center" }} level={3}>{t('end.thanksMessage')}</Title>
                 <Button type="primary" size="large" block
                     icon={<CheckOutlined />}
                     onTouchStart={handleDoubleTap}>{t('end.doubleTapFinish')}</Button>
                 <Button type="text" onClick={() => {
+                    router.push("/")
                     clearCart();
                     clearFavorites();
                     clearLogin();
                     UtilsTasks.resetAllTasks();
-                    router.push("/")
                 }} block>{t('end.backToStart')}</Button>
-            </>
         </div>
-
-
-
-
     )
 }
