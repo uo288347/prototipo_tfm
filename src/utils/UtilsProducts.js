@@ -183,16 +183,7 @@ const products = [
     },
 
     // 👔 MEN'S CLOTHING 
-    {
-        id: "mh1",
-        title: "Green Bomber Jacket",
-        description: "Lightweight jacket with high collar and embroidery.",
-        price: 11.06,
-        images: ["/mh1.jpg", "/picture1.jpg", "/picture2.jpg", "/picture3.jpg", "/free.png"],
-        category: "men",
-        filter: "Clothing",
-        freeCode: "FREE123"
-    },
+    
     {
         id: "mh2",
         title: "Casual Hooded Jacket",
@@ -874,6 +865,16 @@ const products = [
         images: ["/mw2.jpg", "/picture1.jpg", "/picture2.jpg", "/picture3.jpg"],
         category: "women",
         filter: "Clothing"
+    },
+    {
+        id: "mh1",
+        title: "Green Bomber Jacket",
+        description: "Lightweight jacket with high collar and embroidery.",
+        price: 11.06,
+        images: ["/mh1.jpg", "/picture1.jpg", "/picture2.jpg", "/picture3.jpg", "/free.png"],
+        category: "men",
+        filter: "Clothing",
+        freeCode: "FREE123"
     },
     // ************************************
 

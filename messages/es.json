@@ -98,8 +98,8 @@
   },
   "checkout": {
     "shippingInformation": "Información de envío",
-    "city": "Ciudad",
-    "country": "País",
+    "city": "Tu ciudad",
+    "country": "Tu país",
     "confirmPurchase": "Confirmar compra",
     "paymentMethod": "Método de pago",
     "completeOrder": "Completar pedido",

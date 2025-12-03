@@ -1,11 +1,11 @@
 {
   "accept_tutorial": "Lee las instrucciones y completa el tutorial",
-  "add_pink_dresses": "Añade dos vestidos de verano rosas (talla M) al carrito",
-  "offer_green_coat": "Busca y aplica el código gratuito al abrigo verde",
-  "add_green_coat": "Añade el abrigo verde al carrito",
-  "add_bomber_jacket": "Añade la chaqueta bomber a favoritos y al carrito",
+  "add_pink_dresses": "Añade dos unidades del producto \"Vestido de verano rosa\" (talla M) al carrito",
+  "offer_green_coat": "Busca y aplica el código gratuito al producto \"Abrigo verde\"",
+  "add_green_coat": "Añade el producto \"Abrigo verde\" al carrito",
+  "add_bomber_jacket": "Añade el producto \"Chaqueta bomber\" a favoritos y al carrito",
   "check_favorites": "Consulta la lista de favoritos",
-  "delete_item": "Elimina el abrigo verde del carrito",
+  "delete_item": "Elimina el producto \"Abrigo verde\" del carrito",
   "make_purchase": "Compra el carrito y rellena la información de envío",
   "end": "Pulsa dos veces el botón final"
 }
