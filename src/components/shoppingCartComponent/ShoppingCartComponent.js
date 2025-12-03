@@ -47,6 +47,13 @@ export const ShoppingCartComponent = ({ }) => {
         const touch = e.touches[0];
         dragStartPosition.current = { x: touch.clientX, y: touch.clientY };
 
+        // Si ya hay items seleccionados y tocamos uno seleccionado, preparar para arrastre
+        const itemKey = getItemKey(item);
+        if (selectionMode && selectedItems.has(itemKey)) {
+            // No hacer nada especial, el arrastre se iniciará en touchMove
+            return;
+        }
+
         longPressTimer.current = setTimeout(() => {
             longPressTriggered.current = true;
             if (!selectionMode) {
@@ -63,6 +70,9 @@ export const ShoppingCartComponent = ({ }) => {
             clearTimeout(longPressTimer.current);
         }
 
+        const touch = e.changedTouches[0];
+        const wasDragging = dragging;
+
         // Ocultar el ghost al soltar
         setShowDragGhost(false);
         setDragging(false);
@@ -70,8 +80,7 @@ export const ShoppingCartComponent = ({ }) => {
         /*if (!longPressTriggered.current && selectionMode) {
             toggleSelection(item);
         }*/
-        const touch = e.changedTouches[0];
-        if (draggedOver) {
+        if (wasDragging && draggedOver) {
             // Simula el drop
             try {
                 const itemsToDelete = Array.from(selectedItems).map(key => {
@@ -97,7 +106,8 @@ export const ShoppingCartComponent = ({ }) => {
             } catch (error) {
                 console.log('Error al eliminar prendas', error);
             }
-        } else if (!longPressTriggered.current && selectionMode) {
+        } else if (!longPressTriggered.current && !wasDragging && selectionMode) {
+            // Solo toggle si no fue long press ni arrastre
             toggleSelection(item);
         }
     };
@@ -127,8 +137,8 @@ export const ShoppingCartComponent = ({ }) => {
                 }
             }
 
-            // Actualizar posición del ghost
-            if (dragging || showDragGhost) {
+            // Actualizar posición del ghost siempre durante el arrastre
+            if (dragging || (deltaX > 10 || deltaY > 10)) {
                 setDragGhostPosition({ x: touch.clientX, y: touch.clientY });
             }
         }
