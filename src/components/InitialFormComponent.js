@@ -23,9 +23,7 @@ export const InitialFormComponent = ({ }) => {
     return (
         <Row align="middle" justify="center" style={{  minHeight:"100%", minWidth:"100%"}}>
             <Col xs={24} sm={24} md={12} lg={8} xl={7} justify="center" >
-                <div style={{ display: "flex", justifyContent: "flex-end", marginBottom: "1rem" }}>
-                    <LanguageSwitcher />
-                </div>
+
             <Card title={t('initialForm.title')}>
             <Form>
                 <Form.Item>

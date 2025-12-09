@@ -1,18 +1,27 @@
 import { InitialFormComponent } from "@/components/InitialFormComponent";
+import { LanguageSwitcher } from "@/components/shared/LanguageSwitcher";
 
 export default function InitialForm() {
 
-    return (
-        <div style={{flex: 1, minHeight: "100%", padding: "20px 20px", 
-            display: "flex", justifyContent: "center", alignItems: "center"}}>
-            <InitialFormComponent/>
-        </div>
-    );
+  return (
+    <div style={{
+      flex: 1, padding: "20px 20px",
+      display: "flex", flexDirection: "column", justifyContent: "space-between",
+      alignItems: "center", position: "relative", overflow: "hidden"
+    }}>
+      <div style={{ position: "absolute", top: "20px", right: "20px" }}>
+        <LanguageSwitcher />
+      </div>
+      <div style={{ flex: 1, display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", width: "100%" }}>
+        <InitialFormComponent />
+      </div>
+    </div>
+  );
 }
 
 export async function getServerSideProps(context) {
   const locale = context.locale || 'en';
-  
+
   return {
     props: {
       messages: (await import(`../../messages/${locale}.json`)).default,

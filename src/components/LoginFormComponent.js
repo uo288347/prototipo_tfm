@@ -42,9 +42,6 @@ let LoginFormComponent = ({setLogin}) => {
     return (
         <Row align="middle" justify="center" style={{  minHeight:"100%", minWidth:"100%"}}>
             <Col xs={24} sm={24} md={12} lg={8} xl={7} justify="center" >
-                <div style={{ display: "flex", justifyContent: "flex-end", marginBottom: "1rem" }}>
-                    <LanguageSwitcher />
-                </div>
                 <Card title={t('auth.login')} style={{ width: "100%" }}>
                     <Form>
                     <TextInputField name="email" placeholder={t('auth.yourEmail')} formData={formData} setFormData={setFormData}

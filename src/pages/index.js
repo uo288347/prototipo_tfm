@@ -7,29 +7,31 @@ export default function Index() {
   const t = useTranslations();
   const router = useRouter();
   const handleStart = () => {
-    router.push("/form"); 
+    router.push("/form");
   };
 
   return (
-    <div style={{flex: 1, padding: "20px 20px", 
-      display: "flex", flexDirection: "column", justifyContent: "space-between", 
-      alignItems: "center", position:"relative", overflow: "hidden"}}>
-    <div style={{ position: "absolute", top: "20px", right: "20px" }}>
-      <LanguageSwitcher />
-    </div>
-    <div style={{flex: 1, display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center"}}>
-<Button style={{width:"100%"}} size="large" type="primary" onClick={handleStart}>
-      {t('auth.start')}
-    </Button>
-    </div>
-    
+    <div style={{
+      flex: 1, padding: "20px 20px",
+      display: "flex", flexDirection: "column", justifyContent: "space-between",
+      alignItems: "center", position: "relative", overflow: "hidden"
+    }}>
+      <div style={{ position: "absolute", top: "20px", right: "20px" }}>
+        <LanguageSwitcher />
+      </div>
+      <div style={{ flex: 1, display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", width: "100%" }}>
+        <Button style={{ width: "100%" }} size="large" type="primary" onClick={handleStart}>
+          {t('auth.start')}
+        </Button>
+      </div>
+
     </div>
   );
 }
 
 export async function getServerSideProps(context) {
   const locale = context.locale || 'es';
-  
+
   return {
     props: {
       messages: (await import(`../../messages/${locale}.json`)).default,
