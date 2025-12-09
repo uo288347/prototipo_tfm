@@ -25,12 +25,10 @@ const ProductGrid = ({ category, filter }) => {
     if (products.length == 0) setFilteredProducts([])
     else {
       let prs = products.filter((p) => {
-        console.log("comparison categories: ", p.category, category)
         const matchCategory = !category || p.category.toLowerCase() === category.toLowerCase();
         const matchFilter = !filter || p.filter.toLowerCase() === filter;
         return matchCategory && matchFilter;
       })
-      console.log("products",products, prs)
       setFilteredProducts(prs)
     }
   }, [products, category, filter])
