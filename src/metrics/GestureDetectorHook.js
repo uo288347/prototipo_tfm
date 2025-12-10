@@ -29,6 +29,29 @@ const useGestureDetector = () => {
         const width = window.innerWidth;
         const height = window.innerHeight;
 
+        // Capturar información del elemento objetivo
+        const targetElement = e.target;
+        const targetRect = targetElement.getBoundingClientRect();
+
+        // Centro del elemento
+        const targetCenterX = targetRect.left + targetRect.width / 2;
+        const targetCenterY = targetRect.top + targetRect.height / 2;
+
+        // Distancia del tap al centro del elemento
+        const offsetFromCenterX = e.clientX - targetCenterX;
+        const offsetFromCenterY = e.clientY - targetCenterY;
+        const distanceFromCenter = Math.sqrt(
+            offsetFromCenterX ** 2 + offsetFromCenterY ** 2
+        );
+
+        // Distancia normalizada (relativa al tamaño del elemento)
+        const elementDiagonal = Math.sqrt(
+            targetRect.width ** 2 + targetRect.height ** 2
+        );
+        const normalizedDistanceFromCenter = elementDiagonal > 0
+            ? distanceFromCenter / elementDiagonal
+            : 0;
+
         const data = {
             eventId: `${eventType}_${Date.now()}_${Math.random()}`,
             timestamp: Date.now(),
@@ -52,6 +75,52 @@ const useGestureDetector = () => {
             buttons: e.buttons,
             normalizedClientX: e.clientX / width,
             normalizedClientY: e.clientY / height,
+            // INFORMACIÓN DEL ELEMENTO
+            targetInfo: {
+                // Identificación
+                tagName: targetElement.tagName?.toLowerCase(),
+                id: targetElement.id || null,
+                className: targetElement.className || null,
+                ariaLabel: targetElement.getAttribute('aria-label') || null,
+                eventName: eventName || targetElement.dataset.eventName || null,
+
+                // Dimensiones absolutas
+                elementWidth: targetRect.width,
+                elementHeight: targetRect.height,
+                elementArea: targetRect.width * targetRect.height,
+
+                // Posición en viewport
+                elementLeft: targetRect.left,
+                elementTop: targetRect.top,
+                elementCenterX: targetCenterX,
+                elementCenterY: targetCenterY,
+
+                // Posición normalizada (0-1)
+                normalizedElementCenterX: targetCenterX / width,
+                normalizedElementCenterY: targetCenterY / height,
+                normalizedElementWidth: targetRect.width / width,
+                normalizedElementHeight: targetRect.height / height,
+
+                // Precisión del toque
+                offsetFromCenterX,
+                offsetFromCenterY,
+                distanceFromCenter,
+                normalizedDistanceFromCenter, // Comparable entre elementos
+
+                // Normalizado respecto al elemento (de -1 a 1, donde 0,0 es el centro)
+                relativeOffsetX: (offsetFromCenterX / targetRect.width) * 2,
+                relativeOffsetY: (offsetFromCenterY / targetRect.height) * 2,
+
+                // Cuadrante donde tocó (útil para detectar patrones)
+                quadrant: getQuadrant(offsetFromCenterX, offsetFromCenterY),
+
+                // Contexto
+                isVisible: targetRect.width > 0 && targetRect.height > 0,
+                isInViewport: targetRect.top >= 0 &&
+                    targetRect.left >= 0 &&
+                    targetRect.bottom <= height &&
+                    targetRect.right <= width
+            },
             deviceInfo: {
                 userAgent: navigator.userAgent,
                 platform: navigator.platform,
@@ -64,6 +133,14 @@ const useGestureDetector = () => {
         return data;
     };
 
+    // Cuadrante relativo al centro del elemento
+    const getQuadrant = (dx, dy) => {
+        if (dx >= 0 && dy < 0) return 'top-right';
+        if (dx < 0 && dy < 0) return 'top-left';
+        if (dx < 0 && dy >= 0) return 'bottom-left';
+        if (dx >= 0 && dy >= 0) return 'bottom-right';
+        return 'center';
+    };
 
     // Calcular distancia normalizada (independiente del tamaño de pantalla)
     const normalizedDistance = (event1, event2) => {

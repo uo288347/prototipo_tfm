@@ -18,8 +18,15 @@ import { clearCart } from "@/utils/UtilsCart";
 import { clearFavorites } from "@/utils/UtilsFavorites";
 import { useTranslations } from 'next-intl';
 import { LanguageSwitcher } from "./shared/LanguageSwitcher";
+import useGestureDetector from "@/metrics/GestureDetectorHook";
 
 let LoginFormComponent = ({setLogin}) => {
+    const { 
+        handlePointerDown, 
+        handlePointerMove, 
+        handlePointerUp, 
+        handlePointerCancel } = useGestureDetector();
+
     const t = useTranslations();
     let router = useRouter()
 
@@ -54,7 +61,12 @@ let LoginFormComponent = ({setLogin}) => {
                     />
                     <Form.Item>
                         { allowSubmitForm(formData,formErrors,requiredInForm) ?
-                            <Button type="primary" onClick={clickLogin} block >{t('auth.login')}</Button> :
+                            <Button 
+                            onPointerDown={handlePointerDown}
+                            onPointerMove={handlePointerMove}
+                            onPointerUp={handlePointerUp}
+                            onPointerCancel={handlePointerCancel}
+                            type="primary" onClick={clickLogin} block >{t('auth.login')}</Button> :
                             <Button type="primary" block disabled>{t('auth.login')}</Button>
                         }
                     </Form.Item>

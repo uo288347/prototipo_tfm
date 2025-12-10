@@ -11,10 +11,15 @@ import { getCategory, getCategoryLabel } from "@/utils/UtilsCategories";
 import { StandardNavBar } from "../shared/StandardNavBar";
 import { useTranslations } from 'next-intl';
 import { useRouter as useNextRouter } from 'next/router';
-
-const { Title } = Typography
+import useGestureDetector from "@/metrics/GestureDetectorHook";
 
 export const HomeComponent = ({ }) => {
+    const {
+        handlePointerDown,
+        handlePointerMove,
+        handlePointerUp,
+        handlePointerCancel } = useGestureDetector();
+
     const t = useTranslations();
     const nextRouter = useNextRouter();
     const locale = nextRouter.locale || 'es';
@@ -28,7 +33,6 @@ export const HomeComponent = ({ }) => {
         { value: "clothing", label: t('categories.clothing') },
         { value: "accessories", label: t('categories.accessories') },
         { value: "footwear", label: t('categories.footwear') }];
-
 
     const searchParams = useSearchParams();
     const router = useRouter();
@@ -65,8 +69,8 @@ export const HomeComponent = ({ }) => {
     };
 
     return (
-        <>
-            <StandardNavBar/>
+        <div>
+            <StandardNavBar />
 
             <Row style={{ minWidth: "100%", paddingTop: "1rem" }}>
                 <Col xs={24}>
@@ -103,6 +107,6 @@ export const HomeComponent = ({ }) => {
                         filter={filters.filter} />
                 </Col>
             </Row>
-        </>
+        </div>
     );
 }
