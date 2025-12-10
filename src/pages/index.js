@@ -2,8 +2,15 @@ import { useRouter } from "next/router";
 import { Button } from "antd";
 import { useTranslations } from 'next-intl';
 import { LanguageSwitcher } from "@/components/shared/LanguageSwitcher";
+import useGestureDetector from "@/metrics/GestureDetectorHook";
 
 export default function Index() {
+  const { 
+    handlePointerDown, 
+    handlePointerMove, 
+    handlePointerUp, 
+    handlePointerCancel } = useGestureDetector();
+
   const t = useTranslations();
   const router = useRouter();
   const handleStart = () => {
@@ -20,7 +27,12 @@ export default function Index() {
         <LanguageSwitcher />
       </div>
       <div style={{ flex: 1, display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", width: "100%" }}>
-        <Button style={{ width: "100%" }} size="large" type="primary" onClick={handleStart}>
+        <Button 
+        onPointerDown={handlePointerDown}
+        onPointerMove={handlePointerMove}
+        onPointerUp={handlePointerUp}
+        onPointerCancel={handlePointerCancel}
+        style={{ width: "100%" }} size="large" type="primary" onClick={handleStart}>
           {t('auth.start')}
         </Button>
       </div>
