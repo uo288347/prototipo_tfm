@@ -73,7 +73,7 @@
     "invalid": "❌ Lo sentimos, este código no es válido para un producto gratis."
   },
   "deleteZone": {
-    "dragAndDrop": "Arrastra y suelta aquí para eliminar",
+    "dragAndDrop": "Arrastra aquí para eliminar",
     "dropToDelete": "¡Suelta para eliminar!"
   },
   "cart": {

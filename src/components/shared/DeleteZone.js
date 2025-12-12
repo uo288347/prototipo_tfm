@@ -26,20 +26,20 @@ export const DeleteZone = ({ handleDrop, handleDragOver, handleDragLeave, select
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            backgroundColor: draggedOver ? '#e97b7b98' : '#fecacabe',
+            backgroundColor: draggedOver ? '#830d0dbb' : '#fecacadd',
             transform: draggedOver ? 'scale(1.05)' : 'scale(1)',
-            boxShadow: draggedOver ? '0 0.2rem 0.5rem -12px #000' : 'none',
-            border: draggedOver ? '3px dashed #db3d3dff' : '2px dashed #f78484ff',
+            boxShadow: draggedOver ? '0 0.5rem 0.5rem -12px #000' : 'none',
+            border: draggedOver ? '3px dashed #ffdcdc' : '2px dashed #aa3f3fff',
             transition: 'all 0.3s'
           }}
-
         >
           <div style={{ textAlign: "center", paddingBottom: "1.5rem", paddingTop: "1.5rem" }}>
             <DeleteOutlined style={{ fontSize: "1.5rem",
-              color: draggedOver ?  "white" : "#818181ff", 
+              color: draggedOver ?  "#ffdcdc" : "#731313", 
               marginBottom: "0.5rem" }} />
-            <p style={{ color: draggedOver ?  "white" : "#818181ff",
-              fontWeight: "lighter", margin: 0 }}>
+            <p style={{ color: draggedOver ?  "#ffdcdc" : "#731313",
+              fontSize: "0.9rem",
+              fontWeight: "bold", margin: 0 }}>
               {draggedOver ? t('deleteZone.dropToDelete') : t('deleteZone.dragAndDrop')}
             </p>
           </div>

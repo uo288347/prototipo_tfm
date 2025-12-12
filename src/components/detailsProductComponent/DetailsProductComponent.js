@@ -64,14 +64,14 @@ let DetailsProductComponent = ({ id }) => {
     const sizes = ["S", "M", "L", "XL"];
     return (
         <>
-            <Row >
-                <Col xs={24}>
+            <Row style={{ maxHeight: "50vh", overflow: "hidden" }}>
+                <Col xs={24} style={{ height: "50vh" }}>
                     <ImageCarousel product={product} />
                 </Col>
             </Row>
 
             {/* 📦 Información del producto */}
-            <Row gutter={16} style={{ padding: "1rem" }}>
+            <Row gutter={24} style={{ padding: "1rem" }}>
                 <Col xs={24}>
                     <Row style={{ paddingBottom: "0.5rem", }}>
                         <Breadcrumb

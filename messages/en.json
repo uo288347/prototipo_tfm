@@ -73,7 +73,7 @@
     "invalid": "❌ Sorry, this code is not valid for a free product."
   },
   "deleteZone": {
-    "dragAndDrop": "Drag and drop here to delete",
+    "dragAndDrop": "Drag here to delete",
     "dropToDelete": "Drop to delete!"
   },
   "cart": {
