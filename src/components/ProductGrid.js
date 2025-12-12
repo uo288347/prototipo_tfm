@@ -64,8 +64,6 @@ const ProductGrid = ({ category, filter }) => {
         {filteredProducts.map((p, index) => (
           <Col xs={12} sm={12} md={8} lg={6} xl={6} key={p.id}>
             <LongPressWrapper
-              onLongPressHold={() => handleTouchStart(p)}
-              onLongPressRelease={handleTouchEnd}
               onClick={() => router.push(`/detailProduct/${p.id}`)}>
               <ProductCard p={p} index={index} />
             </LongPressWrapper>
