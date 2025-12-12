@@ -131,7 +131,7 @@
   },
   "end": {
     "thanksMessage": "Thanks for participating!",
-    "doubleTapFinish": "Final button",
+    "doubleTapFinish": "Double click to finish",
     "backToStart": "Back to start"
   },
   "instructions": {
