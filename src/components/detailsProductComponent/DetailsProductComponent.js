@@ -126,7 +126,7 @@ let DetailsProductComponent = ({ id }) => {
                         </Radio.Group>
                     </Row>
 
-                    <Row align="top" style={{ paddingBottom: "1rem" }}>
+                    <Row align="top" style={{ paddingBottom: "0", marginBottom: "0" }}>
                         <Col xs={12}>
                             <Stepper style={{ marginTop: "0.5rem", }}
                                 min={1}
@@ -149,6 +149,7 @@ let DetailsProductComponent = ({ id }) => {
                             )}
                         </Col>
                     </Row>
+                    <FreeProductOffer id={id} freeCode={product.freeCode} isApplied={isApplied} setIsApplied={setIsApplied}/>
 
                     <Button type="primary" block id={product.id}
                         onClick={addToShoppingCart}
@@ -157,7 +158,6 @@ let DetailsProductComponent = ({ id }) => {
                 </Col>
             </Row>
 
-            <FreeProductOffer id={id} freeCode={product.freeCode} isApplied={isApplied} setIsApplied={setIsApplied}/>
         </>
     )
 }
