@@ -1,9 +1,16 @@
 import { Form, Rate } from "antd"
 import { modifyStateProperty } from "../../utils/UtilsState";
+import { useTranslations } from 'next-intl';
 
 export const FirstSusComponent = ({ formData, setFormData }) => {
-    let tooltipsFrequency = ["Totalmente en desacuerdo", "En desacuerdo", "Neutro",
-        "De acuerdo", "Totalmente de acuerdo"]
+    const t = useTranslations();
+    const tooltipsFrequency = [
+        t('susForm.stronglyDisagree'),
+        t('susForm.disagree'),
+        t('susForm.neutral'),
+        t('susForm.agree'),
+        t('susForm.stronglyAgree')
+    ];
     
     const labelStyle = {
         whiteSpace: 'normal',
@@ -13,16 +20,19 @@ export const FirstSusComponent = ({ formData, setFormData }) => {
 
     return (
             <Form labelWrap>
-                <Form.Item label={<span style={labelStyle}>1. I think that I would like to use this system frequently.</span>} >
+                <Form.Item label={<span style={labelStyle}>{t('susForm.question1')}</span>} >
                     <Rate tooltips={tooltipsFrequency}
+                        value={formData.sus1}
                         onChange={(value) => modifyStateProperty(formData, setFormData, "sus1", value)} />
                 </Form.Item>
-                <Form.Item label={<span style={labelStyle}>2. I found the system unnecessarily complex.</span>}>
+                <Form.Item label={<span style={labelStyle}>{t('susForm.question2')}</span>}>
                     <Rate tooltips={tooltipsFrequency}
+                        value={formData.sus2}
                         onChange={(value) => modifyStateProperty(formData, setFormData, "sus2", value)} />
                 </Form.Item>
-                <Form.Item label={<span style={labelStyle}>3. I thought the system was easy to use.</span>} >
+                <Form.Item label={<span style={labelStyle}>{t('susForm.question3')}</span>} >
                     <Rate tooltips={tooltipsFrequency}
+                        value={formData.sus3}
                         onChange={(value) => modifyStateProperty(formData, setFormData, "sus3", value)} />
                 </Form.Item>
             </Form>

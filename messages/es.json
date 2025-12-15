@@ -134,6 +134,24 @@
     "doubleTapFinish": "Doble click para finalizar",
     "backToStart": "Volver al inicio"
   },
+  "susForm": {
+    "title": "Formulario final",
+    "question1": "1. Creo que me gustaría utilizar este sistema con frecuencia.",
+    "question2": "2. Encontré el sistema innecesariamente complejo.",
+    "question3": "3. Pensé que el sistema era fácil de usar.",
+    "question4": "4. Creo que necesitaría el apoyo de una persona técnica para poder usar este sistema.",
+    "question5": "5. Encontré que las diversas funciones de este sistema estaban bien integradas.",
+    "question6": "6. Pensé que había demasiada inconsistencia en este sistema.",
+    "question7": "7. Me imagino que la mayoría de la gente aprendería a usar este sistema muy rápidamente.",
+    "question8": "8. Encontré el sistema muy engorroso de usar.",
+    "question9": "9. Me sentí muy seguro usando el sistema.",
+    "question10": "10. Necesitaba aprender muchas cosas antes de poder comenzar a usar este sistema.",
+    "stronglyDisagree": "Totalmente en desacuerdo",
+    "disagree": "En desacuerdo",
+    "neutral": "Neutro",
+    "agree": "De acuerdo",
+    "stronglyAgree": "Totalmente de acuerdo"
+  },
   "instructions": {
     "allTasksCompleted": "🎉 ¡Todas las tareas completadas! ¡Excelente trabajo!",
     "taskCompleted": "✨ ¡Genial! Tarea Completada",

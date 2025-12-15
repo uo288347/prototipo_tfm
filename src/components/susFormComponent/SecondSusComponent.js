@@ -1,9 +1,16 @@
 import { Form, Rate } from "antd"
 import { modifyStateProperty } from "../../utils/UtilsState";
+import { useTranslations } from 'next-intl';
 
 export const SecondSusComponent = ({ formData, setFormData }) => {
-    let tooltipsFrequency = ["Totalmente en desacuerdo", "En desacuerdo", "Neutro",
-        "De acuerdo", "Totalmente de acuerdo"]
+    const t = useTranslations();
+    const tooltipsFrequency = [
+        t('susForm.stronglyDisagree'),
+        t('susForm.disagree'),
+        t('susForm.neutral'),
+        t('susForm.agree'),
+        t('susForm.stronglyAgree')
+    ];
     
     const labelStyle = {
         whiteSpace: 'normal',
@@ -13,16 +20,19 @@ export const SecondSusComponent = ({ formData, setFormData }) => {
 
     return (
             <Form style={{ marginBottom: 0 }} labelWrap>
-                <Form.Item label={<span style={labelStyle}>4. I think that I would need the support of a technical person to be able to use this system.</span>} >
+                <Form.Item label={<span style={labelStyle}>{t('susForm.question4')}</span>} >
                     <Rate tooltips={tooltipsFrequency}
+                        value={formData.sus4}
                         onChange={(value) => modifyStateProperty(formData, setFormData, "sus4", value)} />
                 </Form.Item>
-                <Form.Item label={<span style={labelStyle}>5. I found the various functions in this system were well integrated.</span>} >
+                <Form.Item label={<span style={labelStyle}>{t('susForm.question5')}</span>} >
                     <Rate tooltips={tooltipsFrequency}
+                        value={formData.sus5}
                         onChange={(value) => modifyStateProperty(formData, setFormData, "sus5", value)} />
                 </Form.Item>
-                <Form.Item label={<span style={labelStyle}>6. I thought there was too much inconsistency in this system.</span>} >
+                <Form.Item label={<span style={labelStyle}>{t('susForm.question6')}</span>} >
                     <Rate tooltips={tooltipsFrequency}
+                        value={formData.sus6}
                         onChange={(value) => modifyStateProperty(formData, setFormData, "sus6", value)} />
                 </Form.Item>
             </Form>
