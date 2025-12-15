@@ -87,7 +87,7 @@ export const SusFormComponent = () => {
                                     </Button>
                                 </Col>
                                 <Col span={12}>
-                                    <Button type="primary" onClick={() => router.push('/end')} disabled={!isStepComplete()} style={{ width: "100%" }}>
+                                    <Button type="primary" onClick={() => router.push('/final')} disabled={!isStepComplete()} style={{ width: "100%" }}>
                                         {t('common.finish')}
                                     </Button>
                                 </Col>
