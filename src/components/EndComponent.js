@@ -29,6 +29,7 @@ export const EndComponent = ({ }) => {
                 origin: { y: 0.6 },
             });
             task9();
+            router.push('/sus');
         }
 
         lastTapRef.current = now;

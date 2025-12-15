@@ -7,5 +7,5 @@
   "check_favorites": "Check favorites list",
   "delete_item": "Delete the product \"Green Coat\" from shopping cart",
   "make_purchase": "Buy shopping cart and fill in the shipping information",
-  "end": "Double tap the final button"
+  "end": "Double tap the button to finish and go to the final questionnaire"
 }
