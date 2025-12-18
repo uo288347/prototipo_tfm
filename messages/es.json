@@ -60,9 +60,9 @@
   },
   "freeOffer": {
     "title": "🎁 ¡Desbloquea un Producto Gratis!",
-    "description1": "Desliza las imágenes del producto para encontrar un",
+    "description1": "Encuentra un",
     "redCode": "código rojo",
-    "description2": "en una de ellas.",
+    "description2": "en una de las imágenes del producto.",
     "description3": "Aplica este código en el campo de abajo, y el producto será ",
     "description4": "¡Solo unos pocos productos tienen esta oferta!",
     "placeholder": "Introduce tu código",
