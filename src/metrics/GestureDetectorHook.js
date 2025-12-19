@@ -1,6 +1,6 @@
 import { useRef } from 'react';
 
-const useGestureDetector = () => {
+const useGestureDetector = (onGestureDetected) => {
     const pointerCache = useRef([]);
     const gestureState = useRef({
         currentGestureId: null,
@@ -360,6 +360,12 @@ const useGestureDetector = () => {
             eventsInGesture: [],
             pinchStartDistance: null
         };
+        
+        // Llamar al callback si está definido
+        if (onGestureDetected && typeof onGestureDetected === 'function') {
+            onGestureDetected(gesture);
+        }
+        
         return gesture;
     };
 
