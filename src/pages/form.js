@@ -1,7 +1,18 @@
 import { InitialFormComponent } from "@/components/InitialFormComponent";
 import { LanguageSwitcher } from "@/components/shared/LanguageSwitcher";
+import { useEffect } from "react";
+import { finishSubsceneTracking, initTracking } from "@/metrics/scriptTest";
+import { SCENES } from "@/metrics/constants/scenes";
 
 export default function InitialForm() {
+  useEffect(() => {
+    initTracking(SCENES.INITIAL_FORM);
+    console.log("Tracking iniciado para escena: INITIAL_FORM (1)");
+
+    return () => {
+      finishSubsceneTracking();
+    };
+  }, []);
 
   return (
     <div style={{

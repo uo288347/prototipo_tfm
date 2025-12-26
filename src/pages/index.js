@@ -20,9 +20,9 @@ export default function Index() {
     startExperiment();
     registerUserData();
     
-    // Iniciar tracking de la primera tarea (tutorial)
-    initTracking(SCENES.TASK_TUTORIAL);
-    console.log("Experimento iniciado. Tracking de tarea 1 (tutorial) activado.");
+    // Iniciar tracking de la escena de bienvenida
+    initTracking(SCENES.WELCOME);
+    console.log("🔍 Tracking iniciado para escena: WELCOME (0)");
     
     router.push("/form");
   };
