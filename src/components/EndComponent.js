@@ -29,6 +29,7 @@ export const EndComponent = ({ }) => {
                 origin: { y: 0.6 },
             });
             task9();
+            router.push('/sus');
         }
 
         lastTapRef.current = now;
@@ -44,13 +45,15 @@ export const EndComponent = ({ }) => {
                 <Button type="primary" size="large" block
                     icon={<CheckOutlined />}
                     onTouchStart={handleDoubleTap}>{t('end.doubleTapFinish')}</Button>
+        </div>
+    )
+}
+
+/*
                 <Button type="text" onClick={() => {
                     router.push("/")
                     clearCart();
                     clearFavorites();
                     clearLogin();
                     UtilsTasks.resetAllTasks();
-                }} block>{t('end.backToStart')}</Button>
-        </div>
-    )
-}
+                }} block>{t('end.backToStart')}</Button>*/

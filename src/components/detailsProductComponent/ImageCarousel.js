@@ -24,10 +24,10 @@ export const ImageCarousel = ({ product }) => {
             <Carousel
                 dots
                 swipeToSlide
-                style={{ width: "100%", height: "100%", overflow: "hidden" }}
+                style={{ width: "100%", height: "50vh", overflow: "hidden" }}
             >
                 {product.images?.map((img, index) => (
-                    <div key={index}>
+                    <div key={index} style={{ height: "50vh", overflow: "hidden" }}>
                         <PinchZoomImage
                             src={img}
                             alt={`${product?.title || 'Product'} - Image ${index + 1}`}

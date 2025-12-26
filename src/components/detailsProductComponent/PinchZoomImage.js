@@ -6,6 +6,7 @@ export const PinchZoomImage = ({ src, alt }) => {
     const [position, setPosition] = useState({ x: 0, y: 0 });
     const [origin, setOrigin] = useState({ x: 50, y: 50 });
     const [isDragging, setIsDragging] = useState(false);
+    const [imgStyle, setImgStyle] = useState({});
 
     const imageRef = useRef(null);
     const touchStartDistance = useRef(0);
@@ -178,7 +179,7 @@ export const PinchZoomImage = ({ src, alt }) => {
         <div
             style={{
                 width: '100%',
-                height: '400px',
+                height: '50vh',
                 overflow: 'hidden',
                 position: 'relative',
                 touchAction: scale > 1 ? 'none' : 'pan-y pinch-zoom',
@@ -194,7 +195,7 @@ export const PinchZoomImage = ({ src, alt }) => {
                 alt={alt}
                 style={{
                     width: '100%',
-                    height: "500px",
+                    height: "50vh",
                     objectFit: 'cover',
                     objectPosition: 'top',
                     transform: `translate(${position.x}px, ${position.y}px) scale(${scale})`,

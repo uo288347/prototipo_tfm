@@ -60,11 +60,11 @@
   },
   "freeOffer": {
     "title": "🎁 ¡Desbloquea un Producto Gratis!",
-    "description1": "Algunos de nuestros productos vienen con un",
+    "description1": "Encuentra un",
     "redCode": "código rojo",
-    "description2": "especial mostrado en su imagen.",
-    "description3": "Introduce este código en el campo de abajo, y voilà — ¡el producto es tuyo",
-    "description4": "¡Busca los artículos marcados en rojo y date un capricho especial. Solo unos pocos productos tienen esta oferta!",
+    "description2": "en una de las imágenes del producto.",
+    "description3": "Aplica este código en el campo de abajo, y el producto será ",
+    "description4": "¡Solo unos pocos productos tienen esta oferta!",
     "placeholder": "Introduce tu código",
     "apply": "Aplicar",
     "applied": "Aplicado",
@@ -73,7 +73,7 @@
     "invalid": "❌ Lo sentimos, este código no es válido para un producto gratis."
   },
   "deleteZone": {
-    "dragAndDrop": "Arrastra y suelta aquí para eliminar",
+    "dragAndDrop": "Arrastra aquí para eliminar",
     "dropToDelete": "¡Suelta para eliminar!"
   },
   "cart": {
@@ -131,8 +131,26 @@
   },
   "end": {
     "thanksMessage": "¡Gracias por participar!",
-    "doubleTapFinish": "Botón final",
+    "doubleTapFinish": "Doble click para ir al cuestionario",
     "backToStart": "Volver al inicio"
+  },
+  "susForm": {
+    "title": "Formulario final",
+    "question1": "1. Creo que me gustaría utilizar este sistema con frecuencia.",
+    "question2": "2. Encontré el sistema innecesariamente complejo.",
+    "question3": "3. Pensé que el sistema era fácil de usar.",
+    "question4": "4. Creo que necesitaría el apoyo de una persona técnica para poder usar este sistema.",
+    "question5": "5. Encontré que las diversas funciones de este sistema estaban bien integradas.",
+    "question6": "6. Pensé que había demasiada inconsistencia en este sistema.",
+    "question7": "7. Me imagino que la mayoría de la gente aprendería a usar este sistema muy rápidamente.",
+    "question8": "8. Encontré el sistema muy engorroso de usar.",
+    "question9": "9. Me sentí muy seguro usando el sistema.",
+    "question10": "10. Necesitaba aprender muchas cosas antes de poder comenzar a usar este sistema.",
+    "stronglyDisagree": "Totalmente en desacuerdo",
+    "disagree": "En desacuerdo",
+    "neutral": "Neutro",
+    "agree": "De acuerdo",
+    "stronglyAgree": "Totalmente de acuerdo"
   },
   "instructions": {
     "allTasksCompleted": "🎉 ¡Todas las tareas completadas! ¡Excelente trabajo!",

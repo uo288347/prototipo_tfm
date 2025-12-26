@@ -60,11 +60,11 @@
   },
   "freeOffer": {
     "title": "🎁 Unlock a Free Product!",
-    "description1": "Some of our products come with a special",
+    "description1": "Find a",
     "redCode": "red code",
-    "description2": "displayed on their image.",
-    "description3": "Enter this code in the input box below, and voilà — the product is yours for",
-    "description4": "Look out for red-marked items and treat yourself to a special surprise. Only a few lucky products carry this offer!",
+    "description2": "in one of the product images.",
+    "description3": "Apply this code in the field below, and the product will be ",
+    "description4": "Only a few lucky products carry this offer!",
     "placeholder": "Enter your code",
     "apply": "Apply",
     "applied": "Applied",
@@ -73,7 +73,7 @@
     "invalid": "❌ Sorry, this code is not valid for a free product."
   },
   "deleteZone": {
-    "dragAndDrop": "Drag and drop here to delete",
+    "dragAndDrop": "Drag here to delete",
     "dropToDelete": "Drop to delete!"
   },
   "cart": {
@@ -131,8 +131,26 @@
   },
   "end": {
     "thanksMessage": "Thanks for participating!",
-    "doubleTapFinish": "Final button",
+    "doubleTapFinish": "Double click to go to questionnaire",
     "backToStart": "Back to start"
+  },
+  "susForm": {
+    "title": "Final form",
+    "question1": "1. I think that I would like to use this system frequently.",
+    "question2": "2. I found the system unnecessarily complex.",
+    "question3": "3. I thought the system was easy to use.",
+    "question4": "4. I think that I would need the support of a technical person to be able to use this system.",
+    "question5": "5. I found the various functions in this system were well integrated.",
+    "question6": "6. I thought there was too much inconsistency in this system.",
+    "question7": "7. I would imagine that most people would learn to use this system very quickly.",
+    "question8": "8. I found the system very cumbersome to use.",
+    "question9": "9. I felt very confident using the system.",
+    "question10": "10. I needed to learn a lot of things before I could get going with this system.",
+    "stronglyDisagree": "Strongly disagree",
+    "disagree": "Disagree",
+    "neutral": "Neutral",
+    "agree": "Agree",
+    "stronglyAgree": "Strongly agree"
   },
   "instructions": {
     "allTasksCompleted": "🎉 All tasks completed! Excellent work!",

@@ -1,6 +1,6 @@
 import React, { useRef } from "react";
 
-export const LongPressWrapper = ({onLongPressHold, onLongPressRelease, onClick, delay = 500, children }) => {
+export const LongPressWrapper = ({onLongPressHold=() => {}, onLongPressRelease=() => {}, onClick=() => {}, delay = 500, children }) => {
   const timerRef = useRef(null);
   const longPressTriggered = useRef(false);
 

@@ -109,6 +109,37 @@ const products = [
         category: "women",
         filter: "Clothing"
     },
+    // ****** INTERRUPTION ******
+    {
+        id: "mw1",
+        title: "Green Coat",
+        description: "Long winter coat with fleece lining and classic style.",
+        price: 19.03,
+        images: ["/mw1.jpg", "/picture1.jpg", "/picture2.jpg", "/picture3.jpg", "/free.png"],
+        category: "women",
+        filter: "Clothing",
+        freeCode: "FREE123"
+    },
+    {
+        id: "mw2",
+        title: "Pink Summer Dress",
+        description: "Sleeveless pink dress, perfect for the beach.",
+        price: 32.99,
+        images: ["/mw2.jpg", "/picture1.jpg", "/picture2.jpg", "/picture3.jpg"],
+        category: "women",
+        filter: "Clothing"
+    },
+    {
+        id: "mh1",
+        title: "Green Bomber Jacket",
+        description: "Lightweight jacket with high collar and embroidery.",
+        price: 11.06,
+        images: ["/mh1.jpg", "/picture1.jpg", "/picture2.jpg", "/picture3.jpg", "/free.png"],
+        category: "men",
+        filter: "Clothing",
+        freeCode: "FREE123"
+    },
+    // ****** END INTERRUPTION ******
     {
         id: "mw15",
         title: "Wide-Leg Palazzo Pants",
@@ -844,37 +875,6 @@ const products = [
         images: ["/md2.jpg", "/picture1.jpg", "/picture2.jpg", "/picture3.jpg"],
         category: "sports",
         filter: "Clothing"
-    },
-
-    // ****** INTERRUPTION FREE COAT ******
-    {
-        id: "mw1",
-        title: "Green Coat",
-        description: "Long winter coat with fleece lining and classic style.",
-        price: 19.03,
-        images: ["/mw1.jpg", "/picture1.jpg", "/picture2.jpg", "/picture3.jpg", "/free.png"],
-        category: "women",
-        filter: "Clothing",
-        freeCode: "FREE123"
-    },
-    {
-        id: "mw2",
-        title: "Pink Summer Dress",
-        description: "Sleeveless pink dress, perfect for the beach.",
-        price: 32.99,
-        images: ["/mw2.jpg", "/picture1.jpg", "/picture2.jpg", "/picture3.jpg"],
-        category: "women",
-        filter: "Clothing"
-    },
-    {
-        id: "mh1",
-        title: "Green Bomber Jacket",
-        description: "Lightweight jacket with high collar and embroidery.",
-        price: 11.06,
-        images: ["/mh1.jpg", "/picture1.jpg", "/picture2.jpg", "/picture3.jpg", "/free.png"],
-        category: "men",
-        filter: "Clothing",
-        freeCode: "FREE123"
     },
     // ************************************
 

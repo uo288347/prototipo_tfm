@@ -20,7 +20,6 @@ export const FreeProductOffer = ({ id, freeCode, isApplied, setIsApplied }) => {
 
     const handleApplyCode = () => {
         // Replace "FREE123" with your real codes logic
-        const validCodes = ["FREE123", "BONUS2025"];
         if (isEligibleForFree(id) && code.toUpperCase() === freeCode.toUpperCase()) {
             setMessage(t('freeOffer.success'));
             setIsApplied(true);
@@ -34,11 +33,12 @@ export const FreeProductOffer = ({ id, freeCode, isApplied, setIsApplied }) => {
     };
 
     return (
-        <div style={{ marginTop: "1rem" }}>
+        <div style={{ marginTop: "0", marginBottom: "1rem" }}>
             <Collapse>
                 <Collapse.Panel
                     key="1"
                     title={t('freeOffer.title')}
+                    style={{fontSize: "0.9rem"}}
                 >
                     <p>
                         {t('freeOffer.description1')} <strong style={{ color: "red" }}>{t('freeOffer.redCode')}</strong> {t('freeOffer.description2')}
@@ -56,8 +56,9 @@ export const FreeProductOffer = ({ id, freeCode, isApplied, setIsApplied }) => {
                             value={code}
                             onChange={val => setCode(val)}
                             disabled={isApplied}
+                            style={{ fontSize: "0.85rem" }}
                         />
-                        <Button color="primary" onClick={handleApplyCode} disabled={isApplied}>
+                        <Button color="primary" size="small" onClick={handleApplyCode} disabled={isApplied}>
                             {isApplied ? t('freeOffer.applied') : t('freeOffer.apply')}
                         </Button>
                     </div>

@@ -120,7 +120,7 @@ export const InstructionsBanner = forwardRef((props, ref) => {
         return null;
     }
 
-    const progressText = `(${progress.completed + 1}/${progress.total})`;
+    const progressText = `${progress.completed + 1}/${progress.total}`;
 
     return (
         <div ref={ref} style={{
@@ -131,13 +131,21 @@ export const InstructionsBanner = forwardRef((props, ref) => {
             zIndex: 1000,
         }}>
             <NoticeBar
-                icon={<BulbOutlined />}
+                icon={
+                    isSuccess 
+                        ? <BulbOutlined />
+                        : <><BulbOutlined /><span style={{fontSize: '1rem', marginLeft: '8px'}}>{progressText}</span></>
+                }
                 content={
                     isSuccess
                         ? t('instructions.taskCompleted')
-                        : `${getTaskText(currentTask.id, locale)} ${progressText}`
+                        : `${getTaskText(currentTask.id, locale)}`
                 }
                 color={isSuccess ? "success" : "info"}
+                style={{
+                    backgroundColor: isSuccess ? '#d5ffcc' : '#a7d4ff',
+                    color: isSuccess ? '#1f5c00' : '#003c74',
+                }}
             />
 
             <div style={{
@@ -149,7 +157,7 @@ export const InstructionsBanner = forwardRef((props, ref) => {
                 <div style={{
                     width: `${(progress.completed / progress.total) * 100}%`,
                     height: '100%',
-                    backgroundColor: isSuccess ? '#52c41a' : '#1890ff',
+                    backgroundColor: isSuccess ? '#1f5c00' : '#005aae',
                     transition: 'width 0.5s ease-in-out'
                 }} />
             </div>
