@@ -5,6 +5,8 @@ import { getFavorite } from "./UtilsFavorites";
 import { isInCart } from "./UtilsCart";
 import tasksEn from '../../messages/tasks_en.json';
 import tasksEs from '../../messages/tasks_es.json';
+import { finishSubsceneTracking, initTracking } from '../metrics/scriptTest';
+import { getCurrentSceneId, TASK_TO_SCENE } from '../constants/scenes';
 
 const tasksTranslations = {
   en: tasksEn,
@@ -42,8 +44,22 @@ export const UtilsTasks = {
 
   // Marcar tarea como completada
   completeTask(storageKey) {
+    // Finalizar tracking de la escena actual
+    const currentSceneId = TASK_TO_SCENE[storageKey];
+    if (currentSceneId !== undefined) {
+      finishSubsceneTracking();
+      console.log(`Tarea completada: ${storageKey}, Scene ID: ${currentSceneId}`);
+    }
+    
     localStorage.setItem(storageKey, 'true');
     window.dispatchEvent(new Event('taskCompleted'));
+    
+    // Iniciar tracking de la siguiente tarea
+    const nextSceneId = getCurrentSceneId();
+    if (nextSceneId !== undefined) {
+      initTracking(nextSceneId);
+      console.log(`Iniciando tracking de la siguiente tarea, Scene ID: ${nextSceneId}`);
+    }
   },
 
   // Resetear todas las tareas

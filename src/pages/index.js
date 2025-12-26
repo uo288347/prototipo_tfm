@@ -3,6 +3,8 @@ import { Button } from "antd";
 import { useTranslations } from 'next-intl';
 import { LanguageSwitcher } from "@/components/shared/LanguageSwitcher";
 import useGestureDetector from "@/metrics/GestureDetectorHook";
+import { startExperiment, registerUserData, initTracking } from "@/metrics/scriptTest";
+import { SCENES } from "@/constants/scenes";
 
 export default function Index() {
   const { 
@@ -14,6 +16,14 @@ export default function Index() {
   const t = useTranslations();
   const router = useRouter();
   const handleStart = () => {
+    // Iniciar el experimento cuando se pulsa "Empezar"
+    startExperiment();
+    registerUserData();
+    
+    // Iniciar tracking de la primera tarea (tutorial)
+    initTracking(SCENES.TASK_TUTORIAL);
+    console.log("Experimento iniciado. Tracking de tarea 1 (tutorial) activado.");
+    
     router.push("/form");
   };
 

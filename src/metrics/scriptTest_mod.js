@@ -6,7 +6,6 @@
 		const VERSION = 3;
 		
 		const EVENT_ON_MOUSE_MOVE = 0;
-		const EVENT_ON_TOUCH_MOVE = 7;
 		const EVENT_ON_CLICK = 1;
 		const EVENT_ON_DOUBLE_CLICK = 2;
 		const EVENT_ON_MOUSE_DOWN = 3;
@@ -22,8 +21,16 @@
 		const EVENT_BLUR = 17;
 		const EVENT_ON_CHANGE_SELECTION_OBJECT = 18;
 		const EVENT_ON_CLICK_SELECTION_OBJECT = 19;
+		// Gesture events
+		const EVENT_GESTURE_TAP = 30;
+		const EVENT_GESTURE_DOUBLE_TAP = 31;
+		const EVENT_GESTURE_LONG_TAP = 32;
+		const EVENT_GESTURE_SWIPE = 33;
+		const EVENT_GESTURE_DRAG = 34;
+		const EVENT_GESTURE_SCROLL = 35;
+		const EVENT_GESTURE_PINCH = 36;
 		const EVENT_INIT_TRACKING = 100;
-		const EVENT_TRACKING_END = 200;
+		const EVENT_TRACKIND_END = 200;
 		const COMPONENT_TEXT_FIELD = 1;
 		const COMPONENT_COMBOBOX = 2;
 		const COMPONENT_OPTION = 3;
@@ -178,8 +185,9 @@
 			    "sizeAvailW": screen.availWidth,
 			    "sizeAvailH": screen.availHeight,
 			    "scrColorDepth": screen.colorDepth,
-			    "scrPixelDepth": screen.pixelDepth,
-			    "idExperiment" : idExperiment,
+			    "scrPixelDepth": screen.pixelDepth,		    "touchSupport": 'ontouchstart' in window,
+		    "pointerSupport": 'PointerEvent' in window,
+		    "maxTouchPoints": navigator.maxTouchPoints || 0,			    "idExperiment" : idExperiment,
 			    "sessionId" : user
 			};		
 			if(true){
@@ -284,6 +292,154 @@
 			}
 		}
 		
+		// Función para muestrear trayectoria y reducir volumen de datos
+		function sampleTrajectory(events, maxSamples) {
+			maxSamples = maxSamples || 10;
+			if (!events || events.length === 0) return [];
+			
+			if (events.length <= maxSamples) {
+				return events.map(function(e) {
+					return {
+						x: e.normalizedClientX,
+						y: e.normalizedClientY,
+						t: e.timestamp
+					};
+				});
+			}
+			
+			var step = Math.floor(events.length / maxSamples);
+			var sampled = [];
+			for (var i = 0; i < events.length; i += step) {
+				sampled.push({
+					x: events[i].normalizedClientX,
+					y: events[i].normalizedClientY,
+					t: events[i].timestamp
+				});
+			}
+			return sampled;
+		}
+		
+		// Función para trackear gestos detectados por GestureDetectorHook
+		function trackGestureEvent(gesture) {
+			if (!trackingOn) return;
+			
+			var eventTypeMap = {
+				'tap': EVENT_GESTURE_TAP,
+				'double_tap': EVENT_GESTURE_DOUBLE_TAP,
+				'long_tap': EVENT_GESTURE_LONG_TAP,
+				'swipe': EVENT_GESTURE_SWIPE,
+				'drag': EVENT_GESTURE_DRAG,
+				'scroll': EVENT_GESTURE_SCROLL,
+				'pinch': EVENT_GESTURE_PINCH
+			};
+			
+			var item = new Object();
+			item.id = eventCounter++;
+			item.sceneId = sceneId;
+			item.eventType = eventTypeMap[gesture.gestureType] || -1;
+			item.timeStamp = gesture.endTime;
+			item.x = Math.round(gesture.endPosition.x);
+			item.y = Math.round(gesture.endPosition.y);
+			item.keyValueEvent = -1;
+			item.keyCodeEvent = -1;
+			
+			// Detectar elemento tocado
+			if (gesture.eventName) {
+				item.elementId = detectElementByName(gesture.eventName);
+			} else {
+				item.elementId = detectElement(item.x, item.y);
+			}
+			
+			// Datos específicos del gesto
+			item.gestureData = {
+				gestureId: gesture.gestureId,
+				gestureType: gesture.gestureType,
+				duration: gesture.duration,
+				eventCount: gesture.eventCount,
+				
+				// Posiciones absolutas
+				startX: Math.round(gesture.startPosition.x),
+				startY: Math.round(gesture.startPosition.y),
+				endX: Math.round(gesture.endPosition.x),
+				endY: Math.round(gesture.endPosition.y),
+				
+				// Posiciones normalizadas (0-1, comparable entre dispositivos)
+				normalizedStartX: gesture.normalizedStartPosition.x,
+				normalizedStartY: gesture.normalizedStartPosition.y,
+				normalizedEndX: gesture.normalizedEndPosition.x,
+				normalizedEndY: gesture.normalizedEndPosition.y,
+				
+				// Métricas de velocidad y aceleración
+				averageVelocity: gesture.averageVelocity,
+				maxVelocity: gesture.maxVelocity,
+				minVelocity: gesture.minVelocity,
+				averageAcceleration: gesture.averageAcceleration,
+				
+				// Métricas de presión y contacto
+				averagePressure: gesture.averagePressure,
+				maxPressure: gesture.maxPressure,
+				minPressure: gesture.minPressure,
+				averageContactWidth: gesture.averageContactWidth,
+				averageContactHeight: gesture.averageContactHeight,
+				maxContactWidth: gesture.maxContactWidth,
+				maxContactHeight: gesture.maxContactHeight,
+				
+				// Métricas espaciales
+				totalDistance: gesture.totalNormalizedDistance,
+				straightDistance: gesture.straightNormalizedDistance,
+				curvature: gesture.normalizedCurvature,
+				direction: gesture.direction,
+				jitter: gesture.normalizedJitter,
+				
+				// Tipo de puntero
+				pointerType: gesture.pointerType,
+				
+				// Trayectoria muestreada (máximo 10 puntos)
+				trajectorySample: sampleTrajectory(gesture.events, 10),
+				
+				// Información del elemento objetivo
+				targetInfo: gesture.events && gesture.events[0] ? {
+					tagName: gesture.events[0].targetInfo?.tagName,
+					id: gesture.events[0].targetInfo?.id,
+					className: gesture.events[0].targetInfo?.className,
+					ariaLabel: gesture.events[0].targetInfo?.ariaLabel,
+					eventName: gesture.events[0].targetInfo?.eventName,
+					elementWidth: gesture.events[0].targetInfo?.elementWidth,
+					elementHeight: gesture.events[0].targetInfo?.elementHeight,
+					distanceFromCenter: gesture.events[0].targetInfo?.distanceFromCenter,
+					normalizedDistanceFromCenter: gesture.events[0].targetInfo?.normalizedDistanceFromCenter,
+					quadrant: gesture.events[0].targetInfo?.quadrant
+				} : null
+			};
+			
+			// Añadir datos específicos según tipo de gesto
+			if (gesture.gestureType === 'pinch') {
+				item.gestureData.pinchInitialDistance = gesture.pinchInitialDistance;
+				item.gestureData.pinchFinalDistance = gesture.pinchFinalDistance;
+				item.gestureData.pinchScaleFactor = gesture.pinchScaleFactor;
+				item.gestureData.pinchType = gesture.pinchType;
+			} else if (gesture.gestureType === 'double_tap') {
+				item.gestureData.doubleTapInterval = gesture.doubleTapInterval;
+				item.gestureData.doubleTapDistance = gesture.doubleTapDistance;
+			} else if (gesture.gestureType === 'long_tap') {
+				item.gestureData.longTapDuration = gesture.longTapDuration;
+				item.gestureData.longTapPressure = gesture.longTapPressure;
+			}
+			
+			list[list.length] = item;
+			
+			if (list.length >= TOP_LIMIT) {
+				var deliverPackage = list;
+				list = [];
+				deliverData(deliverPackage);
+			}
+		}
+		
+		// Exponer función globalmente para que React pueda llamarla
+		if (typeof window !== 'undefined') {
+			window.trackGestureEvent = trackGestureEvent;
+		}
+		
 		function trackEventOverElement(eventType, elementId, event)
 		{
 			var item = new Object();
@@ -359,9 +515,6 @@
 			parent.addEventListener('mouseup',  function() {
 				trackMouseUp();
 			});
-			window.parent.addEventListener("touchmove", function (event) {
-				trackTouchMovement(event);
-			});
 			parent.addEventListener('click',  function() {
 				trackClick();
 			});
@@ -388,10 +541,6 @@
 		function trackMouseMovement() {
 			trackEvent(EVENT_ON_MOUSE_MOVE);
 		}	
-		
-		function trackTouchMovement(event) {
-			trackWithEvent(EVENT_ON_TOUCH_MOVE, event);
-		}
 		
 		function trackClick(){
 			trackEvent(EVENT_ON_CLICK);
@@ -455,7 +604,7 @@
 		
 		function finishTracking(_newPage)	
 		{
-			trackEvent(EVENT_TRACKING_END);
+			trackEvent(EVENT_TRACKIND_END);
 			trackingOn = false;
 			
 			//We take the snapshot.
@@ -500,7 +649,7 @@
 		
 		function finishSubsceneTracking()	
 		{
-			trackEvent(EVENT_TRACKING_END);
+			trackEvent(EVENT_TRACKIND_END);
 			trackingOn = false;
 			//We take the snapshot
 			takeSnapshot(this.sceneId);
@@ -719,7 +868,7 @@
 			  case EVENT_INIT_TRACKING: 
 				  return "#74FF33";
 				  break;
-			  case EVENT_TRACKING_END: 
+			  case EVENT_TRACKIND_END: 
 				return "#336BFF";
 				break;
 			  default:
@@ -761,7 +910,7 @@
 		}
 		
 		function postAJAXDemographicData(parametros){
-			//if(emittingData){
+			if(emittingData){
 				$.ajax({
 					data:  JSON.stringify(parametros),  
 					url:   urlDemographicData,
@@ -771,22 +920,7 @@
 					error: function (){
 					}
 				});
-			//}
+			}
 		}
 	
 function registerid(value) {postNumberDD(158, value);}
-
-// Exportar funciones para uso en otros componentes
-export { 
-	startExperiment, 
-	finishExperiment, 
-	initTracking, 
-	finishTracking, 
-	finishSubsceneTracking,
-	registerUserData, 
-	registerComponent,
-	registerid,
-	postNumberDD,
-	postStringDD,
-	postDateDD
-};
