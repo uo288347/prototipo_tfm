@@ -24,13 +24,10 @@ export default function InitialForm() {
     }
 
     return () => {
-      finishExperiment();
       finishTracking();
-      // Aquí termina el experimento, no hay siguiente escena
-      console.log("Experimento finalizado test");
       // Iniciar tracking de la siguiente escena según el orden de tareas
-      //const nextSceneId = getCurrentSceneId();
-      //initTracking(nextSceneId);
+      const nextSceneId = getCurrentSceneId();
+      initTracking(nextSceneId);
     };
   }, []);
 
