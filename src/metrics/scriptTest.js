@@ -137,17 +137,20 @@
 				
 
 		function createUser() {
-			if (localStorage.getItem("user") === null || localStorage.getItem("user") === undefined) {
-				let lettrs = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-				localStorage.setItem("user",
-					lettrs[Math.floor(Math.random() * lettrs.length)] +
-					lettrs[Math.floor(Math.random() * lettrs.length)] +
-					lettrs[Math.floor(Math.random() * lettrs.length)] +
-					(Math.floor(Math.random() * (999999999999 - 100000000000)) + 100000000000).toString() +
-					Date.now().toString()+getDate()
-				);
+			if (typeof window !== "undefined" && typeof localStorage !== "undefined") {
+				if (localStorage.getItem("user") === null || localStorage.getItem("user") === undefined) {
+					let lettrs = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+					localStorage.setItem("user",
+						lettrs[Math.floor(Math.random() * lettrs.length)] +
+						lettrs[Math.floor(Math.random() * lettrs.length)] +
+						lettrs[Math.floor(Math.random() * lettrs.length)] +
+						(Math.floor(Math.random() * (999999999999 - 100000000000)) + 100000000000).toString() +
+						Date.now().toString()+getDate()
+					);
+				}
+				return localStorage.getItem("user");
 			}
-			return localStorage.getItem("user");
+			return null;
 		}
 	
 		function registerUserData()
@@ -487,8 +490,10 @@
 				if ( finishedExperiment )
 				{
 					//We delete the user
-					console.log("Experiment finished, deleting user "+	localStorage.getItem("user"));
-					localStorage.removeItem("user");	
+					if (typeof window !== "undefined" && typeof localStorage !== "undefined") {
+						console.log("Experiment finished, deleting user "+ localStorage.getItem("user"));
+						localStorage.removeItem("user");
+					}
 				}
 				if (newPage != null) {
 					window.location.href = newPage;

@@ -61,9 +61,9 @@ export const getCurrentSceneId = () => {
   ];
 
   // Buscar la primera tarea no completada
-  const currentTask = tasks.find(task => 
-    localStorage.getItem(task.storageKey) !== 'true'
-  );
+	const currentTask = tasks.find(task =>
+	  typeof window !== "undefined" && localStorage.getItem(task.storageKey) !== 'true'
+	);
 
   return currentTask ? currentTask.sceneId : SCENES.QUESTIONNAIRE;
 };
