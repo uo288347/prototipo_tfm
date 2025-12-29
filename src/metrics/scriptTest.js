@@ -691,9 +691,11 @@
 				success:  function (response) {
 					if(response === 'OPEN'){
 						emittingData = true;
+						console.log("Experiment is OPEN: emitting data");
 					}
 					else{
 						emittingData = false;
+						console.log("Experiment is CLOSED: not emitting data");
 					}
 				},
 				error: function (){}
