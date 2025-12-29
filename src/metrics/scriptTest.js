@@ -33,7 +33,7 @@
 		const COMPONENT_RADIO_BUTTON = 4;
 		const COMPONENT_CHECK_BOX = 5;
 		
-		const user = createUser();
+		const user = null;
 	
 			
 		
