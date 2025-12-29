@@ -1,9 +1,8 @@
 import { InitialFormComponent } from "@/components/InitialFormComponent";
 import { LanguageSwitcher } from "@/components/shared/LanguageSwitcher";
 import { useEffect } from "react";
-import { finishSubsceneTracking, initTracking, finishTracking } from "@/metrics/scriptTest";
+import { finishSubsceneTracking, initTracking, finishTracking, finishExperiment } from "@/metrics/scriptTest";
 import { SCENES, getCurrentSceneId } from "@/metrics/constants/scenes";
-import { finishExperiment } from "@/metrics/scriptTest2_alejandro";
 
 export default function InitialForm() {
   useEffect(() => {
@@ -26,7 +25,7 @@ export default function InitialForm() {
 
     return () => {
       finishTracking();
-      finishExperiment();
+      finishExperiment
       // Iniciar tracking de la siguiente escena según el orden de tareas
       //const nextSceneId = getCurrentSceneId();
       //initTracking(nextSceneId);
