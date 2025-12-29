@@ -9,14 +9,12 @@ export default function SusForm() {
     initTracking(SCENES.QUESTIONNAIRE);
     console.log("Tracking iniciado para escena: QUESTIONNAIRE (12)");
 
-  }, []);
-
-    const handleFinishTracking = () => {
-      finishSubsceneTracking();
-      finishExperiment();
+    return () => {
       finishTracking();
+      finishExperiment();
       console.log("Experimento finalizado");
     };
+  }, []);
 
     return (
       <div style={{
@@ -28,7 +26,7 @@ export default function SusForm() {
           <LanguageSwitcher />
         </div>
         <div style={{ flex: 1, display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", width: "100%" }}>
-          <SusFormComponent onFinishTracking={handleFinishTracking} />
+          <SusFormComponent/>
         </div>
       </div>
     );

@@ -3,7 +3,7 @@ import { Button } from "antd";
 import { useTranslations } from 'next-intl';
 import { LanguageSwitcher } from "@/components/shared/LanguageSwitcher";
 import useGestureDetector from "@/metrics/GestureDetectorHook";
-import { startExperiment, registerUserData, initTracking } from "@/metrics/scriptTest";
+import { startExperiment, registerUserData, initTracking, finishTracking } from "@/metrics/scriptTest";
 import { SCENES } from "@/metrics/constants/scenes";
 
 export default function Index() {
@@ -24,6 +24,7 @@ export default function Index() {
     initTracking(SCENES.WELCOME);
     console.log("Tracking iniciado para escena: WELCOME (0)");
     
+    finishTracking(); // Terminar tracking de la escena de bienvenida antes de ir a form
     router.push("/form");
   };
 

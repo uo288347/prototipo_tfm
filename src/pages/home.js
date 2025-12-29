@@ -1,17 +1,17 @@
 import { HomeComponent } from "@/components/homeComponent/HomeComponent";
 import { useEffect } from "react";
-import { finishSubsceneTracking, initTracking } from "@/metrics/scriptTest";
+import { finishSubsceneTracking, initTracking, finishTracking } from "@/metrics/scriptTest";
 import { getCurrentSceneId } from "@/metrics/constants/scenes";
 
 export default function Home() {
     useEffect(() => {
-        const currentSceneId = getCurrentSceneId();
-        initTracking(currentSceneId);
-        console.log(`Tracking iniciado para escena: ${currentSceneId}`);
+      const currentSceneId = getCurrentSceneId();
+      initTracking(currentSceneId);
+      console.log(`Tracking iniciado para escena: ${currentSceneId}`);
 
-        return () => {
-            finishSubsceneTracking();
-        };
+      return () => {
+        finishTracking();
+      };
     }, []);
 
     return (

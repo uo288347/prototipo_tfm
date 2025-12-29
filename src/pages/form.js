@@ -1,7 +1,7 @@
 import { InitialFormComponent } from "@/components/InitialFormComponent";
 import { LanguageSwitcher } from "@/components/shared/LanguageSwitcher";
 import { useEffect } from "react";
-import { finishSubsceneTracking, initTracking } from "@/metrics/scriptTest";
+import { finishSubsceneTracking, initTracking, finishTracking } from "@/metrics/scriptTest";
 import { SCENES } from "@/metrics/constants/scenes";
 
 export default function InitialForm() {
@@ -24,7 +24,7 @@ export default function InitialForm() {
     }
 
     return () => {
-      finishSubsceneTracking();
+      finishTracking();
     };
   }, []);
 

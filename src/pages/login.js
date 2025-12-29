@@ -1,7 +1,7 @@
 import LoginFormComponent from "@/components/LoginFormComponent";
 import { LanguageSwitcher } from "@/components/shared/LanguageSwitcher";
 import { useEffect } from "react";
-import { finishSubsceneTracking, initTracking } from "@/metrics/scriptTest";
+import { finishSubsceneTracking, initTracking, finishTracking } from "@/metrics/scriptTest";
 import { SCENES } from "@/metrics/constants/scenes";
 
 export default function LoginPage({ }) {
@@ -10,7 +10,7 @@ export default function LoginPage({ }) {
     console.log("Tracking iniciado para escena: LOGIN (2)");
 
     return () => {
-      finishSubsceneTracking();
+      finishTracking();
     };
   }, []);
 
