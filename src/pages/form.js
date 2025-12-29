@@ -43,13 +43,17 @@ export default function InitialForm() {
       const registerElem = (el, typeId) => {
         if (!el.id) return; // Solo si tiene id
         const rect = el.getBoundingClientRect();
+        const x = rect.left + window.scrollX;
+        const y = rect.top + window.scrollY;
+        const xF = rect.right + window.scrollX;
+        const yF = rect.bottom + window.scrollY;
         registerComponent(
           SCENES.INITIAL_FORM,
           el.id,
-          rect.left,
-          rect.top,
-          rect.right,
-          rect.bottom,
+          x,
+          y,
+          xF,
+          yF,
           typeId,
           null
         );

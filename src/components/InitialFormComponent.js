@@ -43,6 +43,7 @@ export const InitialFormComponent = ({ }) => {
                     <Form {...pointerEventProps}>
                         <Form.Item {...pointerEventProps}>
                             <Select
+                                id="select-handedness"
                                 {...pointerEventProps}
                                 placeholder={t('initialForm.handedness')}
                                 onChange={(value) => {
@@ -61,6 +62,7 @@ export const InitialFormComponent = ({ }) => {
                         </Form.Item>
                         <Form.Item>
                             <Select
+                                id="select-sex"
                                 onPointerDown={handlePointerDown}
                                 onPointerMove={handlePointerMove}
                                 onPointerUp={handlePointerUp}
@@ -89,7 +91,7 @@ export const InitialFormComponent = ({ }) => {
                                 ]}
                             />
                         </Form.Item>
-                        <TextInputField name={"birthYear"} placeholder={t('initialForm.birthYear')} formData={formData}
+                        <TextInputField id="input-birthYear" name={"birthYear"} placeholder={t('initialForm.birthYear')} formData={formData}
                             setFormData={setFormData} formErrors={formErrors} setFormErrors={setFormErrors} validateFunc={validateFormDataInputYear}
                             validateParams={[t('errors.required'), t('errors.invalidYear'), t('errors.yearRange', { year: currentYear - 1 })]} />
 
@@ -97,6 +99,7 @@ export const InitialFormComponent = ({ }) => {
 
                         <Form.Item name="frequency" label={t('initialForm.ecommerceFrequency')}>
                             <Select
+                                id="select-frequency"
                                 onPointerDown={handlePointerDown}
                                 onPointerMove={handlePointerMove}
                                 onPointerUp={handlePointerUp}
@@ -150,6 +153,7 @@ export const InitialFormComponent = ({ }) => {
 
                         <Form.Item label={t('initialForm.deviceQuestion')}>
                             <Select
+                                id="select-device"
                                 onPointerDown={handlePointerDown}
                                 onPointerMove={handlePointerMove}
                                 onPointerUp={handlePointerUp}
