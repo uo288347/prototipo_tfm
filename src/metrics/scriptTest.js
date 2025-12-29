@@ -1,7 +1,7 @@
 
 
 	
-		import html2canvas from "./html2canvas";
+		import html2canvas from "html2canvas";
 		import $ from "jquery";
 		const VERSION = 3;
 		
