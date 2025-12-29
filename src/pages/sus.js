@@ -12,6 +12,7 @@ export default function SusForm() {
     return () => {
       finishTracking();
       finishExperiment();
+      // Aquí termina el experimento, no hay siguiente escena
       console.log("Experimento finalizado");
     };
   }, []);

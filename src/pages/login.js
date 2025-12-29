@@ -2,7 +2,7 @@ import LoginFormComponent from "@/components/LoginFormComponent";
 import { LanguageSwitcher } from "@/components/shared/LanguageSwitcher";
 import { useEffect } from "react";
 import { finishSubsceneTracking, initTracking, finishTracking } from "@/metrics/scriptTest";
-import { SCENES } from "@/metrics/constants/scenes";
+import { getCurrentSceneId } from "@/metrics/constants/scenes";
 
 export default function LoginPage({ }) {
   useEffect(() => {
@@ -11,6 +11,9 @@ export default function LoginPage({ }) {
 
     return () => {
       finishTracking();
+      // Iniciar tracking de la siguiente escena según el orden de tareas
+      const nextSceneId = getCurrentSceneId();
+      initTracking(nextSceneId);
     };
   }, []);
 

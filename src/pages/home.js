@@ -11,6 +11,9 @@ export default function Home() {
 
       return () => {
         finishTracking();
+        // Iniciar tracking de la siguiente escena según el orden de tareas
+        const nextSceneId = getCurrentSceneId();
+        initTracking(nextSceneId);
       };
     }, []);
 

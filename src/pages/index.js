@@ -24,7 +24,10 @@ export default function Index() {
     initTracking(SCENES.WELCOME);
     console.log("Tracking iniciado para escena: WELCOME (0)");
     
-    finishTracking(); // Terminar tracking de la escena de bienvenida antes de ir a form
+    finishTracking();
+    // Iniciar tracking de la siguiente escena según el orden de tareas
+    const nextSceneId = getCurrentSceneId();
+    initTracking(nextSceneId);
     router.push("/form");
   };
 
