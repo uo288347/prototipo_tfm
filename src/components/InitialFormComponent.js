@@ -27,18 +27,23 @@ export const InitialFormComponent = ({ }) => {
     const currentYear = new Date().getFullYear();
     let tooltipsFrequency = [t('initialForm.never'), t('initialForm.onceMonth'), t('initialForm.twoThreeTimesMonth'), t('initialForm.oneThreeTimesWeek'), t('initialForm.almostEveryday')]
 
+    // Integrar los eventos pointer en todos los elementos del formulario
+    // y registrar los gestos con scriptTest.js
+    const pointerEventProps = {
+        onPointerDown: handlePointerDown,
+        onPointerMove: handlePointerMove,
+        onPointerUp: handlePointerUp,
+        onPointerCancel: handlePointerCancel
+    };
+
     return (
         <Row align="middle" justify="center" style={{ minHeight: "100%", minWidth: "100%" }}>
             <Col xs={24} sm={24} md={12} lg={8} xl={7} justify="center" >
-
                 <Card title={t('initialForm.title')}>
-                    <Form>
-                        <Form.Item>
+                    <Form {...pointerEventProps}>
+                        <Form.Item {...pointerEventProps}>
                             <Select
-                                onPointerDown={handlePointerDown}
-                                onPointerMove={handlePointerMove}
-                                onPointerUp={handlePointerUp}
-                                onPointerCancel={handlePointerCancel}
+                                {...pointerEventProps}
                                 placeholder={t('initialForm.handedness')}
                                 onChange={(value) => {
                                     modifyStateProperty(formData, setFormData, "handedness", value);
@@ -46,21 +51,11 @@ export const InitialFormComponent = ({ }) => {
                                 options={[
                                     {
                                         value: 'right',
-                                        label: <span
-                                            onPointerDown={handlePointerDown}
-                                            onPointerMove={handlePointerMove}
-                                            onPointerUp={handlePointerUp}
-                                            onPointerCancel={handlePointerCancel}
-                                        >{t('initialForm.rightHanded')}</span>
+                                        label: <span {...pointerEventProps}>{t('initialForm.rightHanded')}</span>
                                     },
                                     {
-                                        value: 'left', label: <span
-                                            onPointerDown={handlePointerDown}
-                                            onPointerMove={handlePointerMove}
-                                            onPointerUp={handlePointerUp}
-                                            onPointerCancel={handlePointerCancel}
-                                        >{t('initialForm.leftHanded')}</span>
-                                    },
+                                        value: 'left', label: <span {...pointerEventProps}>{t('initialForm.leftHanded')}</span>
+                                    }
                                 ]}
                             />
                         </Form.Item>

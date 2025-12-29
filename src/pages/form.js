@@ -9,13 +9,27 @@ export default function InitialForm() {
     initTracking(SCENES.INITIAL_FORM);
     console.log("Tracking iniciado para escena: INITIAL_FORM (1)");
 
+    // Registrar gestos pointer en el formulario
+    const formEl = document.getElementById('initial-form-root');
+    if (formEl) {
+      formEl.addEventListener('pointerdown', (e) => {
+        // Puedes enviar a scriptTest si quieres registrar aquí
+      });
+      formEl.addEventListener('pointerup', (e) => {
+        // Puedes enviar a scriptTest si quieres registrar aquí
+      });
+      formEl.addEventListener('pointermove', (e) => {
+        // Puedes enviar a scriptTest si quieres registrar aquí
+      });
+    }
+
     return () => {
       finishSubsceneTracking();
     };
   }, []);
 
   return (
-    <div style={{
+    <div id="initial-form-root" style={{
       flex: 1, padding: "20px 20px",
       display: "flex", flexDirection: "column", justifyContent: "space-between",
       alignItems: "center", position: "relative", overflow: "hidden"

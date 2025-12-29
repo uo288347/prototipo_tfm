@@ -5,6 +5,9 @@
 		import $ from "jquery";
 		const VERSION = 3;
 		
+		const EVENT_ON_POINTER_DOWN = 20;
+		const EVENT_ON_POINTER_UP = 21;
+		const EVENT_ON_POINTER_MOVE = 22;
 		const EVENT_ON_MOUSE_MOVE = 0;
 		const EVENT_ON_TOUCH_MOVE = 7;
 		const EVENT_ON_CLICK = 1;
@@ -269,8 +272,14 @@
 				element.addEventListener('change', function(event) {
 					trackOnChangeSelectionEvent(event);
 				});
-				element.addEventListener('click', function(event) {
-					trackOnClickSelectionEvent(event);
+				element.addEventListener('pointerdown', function(event) {
+					trackWithEvent(EVENT_ON_POINTER_DOWN, event);
+				});
+				element.addEventListener('pointerup', function(event) {
+					trackWithEvent(EVENT_ON_POINTER_UP, event);
+				});
+				element.addEventListener('pointermove', function(event) {
+					trackWithEvent(EVENT_ON_POINTER_MOVE, event);
 				});
 			}
 		}
@@ -330,7 +339,7 @@
 			else{
 				item.elementId = detectElement(item.x, item.y);
 			}
-			
+			console.log("Tracking event "+eventType+" at ("+item.x+","+item.y+"), scene "+sceneId+", element "+item.elementId);
 			list[list.length] = item;
 			
 			if ( list.length >= TOP_LIMIT ){
@@ -365,12 +374,15 @@
 			window.parent.addEventListener("touchmove", function (event) {
 				trackTouchMovement(event);
 			});
-			parent.addEventListener('click',  function() {
-				trackClick();
+			parent.addEventListener('pointerdown', function(event) {
+				trackWithEvent(EVENT_ON_POINTER_DOWN, event);
 			});
-			parent.addEventListener('dblclick', function() {
-				trackDblclick();
-			}); 
+			parent.addEventListener('pointerup', function(event) {
+				trackWithEvent(EVENT_ON_POINTER_UP, event);
+			});
+			parent.addEventListener('pointermove', function(event) {
+				trackWithEvent(EVENT_ON_POINTER_MOVE, event);
+			});
 			parent.addEventListener('contextmenu', function() {
 				trackContextmenu();
 			}); 
