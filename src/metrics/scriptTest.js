@@ -493,7 +493,7 @@
 				if ( pendingBackgroundsDelivered > 0) {
 					console.log("Not ready to leave page, "+ pendingBackgroundsDelivered+" backgrounds still pending");
 					setTimeout(() => {
-						this.checkReadyToLeave();
+						checkReadyToLeave();
 					}, 2000);
 					return;
 				}
