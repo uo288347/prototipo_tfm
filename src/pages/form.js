@@ -4,6 +4,15 @@ import { useEffect } from "react";
 import { finishSubsceneTracking, initTracking, finishTracking, finishExperiment } from "@/metrics/scriptTest";
 import { SCENES, getCurrentSceneId } from "@/metrics/constants/scenes";
 
+import { registerComponent } from "@/metrics/scriptTest";
+import {
+  COMPONENT_COMBOBOX,
+  COMPONENT_OPTION,
+  COMPONENT_RADIO_BUTTON,
+  COMPONENT_CHECK_BOX,
+  COMPONENT_TEXT_FIELD
+} from "@/metrics/scriptTest";
+
 export default function InitialForm() {
   useEffect(() => {
     initTracking(SCENES.INITIAL_FORM);
@@ -22,6 +31,34 @@ export default function InitialForm() {
         // Puedes enviar a scriptTest si quieres registrar aquí
       });
     }
+
+    // --- Registro automático de componentes del formulario ---
+    // Esperar a que el DOM esté listo
+    setTimeout(() => {
+      // Seleccionar todos los elementos interactivos del formulario
+      const selectors = formEl ? formEl.querySelectorAll('select') : [];
+      const textfields = formEl ? formEl.querySelectorAll('input[type="text"], input[type="email"], input[type="number"], textarea') : [];
+
+      // Helper para registrar un elemento
+      const registerElem = (el, typeId) => {
+        if (!el.id) return; // Solo si tiene id
+        const rect = el.getBoundingClientRect();
+        registerComponent(
+          SCENES.INITIAL_FORM,
+          el.id,
+          rect.left,
+          rect.top,
+          rect.right,
+          rect.bottom,
+          typeId,
+          null
+        );
+      };
+
+      selectors.forEach(el => registerElem(el, COMPONENT_COMBOBOX));
+      textfields.forEach(el => registerElem(el, COMPONENT_TEXT_FIELD));
+    }, 500); // Pequeño retardo para asegurar renderizado
+    // --- Fin registro automático ---
 
     return () => {
       finishTracking();
