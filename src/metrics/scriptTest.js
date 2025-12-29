@@ -151,6 +151,7 @@
 						Date.now().toString()+getDate()
 					);
 				}
+				console.log("User created: " + localStorage.getItem("user"));
 				return localStorage.getItem("user");
 			}
 			return null;
