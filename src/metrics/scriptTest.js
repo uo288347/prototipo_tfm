@@ -198,6 +198,7 @@
 							$("#resultado").html("Registering user data...");		
 					},
 					success:  function (response) {
+						console.log("User data registered");
 							$("#result").html(response);
 					},
 				    async: false
