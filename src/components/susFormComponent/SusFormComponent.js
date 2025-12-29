@@ -11,6 +11,7 @@ import { FirstSusComponent } from "./FirstSusComponent";
 import { SecondSusComponent } from "./SecondSusComponent";
 import { ThirdSusComponent } from "./ThirdSusComponent";
 import { NumberIndicator } from "../shared/NumberIndicator";
+import { task10 } from "../../utils/UtilsTasks";
 
 export const SusFormComponent = ({}) => {
     const t = useTranslations();
@@ -90,6 +91,7 @@ export const SusFormComponent = ({}) => {
                                     <Button
                                         type="primary"
                                         onClick={() => {
+                                            task10();
                                             router.push('/final');
                                         }}
                                         disabled={!isStepComplete()}

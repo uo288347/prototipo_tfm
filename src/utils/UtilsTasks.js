@@ -29,7 +29,8 @@ export const UtilsTasks = {
     { id: 'check_favorites', storageKey: 'task_favorites_checked' },
     { id: 'delete_item', storageKey: 'task_delete_item_completed' },
     { id: 'make_purchase', storageKey: 'task_purchase_completed' },
-    { id: 'end', storageKey: 'task_end_completed' }
+    { id: 'end', storageKey: 'task_end_completed' },
+    { id: 'questionnaire', storageKey: 'task_questionnaire_completed' }
   ],
 
   // Obtener la tarea actual (primera no completada)
@@ -132,5 +133,12 @@ export const task9 = () => {
   if (UtilsTasks.getCurrentTask().storageKey != "task_end_completed") return;
   if (!UtilsTasks.isTaskCompleted("task_end_completed")) {
     UtilsTasks.completeTask("task_end_completed");
+  }
+}
+
+export const task10 = () => {
+  if (UtilsTasks.getCurrentTask().storageKey != "task_questionnaire_completed") return;
+  if (!UtilsTasks.isTaskCompleted("task_questionnaire_completed")) {
+    UtilsTasks.completeTask("task_questionnaire_completed");
   }
 }

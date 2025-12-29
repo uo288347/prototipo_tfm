@@ -23,11 +23,11 @@ export const EndComponent = ({ }) => {
 
         if (now - lastTapRef.current < DOUBLE_TAP_DELAY) {
             // 🎉 Doble tap detectado → lanzar confetti
-            confetti({
+            /*confetti({
                 particleCount: 150,
                 spread: 80,
                 origin: { y: 0.6 },
-            });
+            });*/
             task9();
             router.push('/sus');
         }
