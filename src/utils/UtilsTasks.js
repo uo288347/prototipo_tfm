@@ -6,7 +6,7 @@ import { isInCart } from "./UtilsCart";
 import tasksEn from '../../messages/tasks_en.json';
 import tasksEs from '../../messages/tasks_es.json';
 import { finishSubsceneTracking, initTracking } from '../metrics/scriptTest';
-import { getCurrentSceneId, TASK_TO_SCENE } from '../constants/scenes';
+import { getCurrentSceneId, TASK_TO_SCENE } from '../metrics/constants/scenes';
 
 const tasksTranslations = {
   en: tasksEn,

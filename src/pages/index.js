@@ -4,7 +4,7 @@ import { useTranslations } from 'next-intl';
 import { LanguageSwitcher } from "@/components/shared/LanguageSwitcher";
 import useGestureDetector from "@/metrics/GestureDetectorHook";
 import { startExperiment, registerUserData, initTracking } from "@/metrics/scriptTest";
-import { SCENES } from "@/constants/scenes";
+import { SCENES } from "@/metrics/constants/scenes";
 
 export default function Index() {
   const { 

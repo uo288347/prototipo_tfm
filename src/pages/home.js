@@ -1,7 +1,7 @@
 import { HomeComponent } from "@/components/homeComponent/HomeComponent";
 import { useEffect } from "react";
 import { finishSubsceneTracking, initTracking } from "@/metrics/scriptTest";
-import { getCurrentSceneId } from "@/constants/scenes";
+import { getCurrentSceneId } from "@/metrics/constants/scenes";
 
 export default function Home() {
     useEffect(() => {
