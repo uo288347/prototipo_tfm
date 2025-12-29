@@ -462,7 +462,7 @@
 			trackingOn = false;
 			
 			//We take the snapshot.
-			takeSnapshot(this.sceneId);
+			takeSnapshot(sceneId);
 			
 			deliverData(list);
 			list=[];
@@ -508,7 +508,7 @@
 			trackEvent(EVENT_TRACKING_END);
 			trackingOn = false;
 			//We take the snapshot
-			takeSnapshot(this.sceneId);
+			takeSnapshot(sceneId);
 		}	
 		
 		function registerComponent(sceneId, componentId, x, y, xF, yF, typeId, componentAssociated)
