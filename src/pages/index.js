@@ -5,8 +5,16 @@ import { LanguageSwitcher } from "@/components/shared/LanguageSwitcher";
 import useGestureDetector from "@/metrics/GestureDetectorHook";
 import { startExperiment, registerUserData, initTracking, finishTracking } from "@/metrics/scriptTest";
 import { SCENES, getCurrentSceneId } from "@/metrics/constants/scenes";
+import { useEffect } from "react";
 
 export default function Index() {
+  // Limpiar usuario al cargar la página para forzar creación de uno nuevo
+  useEffect(() => {
+    if (typeof window !== "undefined" && typeof localStorage !== "undefined") {
+      localStorage.removeItem("user");
+    }
+  }, []);
+
   const { 
     handlePointerDown, 
     handlePointerMove, 
@@ -19,11 +27,9 @@ export default function Index() {
     // Iniciar el experimento cuando se pulsa "Empezar"
     startExperiment();
     registerUserData();
-    
     // Iniciar tracking de la escena de bienvenida
     initTracking(SCENES.WELCOME);
     console.log("Tracking iniciado para escena: WELCOME (0)");
-    
     finishTracking();
     // Iniciar tracking de la siguiente escena según el orden de tareas
     const nextSceneId = getCurrentSceneId();
