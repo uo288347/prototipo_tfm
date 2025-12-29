@@ -12,7 +12,7 @@ import { SecondSusComponent } from "./SecondSusComponent";
 import { ThirdSusComponent } from "./ThirdSusComponent";
 import { NumberIndicator } from "../shared/NumberIndicator";
 
-export const SusFormComponent = () => {
+export const SusFormComponent = ({ onFinishTracking }) => {
     const t = useTranslations();
     const router = useRouter();
     let [formData, setFormData] = useState({})
@@ -87,7 +87,15 @@ export const SusFormComponent = () => {
                                     </Button>
                                 </Col>
                                 <Col span={12}>
-                                    <Button type="primary" onClick={() => router.push('/final')} disabled={!isStepComplete()} style={{ width: "100%" }}>
+                                    <Button
+                                        type="primary"
+                                        onClick={() => {
+                                            if (onFinishTracking) onFinishTracking();
+                                            router.push('/final');
+                                        }}
+                                        disabled={!isStepComplete()}
+                                        style={{ width: "100%" }}
+                                    >
                                         {t('common.finish')}
                                     </Button>
                                 </Col>

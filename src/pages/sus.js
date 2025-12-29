@@ -9,28 +9,29 @@ export default function SusForm() {
     initTracking(SCENES.QUESTIONNAIRE);
     console.log("Tracking iniciado para escena: QUESTIONNAIRE (12)");
 
-    return () => {
+  }, []);
+
+    const handleFinishTracking = () => {
       finishSubsceneTracking();
       finishExperiment();
       finishTracking();
       console.log("Experimento finalizado");
     };
-  }, []);
 
-  return (
-    <div style={{
-      flex: 1, padding: "20px 20px",
-      display: "flex", flexDirection: "column", justifyContent: "space-between",
-      alignItems: "center", position: "relative", overflow: "hidden"
-    }}>
-      <div style={{ position: "absolute", top: "20px", right: "20px" }}>
-        <LanguageSwitcher />
+    return (
+      <div style={{
+        flex: 1, padding: "20px 20px",
+        display: "flex", flexDirection: "column", justifyContent: "space-between",
+        alignItems: "center", position: "relative", overflow: "hidden"
+      }}>
+        <div style={{ position: "absolute", top: "20px", right: "20px" }}>
+          <LanguageSwitcher />
+        </div>
+        <div style={{ flex: 1, display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", width: "100%" }}>
+          <SusFormComponent onFinishTracking={handleFinishTracking} />
+        </div>
       </div>
-      <div style={{ flex: 1, display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", width: "100%" }}>
-        <SusFormComponent />
-      </div>
-    </div>
-  );
+    );
 }
 
 export async function getServerSideProps(context) {
