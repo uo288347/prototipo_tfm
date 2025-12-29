@@ -603,7 +603,7 @@
 		function deliverData(list)
 		{
 		    var i=0;
-			chunk = [];
+			var chunk = [];
 			var chunkCounter = 0;
 			list.forEach(myFunction);
 			function myFunction(item, index) {
