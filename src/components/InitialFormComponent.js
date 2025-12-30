@@ -42,6 +42,7 @@ export const InitialFormComponent = ({ }) => {
                 selectId
             );
 
+            console.log(`Registered OPTION -> ${selectId}-option-${index} at (${rect.left + window.scrollX},${rect.top + window.scrollY})`);
             el.addEventListener('pointerdown', (e) => {
                 trackWithEvent(EVENT_ON_POINTER_DOWN, e);
             });
@@ -63,7 +64,7 @@ export const InitialFormComponent = ({ }) => {
             <Col xs={24} sm={24} md={12} lg={8} xl={7} justify="center" >
                 <Card title={t('initialForm.title')}>
                     <Form {...pointerEventProps}>
-                        <Form.Item {...pointerEventProps}>
+                        <Form.Item {...pointerEventProps} id="handedness" name="handedness">
                             <Select
                                 id="select-handedness"
                                 name={"handedness"}

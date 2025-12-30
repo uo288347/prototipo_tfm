@@ -52,7 +52,7 @@ export default function InitialForm() {
       console.log("Found selects:", [...antSelects]);
       antSelects.forEach(el => {
         // Intentamos obtener id lógico del componente
-        const componentId = el.querySelector('[data-component-id]')?.dataset.componentId
+        const componentId = el.querySelector('[data-testid]')?.dataset.componentId
           || el.dataset.componentId
           || el.id;
 
