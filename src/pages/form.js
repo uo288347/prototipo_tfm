@@ -24,6 +24,7 @@ export default function InitialForm() {
 
     setTimeout(() => {
       const registerElem = (el, typeId) => {
+        console.log("Registering element:", el, "of type", typeId);
         if (!el.id) return;
 
         const rect = el.getBoundingClientRect();
