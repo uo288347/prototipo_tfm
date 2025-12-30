@@ -809,5 +809,8 @@ export {
 	registerid,
 	postNumberDD,
 	postStringDD,
-	postDateDD
+	postDateDD,
+	COMPONENT_COMBOBOX,
+	COMPONENT_TEXT_FIELD,
+	COMPONENT_OPTION
 };

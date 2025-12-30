@@ -27,6 +27,28 @@ export const InitialFormComponent = ({ }) => {
     const currentYear = new Date().getFullYear();
     let tooltipsFrequency = [t('initialForm.never'), t('initialForm.onceMonth'), t('initialForm.twoThreeTimesMonth'), t('initialForm.oneThreeTimesWeek'), t('initialForm.almostEveryday')]
 
+    function registerSelectOptions(selectId) {
+        const options = document.querySelectorAll('.ant-select-dropdown .ant-select-item');
+        options.forEach((el, index) => {
+            const rect = el.getBoundingClientRect();
+            registerComponent(
+                SCENES.INITIAL_FORM,
+                `${selectId}-option-${index}`,
+                rect.left + window.scrollX,
+                rect.top + window.scrollY,
+                rect.right + window.scrollX,
+                rect.bottom + window.scrollY,
+                COMPONENT_OPTION,
+                selectId
+            );
+
+            el.addEventListener('pointerdown', (e) => {
+                trackWithEvent(EVENT_ON_POINTER_DOWN, e);
+            });
+        });
+    }
+
+
     // Integrar los eventos pointer en todos los elementos del formulario
     // y registrar los gestos con scriptTest.js
     const pointerEventProps = {
@@ -41,27 +63,27 @@ export const InitialFormComponent = ({ }) => {
             <Col xs={24} sm={24} md={12} lg={8} xl={7} justify="center" >
                 <Card title={t('initialForm.title')}>
                     <Form {...pointerEventProps}>
-                            <Form.Item {...pointerEventProps}>
-                                <Select
-                                    id="select-handedness"
-                                    name={"handedness"}
-                                    {...pointerEventProps}
-                                    placeholder={t('initialForm.handedness')}
-                                    onChange={(value) => {
-                                        modifyStateProperty(formData, setFormData, "handedness", value);
-                                    }}
-                                    options={[
-                                        {
-                                            value: 'right',
-                                            label: <span {...pointerEventProps}>{t('initialForm.rightHanded')}</span>
-                                        },
-                                        {
-                                            value: 'left', label: <span {...pointerEventProps}>{t('initialForm.leftHanded')}</span>
-                                        }
-                                    ]}
-                                    data-testid="select-handedness"
-                                />
-                            </Form.Item>
+                        <Form.Item {...pointerEventProps}>
+                            <Select
+                                id="select-handedness"
+                                name={"handedness"}
+                                {...pointerEventProps}
+                                placeholder={t('initialForm.handedness')}
+                                onChange={(value) => {
+                                    modifyStateProperty(formData, setFormData, "handedness", value);
+                                }}
+                                options={[
+                                    {
+                                        value: 'right',
+                                        label: <span {...pointerEventProps}>{t('initialForm.rightHanded')}</span>
+                                    },
+                                    {
+                                        value: 'left', label: <span {...pointerEventProps}>{t('initialForm.leftHanded')}</span>
+                                    }
+                                ]}
+                                data-testid="select-handedness"
+                            />
+                        </Form.Item>
                         <Form.Item>
                             <Select
                                 id="select-sex"
@@ -73,6 +95,9 @@ export const InitialFormComponent = ({ }) => {
                                 placeholder={t('initialForm.sex')}
                                 onChange={(value) => {
                                     modifyStateProperty(formData, setFormData, "sex", value);
+                                }}
+                                onOpenChange={(open) => {
+                                    if (open) registerSelectOptions("select-handedness");
                                 }}
                                 options={[
                                     {

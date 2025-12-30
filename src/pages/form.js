@@ -23,9 +23,9 @@ export default function InitialForm() {
     if (!formEl) return;
 
     setTimeout(() => {
-      const registerElem = (el, typeId) => {
-        console.log("Registering element:", el, "of type", typeId);
-        if (!el.id) return;
+      const registerElem = (el, typeId, componentId = null) => {
+        const id = componentId || el.id;
+        if (!id) return;
 
         const rect = el.getBoundingClientRect();
         const x = rect.left + window.scrollX;
@@ -35,7 +35,7 @@ export default function InitialForm() {
 
         registerComponent(
           SCENES.INITIAL_FORM,
-          el.id,
+          id,
           x,
           y,
           xF,
@@ -43,16 +43,26 @@ export default function InitialForm() {
           typeId,
           null
         );
+
+        console.log(`Registered ${typeId} -> ${id} at (${x},${y})`);
       };
 
-      const selectors = formEl.querySelectorAll('select');
+      //const selectors = formEl.querySelectorAll('select');
+      const antSelects = formEl.querySelectorAll('.ant-select');
+      antSelects.forEach(el => {
+        // Intentamos obtener id lógico del componente
+        const componentId = el.querySelector('[data-component-id]')?.dataset.componentId
+          || el.dataset.componentId
+          || el.id;
+
+        registerElem(el, COMPONENT_COMBOBOX, componentId);
+      });
+
+
       const textfields = formEl.querySelectorAll(
         'input[type="text"], input[type="email"], input[type="number"], textarea'
       );
-      console.log("Found selectors:", [...selectors]);
       console.log("Found textfields:", [...textfields]);
-
-      selectors.forEach(el => registerElem(el, COMPONENT_COMBOBOX));
       textfields.forEach(el => registerElem(el, COMPONENT_TEXT_FIELD));
     }, 300);
 
