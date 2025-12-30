@@ -45,9 +45,11 @@ export default function InitialForm() {
       };
 
       const selectors = formEl.querySelectorAll('select');
+      console.log("Found selectors: " + selectors);
       const textfields = formEl.querySelectorAll(
         'input[type="text"], input[type="email"], input[type="number"], textarea'
       );
+      console.log("Found textfields: " + textfields);
 
       selectors.forEach(el => registerElem(el, COMPONENT_COMBOBOX));
       textfields.forEach(el => registerElem(el, COMPONENT_TEXT_FIELD));
