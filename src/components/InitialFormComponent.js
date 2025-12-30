@@ -9,6 +9,7 @@ import { LaptopOutlined, MobileOutlined, TabletOutlined } from "@ant-design/icon
 import { useTranslations } from 'next-intl';
 import { LanguageSwitcher } from "./shared/LanguageSwitcher";
 import useGestureDetector from "@/metrics/GestureDetectorHook";
+import { registerComponent, trackWithEvent, EVENT_ON_POINTER_DOWN } from "@/metrics/scriptTest";
 
 export const InitialFormComponent = ({ }) => {
     const {
