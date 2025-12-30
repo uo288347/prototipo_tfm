@@ -51,12 +51,50 @@ export default function InitialForm() {
       const antSelects = formEl.querySelectorAll('.ant-select');
       console.log("Found selects:", [...antSelects]);
       antSelects.forEach(el => {
-        // Intentamos obtener id lógico del componente
-        const componentId = el.querySelector('[data-testid]')?.dataset.componentId
-          || el.dataset.componentId
-          || el.id;
+        // CAMBIO 2: Buscar el id en el select interno o en data-testid
+        let componentId = null;
 
-        registerElem(el, COMPONENT_COMBOBOX, componentId);
+        // Primero intentar obtener el id del select interno
+        const selectInner = el.querySelector('.ant-select-selector');
+        if (selectInner) {
+          const selectElement = el.querySelector('input[id]');
+          if (selectElement && selectElement.id) {
+            componentId = selectElement.id;
+          }
+        }
+
+        // Si no hay id en el input, buscar en el componente padre
+        if (!componentId) {
+          const parentFormItem = el.closest('.ant-form-item');
+          if (parentFormItem) {
+            const selectWithId = parentFormItem.querySelector('[id^="select-"]');
+            if (selectWithId) {
+              componentId = selectWithId.id;
+            }
+          }
+        }
+
+        // CAMBIO 3: Usar data-testid como fallback
+        if (!componentId) {
+          const testIdElement = el.querySelector('[data-testid]');
+          if (testIdElement) {
+            componentId = testIdElement.dataset.testid;
+          }
+        }
+
+        // CAMBIO 4: Si aún no hay id, buscar por el atributo name en el Select original
+        if (!componentId) {
+          const selectInput = el.querySelector('input[name]');
+          if (selectInput && selectInput.name) {
+            componentId = `select-${selectInput.name}`;
+          }
+        }
+
+        if (componentId) {
+          registerElem(el, COMPONENT_COMBOBOX, componentId);
+        } else {
+          console.warn('No se pudo encontrar un ID para el select:', el);
+        }
       });
 
 
