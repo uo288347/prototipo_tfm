@@ -10,6 +10,7 @@ import { useTranslations } from 'next-intl';
 import { LanguageSwitcher } from "./shared/LanguageSwitcher";
 import useGestureDetector from "@/metrics/GestureDetectorHook";
 import { registerComponent, trackWithEvent, EVENT_ON_POINTER_DOWN } from "@/metrics/scriptTest";
+import { SCENES } from "@/metrics/constants/scenes";
 
 export const InitialFormComponent = ({ }) => {
     const {
