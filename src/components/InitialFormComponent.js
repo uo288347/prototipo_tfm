@@ -41,26 +41,27 @@ export const InitialFormComponent = ({ }) => {
             <Col xs={24} sm={24} md={12} lg={8} xl={7} justify="center" >
                 <Card title={t('initialForm.title')}>
                     <Form {...pointerEventProps}>
-                        <Form.Item {...pointerEventProps}>
-                            <Select
-                                id="select-handedness"
-                                name={"handedness"}
-                                {...pointerEventProps}
-                                placeholder={t('initialForm.handedness')}
-                                onChange={(value) => {
-                                    modifyStateProperty(formData, setFormData, "handedness", value);
-                                }}
-                                options={[
-                                    {
-                                        value: 'right',
-                                        label: <span {...pointerEventProps}>{t('initialForm.rightHanded')}</span>
-                                    },
-                                    {
-                                        value: 'left', label: <span {...pointerEventProps}>{t('initialForm.leftHanded')}</span>
-                                    }
-                                ]}
-                            />
-                        </Form.Item>
+                            <Form.Item {...pointerEventProps}>
+                                <Select
+                                    id="select-handedness"
+                                    name={"handedness"}
+                                    {...pointerEventProps}
+                                    placeholder={t('initialForm.handedness')}
+                                    onChange={(value) => {
+                                        modifyStateProperty(formData, setFormData, "handedness", value);
+                                    }}
+                                    options={[
+                                        {
+                                            value: 'right',
+                                            label: <span {...pointerEventProps}>{t('initialForm.rightHanded')}</span>
+                                        },
+                                        {
+                                            value: 'left', label: <span {...pointerEventProps}>{t('initialForm.leftHanded')}</span>
+                                        }
+                                    ]}
+                                    data-testid="select-handedness"
+                                />
+                            </Form.Item>
                         <Form.Item>
                             <Select
                                 id="select-sex"
@@ -91,6 +92,7 @@ export const InitialFormComponent = ({ }) => {
                                         >{t('initialForm.woman')}</span>
                                     },
                                 ]}
+                                data-testid="select-sex"
                             />
                         </Form.Item>
                         <TextInputField id="input-birthYear" name={"birthYear"} placeholder={t('initialForm.birthYear')} formData={formData}
@@ -151,6 +153,7 @@ export const InitialFormComponent = ({ }) => {
                                         >{t('initialForm.almostEveryday')}</span>
                                     },
                                 ]}
+                                data-testid="select-frequency"
                             />
                         </Form.Item>
 
@@ -192,6 +195,7 @@ export const InitialFormComponent = ({ }) => {
                                         ><TabletOutlined /> {t('initialForm.tablet')}</span>
                                     },
                                 ]}
+                                data-testid="select-device"
                             />
                         </Form.Item>
 

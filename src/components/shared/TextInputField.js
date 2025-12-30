@@ -14,6 +14,7 @@ import {modifyStateProperty} from "../../utils/UtilsState";
  * @param {array} validateParams - Parámetros adicionales para la función de validación (ej: mensajes de error traducidos)
  */
 export const TextInputField = ({
+  id,
   name,
   icon, 
   placeholder,
@@ -42,7 +43,7 @@ export const TextInputField = ({
         name={name}
         validateStatus={isValid ? "success" : "error"}
       >
-        <Input prefix={icon} placeholder={placeholder} value={formData[name]} onChange={handleChange} />
+        <Input id={id} prefix={icon} placeholder={placeholder} value={formData[name]} onChange={handleChange} />
       </Form.Item>
     </>
   );
