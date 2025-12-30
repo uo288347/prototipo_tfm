@@ -44,6 +44,7 @@ export const InitialFormComponent = ({ }) => {
                         <Form.Item {...pointerEventProps}>
                             <Select
                                 id="select-handedness"
+                                name={"handedness"}
                                 {...pointerEventProps}
                                 placeholder={t('initialForm.handedness')}
                                 onChange={(value) => {
@@ -63,6 +64,7 @@ export const InitialFormComponent = ({ }) => {
                         <Form.Item>
                             <Select
                                 id="select-sex"
+                                name={"sex"}
                                 onPointerDown={handlePointerDown}
                                 onPointerMove={handlePointerMove}
                                 onPointerUp={handlePointerUp}
@@ -100,6 +102,7 @@ export const InitialFormComponent = ({ }) => {
                         <Form.Item name="frequency" label={t('initialForm.ecommerceFrequency')}>
                             <Select
                                 id="select-frequency"
+                                name={"frequency"}
                                 onPointerDown={handlePointerDown}
                                 onPointerMove={handlePointerMove}
                                 onPointerUp={handlePointerUp}
@@ -154,6 +157,7 @@ export const InitialFormComponent = ({ }) => {
                         <Form.Item label={t('initialForm.deviceQuestion')}>
                             <Select
                                 id="select-device"
+                                name={"device"}
                                 onPointerDown={handlePointerDown}
                                 onPointerMove={handlePointerMove}
                                 onPointerUp={handlePointerUp}

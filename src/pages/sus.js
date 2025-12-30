@@ -1,18 +1,17 @@
 import { LanguageSwitcher } from "@/components/shared/LanguageSwitcher";
 import { SusFormComponent } from "@/components/susFormComponent/SusFormComponent";
 import { useEffect } from "react";
-import { finishSubsceneTracking, initTracking, finishExperiment, finishTracking } from "@/metrics/scriptTest";
+import { finishSubsceneTracking, finishExperiment } from "@/metrics/scriptTest";
+import { useScene } from "@/experiment/useScene";
 import { SCENES } from "@/metrics/constants/scenes";
 
 export default function SusForm() {
+  const scene = useScene(SCENES.QUESTIONNAIRE);
   useEffect(() => {
-    initTracking(SCENES.QUESTIONNAIRE);
-    console.log("Tracking iniciado para escena: QUESTIONNAIRE (12)");
-
+    scene.start();
     return () => {
-      finishTracking();
+      scene.end();
       finishExperiment();
-      // Aquí termina el experimento, no hay siguiente escena
       console.log("Experimento finalizado");
     };
   }, []);

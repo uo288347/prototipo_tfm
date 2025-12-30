@@ -1,20 +1,15 @@
 import LoginFormComponent from "@/components/LoginFormComponent";
 import { LanguageSwitcher } from "@/components/shared/LanguageSwitcher";
 import { useEffect } from "react";
-import { finishSubsceneTracking, initTracking, finishTracking } from "@/metrics/scriptTest";
+import { finishSubsceneTracking } from "@/metrics/scriptTest";
+import { useScene } from "@/experiment/useScene";
 import { SCENES, getCurrentSceneId } from "@/metrics/constants/scenes";
 
 export default function LoginPage({ }) {
+  const scene = useScene(SCENES.LOGIN);
   useEffect(() => {
-    initTracking(SCENES.LOGIN);
-    console.log("Tracking iniciado para escena: LOGIN (2)");
-
-    return () => {
-      finishTracking();
-      // Iniciar tracking de la siguiente escena según el orden de tareas
-      const nextSceneId = getCurrentSceneId();
-      initTracking(nextSceneId);
-    };
+    scene.start();
+    return () => scene.end();
   }, []);
 
   return (

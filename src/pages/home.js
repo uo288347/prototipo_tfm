@@ -1,20 +1,15 @@
 import { HomeComponent } from "@/components/homeComponent/HomeComponent";
 import { useEffect } from "react";
-import { finishSubsceneTracking, initTracking, finishTracking } from "@/metrics/scriptTest";
+import { finishSubsceneTracking } from "@/metrics/scriptTest";
+import { useScene } from "@/experiment/useScene";
 import { getCurrentSceneId } from "@/metrics/constants/scenes";
 
 export default function Home() {
+    const currentSceneId = getCurrentSceneId();
+    const scene = useScene(currentSceneId);
     useEffect(() => {
-      const currentSceneId = getCurrentSceneId();
-      initTracking(currentSceneId);
-      console.log(`Tracking iniciado para escena: ${currentSceneId}`);
-
-      return () => {
-        finishTracking();
-        // Iniciar tracking de la siguiente escena según el orden de tareas
-        const nextSceneId = getCurrentSceneId();
-        initTracking(nextSceneId);
-      };
+      scene.start();
+      return () => scene.end();
     }, []);
 
     return (

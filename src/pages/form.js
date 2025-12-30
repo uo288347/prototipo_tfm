@@ -1,7 +1,8 @@
 import { InitialFormComponent } from "@/components/InitialFormComponent";
 import { LanguageSwitcher } from "@/components/shared/LanguageSwitcher";
 import { useEffect } from "react";
-import { finishSubsceneTracking, initTracking, finishTracking, finishExperiment } from "@/metrics/scriptTest";
+import { finishSubsceneTracking, finishExperiment } from "@/metrics/scriptTest";
+import { useScene } from "@/experiment/useScene";
 import { SCENES, getCurrentSceneId } from "@/metrics/constants/scenes";
 
 import { registerComponent } from "@/metrics/scriptTest";
@@ -14,39 +15,23 @@ import {
 } from "@/metrics/scriptTest";
 
 export default function InitialForm() {
+  const scene = useScene(SCENES.INITIAL_FORM);
   useEffect(() => {
-    initTracking(SCENES.INITIAL_FORM);
-    console.log("Tracking iniciado para escena: INITIAL_FORM (1)");
+    scene.start();
 
-    // Registrar gestos pointer en el formulario
     const formEl = document.getElementById('initial-form-root');
-    if (formEl) {
-      formEl.addEventListener('pointerdown', (e) => {
-        // Puedes enviar a scriptTest si quieres registrar aquí
-      });
-      formEl.addEventListener('pointerup', (e) => {
-        // Puedes enviar a scriptTest si quieres registrar aquí
-      });
-      formEl.addEventListener('pointermove', (e) => {
-        // Puedes enviar a scriptTest si quieres registrar aquí
-      });
-    }
+    if (!formEl) return;
 
-    // --- Registro automático de componentes del formulario ---
-    // Esperar a que el DOM esté listo
     setTimeout(() => {
-      // Seleccionar todos los elementos interactivos del formulario
-      const selectors = formEl ? formEl.querySelectorAll('select') : [];
-      const textfields = formEl ? formEl.querySelectorAll('input[type="text"], input[type="email"], input[type="number"], textarea') : [];
-
-      // Helper para registrar un elemento
       const registerElem = (el, typeId) => {
-        if (!el.id) return; // Solo si tiene id
+        if (!el.id) return;
+
         const rect = el.getBoundingClientRect();
         const x = rect.left + window.scrollX;
         const y = rect.top + window.scrollY;
         const xF = rect.right + window.scrollX;
         const yF = rect.bottom + window.scrollY;
+
         registerComponent(
           SCENES.INITIAL_FORM,
           el.id,
@@ -59,18 +44,20 @@ export default function InitialForm() {
         );
       };
 
+      const selectors = formEl.querySelectorAll('select');
+      const textfields = formEl.querySelectorAll(
+        'input[type="text"], input[type="email"], input[type="number"], textarea'
+      );
+
       selectors.forEach(el => registerElem(el, COMPONENT_COMBOBOX));
       textfields.forEach(el => registerElem(el, COMPONENT_TEXT_FIELD));
-    }, 500); // Pequeño retardo para asegurar renderizado
-    // --- Fin registro automático ---
+    }, 300);
 
     return () => {
-      finishTracking();
-      // Iniciar tracking de la siguiente escena según el orden de tareas
-      const nextSceneId = getCurrentSceneId();
-      initTracking(nextSceneId);
+      scene.end();
     };
   }, []);
+
 
   return (
     <div id="initial-form-root" style={{

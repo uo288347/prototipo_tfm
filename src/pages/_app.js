@@ -1,4 +1,5 @@
 import { notification, Tour, ConfigProvider as AntdConfigProvider } from 'antd';
+import { ExperimentProvider } from "@/experiment/ExperimentContext";
 import esESAntd from 'antd/locale/es_ES';
 import enUSAntd from 'antd/locale/en_US';
 import 'antd/dist/reset.css';
@@ -81,29 +82,31 @@ export default function App({ Component, pageProps }) {
     };
 
     return (
-        <NextIntlClientProvider locale={locale} messages={pageProps.messages}>
-            <AntdConfigProvider locale={customLocale}>
-                <AntdMobileConfigProvider locale={antdMobileLocale}>
-                    {contextHolder}
-                    <div style={{ height: "100vh", display: "flex", flexDirection: "column", backgroundColor: "#fff" }}>
-                        <div style={{ flex: 1, display: "flex", minHeight: 0,
-                        flexDirection: "column", padding: "0px 0px", paddingTop: isUserLoggedIn ? "40px" : "0px", overflow: "auto"}}>
-                            {isUserLoggedIn && <InstructionsBanner ref={bannerRef}/>}
-                            <Component {...pageProps} />
+        <ExperimentProvider>
+            <NextIntlClientProvider locale={locale} messages={pageProps.messages}>
+                <AntdConfigProvider locale={customLocale}>
+                    <AntdMobileConfigProvider locale={antdMobileLocale}>
+                        {contextHolder}
+                        <div style={{ height: "100vh", display: "flex", flexDirection: "column", backgroundColor: "#fff" }}>
+                            <div style={{ flex: 1, display: "flex", minHeight: 0,
+                            flexDirection: "column", padding: "0px 0px", paddingTop: isUserLoggedIn ? "40px" : "0px", overflow: "auto"}}>
+                                {isUserLoggedIn && <InstructionsBanner ref={bannerRef}/>}
+                                <Component {...pageProps} />
+                            </div>
+                            <footer style={{ textAlign: "center", padding: "16px" }}>
+                                Teresa González - Universidad de Oviedo
+                            </footer>
                         </div>
-                        <footer style={{ textAlign: "center", padding: "16px" }}>
-                            Teresa González - Universidad de Oviedo
-                        </footer>
-                    </div>
 
-                    <Tour 
-                        style={{margin: "0 30px"}}
-                        open={openTour} 
-                        onClose={closeTour} 
-                        steps={getTourSteps({bannerRef, locale})}
-                    />
-                </AntdMobileConfigProvider>
-            </AntdConfigProvider>
-        </NextIntlClientProvider>
+                        <Tour 
+                            style={{margin: "0 30px"}}
+                            open={openTour} 
+                            onClose={closeTour} 
+                            steps={getTourSteps({bannerRef, locale})}
+                        />
+                    </AntdMobileConfigProvider>
+                </AntdConfigProvider>
+            </NextIntlClientProvider>
+        </ExperimentProvider>
     );
 }

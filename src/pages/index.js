@@ -3,7 +3,8 @@ import { Button } from "antd";
 import { useTranslations } from 'next-intl';
 import { LanguageSwitcher } from "@/components/shared/LanguageSwitcher";
 import useGestureDetector from "@/metrics/GestureDetectorHook";
-import { startExperiment, registerUserData, initTracking, finishTracking } from "@/metrics/scriptTest";
+import { startExperiment, registerUserData } from "@/metrics/scriptTest";
+import { useScene } from "@/experiment/useScene";
 import { SCENES, getCurrentSceneId } from "@/metrics/constants/scenes";
 import { useEffect } from "react";
 
@@ -23,17 +24,11 @@ export default function Index() {
 
   const t = useTranslations();
   const router = useRouter();
+  const scene = useScene(SCENES.WELCOME);
   const handleStart = () => {
-    // Iniciar el experimento cuando se pulsa "Empezar"
     startExperiment();
     registerUserData();
-    // Iniciar tracking de la escena de bienvenida
-    initTracking(SCENES.WELCOME);
-    console.log("Tracking iniciado para escena: WELCOME (0)");
-    finishTracking();
-    // Iniciar tracking de la siguiente escena según el orden de tareas
-    const nextSceneId = getCurrentSceneId();
-    initTracking(nextSceneId);
+    scene.start();
     router.push("/form");
   };
 
