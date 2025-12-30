@@ -552,7 +552,7 @@
 						
 					},
 					success:  function (response) {
-						
+						console.log("Component registered: "+componentId+"("+x+", "+y+"), type " + typeId + " in scene "+sceneId);
 					}
 				});
 			}
