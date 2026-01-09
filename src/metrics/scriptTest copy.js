@@ -35,8 +35,6 @@
 		
 		// Inicializar user como null y crearlo solo en el cliente
 		var user = null;
-
-		var listenersInitialized = false;
 		
 		function getUser() {
 			if (user === null && typeof window !== "undefined" && typeof localStorage !== "undefined") {
@@ -49,7 +47,7 @@
 		var sceneId = 0;
 		var eventCounter = 0;
 		var trackingOn = false;
-		var TOP_LIMIT = 2;
+		var TOP_LIMIT = 500;
 		var sentRequest = 0;
 		var pendingRequest = 0;
 		
@@ -62,8 +60,8 @@
 		var elements = [];
 		var emittingData = true;
 		
-		var idExperiment = 32;
-		var urlBase='https://interactionlab.hci.uniovi.es:8443'
+	var idExperiment = 32;
+	var urlBase='https://interactionlab.hci.uniovi.es:8443'
 		
 		var url = urlBase + '/TrackerServer/restws/track';
 		var urlBackgroundTracker = urlBase + '/TrackerServer/restws/backgroundTracker';
@@ -71,6 +69,7 @@
 		var urlRegisterUserData = urlBase +'/TrackerServer/restws/registerUserData';
 		var urlDemographicData = urlBase + '/TrackerServer/restws/registerDemographicData';
 		var urlExperimentStatus = urlBase + '/TrackerServer/restws/experiment/status/' + idExperiment;
+	
 	
 		function startExperiment()
 		{
@@ -281,6 +280,15 @@
 				element.addEventListener('change', function(event) {
 					trackOnChangeSelectionEvent(event);
 				});
+				element.addEventListener('pointerdown', function(event) {
+					trackWithEvent(EVENT_ON_POINTER_DOWN, event);
+				});
+				element.addEventListener('pointerup', function(event) {
+					trackWithEvent(EVENT_ON_POINTER_UP, event);
+				});
+				element.addEventListener('pointermove', function(event) {
+					trackWithEvent(EVENT_ON_POINTER_MOVE, event);
+				});
 			}
 		}
 		
@@ -364,6 +372,74 @@
 			}
 		}
 		
+		function trackScrollOverElement(elementId, event)
+		{
+			var item = new Object();
+			item.id=eventCounter++;
+			item.sceneId=sceneId;
+			item.eventType=EVENT_WINDOW_SCROLL;
+			item.timeStamp = Date.now();
+			
+			if (event !== null && event !== undefined) {
+				// Para eventos de puntero/ratón
+				if (event.clientX !== undefined) {
+					item.x = event.clientX;
+					item.y = event.clientY;
+				}
+				// Para eventos táctiles
+				else if (event.touches && event.touches.length > 0) {
+					item.x = event.touches[0].clientX;
+					item.y = event.touches[0].clientY;
+				}
+				// Para touchend (touches está vacío, usar changedTouches)
+				else if (event.changedTouches && event.changedTouches.length > 0) {
+					item.x = event.changedTouches[0].clientX;
+					item.y = event.changedTouches[0].clientY;
+				}
+				else {
+					item.x = -1;
+					item.y = -1;
+				}
+			}
+			else if (typeof window !== "undefined" && window.event !== undefined) {
+				item.x = window.event.clientX || -1;
+				item.y = window.event.clientY || -1;
+			}
+			else {
+				item.x = -1;
+				item.y = -1;
+			}
+			
+			item.keyValueEvent = -1;
+			item.keyCodeEvent = -1;
+			
+			if(eventType == EVENT_KEY_DOWN || eventType == EVENT_KEY_PRESS || eventType == EVENT_KEY_UP){
+				item.keyValueEvent = event.key;
+				item.keyCodeEvent = event.keyCode;
+				item.elementId = detectElementByName(event.target.id);
+			}
+			else if(eventType == EVENT_FOCUS || eventType == EVENT_BLUR){
+				item.elementId = detectElementByName(event.target.id);
+			}
+			else if(eventType == EVENT_ON_CHANGE_SELECTION_OBJECT){
+				item.elementId = detectElementByName(event.target.id);
+			}
+			else if(eventType == EVENT_ON_CLICK_SELECTION_OBJECT){
+				item.elementId = detectElementByName(event.target.id);
+			}
+			else{
+				item.elementId = detectElement(item.x, item.y);
+			}
+			console.log("Tracking event "+eventType+" at ("+item.x+","+item.y+"), scene "+sceneId+", element "+item.elementId);
+			list[list.length] = item;
+			
+			if ( list.length >= TOP_LIMIT ){
+				var deliverPackage = list;
+				list = [];
+				deliverData(deliverPackage);
+			}
+		}
+		
 		function initTracking(_sceneId) {
 			trackingOn = true;
 			getExperimentStatus();
@@ -371,14 +447,38 @@
 			console.log("Initializing tracking for scene "+_sceneId);
 			
 			trackEvent(EVENT_INIT_TRACKING);
-
-			if(!listenersInitialized){
-				initializeGlobalListeners();
-				listenersInitialized = true;
-			}
-		}
-		
-		function initializeGlobalListeners(){
+			
+			// document.addEventListener('scroll', function(event) {
+			// 	trackWithEvent(EVENT_WINDOW_SCROLL, event);
+			// }, true);
+			
+			// window.addEventListener('resize', function(event) {
+			// 	trackWithEvent(EVENT_WINDOW_RESIZE, event);
+			// });
+			
+			// document.addEventListener('mousemove', function(event) {
+			// 	trackWithEvent(EVENT_ON_MOUSE_MOVE, event);
+			// });
+			
+			// document.addEventListener('mousedown', function(event) {
+			// 	trackWithEvent(EVENT_ON_MOUSE_DOWN, event);
+			// });
+			
+			// document.addEventListener('mouseup', function(event) {
+			// 	trackWithEvent(EVENT_ON_MOUSE_UP, event);
+			// });
+			
+			// document.addEventListener('touchmove', function(event) {
+			// 	trackWithEvent(EVENT_ON_TOUCH_MOVE, event);
+			// }, { passive: true });
+			
+			// document.addEventListener('touchstart', function(event) {
+			// 	trackWithEvent(EVENT_ON_POINTER_DOWN, event);
+			// }, { passive: true });
+			
+			// document.addEventListener('touchend', function(event) {
+			// 	trackWithEvent(EVENT_ON_POINTER_UP, event);
+			// }, { passive: true });
 			
 			document.addEventListener('pointerdown', function(event) {
 				trackWithEvent(EVENT_ON_POINTER_DOWN, event);
@@ -393,16 +493,81 @@
 			});
 
 			document.addEventListener('pointercancel', function(event) {
+				// NUEVO: Capturar cuando se cancela un gesto (importante para biometría)
 				trackWithEvent(EVENT_ON_POINTER_UP, event);
 			});
+			
+			// document.addEventListener('contextmenu', function(event) {
+			// 	trackWithEvent(EVENT_CONTEXT_MENU, event);
+			// }); 
+			
+			// document.addEventListener('wheel', function(event) {
+			// 	trackWithEvent(EVENT_ON_WHEEL, event);
+			// });
 			
 			document.addEventListener('keydown', function(event) {
 				trackWithEvent(EVENT_KEY_DOWN, event);
 			});
 			
+			// document.addEventListener('keypress', function(event) {
+			// 	trackWithEvent(EVENT_KEY_PRESS, event);
+			// });
+			
 			document.addEventListener('keyup', function(event) {
 				trackWithEvent(EVENT_KEY_UP, event);
 			});
+		}
+		
+		function trackMouseMovement() {
+			trackEvent(EVENT_ON_MOUSE_MOVE);
+		}	
+		
+		function trackTouchMovement(event) {
+			trackWithEvent(EVENT_ON_TOUCH_MOVE, event);
+		}
+		
+		function trackClick(){
+			trackEvent(EVENT_ON_CLICK);
+		}	
+		
+		function trackDblclick(){
+			trackEvent(EVENT_ON_DOUBLE_CLICK);
+		}
+		
+		function trackMouseDown(){
+			trackEvent(EVENT_ON_MOUSE_DOWN);
+		}	
+		
+		function trackMouseUp(){
+			trackEvent(EVENT_ON_MOUSE_UP);
+		}	
+		
+		function trackWheel(){
+			trackEvent(EVENT_ON_WHEEL);
+		}	
+		
+		function trackContextmenu()	{
+			trackEvent(EVENT_CONTEXT_MENU);
+		}
+		
+		function trackWindowScroll(){
+			trackEvent(EVENT_WINDOW_SCROLL);
+		}
+		
+		function trackWindowResize(){
+			trackEvent(EVENT_WINDOW_RESIZE);
+		}
+		
+		function trackEventKeydown(event){
+			trackWithEvent(EVENT_KEY_DOWN, event)
+		}
+		
+		function trackEventKeypress(event){
+			trackWithEvent(EVENT_KEY_PRESS, event)
+		}
+		
+		function trackEventKeyup(event){
+			trackWithEvent(EVENT_KEY_UP, event)
 		}
 		
 		function trackFocusEvent(event){
@@ -415,6 +580,10 @@
 		
 		function trackOnChangeSelectionEvent(event){
 			trackWithEvent(EVENT_ON_CHANGE_SELECTION_OBJECT, event);
+		}
+		
+		function trackOnClickSelectionEvent(event){
+			trackWithEvent(EVENT_ON_CLICK_SELECTION_OBJECT, event);
 		}
 		
 		function finishTracking(_newPage)	
@@ -431,7 +600,9 @@
 			checkReadyToLeave();
 		}	
 		
+		
 		function checkReadyToLeave() {	
+
 			if (eventsDelivered == false || pendingRequest > 0) {
 				console.log("Not ready to leave page, events still pending");
 			}
@@ -510,7 +681,6 @@
 				"idExperiment": idExperiment,
 				"sessionId": getUser()
 			};
-			console.log("Delivering chunk of "+chunk.length+" events: " + JSON.stringify(chunk));
 		
 			if (emittingData) {
 				$.ajax({
@@ -593,7 +763,6 @@
 				});
 			}
 		}
-
 		function showTrace(sessionId, sceneId)
 		{
 			getBackground(sessionId, sceneId);

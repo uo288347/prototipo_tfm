@@ -473,9 +473,9 @@ const useGestureDetector = (onGestureDetected) => {
             }
 
             const gesture = finalizeGesture(eventData, gestureSpecificData);
-            if (gesture) {
-                console.log('Gesto detectado:', gesture);
-            }
+            // if (gesture) {
+            //     console.log('Gesto detectado:', gesture);
+            // }
 
         }
         // Si es tap_potential, determinar qué tipo de tap fue
