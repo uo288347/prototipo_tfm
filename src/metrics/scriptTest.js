@@ -811,7 +811,7 @@
 				});
 			}
 		}
-	
+
 function registerid(value) {postNumberDD(158, value);}
 
 // Exportar funciones para uso en otros componentes
@@ -829,6 +829,8 @@ export {
 	postDateDD,
 	trackWithEvent,
 	getCurrentSceneId,
+	getUser,
+	idExperiment,
 	// Constantes de tipos de componentes
 	COMPONENT_TEXT_FIELD,
 	COMPONENT_COMBOBOX,

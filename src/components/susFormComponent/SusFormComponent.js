@@ -21,6 +21,7 @@ export const SusFormComponent = ({}) => {
     let [currentStep, setCurrentStep] = useState(0);
     let requiredInForm = []
     let [formErrors, setFormErrors] = useState({})
+
     const nextButtonRef = useRef(null);
     const backButtonRef = useRef(null);
     const finishButtonRef = useRef(null);
@@ -43,14 +44,6 @@ export const SusFormComponent = ({}) => {
         }, 300);
         return () => clearTimeout(timer);
     }, [currentStep]);
-
-export const SusFormComponent = ({}) => {
-    const t = useTranslations();
-    const router = useRouter();
-    let [formData, setFormData] = useState({})
-    let [currentStep, setCurrentStep] = useState(0);
-    let requiredInForm = []
-    let [formErrors, setFormErrors] = useState({})
 
     const currentYear = new Date().getFullYear();
     let tooltipsFrequency = ["Totalmente en desacuerdo", "En desacuerdo", "Neutro",

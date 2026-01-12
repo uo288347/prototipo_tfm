@@ -129,7 +129,7 @@ export const TrackableSelect = ({
     <div ref={containerRef} data-trackable-id={id}>
       <Select
         id={id}
-        onDropdownVisibleChange={handleDropdownVisibleChange}
+        onOpenChange={handleDropdownVisibleChange}
         {...pointerEventProps}
         {...props}
       />

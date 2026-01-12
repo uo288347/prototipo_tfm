@@ -10,6 +10,7 @@ import { LaptopOutlined, MobileOutlined, TabletOutlined } from "@ant-design/icon
 import { useTranslations } from 'next-intl';
 import { LanguageSwitcher } from "./shared/LanguageSwitcher";
 import useGestureDetector from "@/metrics/GestureDetectorHook";
+import { registerParticipantData } from "@/metrics/script";
 
 export const InitialFormComponent = ({ }) => {
     const {
@@ -159,7 +160,18 @@ export const InitialFormComponent = ({ }) => {
                                     onPointerMove={handlePointerMove}
                                     onPointerUp={handlePointerUp}
                                     onPointerCancel={handlePointerCancel}
-                                    type="primary" size="large" onClick={() => { router.push("/login") }} block >{t('auth.register')}</Button> :
+                                    type="primary" size="large" onClick={async () => { 
+                                        // Guardar datos del participante en la base de datos
+                                        await registerParticipantData({
+                                            handedness: formData.handedness || null,
+                                            sex: formData.sex || null,
+                                            birthYear: formData.birthYear ? parseInt(formData.birthYear) : null,
+                                            ecommerceFrequency: formData.frequency || null,
+                                            preferredDevice: formData.device || null,
+                                            selectedLanguage: router.locale || 'es'
+                                        });
+                                        router.push("/login");
+                                    }} block >{t('auth.register')}</Button> :
                                 <Button type="primary" size="large" block disabled>{t('auth.register')}</Button>
                             }
                         </Form.Item>
