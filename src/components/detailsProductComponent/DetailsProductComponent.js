@@ -14,6 +14,8 @@ import { FreeProductOffer } from "./FreeProductOffer";
 import { getCategoryLabel } from "@/utils/UtilsCategories";
 import { getProductTitle, getProductDescription } from "@/utils/UtilsProductTranslations";
 import { useTranslations } from 'next-intl';
+import { registerComponent, COMPONENT_BUTTON, COMPONENT_RADIO_BUTTON, COMPONENT_STEPPER } from "@/metrics/scriptTest";
+import { getCurrentSceneId } from "@/metrics/constants/scenes";
 
 let DetailsProductComponent = ({ id }) => {
     const router = useRouter();
@@ -28,6 +30,57 @@ let DetailsProductComponent = ({ id }) => {
     let [favorite, setFavorite] = useState(false)
     let [isApplied, setIsApplied] = useState(false);
 
+    // Auto-registro de componentes para métricas
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            const sceneId = getCurrentSceneId();
+            if (sceneId === null) return;
+
+            // Registrar botón de favoritos
+            const favBtn = document.getElementById('btn-favorite');
+            if (favBtn) {
+                const rect = favBtn.getBoundingClientRect();
+                registerComponent(sceneId, 'btn-favorite', rect.left + window.scrollX, rect.top + window.scrollY,
+                    rect.right + window.scrollX, rect.bottom + window.scrollY, COMPONENT_BUTTON, null);
+                favBtn.setAttribute('data-trackable-id', 'btn-favorite');
+            }
+
+            // Registrar botón de añadir al carrito
+            const addCartBtn = document.getElementById('btn-add-to-cart');
+            if (addCartBtn) {
+                const rect = addCartBtn.getBoundingClientRect();
+                registerComponent(sceneId, 'btn-add-to-cart', rect.left + window.scrollX, rect.top + window.scrollY,
+                    rect.right + window.scrollX, rect.bottom + window.scrollY, COMPONENT_BUTTON, null);
+                addCartBtn.setAttribute('data-trackable-id', 'btn-add-to-cart');
+            }
+
+            // Registrar botones de tallas
+            const sizes = ["S", "M", "L", "XL"];
+            sizes.forEach(size => {
+                const sizeBtn = document.querySelector(`[data-size="${size}"]`);
+                if (sizeBtn) {
+                    const rect = sizeBtn.getBoundingClientRect();
+                    const sizeId = `btn-size-${size}`;
+                    registerComponent(sceneId, sizeId, rect.left + window.scrollX, rect.top + window.scrollY,
+                        rect.right + window.scrollX, rect.bottom + window.scrollY, COMPONENT_RADIO_BUTTON, 'size-selector');
+                    sizeBtn.setAttribute('data-trackable-id', sizeId);
+                }
+            });
+
+            // Registrar stepper de cantidad
+            const stepper = document.querySelector('.adm-stepper');
+            if (stepper) {
+                const rect = stepper.getBoundingClientRect();
+                registerComponent(sceneId, 'stepper-quantity', rect.left + window.scrollX, rect.top + window.scrollY,
+                    rect.right + window.scrollX, rect.bottom + window.scrollY, COMPONENT_STEPPER, null);
+                stepper.setAttribute('data-trackable-id', 'stepper-quantity');
+            }
+
+            console.log(`[DetailsProductComponent] Components registered for product ${id}`);
+        }, 500);
+
+        return () => clearTimeout(timer);
+    }, [id]);
 
     useEffect(() => {
         let p = getProduct(id);
@@ -95,8 +148,9 @@ let DetailsProductComponent = ({ id }) => {
                             {productTitle}
                         </Title>
 
-                        <Button type="text" size="large" style={{ border: "none", flex: "0 0 auto" }}
+                        <Button id="btn-favorite" type="text" size="large" style={{ border: "none", flex: "0 0 auto" }}
                             onClick={() => onToggleFavorite()}
+                            data-trackable-id="btn-favorite"
                             icon={favorite ? <HeartFill style={{ fontSize: "30px", color: "#b90104ff" }} /> : <HeartOutline style={{ fontSize: "30px" }} />} />
 
                     </Row>
@@ -114,6 +168,8 @@ let DetailsProductComponent = ({ id }) => {
                                 <Radio.Button
                                     key={size}
                                     value={size}
+                                    data-size={size}
+                                    data-trackable-id={`btn-size-${size}`}
                                     style={{
                                         backgroundColor: selectedSize === size ? "black" : undefined,
                                         color: selectedSize === size ? "white" : undefined,
@@ -151,8 +207,9 @@ let DetailsProductComponent = ({ id }) => {
                     </Row>
                     <FreeProductOffer id={id} freeCode={product.freeCode} isApplied={isApplied} setIsApplied={setIsApplied}/>
 
-                    <Button type="primary" block id={product.id}
+                    <Button type="primary" block id="btn-add-to-cart"
                         onClick={addToShoppingCart}
+                        data-trackable-id="btn-add-to-cart"
                         icon={<ShoppingCartOutlined />}
                     >{t('product.addToCart')}</Button>
                 </Col>

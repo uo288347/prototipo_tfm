@@ -1,5 +1,6 @@
 import { useRouter } from "next/router";
 import { Card, Button, Tooltip, Avatar, Row, Col, Divider, Typography, InputNumber } from "antd";
+import { useEffect, useRef } from "react";
 import { getProduct } from "@/utils/UtilsProducts";
 import { LongPressWrapper } from "./LongPressWrapper";
 import { useDrag } from 'react-dnd';
@@ -7,15 +8,48 @@ import { CheckCircleFilled } from "@ant-design/icons";
 import { Stepper } from "antd-mobile";
 import { getProductTitle } from "@/utils/UtilsProductTranslations";
 import { useTranslations } from 'next-intl';
+import { registerComponent, COMPONENT_CARD } from "@/metrics/scriptTest";
+import { getCurrentSceneId } from "@/metrics/constants/scenes";
 
 const { Text, Title } = Typography;
 
-export const HorizontalProductCard = ({ item, index, isSelected, selectedItems, onClick, updateUnits }) => {
+export const HorizontalProductCard = ({ item, index, isSelected, selectedItems, onClick, updateUnits, enableTracking = true }) => {
     const router = useRouter();
     const locale = router.locale || 'es';
     const t = useTranslations();
     const product = getProduct(item.id);
     const productTitle = getProductTitle(item.id, locale);
+    const cardRef = useRef(null);
+    const trackingId = `cart-card-${item.id}-${item.size}`;
+
+    // Auto-registro del componente para métricas
+    useEffect(() => {
+        if (!enableTracking) return;
+
+        const timer = setTimeout(() => {
+            const element = cardRef.current;
+            if (!element) return;
+
+            const sceneId = getCurrentSceneId();
+            if (sceneId === null) return;
+
+            const rect = element.getBoundingClientRect();
+            registerComponent(
+                sceneId,
+                trackingId,
+                rect.left + window.scrollX,
+                rect.top + window.scrollY,
+                rect.right + window.scrollX,
+                rect.bottom + window.scrollY,
+                COMPONENT_CARD,
+                null
+            );
+
+            console.log(`[HorizontalProductCard] Registered ${trackingId} at (${rect.left},${rect.top}) in scene ${sceneId}`);
+        }, 300);
+
+        return () => clearTimeout(timer);
+    }, [trackingId, enableTracking]);
 
     const [{ isDragging }, dragRef] = useDrag({
         type: 'CARD',
@@ -26,7 +60,7 @@ export const HorizontalProductCard = ({ item, index, isSelected, selectedItems, 
         }),
     });
     return (
-        <div ref={dragRef} style={{ opacity: isDragging ? 0.4 : 1, }}>
+        <div ref={(el) => { cardRef.current = el; dragRef(el); }} style={{ opacity: isDragging ? 0.4 : 1 }} data-trackable-id={trackingId}>
             <Card key={index}
                 style={{
                     marginBottom: "1rem",

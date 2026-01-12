@@ -2,12 +2,26 @@
 import { useRouter } from "next/router";
 import { Typography, Row, Button } from "antd";
 import { useTranslations } from 'next-intl';
+import { useRef, useEffect } from "react";
+import { registerComponent, COMPONENT_BUTTON, getCurrentSceneId } from "@/metrics/scriptTest";
 
 const {Title} = Typography
 
 export const BottomSection = ({productsLength, selectionMode, calculateTotal}) => {
     const router = useRouter();
     const t = useTranslations();
+    const continueButtonRef = useRef(null);
+
+    useEffect(() => {
+        const sceneId = getCurrentSceneId();
+        const timer = setTimeout(() => {
+            if (continueButtonRef.current && productsLength > 0 && !selectionMode) {
+                const rect = continueButtonRef.current.getBoundingClientRect();
+                registerComponent("btn-continue-checkout", COMPONENT_BUTTON, sceneId, rect.x, rect.y, rect.width, rect.height);
+            }
+        }, 300);
+        return () => clearTimeout(timer);
+    }, [productsLength, selectionMode]);
     
     return (<>
         {productsLength > 0 && !selectionMode &&
@@ -24,7 +38,7 @@ export const BottomSection = ({productsLength, selectionMode, calculateTotal}) =
                     <Title level={2} style={{ padding: 0, margin: 0, fontWeight: "normal" }}>{t('cart.total')}</Title>
                     <Title level={2} style={{ padding: 0, margin: 0, fontWeight: "normal" }}>{calculateTotal()}€</Title>
                 </Row>
-                <Button type="primary" block size="large"
+                <Button ref={continueButtonRef} id="btn-continue-checkout" data-trackable-id="btn-continue-checkout" type="primary" block size="large"
                     style={{ padding: "1rem", marginTop: "1rem" }}
                     onClick={() => { router.push("/checkout") }}>
                     {t('cart.continue')}

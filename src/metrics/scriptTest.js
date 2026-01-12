@@ -32,6 +32,13 @@
 		const COMPONENT_OPTION = 3;
 		const COMPONENT_RADIO_BUTTON = 4;
 		const COMPONENT_CHECK_BOX = 5;
+		const COMPONENT_BUTTON = 6;
+		const COMPONENT_CARD = 7;
+		const COMPONENT_RATE = 8;
+		const COMPONENT_IMAGE = 9;
+		const COMPONENT_STEPPER = 10;
+		const COMPONENT_CAROUSEL = 11;
+		const COMPONENT_LINK = 12;
 		
 		// Inicializar user como null y crearlo solo en el cliente
 		var user = null;
@@ -43,6 +50,10 @@
 				user = createUser();
 			}
 			return user;
+		}
+
+		function getCurrentSceneId() {
+			return sceneId;
 		}
 		
 		var list = [];
@@ -237,11 +248,63 @@
 		
 		function detectElement(x,y){
 			var found = -1 ;
+			// console.log(`[detectElement] Checking ${elements.length} elements for (${x}, ${y}) in scene ${sceneId}`);
 			elements.forEach ( function(entry){
+				if (entry.getScene() === sceneId) {
+					// console.log(`[detectElement] Element ${entry.id}: (${entry.x},${entry.y}) to (${entry.xF},${entry.yF}), isOver: ${entry.isOver(x,y)}`);
+				}
 				if (entry.isOver(x,y) && entry.getScene() === sceneId) {
 					found = entry.id;
 				}
 			});
+			return found;
+		}
+
+		/**
+		 * Busca el ID trackeable más cercano en el árbol DOM del elemento
+		 * Útil cuando el click ocurre en un elemento hijo sin ID
+		 */
+		function findTrackableIdInAncestors(element) {
+			let current = element;
+			// console.log(`[findTrackableIdInAncestors] Starting search from:`, current?.tagName, current?.id, current?.className);
+			while (current && current !== document.body) {
+				// Buscar por data-trackable-id (nuestro atributo personalizado)
+				const trackableId = current.getAttribute('data-trackable-id');
+				if (trackableId) {
+					// console.log(`[findTrackableIdInAncestors] Found data-trackable-id: ${trackableId}`);
+					return trackableId;
+				}
+				// Buscar por ID normal si está registrado
+				if (current.id && detectElementByName(current.id) !== -1) {
+					// console.log(`[findTrackableIdInAncestors] Found registered id: ${current.id}`);
+					return current.id;
+				}
+				current = current.parentElement;
+			}
+			// console.log(`[findTrackableIdInAncestors] No trackable ID found`);
+			return null;
+		}
+
+		/**
+		 * Detecta el elemento primero por coordenadas, y si no encuentra,
+		 * busca en los ancestros del target del evento
+		 */
+		function detectElementEnhanced(x, y, eventTarget) {
+			// console.log(`[detectElementEnhanced] Searching at (${x}, ${y}), target:`, eventTarget?.tagName, eventTarget?.id);
+			
+			// Primero intentar por coordenadas
+			var found = detectElement(x, y);
+			// console.log(`[detectElementEnhanced] detectElement result: ${found}`);
+			
+			// Si no se encontró y tenemos el target del evento, buscar en ancestros
+			if (found === -1 && eventTarget) {
+				const ancestorId = findTrackableIdInAncestors(eventTarget);
+				if (ancestorId) {
+					found = ancestorId;
+					console.log(`[detectElementEnhanced] Found via ancestor: ${found}`);
+				}
+			}
+			
 			return found;
 		}
 		
@@ -341,9 +404,15 @@
 				item.keyValueEvent = event.key;
 				item.keyCodeEvent = event.keyCode;
 				item.elementId = detectElementByName(event.target.id);
+				if (item.elementId === -1) {
+					item.elementId = detectElementEnhanced(item.x, item.y, event.target);
+				}
 			}
 			else if(eventType == EVENT_FOCUS || eventType == EVENT_BLUR){
 				item.elementId = detectElementByName(event.target.id);
+				if (item.elementId === -1) {
+					item.elementId = detectElementEnhanced(item.x, item.y, event.target);
+				}
 			}
 			else if(eventType == EVENT_ON_CHANGE_SELECTION_OBJECT){
 				item.elementId = detectElementByName(event.target.id);
@@ -352,7 +421,8 @@
 				item.elementId = detectElementByName(event.target.id);
 			}
 			else{
-				item.elementId = detectElement(item.x, item.y);
+				// Usar detección mejorada que busca también en ancestros del target
+				item.elementId = detectElementEnhanced(item.x, item.y, event?.target);
 			}
 			console.log("Tracking event "+eventType+" at ("+item.x+","+item.y+"), scene "+sceneId+", element "+item.elementId);
 			list[list.length] = item;
@@ -758,8 +828,22 @@ export {
 	postStringDD,
 	postDateDD,
 	trackWithEvent,
-	COMPONENT_COMBOBOX,
+	getCurrentSceneId,
+	// Constantes de tipos de componentes
 	COMPONENT_TEXT_FIELD,
+	COMPONENT_COMBOBOX,
 	COMPONENT_OPTION,
-	EVENT_ON_POINTER_DOWN
+	COMPONENT_RADIO_BUTTON,
+	COMPONENT_CHECK_BOX,
+	COMPONENT_BUTTON,
+	COMPONENT_CARD,
+	COMPONENT_RATE,
+	COMPONENT_IMAGE,
+	COMPONENT_STEPPER,
+	COMPONENT_CAROUSEL,
+	COMPONENT_LINK,
+	// Constantes de eventos
+	EVENT_ON_POINTER_DOWN,
+	EVENT_ON_POINTER_UP,
+	EVENT_ON_POINTER_MOVE
 };

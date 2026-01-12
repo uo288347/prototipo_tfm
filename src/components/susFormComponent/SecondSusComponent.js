@@ -1,6 +1,7 @@
-import { Form, Rate } from "antd"
+import { Form } from "antd"
 import { modifyStateProperty } from "../../utils/UtilsState";
 import { useTranslations } from 'next-intl';
+import { TrackableRate } from "../shared/TrackableRate";
 
 export const SecondSusComponent = ({ formData, setFormData }) => {
     const t = useTranslations();
@@ -21,17 +22,23 @@ export const SecondSusComponent = ({ formData, setFormData }) => {
     return (
             <Form style={{ marginBottom: 0 }} labelWrap>
                 <Form.Item label={<span style={labelStyle}>{t('susForm.question4')}</span>} >
-                    <Rate tooltips={tooltipsFrequency}
+                    <TrackableRate 
+                        id="rate-sus4"
+                        tooltips={tooltipsFrequency}
                         value={formData.sus4}
                         onChange={(value) => modifyStateProperty(formData, setFormData, "sus4", value)} />
                 </Form.Item>
                 <Form.Item label={<span style={labelStyle}>{t('susForm.question5')}</span>} >
-                    <Rate tooltips={tooltipsFrequency}
+                    <TrackableRate 
+                        id="rate-sus5"
+                        tooltips={tooltipsFrequency}
                         value={formData.sus5}
                         onChange={(value) => modifyStateProperty(formData, setFormData, "sus5", value)} />
                 </Form.Item>
                 <Form.Item label={<span style={labelStyle}>{t('susForm.question6')}</span>} >
-                    <Rate tooltips={tooltipsFrequency}
+                    <TrackableRate 
+                        id="rate-sus6"
+                        tooltips={tooltipsFrequency}
                         value={formData.sus6}
                         onChange={(value) => modifyStateProperty(formData, setFormData, "sus6", value)} />
                 </Form.Item>

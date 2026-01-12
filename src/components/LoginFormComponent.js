@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { useRouter } from "next/router";
 import {modifyStateProperty} from "../utils/UtilsState";
 import {Card, Col, Row, Form, Input, Button , Typography } from "antd";
@@ -19,6 +19,8 @@ import { clearFavorites } from "@/utils/UtilsFavorites";
 import { useTranslations } from 'next-intl';
 import { LanguageSwitcher } from "./shared/LanguageSwitcher";
 import useGestureDetector from "@/metrics/GestureDetectorHook";
+import { registerComponent, COMPONENT_BUTTON } from "@/metrics/scriptTest";
+import { getCurrentSceneId } from "@/metrics/constants/scenes";
 
 let LoginFormComponent = ({setLogin}) => {
     const { 
@@ -37,6 +39,33 @@ let LoginFormComponent = ({setLogin}) => {
  
     let [formData,setFormData] = useState({})
 
+    // Auto-registro del botón de login
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            const loginBtn = document.getElementById('btn-login');
+            if (!loginBtn) return;
+
+            const sceneId = getCurrentSceneId();
+            if (sceneId === null) return;
+
+            const rect = loginBtn.getBoundingClientRect();
+            registerComponent(
+                sceneId,
+                'btn-login',
+                rect.left + window.scrollX,
+                rect.top + window.scrollY,
+                rect.right + window.scrollX,
+                rect.bottom + window.scrollY,
+                COMPONENT_BUTTON,
+                null
+            );
+            loginBtn.setAttribute('data-trackable-id', 'btn-login');
+            console.log(`[LoginFormComponent] Registered btn-login`);
+        }, 300);
+
+        return () => clearTimeout(timer);
+    }, []);
+
     let clickLogin = async () => {
         clearLogin();
         login(formData.email, formData.password);
@@ -51,17 +80,19 @@ let LoginFormComponent = ({setLogin}) => {
             <Col xs={24} sm={24} md={12} lg={8} xl={7} justify="center" >
                 <Card title={t('auth.login')} style={{ width: "100%" }}>
                     <Form>
-                    <TextInputField name="email" placeholder={t('auth.yourEmail')} formData={formData} setFormData={setFormData}
+                    <TextInputField id="input-email" name="email" placeholder={t('auth.yourEmail')} formData={formData} setFormData={setFormData}
                         formErrors={formErrors} setFormErrors={setFormErrors} validateFunc={validateFormDataInputEmail}
                         validateParams={[t('errors.invalidEmail')]}
                     />
-                    <PasswordInputField name="password" placeholder={t('auth.yourPassword')} formData={formData} setFormData={setFormData}
+                    <PasswordInputField id="input-password" name="password" placeholder={t('auth.yourPassword')} formData={formData} setFormData={setFormData}
                         formErrors={formErrors} setFormErrors={setFormErrors} validateFunc={validateFormDataInputRequired}
                         validateParams={[t('errors.required')]}
                     />
                     <Form.Item>
                         { allowSubmitForm(formData,formErrors,requiredInForm) ?
                             <Button 
+                            id="btn-login"
+                            data-trackable-id="btn-login"
                             onPointerDown={handlePointerDown}
                             onPointerMove={handlePointerMove}
                             onPointerUp={handlePointerUp}

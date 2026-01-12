@@ -1,16 +1,15 @@
-import { Col, Form, Row, Select, Card, Rate, Button, Divider } from "antd"
+import { Col, Form, Row, Card, Rate, Button, Divider } from "antd"
 //import { Form  } from "antd-mobile";
 import { useRouter } from "next/router";
 import { useState, useRef } from "react";
 import { TextInputField } from "./shared/TextInputField";
+import { TrackableSelect } from "./shared/TrackableSelect";
 import { validateFormDataInputYear, allowSubmitForm } from "../utils/UtilsValidations"
 import { modifyStateProperty } from "../utils/UtilsState";
 import { LaptopOutlined, MobileOutlined, TabletOutlined } from "@ant-design/icons";
 import { useTranslations } from 'next-intl';
 import { LanguageSwitcher } from "./shared/LanguageSwitcher";
 import useGestureDetector from "@/metrics/GestureDetectorHook";
-import { registerComponent, trackWithEvent, EVENT_ON_POINTER_DOWN, COMPONENT_OPTION } from "@/metrics/scriptTest";
-import { SCENES } from "@/metrics/constants/scenes";
 
 export const InitialFormComponent = ({ }) => {
     const {
@@ -29,31 +28,7 @@ export const InitialFormComponent = ({ }) => {
     const currentYear = new Date().getFullYear();
     let tooltipsFrequency = [t('initialForm.never'), t('initialForm.onceMonth'), t('initialForm.twoThreeTimesMonth'), t('initialForm.oneThreeTimesWeek'), t('initialForm.almostEveryday')]
 
-    function registerSelectOptions(selectId) {
-        const options = document.querySelectorAll('.ant-select-dropdown .ant-select-item');
-        options.forEach((el, index) => {
-            const rect = el.getBoundingClientRect();
-            registerComponent(
-                SCENES.INITIAL_FORM,
-                `${selectId}-option-${index}`,
-                rect.left + window.scrollX,
-                rect.top + window.scrollY,
-                rect.right + window.scrollX,
-                rect.bottom + window.scrollY,
-                COMPONENT_OPTION,
-                selectId
-            );
-
-            console.log(`Registered OPTION -> ${selectId}-option-${index} at (${rect.left + window.scrollX},${rect.top + window.scrollY})`);
-            el.addEventListener('pointerdown', (e) => {
-                trackWithEvent(EVENT_ON_POINTER_DOWN, e);
-            });
-        });
-    }
-
-
-    // Integrar los eventos pointer en todos los elementos del formulario
-    // y registrar los gestos con scriptTest.js
+    // Props comunes para eventos de pointer
     const pointerEventProps = {
         onPointerDown: handlePointerDown,
         onPointerMove: handlePointerMove,
@@ -67,10 +42,10 @@ export const InitialFormComponent = ({ }) => {
                 <Card title={t('initialForm.title')}>
                     <Form {...pointerEventProps}>
                         <Form.Item {...pointerEventProps} id="handedness" name="handedness">
-                            <Select
+                            <TrackableSelect
                                 id="select-handedness"
                                 name={"handedness"}
-                                {...pointerEventProps}
+                                pointerEventProps={pointerEventProps}
                                 placeholder={t('initialForm.handedness')}
                                 onChange={(value) => {
                                     modifyStateProperty(formData, setFormData, "handedness", value);
@@ -81,43 +56,30 @@ export const InitialFormComponent = ({ }) => {
                                         label: <span {...pointerEventProps}>{t('initialForm.rightHanded')}</span>
                                     },
                                     {
-                                        value: 'left', label: <span {...pointerEventProps}>{t('initialForm.leftHanded')}</span>
+                                        value: 'left', 
+                                        label: <span {...pointerEventProps}>{t('initialForm.leftHanded')}</span>
                                     }
                                 ]}
                                 data-testid="select-handedness"
                             />
                         </Form.Item>
                         <Form.Item>
-                            <Select
+                            <TrackableSelect
                                 id="select-sex"
                                 name={"sex"}
-                                onPointerDown={handlePointerDown}
-                                onPointerMove={handlePointerMove}
-                                onPointerUp={handlePointerUp}
-                                onPointerCancel={handlePointerCancel}
+                                pointerEventProps={pointerEventProps}
                                 placeholder={t('initialForm.sex')}
                                 onChange={(value) => {
                                     modifyStateProperty(formData, setFormData, "sex", value);
                                 }}
-                                onOpenChange={(open) => {
-                                    if (open) registerSelectOptions("select-handedness");
-                                }}
                                 options={[
                                     {
-                                        value: 'man', label: <span
-                                            onPointerDown={handlePointerDown}
-                                            onPointerMove={handlePointerMove}
-                                            onPointerUp={handlePointerUp}
-                                            onPointerCancel={handlePointerCancel}
-                                        >{t('initialForm.man')}</span>
+                                        value: 'man', 
+                                        label: <span {...pointerEventProps}>{t('initialForm.man')}</span>
                                     },
                                     {
-                                        value: 'woman', label: <span
-                                            onPointerDown={handlePointerDown}
-                                            onPointerMove={handlePointerMove}
-                                            onPointerUp={handlePointerUp}
-                                            onPointerCancel={handlePointerCancel}
-                                        >{t('initialForm.woman')}</span>
+                                        value: 'woman', 
+                                        label: <span {...pointerEventProps}>{t('initialForm.woman')}</span>
                                     },
                                 ]}
                                 data-testid="select-sex"
@@ -130,55 +92,32 @@ export const InitialFormComponent = ({ }) => {
                         <Divider />
 
                         <Form.Item name="frequency" label={t('initialForm.ecommerceFrequency')}>
-                            <Select
+                            <TrackableSelect
                                 id="select-frequency"
                                 name={"frequency"}
-                                onPointerDown={handlePointerDown}
-                                onPointerMove={handlePointerMove}
-                                onPointerUp={handlePointerUp}
-                                onPointerCancel={handlePointerCancel}
+                                pointerEventProps={pointerEventProps}
                                 placeholder={t('initialForm.selectFrequency')}
                                 onChange={(value) => modifyStateProperty(formData, setFormData, "frequency", value)}
                                 options={[
                                     {
-                                        value: 'never', label: <span
-                                            onPointerDown={handlePointerDown}
-                                            onPointerMove={handlePointerMove}
-                                            onPointerUp={handlePointerUp}
-                                            onPointerCancel={handlePointerCancel}
-                                        >{t('initialForm.never')}</span>
+                                        value: 'never', 
+                                        label: <span {...pointerEventProps}>{t('initialForm.never')}</span>
                                     },
                                     {
-                                        value: 'once_month', label: <span
-                                            onPointerDown={handlePointerDown}
-                                            onPointerMove={handlePointerMove}
-                                            onPointerUp={handlePointerUp}
-                                            onPointerCancel={handlePointerCancel}
-                                        >{t('initialForm.onceMonth')}</span>
+                                        value: 'once_month', 
+                                        label: <span {...pointerEventProps}>{t('initialForm.onceMonth')}</span>
                                     },
                                     {
-                                        value: '2_3_times_month', label: <span
-                                            onPointerDown={handlePointerDown}
-                                            onPointerMove={handlePointerMove}
-                                            onPointerUp={handlePointerUp}
-                                            onPointerCancel={handlePointerCancel}
-                                        >{t('initialForm.twoThreeTimesMonth')}</span>
+                                        value: '2_3_times_month', 
+                                        label: <span {...pointerEventProps}>{t('initialForm.twoThreeTimesMonth')}</span>
                                     },
                                     {
-                                        value: '1_3_times_week', label: <span
-                                            onPointerDown={handlePointerDown}
-                                            onPointerMove={handlePointerMove}
-                                            onPointerUp={handlePointerUp}
-                                            onPointerCancel={handlePointerCancel}
-                                        >{t('initialForm.oneThreeTimesWeek')}</span>
+                                        value: '1_3_times_week', 
+                                        label: <span {...pointerEventProps}>{t('initialForm.oneThreeTimesWeek')}</span>
                                     },
                                     {
-                                        value: 'everyday', label: <span
-                                            onPointerDown={handlePointerDown}
-                                            onPointerMove={handlePointerMove}
-                                            onPointerUp={handlePointerUp}
-                                            onPointerCancel={handlePointerCancel}
-                                        >{t('initialForm.almostEveryday')}</span>
+                                        value: 'everyday', 
+                                        label: <span {...pointerEventProps}>{t('initialForm.almostEveryday')}</span>
                                     },
                                 ]}
                                 data-testid="select-frequency"
@@ -186,41 +125,26 @@ export const InitialFormComponent = ({ }) => {
                         </Form.Item>
 
                         <Form.Item label={t('initialForm.deviceQuestion')}>
-                            <Select
+                            <TrackableSelect
                                 id="select-device"
                                 name={"device"}
-                                onPointerDown={handlePointerDown}
-                                onPointerMove={handlePointerMove}
-                                onPointerUp={handlePointerUp}
-                                onPointerCancel={handlePointerCancel}
+                                pointerEventProps={pointerEventProps}
                                 placeholder={t('initialForm.deviceType')}
                                 onChange={(value) => {
                                     modifyStateProperty(formData, setFormData, "device", value);
                                 }}
                                 options={[
                                     {
-                                        value: 'computer', label: <span
-                                            onPointerDown={handlePointerDown}
-                                            onPointerMove={handlePointerMove}
-                                            onPointerUp={handlePointerUp}
-                                            onPointerCancel={handlePointerCancel}
-                                        ><LaptopOutlined /> {t('initialForm.laptop')}</span>
+                                        value: 'computer', 
+                                        label: <span {...pointerEventProps}><LaptopOutlined /> {t('initialForm.laptop')}</span>
                                     },
                                     {
-                                        value: 'phone', label: <span
-                                            onPointerDown={handlePointerDown}
-                                            onPointerMove={handlePointerMove}
-                                            onPointerUp={handlePointerUp}
-                                            onPointerCancel={handlePointerCancel}
-                                        ><MobileOutlined /> {t('initialForm.smartphone')}</span>
+                                        value: 'phone', 
+                                        label: <span {...pointerEventProps}><MobileOutlined /> {t('initialForm.smartphone')}</span>
                                     },
                                     {
-                                        value: 'tablet', label: <span
-                                            onPointerDown={handlePointerDown}
-                                            onPointerMove={handlePointerMove}
-                                            onPointerUp={handlePointerUp}
-                                            onPointerCancel={handlePointerCancel}
-                                        ><TabletOutlined /> {t('initialForm.tablet')}</span>
+                                        value: 'tablet', 
+                                        label: <span {...pointerEventProps}><TabletOutlined /> {t('initialForm.tablet')}</span>
                                     },
                                 ]}
                                 data-testid="select-device"

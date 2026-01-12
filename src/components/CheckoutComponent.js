@@ -14,6 +14,8 @@ import { clearFavorites } from "@/utils/UtilsFavorites";
 import { task8 } from "@/utils/UtilsTasks";
 import { useTranslations } from 'next-intl';
 import { getProductTitle } from "@/utils/UtilsProductTranslations";
+import { registerComponent, COMPONENT_BUTTON } from "@/metrics/scriptTest";
+import { getCurrentSceneId } from "@/metrics/constants/scenes";
 
 
 export const CheckoutComponent = () => {
@@ -30,6 +32,23 @@ export const CheckoutComponent = () => {
     useEffect(() => {
         let cart = getShoppingCart()
         setCartItems(cart)
+
+        // Registrar botón de confirmar compra
+        const timer = setTimeout(() => {
+            const sceneId = getCurrentSceneId();
+            if (sceneId === null) return;
+
+            const confirmBtn = document.getElementById('btn-confirm-purchase');
+            if (confirmBtn) {
+                const rect = confirmBtn.getBoundingClientRect();
+                registerComponent(sceneId, 'btn-confirm-purchase', rect.left + window.scrollX, rect.top + window.scrollY,
+                    rect.right + window.scrollX, rect.bottom + window.scrollY, COMPONENT_BUTTON, null);
+                confirmBtn.setAttribute('data-trackable-id', 'btn-confirm-purchase');
+                console.log(`[CheckoutComponent] Registered btn-confirm-purchase`);
+            }
+        }, 300);
+
+        return () => clearTimeout(timer);
     }, [])
 
     const calculateTotal = () => {
@@ -78,10 +97,10 @@ export const CheckoutComponent = () => {
                 <Divider />
                 <Title style={{ padding: "1rem 0rem", fontWeight: "normal" }} level={3}>{t('checkout.shippingInformation')}</Title>
                 <Form>
-                    <TextInputField name={"city"} placeholder={t('checkout.city')} formData={formData} icon={<HomeOutlined />}
+                    <TextInputField id="input-city" name={"city"} placeholder={t('checkout.city')} formData={formData} icon={<HomeOutlined />}
                         formErrors={formErrors} setFormData={setFormData} setFormErrors={setFormErrors} validateFunc={validateFormDataInputRequired}
                         validateParams={[t('errors.required')]} />
-                    <TextInputField name={"country"} placeholder={t('checkout.country')} formData={formData} icon={<EnvironmentOutlined />}
+                    <TextInputField id="input-country" name={"country"} placeholder={t('checkout.country')} formData={formData} icon={<EnvironmentOutlined />}
                         formErrors={formErrors} setFormData={setFormData} setFormErrors={setFormErrors} validateFunc={validateFormDataInputRequired}
                         validateParams={[t('errors.required')]} />
 
@@ -90,7 +109,7 @@ export const CheckoutComponent = () => {
             <Form>
                 <Form.Item style={{ margin: 0, marginBottom: 0, paddingBottom: 0 }}>
                     {allowSubmitForm(formData, formErrors, requiredInForm) ?
-                        <Button type="primary" size="large" onClick={clickCheckout} block ><ShoppingCartOutlined style={{ fontSize: "1.3rem" }} />{t('checkout.confirmPurchase')}</Button> :
+                        <Button id="btn-confirm-purchase" data-trackable-id="btn-confirm-purchase" type="primary" size="large" onClick={clickCheckout} block ><ShoppingCartOutlined style={{ fontSize: "1.3rem" }} />{t('checkout.confirmPurchase')}</Button> :
                         <Button type="primary" size="large" block disabled><ShoppingCartOutlined style={{ fontSize: "1.3rem" }} />{t('checkout.confirmPurchase')}</Button>
                     }
                 </Form.Item>

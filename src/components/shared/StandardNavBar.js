@@ -1,17 +1,21 @@
 import { NavBar, Button, Badge } from "antd-mobile";
 import { useRouter } from "next/router";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { getFavorites } from "@/utils/UtilsFavorites";
 import { getShoppingCartLength } from "@/utils/UtilsCart";
 import { HeartOutline } from "antd-mobile-icons";
 import { ShoppingCartOutlined } from "@ant-design/icons";
 import { task6 } from "@/utils/UtilsTasks";
 import { LanguageSwitcher } from "./LanguageSwitcher";
+import { registerComponent, COMPONENT_BUTTON, getCurrentSceneId } from "@/metrics/scriptTest";
 
 export const StandardNavBar = ({ }) => {
     const router = useRouter();
     const [favorites, setFavorites] = useState(new Set());
     const [cartCount, setCartCount] = useState(0);
+    const favButtonRef = useRef(null);
+    const cartButtonRef = useRef(null);
+    const logoRef = useRef(null);
 
     useEffect(() => {
         const favs = getFavorites();
@@ -19,6 +23,25 @@ export const StandardNavBar = ({ }) => {
         const cartLength = getShoppingCartLength();
         setCartCount(cartLength);
     }, []);
+
+    useEffect(() => {
+        const sceneId = getCurrentSceneId();
+        const timer = setTimeout(() => {
+            if (favButtonRef.current) {
+                const rect = favButtonRef.current.getBoundingClientRect();
+                registerComponent("btn-favorites", COMPONENT_BUTTON, sceneId, rect.x, rect.y, rect.width, rect.height);
+            }
+            if (cartButtonRef.current) {
+                const rect = cartButtonRef.current.getBoundingClientRect();
+                registerComponent("btn-shopping-cart", COMPONENT_BUTTON, sceneId, rect.x, rect.y, rect.width, rect.height);
+            }
+            if (logoRef.current) {
+                const rect = logoRef.current.getBoundingClientRect();
+                registerComponent("btn-home-logo", COMPONENT_BUTTON, sceneId, rect.x, rect.y, rect.width, rect.height);
+            }
+        }, 300);
+        return () => clearTimeout(timer);
+    }, [favorites, cartCount]);
 
     const home = () => {
         router.push("/home")
@@ -28,26 +51,26 @@ export const StandardNavBar = ({ }) => {
         <LanguageSwitcher />
         {favorites.size > 0 ? (
             <Badge content={favorites.size} style={{ '--top': '20%', '--right': '12%' }}>
-                <Button type="icon" style={{ border: "none" }} onClick={() => {
+                <Button ref={favButtonRef} id="btn-favorites" data-trackable-id="btn-favorites" type="icon" style={{ border: "none" }} onClick={() => {
                     task6();
                     router.push("/favorites")}}>
                     <HeartOutline style={{ fontSize: 24 }} />
                 </Button>
             </Badge>
         ) : (
-            <Button type="icon" style={{ border: "none" }} onClick={() => router.push("/favorites")}>
+            <Button ref={favButtonRef} id="btn-favorites" data-trackable-id="btn-favorites" type="icon" style={{ border: "none" }} onClick={() => router.push("/favorites")}>
                 <HeartOutline style={{ fontSize: 24 }} />
             </Button>
         )}
 
         {cartCount > 0 ? (
             <Badge content={cartCount} style={{ '--top': '20%', '--right': '12%' }}>
-                <Button type="icon" style={{ border: "none" }} onClick={() => router.push("/shoppingCart")}>
+                <Button ref={cartButtonRef} id="btn-shopping-cart" data-trackable-id="btn-shopping-cart" type="icon" style={{ border: "none" }} onClick={() => router.push("/shoppingCart")}>
                     <ShoppingCartOutlined style={{ fontSize: 24 }} />
                 </Button>
             </Badge>
         ) : (
-            <Button type="icon" style={{ border: "none" }} onClick={() => router.push("/shoppingCart")}>
+            <Button ref={cartButtonRef} id="btn-shopping-cart" data-trackable-id="btn-shopping-cart" type="icon" style={{ border: "none" }} onClick={() => router.push("/shoppingCart")}>
                 <ShoppingCartOutlined style={{ fontSize: 24 }} />
             </Button>
         )}
@@ -55,7 +78,7 @@ export const StandardNavBar = ({ }) => {
     )
 
     return (
-        <NavBar style={{marginTop:"1rem"}} back={<img src="/logo.png" width="30" height="30" />} onBack={home}
+        <NavBar style={{marginTop:"1rem"}} back={<span ref={logoRef} id="btn-home-logo" data-trackable-id="btn-home-logo"><img src="/logo.png" width="30" height="30" /></span>} onBack={home}
             backIcon={false} right={right} />
     )
 }

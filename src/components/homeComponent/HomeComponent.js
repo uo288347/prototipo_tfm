@@ -1,4 +1,4 @@
-import { Breadcrumb, Col, Row, Select, Typography } from "antd";
+import { Breadcrumb, Col, Row, Typography } from "antd";
 import { useState, useEffect, useMemo } from "react";
 import { StandardMenu } from "../shared/StandardMenu";
 import { FilterOutlined } from "@ant-design/icons";
@@ -12,6 +12,7 @@ import { StandardNavBar } from "../shared/StandardNavBar";
 import { useTranslations } from 'next-intl';
 import { useRouter as useNextRouter } from 'next/router';
 import useGestureDetector from "@/metrics/GestureDetectorHook";
+import { TrackableSelect } from "../shared/TrackableSelect";
 
 export const HomeComponent = ({ }) => {
     const {
@@ -74,7 +75,8 @@ export const HomeComponent = ({ }) => {
 
             <Row style={{ minWidth: "100%", paddingTop: "1rem" }}>
                 <Col xs={24}>
-                    <Select
+                    <TrackableSelect
+                        id="select-filter"
                         size="large"
                         allowClear
                         style={{ width: "100%" }}

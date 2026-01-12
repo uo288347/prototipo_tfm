@@ -1,7 +1,7 @@
 import { Col, Form, Row, Select, Card, Button, Divider, Rate } from "antd"
 import { Steps } from "antd-mobile";
 import { useRouter } from "next/router";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { TextInputField } from "../shared/TextInputField";
 import { validateFormDataInputYear, allowSubmitForm } from "../../utils/UtilsValidations"
 import { modifyStateProperty } from "../../utils/UtilsState";
@@ -12,6 +12,37 @@ import { SecondSusComponent } from "./SecondSusComponent";
 import { ThirdSusComponent } from "./ThirdSusComponent";
 import { NumberIndicator } from "../shared/NumberIndicator";
 import { task10 } from "../../utils/UtilsTasks";
+import { registerComponent, COMPONENT_BUTTON, getCurrentSceneId } from "@/metrics/scriptTest";
+
+export const SusFormComponent = ({}) => {
+    const t = useTranslations();
+    const router = useRouter();
+    let [formData, setFormData] = useState({})
+    let [currentStep, setCurrentStep] = useState(0);
+    let requiredInForm = []
+    let [formErrors, setFormErrors] = useState({})
+    const nextButtonRef = useRef(null);
+    const backButtonRef = useRef(null);
+    const finishButtonRef = useRef(null);
+
+    useEffect(() => {
+        const sceneId = getCurrentSceneId();
+        const timer = setTimeout(() => {
+            if (nextButtonRef.current) {
+                const rect = nextButtonRef.current.getBoundingClientRect();
+                registerComponent("btn-sus-next", COMPONENT_BUTTON, sceneId, rect.x, rect.y, rect.width, rect.height);
+            }
+            if (backButtonRef.current) {
+                const rect = backButtonRef.current.getBoundingClientRect();
+                registerComponent("btn-sus-back", COMPONENT_BUTTON, sceneId, rect.x, rect.y, rect.width, rect.height);
+            }
+            if (finishButtonRef.current) {
+                const rect = finishButtonRef.current.getBoundingClientRect();
+                registerComponent("btn-sus-finish", COMPONENT_BUTTON, sceneId, rect.x, rect.y, rect.width, rect.height);
+            }
+        }, 300);
+        return () => clearTimeout(timer);
+    }, [currentStep]);
 
 export const SusFormComponent = ({}) => {
     const t = useTranslations();
@@ -56,7 +87,7 @@ export const SusFormComponent = ({}) => {
                     {currentStep === 0 && (
                         <>
                             <FirstSusComponent formData={formData} setFormData={setFormData} />
-                            <Button type="primary" onClick={handleNext} disabled={!isStepComplete()} style={{ marginTop: 8, width: "100%" }}>
+                            <Button ref={nextButtonRef} id="btn-sus-next" data-trackable-id="btn-sus-next" type="primary" onClick={handleNext} disabled={!isStepComplete()} style={{ marginTop: 8, width: "100%" }}>
                                 {t('common.next')}
                             </Button>
                         </>
@@ -66,12 +97,12 @@ export const SusFormComponent = ({}) => {
                             <SecondSusComponent formData={formData} setFormData={setFormData} />
                             <Row gutter={8} style={{ marginTop: 8 }}>
                                 <Col span={12}>
-                                    <Button onClick={handlePrevious} style={{ width: "100%" }}>
+                                    <Button ref={backButtonRef} id="btn-sus-back" data-trackable-id="btn-sus-back" onClick={handlePrevious} style={{ width: "100%" }}>
                                         {t('common.back')}
                                     </Button>
                                 </Col>
                                 <Col span={12}>
-                                    <Button type="primary" onClick={handleNext} disabled={!isStepComplete()} style={{ width: "100%" }}>
+                                    <Button ref={nextButtonRef} id="btn-sus-next" data-trackable-id="btn-sus-next" type="primary" onClick={handleNext} disabled={!isStepComplete()} style={{ width: "100%" }}>
                                         {t('common.next')}
                                     </Button>
                                 </Col>
@@ -83,12 +114,15 @@ export const SusFormComponent = ({}) => {
                             <ThirdSusComponent formData={formData} setFormData={setFormData} />
                             <Row gutter={8} style={{ marginTop: 8 }}>
                                 <Col span={12}>
-                                    <Button onClick={handlePrevious} style={{ width: "100%" }}>
+                                    <Button ref={backButtonRef} id="btn-sus-back" data-trackable-id="btn-sus-back" onClick={handlePrevious} style={{ width: "100%" }}>
                                         {t('common.back')}
                                     </Button>
                                 </Col>
                                 <Col span={12}>
                                     <Button
+                                        ref={finishButtonRef}
+                                        id="btn-sus-finish"
+                                        data-trackable-id="btn-sus-finish"
                                         type="primary"
                                         onClick={() => {
                                             task10();

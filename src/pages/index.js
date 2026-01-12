@@ -3,17 +3,30 @@ import { Button } from "antd";
 import { useTranslations } from 'next-intl';
 import { LanguageSwitcher } from "@/components/shared/LanguageSwitcher";
 import useGestureDetector from "@/metrics/GestureDetectorHook";
-import { startExperiment, registerUserData } from "@/metrics/scriptTest";
+import { startExperiment, registerUserData, registerComponent, COMPONENT_BUTTON, getCurrentSceneId } from "@/metrics/scriptTest";
 import { useScene } from "@/experiment/useScene";
-import { SCENES, getCurrentSceneId } from "@/metrics/constants/scenes";
-import { useEffect } from "react";
+import { SCENES } from "@/metrics/constants/scenes";
+import { useEffect, useRef } from "react";
 
 export default function Index() {
+  const startButtonRef = useRef(null);
+
   // Limpiar usuario al cargar la página para forzar creación de uno nuevo
   useEffect(() => {
     if (typeof window !== "undefined" && typeof localStorage !== "undefined") {
       localStorage.removeItem("user");
     }
+  }, []);
+
+  useEffect(() => {
+    const sceneId = getCurrentSceneId();
+    const timer = setTimeout(() => {
+      if (startButtonRef.current) {
+        const rect = startButtonRef.current.getBoundingClientRect();
+        registerComponent("btn-start-experiment", COMPONENT_BUTTON, sceneId, rect.x, rect.y, rect.width, rect.height);
+      }
+    }, 300);
+    return () => clearTimeout(timer);
   }, []);
 
   const { 
@@ -43,6 +56,9 @@ export default function Index() {
       </div>
       <div style={{ flex: 1, display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", width: "100%" }}>
         <Button 
+        ref={startButtonRef}
+        id="btn-start-experiment"
+        data-trackable-id="btn-start-experiment"
         onPointerDown={handlePointerDown}
         onPointerMove={handlePointerMove}
         onPointerUp={handlePointerUp}
