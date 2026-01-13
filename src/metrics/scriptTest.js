@@ -60,7 +60,7 @@
 		var sceneId = 0;
 		var eventCounter = 0;
 		var trackingOn = false;
-		var TOP_LIMIT = 2;
+		var TOP_LIMIT = 5;
 		var sentRequest = 0;
 		var pendingRequest = 0;
 		
@@ -122,22 +122,22 @@
 					beforeSend: function() {
 						//We incremente the pendingbackgroundsdelivered number
 						pendingBackgroundsDelivered++;
-						console.log("Sending background. Pending backgrounds: " + pendingBackgroundsDelivered + "/" + sentRequest);
+						//console.log("Sending background. Pending backgrounds: " + pendingBackgroundsDelivered + "/" + sentRequest);
 					},
 					success: function(response) {
 						pendingBackgroundsDelivered--;
 						backgroundsDelivered++;
-						console.log('Result: ' + response);
-						console.log("Pending Backgrounds: " + pendingBackgroundsDelivered + "/" + sentRequest);
+						//console.log('Result: ' + response);
+						//console.log("Pending Backgrounds: " + pendingBackgroundsDelivered + "/" + sentRequest);
 					},
 					complete: function(jqXHR, textStatus) {
-						console.log("Call completed. Status: " + textStatus + ", Pending Requests: " + pendingRequest + "/" + sentRequest);
+						//console.log("Call completed. Status: " + textStatus + ", Pending Requests: " + pendingRequest + "/" + sentRequest);
 						//checkReadyToLeave();
 					},
 					error: function(XMLHttpRequest, textStatus, errorThrown) {
 						//alert("Status: " + textStatus); alert("Error: " + errorThrown);
-						console.log("Status: " + textStatus);
-						console.log("Error: " + errorThrown);
+						//console.log("Status: " + textStatus);
+						//console.log("Error: " + errorThrown);
 					}
 				}).always(function(jqXHR, textStatus) {
 					if (textStatus != "success") {
@@ -216,7 +216,7 @@
 							$("#resultado").html("Registering user data...");		
 					},
 					success:  function (response) {
-						console.log("User data registered: ", response);
+						//console.log("User data registered: ", response);
 							$("#result").html(response);
 					},
 				    async: false
@@ -301,7 +301,7 @@
 				const ancestorId = findTrackableIdInAncestors(eventTarget);
 				if (ancestorId) {
 					found = ancestorId;
-					console.log(`[detectElementEnhanced] Found via ancestor: ${found}`);
+					//console.log(`[detectElementEnhanced] Found via ancestor: ${found}`);
 				}
 			}
 			
@@ -424,7 +424,7 @@
 				// Usar detección mejorada que busca también en ancestros del target
 				item.elementId = detectElementEnhanced(item.x, item.y, event?.target);
 			}
-			console.log("Tracking event "+eventType+" at ("+item.x+","+item.y+"), scene "+sceneId+", element "+item.elementId);
+			//console.log("Tracking event "+eventType+" at ("+item.x+","+item.y+"), scene "+sceneId+", element "+item.elementId);
 			list[list.length] = item;
 			
 			if ( list.length >= TOP_LIMIT ){
@@ -503,24 +503,24 @@
 		
 		function checkReadyToLeave() {	
 			if (eventsDelivered == false || pendingRequest > 0) {
-				console.log("Not ready to leave page, events still pending");
+				//console.log("Not ready to leave page, events still pending");
 			}
 			else {
 				//Events are delivered, we wait for the background delivery
 				if ( pendingBackgroundsDelivered > 0) {
-					console.log("Not ready to leave page, "+ pendingBackgroundsDelivered+" backgrounds still pending");
+					//console.log("Not ready to leave page, "+ pendingBackgroundsDelivered+" backgrounds still pending");
 					setTimeout(() => {
 						checkReadyToLeave();
 					}, 2000);
 					return;
 				}
 		
-				console.log("Ready to leave page, pending request:" + pendingRequest+", pending backgrounds "+pendingBackgroundsDelivered+"/"+backgroundsDelivered);
+				//console.log("Ready to leave page, pending request:" + pendingRequest+", pending backgrounds "+pendingBackgroundsDelivered+"/"+backgroundsDelivered);
 				if ( finishedExperiment )
 				{
 					//We delete the user
 					if (typeof window !== "undefined" && typeof localStorage !== "undefined") {
-						console.log("Experiment finished, deleting user "+ localStorage.getItem("user"));
+						//console.log("Experiment finished, deleting user "+ localStorage.getItem("user"));
 						localStorage.removeItem("user");
 					}
 				}
@@ -567,7 +567,7 @@
 						
 					},
 					success:  function (response) {
-						console.log("Component registered: "+componentId+"("+x+", "+y+"), type " + typeId + " in scene "+sceneId);
+						//console.log("Component registered: "+componentId+"("+x+", "+y+"), type " + typeId + " in scene "+sceneId);
 					}
 				});
 			}
@@ -590,15 +590,15 @@
 					beforeSend: function() {
 						pendingRequest++;
 						sentRequest++;
-						console.log("Sending request. Pending requests: " + pendingRequest + "/" + sentRequest);
+						//console.log("Sending request. Pending requests: " + pendingRequest + "/" + sentRequest);
 					},
 					success: function(response) {
-						console.log('Result: ' + response);
-						console.log("Pending Requests: " + pendingRequest + "/" + sentRequest);
+						//console.log('Result: ' + response);
+						//console.log("Pending Requests: " + pendingRequest + "/" + sentRequest);
 					},
 					complete: function(jqXHR, textStatus) {
 						pendingRequest--;
-						console.log("Call completed. Status: " + textStatus + ", Pending Requests: " + pendingRequest + "/" + sentRequest);
+						//console.log("Call completed. Status: " + textStatus + ", Pending Requests: " + pendingRequest + "/" + sentRequest);
 		
 						if (pendingRequest == 0) {
 							eventsDelivered = true;
@@ -607,8 +607,8 @@
 					},
 					error: function(XMLHttpRequest, textStatus, errorThrown) {
 						alert("Status: " + textStatus); alert("Error: " + errorThrown);
-						console.log("Status: " + textStatus);
-						console.log("Error: " + errorThrown);
+						//console.log("Status: " + textStatus);
+						//console.log("Error: " + errorThrown);
 					}
 				}).always(function(jqXHR, textStatus) {
 					if (textStatus != "success") {

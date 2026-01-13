@@ -51,7 +51,7 @@ export const TrackableButton = ({
       // Añadir atributo para detección mejorada
       element.setAttribute('data-trackable-id', id);
 
-      console.log(`[TrackableButton] Registered ${id} at (${rect.left},${rect.top}) in scene ${sceneId}`);
+      //console.log(`[TrackableButton] Registered ${id} at (${rect.left},${rect.top}) in scene ${sceneId}`);
     }, 300);
 
     return () => clearTimeout(timer);

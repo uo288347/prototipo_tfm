@@ -46,7 +46,7 @@ export const TrackableRate = ({
           null
         );
         rateElement.setAttribute('data-trackable-id', id);
-        console.log(`[TrackableRate] Registered ${id} at (${rect.left},${rect.top})`);
+        //console.log(`[TrackableRate] Registered ${id} at (${rect.left},${rect.top})`);
       }
 
       // Registrar cada estrella individualmente
@@ -66,7 +66,7 @@ export const TrackableRate = ({
           COMPONENT_RATE,
           id
         );
-        console.log(`[TrackableRate] Registered STAR -> ${starId}`);
+        //console.log(`[TrackableRate] Registered STAR -> ${starId}`);
       });
     }, 300);
 

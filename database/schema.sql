@@ -59,9 +59,6 @@ CREATE TABLE IF NOT EXISTS sus_results (
     q9 INT NULL CHECK (q9 BETWEEN 1 AND 5),
     q10 INT NULL CHECK (q10 BETWEEN 1 AND 5),
     
-    -- Puntuación SUS calculada
-    sus_score FLOAT NULL,
-    
     -- Timestamp
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     
@@ -91,7 +88,6 @@ CREATE TABLE IF NOT EXISTS completed_tasks (
     task_id VARCHAR(50) NOT NULL,
     task_name VARCHAR(200) NULL,
     completed BOOLEAN DEFAULT FALSE,
-    completion_time_ms INT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     
     FOREIGN KEY (session_id) REFERENCES participant_data(session_id) ON DELETE CASCADE,

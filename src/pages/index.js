@@ -23,7 +23,7 @@ export default function Index() {
     const timer = setTimeout(() => {
       if (startButtonRef.current) {
         const rect = startButtonRef.current.getBoundingClientRect();
-        registerComponent("btn-start-experiment", COMPONENT_BUTTON, sceneId, rect.x, rect.y, rect.width, rect.height);
+        registerComponent(sceneId, "btn-start-experiment", rect.x, rect.y, rect.width, rect.height, COMPONENT_BUTTON, null);
       }
     }, 300);
     return () => clearTimeout(timer);

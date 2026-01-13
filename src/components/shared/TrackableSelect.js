@@ -71,7 +71,7 @@ export const TrackableSelect = ({
       }
 
       registeredRef.current = true;
-      console.log(`[TrackableSelect] Registered COMBOBOX -> ${id} at (${rect.left},${rect.top}) in scene ${sceneId}`);
+      //console.log(`[TrackableSelect] Registered COMBOBOX -> ${id} at (${rect.left},${rect.top}) in scene ${sceneId}`);
     }, 300);
 
     return () => clearTimeout(timer);
@@ -106,7 +106,7 @@ export const TrackableSelect = ({
           id
         );
 
-        console.log(`[TrackableSelect] Registered OPTION -> ${optionId} at (${rect.left},${rect.top})`);
+       // console.log(`[TrackableSelect] Registered OPTION -> ${optionId} at (${rect.left},${rect.top})`);
 
         // Agregar listener para trackear el click en la opción
         el.addEventListener('pointerdown', (e) => {

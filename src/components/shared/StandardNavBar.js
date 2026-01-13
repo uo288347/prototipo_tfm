@@ -47,35 +47,45 @@ export const StandardNavBar = ({ }) => {
         router.push("/home")
     }
 
-    const right = (<div style={{ display: "flex", alignItems: "center", justifyContent: "flex-end", }}>
-        <LanguageSwitcher />
-        {favorites.size > 0 ? (
-            <Badge content={favorites.size} style={{ '--top': '20%', '--right': '12%' }}>
-                <Button ref={favButtonRef} id="btn-favorites" data-trackable-id="btn-favorites" type="icon" style={{ border: "none" }} onClick={() => {
-                    task6();
-                    router.push("/favorites")}}>
-                    <HeartOutline style={{ fontSize: 24 }} />
-                </Button>
-            </Badge>
-        ) : (
-            <Button ref={favButtonRef} id="btn-favorites" data-trackable-id="btn-favorites" type="icon" style={{ border: "none" }} onClick={() => router.push("/favorites")}>
-                <HeartOutline style={{ fontSize: 24 }} />
-            </Button>
-        )}
+        const right = (
+            <div style={{ display: "flex", alignItems: "center", justifyContent: "flex-end" }}>
+                <LanguageSwitcher />
+                {favorites.size > 0 ? (
+                    <Badge content={favorites.size} style={{ '--top': '20%', '--right': '12%' }}>
+                        <span ref={favButtonRef}>
+                            <Button id="btn-favorites" data-trackable-id="btn-favorites" type="icon" style={{ border: "none" }} onClick={() => {
+                                task6();
+                                router.push("/favorites")
+                            }}>
+                                <HeartOutline style={{ fontSize: 24 }} />
+                            </Button>
+                        </span>
+                    </Badge>
+                ) : (
+                    <span ref={favButtonRef}>
+                        <Button id="btn-favorites" data-trackable-id="btn-favorites" type="icon" style={{ border: "none" }} onClick={() => router.push("/favorites")}> 
+                            <HeartOutline style={{ fontSize: 24 }} />
+                        </Button>
+                    </span>
+                )}
 
-        {cartCount > 0 ? (
-            <Badge content={cartCount} style={{ '--top': '20%', '--right': '12%' }}>
-                <Button ref={cartButtonRef} id="btn-shopping-cart" data-trackable-id="btn-shopping-cart" type="icon" style={{ border: "none" }} onClick={() => router.push("/shoppingCart")}>
-                    <ShoppingCartOutlined style={{ fontSize: 24 }} />
-                </Button>
-            </Badge>
-        ) : (
-            <Button ref={cartButtonRef} id="btn-shopping-cart" data-trackable-id="btn-shopping-cart" type="icon" style={{ border: "none" }} onClick={() => router.push("/shoppingCart")}>
-                <ShoppingCartOutlined style={{ fontSize: 24 }} />
-            </Button>
-        )}
-    </div>
-    )
+                {cartCount > 0 ? (
+                    <Badge content={cartCount} style={{ '--top': '20%', '--right': '12%' }}>
+                        <span ref={cartButtonRef}>
+                            <Button id="btn-shopping-cart" data-trackable-id="btn-shopping-cart" type="icon" style={{ border: "none" }} onClick={() => router.push("/shoppingCart")}> 
+                                <ShoppingCartOutlined style={{ fontSize: 24 }} />
+                            </Button>
+                        </span>
+                    </Badge>
+                ) : (
+                    <span ref={cartButtonRef}>
+                        <Button id="btn-shopping-cart" data-trackable-id="btn-shopping-cart" type="icon" style={{ border: "none" }} onClick={() => router.push("/shoppingCart")}> 
+                            <ShoppingCartOutlined style={{ fontSize: 24 }} />
+                        </Button>
+                    </span>
+                )}
+            </div>
+        )
 
     return (
         <NavBar style={{marginTop:"1rem"}} back={<span ref={logoRef} id="btn-home-logo" data-trackable-id="btn-home-logo"><img src="/logo.png" width="30" height="30" /></span>} onBack={home}

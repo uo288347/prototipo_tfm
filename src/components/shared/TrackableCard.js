@@ -48,7 +48,7 @@ export const TrackableCard = ({
         null
       );
 
-      console.log(`[TrackableCard] Registered ${trackingId} at (${rect.left},${rect.top}) in scene ${sceneId}`);
+      //console.log(`[TrackableCard] Registered ${trackingId} at (${rect.left},${rect.top}) in scene ${sceneId}`);
     }, 300);
 
     return () => clearTimeout(timer);

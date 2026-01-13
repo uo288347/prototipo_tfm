@@ -55,7 +55,7 @@ export const TrackableRadioGroup = ({
           id
         );
 
-        console.log(`[TrackableRadioGroup] Registered RADIO -> ${radioId} at (${rect.left},${rect.top})`);
+        //console.log(`[TrackableRadioGroup] Registered RADIO -> ${radioId} at (${rect.left},${rect.top})`);
       });
     }, 300);
 

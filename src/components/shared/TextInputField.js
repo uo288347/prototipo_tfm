@@ -63,7 +63,7 @@ export const TextInputField = ({
         null
       );
 
-      console.log(`[TextInputField] Registered ${id} at (${rect.left},${rect.top}) in scene ${sceneId}`);
+      //console.log(`[TextInputField] Registered ${id} at (${rect.left},${rect.top}) in scene ${sceneId}`);
     }, 300);
 
     return () => clearTimeout(timer);

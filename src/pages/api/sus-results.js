@@ -15,8 +15,7 @@ export default async function handler(req, res) {
             const {
                 sessionId,
                 experimentId,
-                q1, q2, q3, q4, q5, q6, q7, q8, q9, q10,
-                susScore
+                q1, q2, q3, q4, q5, q6, q7, q8, q9, q10
             } = req.body;
 
             if (!sessionId) {
@@ -26,17 +25,15 @@ export default async function handler(req, res) {
             const sql = `
                 INSERT INTO sus_results (
                     session_id, experiment_id,
-                    q1, q2, q3, q4, q5, q6, q7, q8, q9, q10,
-                    sus_score
-                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                    q1, q2, q3, q4, q5, q6, q7, q8, q9, q10
+                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
             `;
 
             await query(sql, [
                 sessionId,
                 experimentId || 32,
                 q1 || null, q2 || null, q3 || null, q4 || null, q5 || null,
-                q6 || null, q7 || null, q8 || null, q9 || null, q10 || null,
-                susScore || null
+                q6 || null, q7 || null, q8 || null, q9 || null, q10 || null
             ]);
 
             return res.status(200).json({ 

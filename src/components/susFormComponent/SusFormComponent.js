@@ -13,6 +13,7 @@ import { ThirdSusComponent } from "./ThirdSusComponent";
 import { NumberIndicator } from "../shared/NumberIndicator";
 import { task10 } from "../../utils/UtilsTasks";
 import { registerComponent, COMPONENT_BUTTON, getCurrentSceneId } from "@/metrics/scriptTest";
+import { registerSUSResults } from "../../metrics/script";
 
 export const SusFormComponent = ({}) => {
     const t = useTranslations();
@@ -117,7 +118,25 @@ export const SusFormComponent = ({}) => {
                                         id="btn-sus-finish"
                                         data-trackable-id="btn-sus-finish"
                                         type="primary"
-                                        onClick={() => {
+                                        onClick={async () => {
+                                            const susAnswers = [
+                                                formData.sus1, formData.sus2, formData.sus3, formData.sus4, formData.sus5,
+                                                formData.sus6, formData.sus7, formData.sus8, formData.sus9, formData.sus10
+                                            ];
+                                            // Si alguna respuesta falta, no continuar
+                                            if (susAnswers.some(v => v == null)) return;
+                                            await registerSUSResults({
+                                                q1: formData.sus1,
+                                                q2: formData.sus2,
+                                                q3: formData.sus3,
+                                                q4: formData.sus4,
+                                                q5: formData.sus5,
+                                                q6: formData.sus6,
+                                                q7: formData.sus7,
+                                                q8: formData.sus8,
+                                                q9: formData.sus9,
+                                                q10: formData.sus10,
+                                            });
                                             task10();
                                             router.push('/final');
                                         }}
