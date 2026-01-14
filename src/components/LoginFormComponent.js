@@ -60,7 +60,7 @@ let LoginFormComponent = ({setLogin}) => {
                 null
             );
             loginBtn.setAttribute('data-trackable-id', 'btn-login');
-            console.log(`[LoginFormComponent] Registered btn-login`);
+            //console.log(`[LoginFormComponent] Registered btn-login`);
         }, 300);
 
         return () => clearTimeout(timer);

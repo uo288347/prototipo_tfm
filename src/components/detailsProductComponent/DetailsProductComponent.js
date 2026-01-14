@@ -76,7 +76,7 @@ let DetailsProductComponent = ({ id }) => {
                 stepper.setAttribute('data-trackable-id', 'stepper-quantity');
             }
 
-            console.log(`[DetailsProductComponent] Components registered for product ${id}`);
+            //console.log(`[DetailsProductComponent] Components registered for product ${id}`);
         }, 500);
 
         return () => clearTimeout(timer);
@@ -84,7 +84,7 @@ let DetailsProductComponent = ({ id }) => {
 
     useEffect(() => {
         let p = getProduct(id);
-        console.log("product: ", p)
+        //console.log("product: ", p)
         setProduct(p);
         setProductTitle(getProductTitle(id, locale))
         setProductDescription(getProductDescription(id, locale))

@@ -45,7 +45,7 @@ export const HorizontalProductCard = ({ item, index, isSelected, selectedItems, 
                 null
             );
 
-            console.log(`[HorizontalProductCard] Registered ${trackingId} at (${rect.left},${rect.top}) in scene ${sceneId}`);
+            //console.log(`[HorizontalProductCard] Registered ${trackingId} at (${rect.left},${rect.top}) in scene ${sceneId}`);
         }, 300);
 
         return () => clearTimeout(timer);

@@ -74,7 +74,7 @@
 		var elements = [];
 		var emittingData = true;
 		
-		var idExperiment = 32;
+		var idExperiment = 33;
 		var urlBase='https://interactionlab.hci.uniovi.es:8443'
 		
 		var url = urlBase + '/TrackerServer/restws/track';
@@ -206,8 +206,7 @@
 			    "scrColorDepth": screen.colorDepth,
 			    "scrPixelDepth": screen.pixelDepth,
 			    "idExperiment" : idExperiment,
-			    "sessionId" : getUser(),
-				"id": getUser()
+			    "sessionId" : getUser()
 			};		
 			if(true){
 				$.ajax({
@@ -224,6 +223,7 @@
 				    async: false
 				});
 			}
+			registerid(getUser());
 		}
 		
 		class Element {
@@ -260,6 +260,21 @@
 				}
 			});
 			return found;
+
+			// let found = -1;
+			// elements.forEach((el) => {
+			// 	if(el.getScene() === sceneId){
+			// 		const elementDom = document.getElementById(el.id);
+			// 		if(elementDom){
+			// 			const rect = elementDom.getBoundingClientRect();
+			// 			if(rect.left < x && x < rect.right && rect.top < y && y < rect.bottom){
+			// 				found = el.id;
+			// 			}
+			// 		}
+			// 	}
+			// });
+			// return found;
+			
 		}
 
 		/**
