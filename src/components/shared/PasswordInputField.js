@@ -64,7 +64,7 @@ export const PasswordInputField = ({
       );
 
       element.setAttribute('data-trackable-id', componentId);
-      console.log(`[PasswordInputField] Registered ${componentId} at (${rect.left},${rect.top}) in scene ${sceneId}`);
+      //console.log(`[PasswordInputField] Registered ${componentId} at (${rect.left},${rect.top}) in scene ${sceneId}`);
     }, 300);
 
     return () => clearTimeout(timer);

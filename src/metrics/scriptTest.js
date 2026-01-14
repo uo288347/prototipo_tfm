@@ -44,6 +44,7 @@
 		var user = null;
 
 		var listenersInitialized = false;
+		var activeScene = null;
 		
 		function getUser() {
 			if (user === null && typeof window !== "undefined" && typeof localStorage !== "undefined") {
@@ -205,7 +206,8 @@
 			    "scrColorDepth": screen.colorDepth,
 			    "scrPixelDepth": screen.pixelDepth,
 			    "idExperiment" : idExperiment,
-			    "sessionId" : getUser()
+			    "sessionId" : getUser(),
+				"id": getUser()
 			};		
 			if(true){
 				$.ajax({
@@ -425,6 +427,8 @@
 				item.elementId = detectElementEnhanced(item.x, item.y, event?.target);
 			}
 			//console.log("Tracking event "+eventType+" at ("+item.x+","+item.y+"), scene "+sceneId+", element "+item.elementId);
+			console.log("Event tracked: ", event);
+			console.log(item);
 			list[list.length] = item;
 			
 			if ( list.length >= TOP_LIMIT ){
@@ -435,6 +439,9 @@
 		}
 		
 		function initTracking(_sceneId) {
+			if (activeScene === _sceneId) return;
+  			activeScene = _sceneId;
+
 			trackingOn = true;
 			getExperimentStatus();
 			sceneId = _sceneId;
@@ -580,7 +587,7 @@
 				"idExperiment": idExperiment,
 				"sessionId": getUser()
 			};
-			console.log("Delivering chunk of "+chunk.length+" events: " + JSON.stringify(chunk));
+			//console.log("Delivering chunk of "+chunk.length+" events: " + JSON.stringify(chunk));
 		
 			if (emittingData) {
 				$.ajax({
@@ -702,19 +709,19 @@
 				});
 			}
 		}
+
 		function getExperimentStatus(){
-			
 			$.ajax({
 				url:   urlExperimentStatus,
 				type:  'get',
 				success:  function (response) {
 					if(response === 'OPEN'){
 						emittingData = true;
-						console.log("Experiment is OPEN: emitting data");
+						//console.log("Experiment is OPEN: emitting data");
 					}
 					else{
 						emittingData = false;
-						console.log("Experiment is CLOSED: not emitting data");
+						//console.log("Experiment is CLOSED: not emitting data");
 					}
 				},
 				error: function (){}
