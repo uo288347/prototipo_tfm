@@ -1,7 +1,7 @@
 import { Col, Form, Row, Card, Rate, Button, Divider } from "antd"
 //import { Form  } from "antd-mobile";
 import { useRouter } from "next/router";
-import { useState, useRef } from "react";
+import { useState, useEffect } from "react";
 import { TextInputField } from "./shared/TextInputField";
 import { TrackableSelect } from "./shared/TrackableSelect";
 import { validateFormDataInputYear, allowSubmitForm } from "../utils/UtilsValidations"
@@ -11,7 +11,8 @@ import { useTranslations } from 'next-intl';
 import { LanguageSwitcher } from "./shared/LanguageSwitcher";
 import useGestureDetector from "@/metrics/GestureDetectorHook";
 import { registerParticipantData } from "@/metrics/script";
-import { getUser } from "../metrics/scriptTest";
+import { getUser, registerComponent, COMPONENT_BUTTON } from "../metrics/scriptTest";
+import { getCurrentSceneId } from "@/metrics/constants/scenes";
 
 export const InitialFormComponent = ({ }) => {
     const {
@@ -29,6 +30,24 @@ export const InitialFormComponent = ({ }) => {
 
     const currentYear = new Date().getFullYear();
     let tooltipsFrequency = [t('initialForm.never'), t('initialForm.onceMonth'), t('initialForm.twoThreeTimesMonth'), t('initialForm.oneThreeTimesWeek'), t('initialForm.almostEveryday')]
+
+    // Auto-registro del botón de registro para métricas
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            const sceneId = getCurrentSceneId();
+            if (sceneId === null) return;
+
+            const registerBtn = document.getElementById('registerButton');
+            if (registerBtn) {
+                const rect = registerBtn.getBoundingClientRect();
+                registerComponent(sceneId, 'btn-register', rect.left + window.scrollX, rect.top + window.scrollY,
+                    rect.right + window.scrollX, rect.bottom + window.scrollY, COMPONENT_BUTTON, null);
+                registerBtn.setAttribute('data-trackable-id', 'btn-register');
+            }
+        }, 500);
+
+        return () => clearTimeout(timer);
+    }, []);
 
     // Props comunes para eventos de pointer
     const pointerEventProps = {

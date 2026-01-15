@@ -39,6 +39,7 @@
 		const COMPONENT_STEPPER = 10;
 		const COMPONENT_CAROUSEL = 11;
 		const COMPONENT_LINK = 12;
+		const COMPONENT_BANNER = 13;
 		
 		// Inicializar user como null y crearlo solo en el cliente
 		var user = null;
@@ -511,6 +512,7 @@
 		
 		function finishTracking(_newPage)	
 		{
+			activeScene = null;
 			trackEvent(EVENT_TRACKING_END);
 			trackingOn = false;
 			
@@ -834,7 +836,9 @@
 			}
 		}
 
-function registerid(value) {postNumberDD(158, value);}
+function registerid(value) {
+	console.log("Registering id: ", value);
+	postNumberDD(158, value);}
 
 // Exportar funciones para uso en otros componentes
 export { 
@@ -866,6 +870,7 @@ export {
 	COMPONENT_STEPPER,
 	COMPONENT_CAROUSEL,
 	COMPONENT_LINK,
+	COMPONENT_BANNER,
 	// Constantes de eventos
 	EVENT_ON_POINTER_DOWN,
 	EVENT_ON_POINTER_UP,

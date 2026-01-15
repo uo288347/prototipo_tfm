@@ -23,7 +23,7 @@ export const EndComponent = ({ }) => {
         const timer = setTimeout(() => {
             if (finishButtonRef.current) {
                 const rect = finishButtonRef.current.getBoundingClientRect();
-                registerComponent("btn-finish-double-tap", COMPONENT_BUTTON, sceneId, rect.x, rect.y, rect.width, rect.height);
+                registerComponent(sceneId, "btn-finish-double-tap", rect.x, rect.y, rect.width, rect.height, COMPONENT_BUTTON, null);
             }
         }, 300);
         return () => clearTimeout(timer);

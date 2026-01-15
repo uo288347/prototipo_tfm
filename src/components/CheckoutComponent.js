@@ -44,7 +44,7 @@ export const CheckoutComponent = () => {
                 registerComponent(sceneId, 'btn-confirm-purchase', rect.left + window.scrollX, rect.top + window.scrollY,
                     rect.right + window.scrollX, rect.bottom + window.scrollY, COMPONENT_BUTTON, null);
                 confirmBtn.setAttribute('data-trackable-id', 'btn-confirm-purchase');
-                console.log(`[CheckoutComponent] Registered btn-confirm-purchase`);
+                //console.log(`[CheckoutComponent] Registered btn-confirm-purchase`);
             }
         }, 300);
 
@@ -110,7 +110,7 @@ export const CheckoutComponent = () => {
                 <Form.Item style={{ margin: 0, marginBottom: 0, paddingBottom: 0 }}>
                     {allowSubmitForm(formData, formErrors, requiredInForm) ?
                         <Button id="btn-confirm-purchase" data-trackable-id="btn-confirm-purchase" type="primary" size="large" onClick={clickCheckout} block ><ShoppingCartOutlined style={{ fontSize: "1.3rem" }} />{t('checkout.confirmPurchase')}</Button> :
-                        <Button type="primary" size="large" block disabled><ShoppingCartOutlined style={{ fontSize: "1.3rem" }} />{t('checkout.confirmPurchase')}</Button>
+                        <Button id="btn-confirm-purchase" data-trackable-id="btn-confirm-purchase" type="primary" size="large" block disabled><ShoppingCartOutlined style={{ fontSize: "1.3rem" }} />{t('checkout.confirmPurchase')}</Button>
                     }
                 </Form.Item>
             </Form>

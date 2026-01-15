@@ -56,14 +56,15 @@ let DetailsProductComponent = ({ id }) => {
 
             // Registrar botones de tallas
             const sizes = ["S", "M", "L", "XL"];
-            sizes.forEach(size => {
-                const sizeBtn = document.querySelector(`[data-size="${size}"]`);
-                if (sizeBtn) {
-                    const rect = sizeBtn.getBoundingClientRect();
-                    const sizeId = `btn-size-${size}`;
+            const radioButtons = document.querySelectorAll('.ant-radio-button-wrapper');
+            radioButtons.forEach((btn) => {
+                const btnText = btn.textContent?.trim();
+                if (sizes.includes(btnText)) {
+                    const rect = btn.getBoundingClientRect();
+                    const sizeId = `btn-size-${btnText}`;
                     registerComponent(sceneId, sizeId, rect.left + window.scrollX, rect.top + window.scrollY,
                         rect.right + window.scrollX, rect.bottom + window.scrollY, COMPONENT_RADIO_BUTTON, 'size-selector');
-                    sizeBtn.setAttribute('data-trackable-id', sizeId);
+                    btn.setAttribute('data-trackable-id', sizeId);
                 }
             });
 
@@ -77,6 +78,7 @@ let DetailsProductComponent = ({ id }) => {
             }
 
             //console.log(`[DetailsProductComponent] Components registered for product ${id}`);
+            
         }, 500);
 
         return () => clearTimeout(timer);
@@ -168,8 +170,6 @@ let DetailsProductComponent = ({ id }) => {
                                 <Radio.Button
                                     key={size}
                                     value={size}
-                                    data-size={size}
-                                    data-trackable-id={`btn-size-${size}`}
                                     style={{
                                         backgroundColor: selectedSize === size ? "black" : undefined,
                                         color: selectedSize === size ? "white" : undefined,

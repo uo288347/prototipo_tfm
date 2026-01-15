@@ -94,7 +94,7 @@ export default function App({ Component, pageProps }) {
                                 <Component {...pageProps} />
                             </div>
                             <footer style={{ textAlign: "center", padding: "16px" }}>
-                                Teresa González - Universidad de Oviedo
+                                Universidad de Oviedo
                             </footer>
                         </div>
 

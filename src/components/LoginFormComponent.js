@@ -92,13 +92,14 @@ let LoginFormComponent = ({setLogin}) => {
                         { allowSubmitForm(formData,formErrors,requiredInForm) ?
                             <Button 
                             id="btn-login"
+                            size="large"
                             data-trackable-id="btn-login"
                             onPointerDown={handlePointerDown}
                             onPointerMove={handlePointerMove}
                             onPointerUp={handlePointerUp}
                             onPointerCancel={handlePointerCancel}
                             type="primary" onClick={clickLogin} block >{t('auth.login')}</Button> :
-                            <Button type="primary" block disabled>{t('auth.login')}</Button>
+                            <Button type="primary" size="large" block disabled>{t('auth.login')}</Button>
                         }
                     </Form.Item>
                     </Form>

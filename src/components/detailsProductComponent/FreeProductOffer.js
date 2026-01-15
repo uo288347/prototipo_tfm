@@ -1,17 +1,15 @@
 import { Collapse, Input, Button } from "antd-mobile";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import { isEligibleForFree, isProductFree, setItemAsOffer } from "@/utils/UtilsOffer";
 import { task3 } from "@/utils/UtilsTasks";
 import { useTranslations } from 'next-intl';
-import { registerComponent, COMPONENT_TEXT_FIELD, COMPONENT_BUTTON, getCurrentSceneId } from "@/metrics/scriptTest";
+import { registerComponent, COMPONENT_TEXT_FIELD, COMPONENT_BUTTON, COMPONENT_COMBOBOX } from "@/metrics/scriptTest";
+import { getCurrentSceneId } from "@/metrics/constants/scenes";
 
 export const FreeProductOffer = ({ id, freeCode, isApplied, setIsApplied }) => {
     const t = useTranslations();
     const [code, setCode] = useState("");
     const [message, setMessage] = useState("");
-    const inputRef = useRef(null);
-    const applyButtonRef = useRef(null);
-    const collapseRef = useRef(null);
 
     useEffect(() => {
         // Si el producto ya está marcado como gratuito, desactivar input y botón
@@ -27,17 +25,36 @@ export const FreeProductOffer = ({ id, freeCode, isApplied, setIsApplied }) => {
         if (key && key.length > 0) {
             setTimeout(() => {
                 const sceneId = getCurrentSceneId();
-                // Buscar el input y botón dentro del collapse abierto
-                const inputElement = document.querySelector('[placeholder]');
-                const buttonElement = document.querySelector('.adm-collapse-content button');
-                
+                if (sceneId === null) return;
+
+                // Registrar el collapse/desplegable (header del panel)
+                const collapseHeader = document.querySelector('.adm-collapse');
+                if (collapseHeader) {
+                    const rect = collapseHeader.getBoundingClientRect();
+                    collapseHeader.setAttribute('data-trackable-id', 'collapse-free-offer');
+                    registerComponent(sceneId, 'collapse-free-offer', rect.left + window.scrollX, rect.top + window.scrollY,
+                        rect.right + window.scrollX, rect.bottom + window.scrollY, COMPONENT_COMBOBOX, null);
+                    //collapseHeader.setAttribute('data-trackable-id', 'collapse-free-offer');
+                }
+
+                // Registrar el input de código - buscar por clase de antd-mobile dentro del wrapper
+                const inputWrapper = document.getElementById('input-free-code-wrapper');
+                const inputElement = inputWrapper?.querySelector('.adm-input-element');
                 if (inputElement) {
                     const rect = inputElement.getBoundingClientRect();
-                    registerComponent("input-free-code", COMPONENT_TEXT_FIELD, sceneId, rect.x, rect.y, rect.width, rect.height);
+                    registerComponent(sceneId, 'input-free-code', rect.left + window.scrollX, rect.top + window.scrollY,
+                        rect.right + window.scrollX, rect.bottom + window.scrollY, COMPONENT_TEXT_FIELD, null);
+                    inputElement.setAttribute('data-trackable-id', 'input-free-code');
                 }
+
+                // Registrar el botón de aplicar - buscar por clase de antd-mobile dentro del wrapper
+                const buttonWrapper = document.getElementById('btn-apply-free-code-wrapper');
+                const buttonElement = buttonWrapper?.querySelector('.adm-button');
                 if (buttonElement) {
                     const rect = buttonElement.getBoundingClientRect();
-                    registerComponent("btn-apply-free-code", COMPONENT_BUTTON, sceneId, rect.x, rect.y, rect.width, rect.height);
+                    registerComponent(sceneId, 'btn-apply-free-code', rect.left + window.scrollX, rect.top + window.scrollY,
+                        rect.right + window.scrollX, rect.bottom + window.scrollY, COMPONENT_BUTTON, null);
+                    buttonElement.setAttribute('data-trackable-id', 'btn-apply-free-code');
                 }
             }, 300);
         }
@@ -58,7 +75,7 @@ export const FreeProductOffer = ({ id, freeCode, isApplied, setIsApplied }) => {
     };
 
     return (
-        <div style={{ marginTop: "0", marginBottom: "1rem" }}>
+        <div style={{ marginTop: "0", marginBottom: "1rem" }} data>
             <Collapse onChange={handleCollapseChange}>
                 <Collapse.Panel
                     key="1"
@@ -76,18 +93,20 @@ export const FreeProductOffer = ({ id, freeCode, isApplied, setIsApplied }) => {
                     </p>
 
                     <div style={{ display: "flex", gap: "0.5rem", marginTop: "1rem" }}>
-                        <Input
-                            id="input-free-code"
-                            data-trackable-id="input-free-code"
-                            placeholder={t('freeOffer.placeholder')}
-                            value={code}
-                            onChange={val => setCode(val)}
-                            disabled={isApplied}
-                            style={{ fontSize: "0.85rem" }}
-                        />
-                        <Button id="btn-apply-free-code" data-trackable-id="btn-apply-free-code" color="primary" size="small" onClick={handleApplyCode} disabled={isApplied}>
-                            {isApplied ? t('freeOffer.applied') : t('freeOffer.apply')}
-                        </Button>
+                        <div id="input-free-code-wrapper" style={{ flex: 1 }}>
+                            <Input
+                                placeholder={t('freeOffer.placeholder')}
+                                value={code}
+                                onChange={val => setCode(val)}
+                                disabled={isApplied}
+                                style={{ fontSize: "0.85rem" }}
+                            />
+                        </div>
+                        <div id="btn-apply-free-code-wrapper">
+                            <Button color="primary" size="small" onClick={handleApplyCode} disabled={isApplied}>
+                                {isApplied ? t('freeOffer.applied') : t('freeOffer.apply')}
+                            </Button>
+                        </div>
                     </div>
                     {message && (
                         <p style={{ marginTop: "0.5rem", color: message.startsWith("❌") ? "red" : "green" }}>

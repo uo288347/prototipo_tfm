@@ -6,6 +6,8 @@ import { BulbOutlined } from "@ant-design/icons";
 import confetti from 'canvas-confetti';
 import { useTranslations } from 'next-intl';
 import { useRouter } from 'next/router';
+import { registerComponent, COMPONENT_BANNER } from "@/metrics/scriptTest";
+import { getCurrentSceneId } from "@/metrics/constants/scenes";
 
 export const InstructionsBanner = forwardRef((props, ref) => {
     const t = useTranslations();
@@ -15,6 +17,29 @@ export const InstructionsBanner = forwardRef((props, ref) => {
     const [isSuccess, setIsSuccess] = useState(false);
     const [allCompleted, setAllCompleted] = useState(false);
     const [progress, setProgress] = useState({ completed: 0, total: 0 });
+
+    // Función para registrar el banner en el sistema de métricas
+    const registerBanner = (element) => {
+        if (!element) return;
+
+        const sceneId = getCurrentSceneId();
+        if (sceneId === null) {
+            console.warn(`[InstructionsBanner] No active scene for banner registration`);
+            return;
+        }
+
+        const rect = element.getBoundingClientRect();
+        registerComponent(
+            sceneId,
+            "instructions-banner",
+            rect.left + window.scrollX,
+            rect.top + window.scrollY,
+            rect.right + window.scrollX,
+            rect.bottom + window.scrollY,
+            COMPONENT_BANNER,
+            null
+        );
+    };
 
     // Función para lanzar confeti
     const playSuccessSound = () => {
@@ -97,6 +122,17 @@ export const InstructionsBanner = forwardRef((props, ref) => {
             window.removeEventListener('taskCompleted', handleTaskCompleted);
         };
     }, []);
+
+    // Registrar el banner en el sistema de métricas
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            if (ref?.current) {
+                registerBanner(ref.current);
+            }
+        }, 300);
+
+        return () => clearTimeout(timer);
+    }, [currentTask, allCompleted]);
 
     if (allCompleted) {
         return (
