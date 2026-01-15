@@ -51,7 +51,7 @@ export const FreeProductOffer = ({ id, freeCode, isApplied, setIsApplied }) => {
             setItemAsOffer(id);
             task3(id, 0);
         } else {
-            console.log("is eligible", isEligibleForFree(id))
+            //console.log("is eligible", isEligibleForFree(id))
 
             setMessage(t('freeOffer.invalid'));
         }

@@ -94,7 +94,6 @@ export const UtilsTasks = {
 
 export const task1 = () => {
   if (UtilsTasks.getCurrentTask().storageKey != "task_tutorial_completed") return;
-  console.log("task1 called");
   if (!UtilsTasks.isTaskCompleted("task_tutorial_completed")) {
     UtilsTasks.completeTask("task_tutorial_completed");
   }

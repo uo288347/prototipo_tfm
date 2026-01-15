@@ -49,7 +49,7 @@ export const HomeComponent = ({ }) => {
         router.push(`${pathname}?${params.toString()}`);
     };
 
-    // 🔹 Cada vez que cambian los parámetros de la URL, sincroniza el estado local
+    // Cada vez que cambian los parámetros de la URL, sincroniza el estado local
     useEffect(() => {
         let label = getCategoryLabel(searchParams.get("category"), locale)
         setFilters({
@@ -65,7 +65,7 @@ export const HomeComponent = ({ }) => {
             category: value,
             categoryLabel: label
         }));
-        console.log("category, ", value, label, filters.category, filters.categoryLabel)
+        //console.log("category, ", value, label, filters.category, filters.categoryLabel)
         updateUrl("category", value);
     };
 

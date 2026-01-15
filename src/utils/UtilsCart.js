@@ -91,10 +91,10 @@ export const isInCart = (id, size = null) => {
 };
 
 export const getShoppingCartLength = () => {
-  console.log("Cart length called");
+  //console.log("Cart length called");
   if (!isBrowser()) return 0;
   const cart = getShoppingCart();
-  console.log("Cart: ", cart);
+  //console.log("Cart: ", cart);
   return cart.reduce((total, item) => total + (item.quantity ?? 1), 0);
 };
 
