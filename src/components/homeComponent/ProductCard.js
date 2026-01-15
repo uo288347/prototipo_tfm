@@ -50,7 +50,7 @@ export const ProductCard = ({p, index, onClick, onTouchStart, onTouchEnd, enable
                 null
             );
 
-            console.log(`[ProductCard] Registered ${trackingId} at (${rect.left},${rect.top}) in scene ${sceneId}`);
+            //console.log(`[ProductCard] Registered ${trackingId} at (${rect.left},${rect.top}) in scene ${sceneId}`);
         }, 300);
 
         return () => clearTimeout(timer);

@@ -1,21 +1,29 @@
-import { getShoppingCart, deleteFromCart, updateCart, updateUnits, getShoppingCartLength } from "@/utils/UtilsCart";
+import { getShoppingCart, deleteFromCart, updateUnits, getShoppingCartLength } from "@/utils/UtilsCart";
 import { ConfigurableMenu } from "../shared/ConfigurableMenu";
 import { Card, Typography, Col, Row, Divider, Button } from 'antd';
 import { getProduct } from "@/utils/UtilsProducts";
 import { getProductTitle } from "@/utils/UtilsProductTranslations";
 import { HorizontalProductCard } from "../shared/HorizontalProductCard";  
 import { GhostProductCard } from "../shared/GhostProductCard";
-import { DeleteOutlined, ShoppingCartOutlined } from "@ant-design/icons";
+import { ShoppingCartOutlined } from "@ant-design/icons";
 import { useEffect, useState, useRef } from "react";
 import { DeleteZone } from "../shared/DeleteZone"; 
 import { useRouter } from "next/router";
 import { SelectionIndicator } from "../shared/SelectionIndicator"; 
 import { BottomSection } from "./BottomSection";
 import { useTranslations } from 'next-intl';
+import { registerComponent, COMPONENT_BUTTON, COMPONENT_CARD, getCurrentSceneId } from "@/metrics/scriptTest";
+import useGestureDetector from "@/metrics/GestureDetectorHook";
 
-const { Text, Title } = Typography
+const { Text } = Typography
 
 export const ShoppingCartComponent = ({ }) => {
+    const { 
+        handlePointerDown, 
+        handlePointerMove, 
+        handlePointerUp, 
+        handlePointerCancel } = useGestureDetector();
+
     const router = useRouter();
     const t = useTranslations();
 
@@ -27,6 +35,9 @@ export const ShoppingCartComponent = ({ }) => {
     const [dragging, setDragging] = useState(false);
     const [dragGhostPosition, setDragGhostPosition] = useState({ x: 0, y: 0 });
     const [showDragGhost, setShowDragGhost] = useState(false);
+    const cardRefs = useRef({});
+    const registeredCardsRef = useRef(new Set());
+    const continueButtonRegisteredRef = useRef(false);
 
     const longPressTimer = useRef(null);
     const longPressTriggered = useRef(false);
@@ -39,6 +50,79 @@ export const ShoppingCartComponent = ({ }) => {
         setProducts(getShoppingCart());
         setProductsLength(getShoppingCartLength());
     }, []);
+
+    useEffect(() => {
+        if (typeof window === "undefined") return;
+        const button = document.getElementById("btn-continue-checkout");
+        if (!button || productsLength === 0 || selectionMode) {
+            continueButtonRegisteredRef.current = false;
+            return;
+        }
+
+        const sceneId = getCurrentSceneId();
+        if (sceneId === null || sceneId === undefined || continueButtonRegisteredRef.current) return;
+
+        const rect = button.getBoundingClientRect();
+        const scrollX = window.scrollX || 0;
+        const scrollY = window.scrollY || 0;
+
+        registerComponent(
+            sceneId,
+            "btn-continue-checkout",
+            rect.left + scrollX,
+            rect.top + scrollY,
+            rect.right + scrollX,
+            rect.bottom + scrollY,
+            COMPONENT_BUTTON,
+            null
+        );
+        continueButtonRegisteredRef.current = true;
+    }, [productsLength, selectionMode]);
+
+    useEffect(() => {
+        if (typeof window === "undefined" || products.length === 0) return;
+        const sceneId = getCurrentSceneId();
+        if (sceneId === null || sceneId === undefined) return;
+
+        const timer = setTimeout(() => {
+            products.forEach((item) => {
+                const key = getItemKey(item);
+                const node = cardRefs.current[key];
+                if (!node || registeredCardsRef.current.has(key)) {
+                    return;
+                }
+
+                const rect = node.getBoundingClientRect();
+                const scrollX = window.scrollX || 0;
+                const scrollY = window.scrollY || 0;
+                const trackingId = `cart-card-${key}`;
+
+                registerComponent(
+                    sceneId,
+                    trackingId,
+                    rect.left + scrollX,
+                    rect.top + scrollY,
+                    rect.right + scrollX,
+                    rect.bottom + scrollY,
+                    COMPONENT_CARD,
+                    null
+                );
+
+                registeredCardsRef.current.add(key);
+            });
+        }, 250);
+
+        return () => clearTimeout(timer);
+    }, [products]);
+
+    const assignCardRef = (key) => (node) => {
+        if (node) {
+            cardRefs.current[key] = node;
+        } else {
+            delete cardRefs.current[key];
+            registeredCardsRef.current.delete(key);
+        }
+    };
 
     const handleTouchStart = (e, item) => {
         longPressTriggered.current = false;
@@ -263,6 +347,8 @@ export const ShoppingCartComponent = ({ }) => {
                                     return (
                                         <div
                                             key={itemKey}
+                                            ref={assignCardRef(itemKey)}
+                                            data-trackable-id={`cart-card-${itemKey}`}
                                             draggable={isSelected}
                                             onTouchStart={(e) => handleTouchStart(e, item)}
                                             onTouchEnd={(e) => handleTouchEnd(e, item)}
@@ -278,6 +364,7 @@ export const ShoppingCartComponent = ({ }) => {
                                                 isSelected={isSelected}
                                                 selectedItems={selectedItems}
                                                 updateUnits={onUpdateUnits}
+                                                enableTracking={false}
                                             /></div>
                                     )
                                 })}

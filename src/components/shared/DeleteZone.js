@@ -1,15 +1,43 @@
+import { useEffect, useRef } from 'react';
 import { DeleteOutlined } from '@ant-design/icons';
 import { useTranslations } from 'next-intl';
+import { registerComponent, COMPONENT_CARD, getCurrentSceneId } from '@/metrics/scriptTest';
+
+const DELETE_ZONE_TRACKING_ID = 'cart-delete-zone';
 
 export const DeleteZone = ({ handleDrop, handleDragOver, handleDragLeave, selectionMode, draggedOver}) => {
   const t = useTranslations();
+  const zoneRef = useRef(null);
+
+  useEffect(() => {
+    if (!selectionMode) return;
+    const element = zoneRef.current;
+    if (!element) return;
+
+    const sceneId = getCurrentSceneId();
+    if (sceneId === null || sceneId === undefined) return;
+
+    const rect = element.getBoundingClientRect();
+    registerComponent(
+      sceneId,
+      DELETE_ZONE_TRACKING_ID,
+      rect.left + window.scrollX,
+      rect.top + window.scrollY,
+      rect.right + window.scrollX,
+      rect.bottom + window.scrollY,
+      COMPONENT_CARD,
+      null
+    );
+  }, [selectionMode]);
 
   return (
     <div>
       {/* Delete Zone */}
       {selectionMode && (
         <div
+          ref={zoneRef}
           className="delete-zone"
+          data-trackable-id={DELETE_ZONE_TRACKING_ID}
           onTouchEnd={handleDrop}
           onTouchMove={handleDragOver}
           onTouchCancel={handleDragLeave}
