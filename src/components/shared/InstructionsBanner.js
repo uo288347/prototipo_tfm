@@ -18,28 +18,28 @@ export const InstructionsBanner = forwardRef((props, ref) => {
     const [allCompleted, setAllCompleted] = useState(false);
     const [progress, setProgress] = useState({ completed: 0, total: 0 });
 
-    // Función para registrar el banner en el sistema de métricas
-    const registerBanner = (element) => {
-        if (!element) return;
+    // // Función para registrar el banner en el sistema de métricas
+    // const registerBanner = (element) => {
+    //     if (!element) return;
 
-        const sceneId = getCurrentSceneId();
-        if (sceneId === null) {
-            console.warn(`[InstructionsBanner] No active scene for banner registration`);
-            return;
-        }
+    //     const sceneId = getCurrentSceneId();
+    //     if (sceneId === null) {
+    //         console.warn(`[InstructionsBanner] No active scene for banner registration`);
+    //         return;
+    //     }
 
-        const rect = element.getBoundingClientRect();
-        registerComponent(
-            sceneId,
-            "instructions-banner",
-            rect.left + window.scrollX,
-            rect.top + window.scrollY,
-            rect.right + window.scrollX,
-            rect.bottom + window.scrollY,
-            COMPONENT_BANNER,
-            null
-        );
-    };
+    //     const rect = element.getBoundingClientRect();
+    //     registerComponent(
+    //         sceneId,
+    //         "instructions-banner",
+    //         rect.left + window.scrollX,
+    //         rect.top + window.scrollY,
+    //         rect.right + window.scrollX,
+    //         rect.bottom + window.scrollY,
+    //         COMPONENT_BANNER,
+    //         null
+    //     );
+    // };
 
     // Función para lanzar confeti
     const playSuccessSound = () => {
@@ -124,15 +124,15 @@ export const InstructionsBanner = forwardRef((props, ref) => {
     }, []);
 
     // Registrar el banner en el sistema de métricas
-    useEffect(() => {
-        const timer = setTimeout(() => {
-            if (ref?.current) {
-                registerBanner(ref.current);
-            }
-        }, 300);
+    // useEffect(() => {
+    //     const timer = setTimeout(() => {
+    //         if (ref?.current) {
+    //             registerBanner(ref.current);
+    //         }
+    //     }, 300);
 
-        return () => clearTimeout(timer);
-    }, [currentTask, allCompleted]);
+    //     return () => clearTimeout(timer);
+    // }, [currentTask, allCompleted]);
 
     if (allCompleted) {
         return (
