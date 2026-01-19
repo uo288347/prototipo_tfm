@@ -10,7 +10,7 @@ import { LaptopOutlined, MobileOutlined, TabletOutlined } from "@ant-design/icon
 import { useTranslations } from 'next-intl';
 import { LanguageSwitcher } from "./shared/LanguageSwitcher";
 import useGestureDetector from "@/metrics/GestureDetectorHook";
-import { registerParticipantData } from "@/metrics/script";
+import { registerParticipantData } from "@/metrics/registerInBd";
 import { getUser, registerComponent, COMPONENT_BUTTON } from "../metrics/scriptTest";
 import { getCurrentSceneId } from "@/metrics/constants/scenes";
 

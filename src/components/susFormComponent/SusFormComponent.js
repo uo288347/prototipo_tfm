@@ -13,7 +13,7 @@ import { ThirdSusComponent } from "./ThirdSusComponent";
 import { NumberIndicator } from "../shared/NumberIndicator";
 import { task10 } from "../../utils/UtilsTasks";
 import { registerComponent, COMPONENT_BUTTON, getCurrentSceneId } from "@/metrics/scriptTest";
-import { registerSUSResults } from "../../metrics/script";
+import { registerSUSResults } from "../../metrics/registerInBd";
 
 export const SusFormComponent = ({}) => {
     const t = useTranslations();
