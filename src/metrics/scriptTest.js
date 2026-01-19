@@ -98,14 +98,27 @@
 	
 		/* ================= ELEMENTOS ================= */
 
+		
 		class Element {
-			constructor(id, sceneId) {
-				this.id = id;
-				this.sceneId = sceneId;
-			}
-			getScene() {
-				return this.sceneId;
-			}
+		  constructor(id,x,y,xF,yF,sceneId) {
+		    this.id = id;
+		    this.x=x;
+		    this.y=y;
+		    this.xF=xF;
+		    this.yF=yF;
+		    this.sceneId=sceneId;
+		  }
+		  getScene(){
+			  return this.sceneId;
+		  }
+		  isOver(mX,mY) {
+			  if(this.x < mX && mX< this.xF && this.y< mY && mY< this.yF){
+				  return true;
+			  }
+			  else {
+				  return false;
+			  }
+		  }
 		}
 
 		function startExperiment()
@@ -250,27 +263,6 @@
 			registerid(getUser());
 		}
 		
-		class Element {
-		  constructor(id,x,y,xF,yF,sceneId) {
-		    this.id = id;
-		    this.x=x;
-		    this.y=y;
-		    this.xF=xF;
-		    this.yF=yF;
-		    this.sceneId=sceneId;
-		  }
-		  getScene(){
-			  return this.sceneId;
-		  }
-		  isOver(mX,mY) {
-			  if(this.x < mX && mX< this.xF && this.y< mY && mY< this.yF){
-				  return true;
-			  }
-			  else {
-				  return false;
-			  }
-		  }
-		}
 
 		function isElementVisible(id) {
 			const el = document.getElementById(id);
@@ -291,15 +283,50 @@
 			);
 		}
 
+		// function isElementVisible(id) {
+		// 	const el = document.getElementById(id);
+		// 	if (!el) return false;
+
+		// 	const rect = el.getBoundingClientRect();
+		// 	const style = window.getComputedStyle(el);
+
+		// 	return (
+		// 		rect.width > 0 &&
+		// 		rect.height > 0 &&
+		// 		style.display !== "none" &&
+		// 		style.visibility !== "hidden"
+		// 	);
+		// }
+
 		/* ================= DETECCIÓN ELEMENTO ================= */
+		
+		/**
+		 * Busca el ID trackeable más cercano en el árbol DOM del elemento
+		 * Útil cuando el click ocurre en un elemento hijo sin ID
+		 */
 		function findTrackableIdInAncestors(element) {
 			let current = element;
+			// console.log(`[findTrackableIdInAncestors] Starting search from:`, current?.tagName, current?.id, current?.className);
 			while (current && current !== document.body) {
-				if (current.id && isRegisteredElement(current.id)) {
+				// Buscar por data-trackable-id (nuestro atributo personalizado)
+				const trackableId = current.getAttribute('data-trackable-id');
+				if (trackableId) {
+					// console.log(`[findTrackableIdInAncestors] Found data-trackable-id: ${trackableId}`);
+					return trackableId;
+				}
+
+				//NUEVO
+				// if (current.id && isRegisteredElement(current.id)) {
+				// 	return current.id;
+				// }
+				// Buscar por ID normal si está registrado
+				if (current.id && detectElementByName(current.id) !== -1) {
+					// console.log(`[findTrackableIdInAncestors] Found registered id: ${current.id}`);
 					return current.id;
 				}
 				current = current.parentElement;
 			}
+			// console.log(`[findTrackableIdInAncestors] No trackable ID found`);
 			return null;
 		}
 
@@ -309,20 +336,7 @@
 			);
 		}
 
-		function isElementVisible(id) {
-			const el = document.getElementById(id);
-			if (!el) return false;
-
-			const rect = el.getBoundingClientRect();
-			const style = window.getComputedStyle(el);
-
-			return (
-				rect.width > 0 &&
-				rect.height > 0 &&
-				style.display !== "none" &&
-				style.visibility !== "hidden"
-			);
-		}
+		
 
 		/* ================= COORDENADAS RELATIVAS ================= */
 
@@ -349,26 +363,6 @@
 			};
 		}
 
-
-		function detectElement(x, y) {
-			let found = -1;
-
-			elements.forEach(entry => {
-				if (entry.getScene() !== sceneId) return;
-
-				// ⬇️ NUEVO
-				if (!isElementVisible(entry.id)) return;
-
-				if (entry.isOver(x, y)) {
-					found = entry.id;
-				}
-			});
-
-			return found;
-		}
-
-
-		
 		function detectElement(x,y){
 			var found = -1 ;
 			// console.log(`[detectElement] Checking ${elements.length} elements for (${x}, ${y}) in scene ${sceneId}`);
@@ -376,6 +370,10 @@
 				if (entry.getScene() === sceneId) {
 					// console.log(`[detectElement] Element ${entry.id}: (${entry.x},${entry.y}) to (${entry.xF},${entry.yF}), isOver: ${entry.isOver(x,y)}`);
 				}
+
+				// NUEVO
+				if (!isElementVisible(entry.id)) return;
+
 				if (entry.isOver(x,y) && entry.getScene() === sceneId) {
 					found = entry.id;
 				}
@@ -398,30 +396,7 @@
 			
 		}
 
-		/**
-		 * Busca el ID trackeable más cercano en el árbol DOM del elemento
-		 * Útil cuando el click ocurre en un elemento hijo sin ID
-		 */
-		function findTrackableIdInAncestors(element) {
-			let current = element;
-			// console.log(`[findTrackableIdInAncestors] Starting search from:`, current?.tagName, current?.id, current?.className);
-			while (current && current !== document.body) {
-				// Buscar por data-trackable-id (nuestro atributo personalizado)
-				const trackableId = current.getAttribute('data-trackable-id');
-				if (trackableId) {
-					// console.log(`[findTrackableIdInAncestors] Found data-trackable-id: ${trackableId}`);
-					return trackableId;
-				}
-				// Buscar por ID normal si está registrado
-				if (current.id && detectElementByName(current.id) !== -1) {
-					// console.log(`[findTrackableIdInAncestors] Found registered id: ${current.id}`);
-					return current.id;
-				}
-				current = current.parentElement;
-			}
-			// console.log(`[findTrackableIdInAncestors] No trackable ID found`);
-			return null;
-		}
+		
 
 		/**
 		 * Detecta el elemento primero por coordenadas, y si no encuentra,
@@ -504,128 +479,128 @@
 			item.eventType = eventType;
 			item.timeStamp = Date.now();
 
-			/* Coordenadas absolutas */
-			if (event?.clientX !== undefined) {
-				item.x = event.clientX;
-				item.y = event.clientY;
-			} else {
+		// 	/* Coordenadas absolutas */
+		// 	if (event?.clientX !== undefined) {
+		// 		item.x = event.clientX;
+		// 		item.y = event.clientY;
+		// 	} else {
+		// 		item.x = -1;
+		// 		item.y = -1;
+		// 	}
+
+		// 	item.scrollX = window.scrollX || 0;
+		// 	item.scrollY = window.scrollY || 0;		
+
+		// 	item.docX = item.x + item.scrollX;
+		// 	item.docY = item.y + item.scrollY;
+
+		// 	/* ⭐ NUEVO: detección por DOM */
+		// 	const target = event?.target;
+		// 	const elementId = target
+		// 		? findTrackableIdInAncestors(target)
+		// 		: null;
+
+		// 	item.elementId = elementId ?? -1;
+
+		// 	/* ⭐ NUEVO: coordenadas relativas */
+		// 	if (elementId && isElementVisible(elementId)) {
+		// 		const el = document.getElementById(elementId);
+		// 		if (el) {
+		// 			const rel = getRelativePointerPosition(event, el);
+		// 			item.relX = rel.relX;
+		// 			item.relY = rel.relY;
+		// 			item.elementWidth = rel.width;
+		// 			item.elementHeight = rel.height;
+		// 		}
+		// 	}
+
+		// 	list.push(item);
+
+		// 	if (list.length >= TOP_LIMIT) {
+		// 		deliverData(list);
+		// 		list = [];
+		// 	}
+		// }
+			if (event !== null && event !== undefined) {
+				// Para eventos de puntero/ratón
+				if (event.clientX !== undefined) {
+					item.x = event.clientX;
+					item.y = event.clientY;
+				}
+				// Para eventos táctiles
+				else if (event.touches && event.touches.length > 0) {
+					item.x = event.touches[0].clientX;
+					item.y = event.touches[0].clientY;
+				}
+				// Para touchend (touches está vacío, usar changedTouches)
+				else if (event.changedTouches && event.changedTouches.length > 0) {
+					item.x = event.changedTouches[0].clientX;
+					item.y = event.changedTouches[0].clientY;
+				}
+				else {
+					item.x = -1;
+					item.y = -1;
+				}
+			}
+			else if (typeof window !== "undefined" && window.event !== undefined) {
+				item.x = window.event.clientX || -1;
+				item.y = window.event.clientY || -1;
+			}
+			else {
 				item.x = -1;
 				item.y = -1;
 			}
-
-			item.scrollX = window.scrollX || 0;
-			item.scrollY = window.scrollY || 0;		
-
-			item.docX = item.x + item.scrollX;
-			item.docY = item.y + item.scrollY;
-
-			/* ⭐ NUEVO: detección por DOM */
-			const target = event?.target;
-			const elementId = target
-				? findTrackableIdInAncestors(target)
-				: null;
-
-			item.elementId = elementId ?? -1;
-
-			/* ⭐ NUEVO: coordenadas relativas */
-			if (elementId && isElementVisible(elementId)) {
-				const el = document.getElementById(elementId);
-				if (el) {
-					const rel = getRelativePointerPosition(event, el);
-					item.relX = rel.relX;
-					item.relY = rel.relY;
-					item.elementWidth = rel.width;
-					item.elementHeight = rel.height;
+			
+			item.keyValueEvent = -1;
+			item.keyCodeEvent = -1;
+			
+			if(eventType == EVENT_KEY_DOWN || eventType == EVENT_KEY_PRESS || eventType == EVENT_KEY_UP){
+				item.keyValueEvent = event.key;
+				item.keyCodeEvent = event.keyCode;
+				item.elementId = detectElementByName(event.target);
+				if (item.elementId === -1) {
+					item.elementId = detectElementEnhanced(item.x, item.y, event.target);
 				}
 			}
+			else if(eventType == EVENT_FOCUS || eventType == EVENT_BLUR){
+				item.elementId = detectElementByName(event.target);
+				if (item.elementId === -1) {
+					item.elementId = detectElementEnhanced(item.x, item.y, event.target);
+				}
+			}
+			else if(eventType == EVENT_ON_CHANGE_SELECTION_OBJECT){
+				item.elementId = detectElementByName(event.target);
+			}
+			else if(eventType == EVENT_ON_CLICK_SELECTION_OBJECT){
+				item.elementId = detectElementByName(event.target);
+			}
+			else if(eventType == EVENT_WINDOW_SCROLL){
+				item.scrollX = event?.scrollX ?? window.scrollX ?? 0;
+				item.scrollY = event?.scrollY ?? window.scrollY ?? 0;
 
-			list.push(item);
+				item.docX = item.x + item.scrollX;
+				item.docY = item.y + item.scrollY;
 
-			if (list.length >= TOP_LIMIT) {
-				deliverData(list);
+				//console.log(`[scroll] clientY=${item.y}, scrollY=${item.scrollY}, docY=${item.docY}`);
+
+				item.elementId = detectElementEnhanced(item.x, item.y, event?.target);
+			}
+			else{
+				// Usar detección mejorada que busca también en ancestros del target
+				item.elementId = detectElementEnhanced(item.x, item.y, event?.target);
+			}
+			//console.log("Tracking event "+eventType+" at ("+item.x+","+item.y+"), scene "+sceneId+", element "+item.elementId);
+			//console.log("Event tracked: ", event);
+			enrichPointerData(item, event);
+			console.log(item);
+			list[list.length] = item;
+			
+			if ( list.length >= TOP_LIMIT ){
+				var deliverPackage = list;
 				list = [];
+				deliverData(deliverPackage);
 			}
 		}
-			// if (event !== null && event !== undefined) {
-			// 	// Para eventos de puntero/ratón
-			// 	if (event.clientX !== undefined) {
-			// 		item.x = event.clientX;
-			// 		item.y = event.clientY;
-			// 	}
-			// 	// Para eventos táctiles
-			// 	else if (event.touches && event.touches.length > 0) {
-			// 		item.x = event.touches[0].clientX;
-			// 		item.y = event.touches[0].clientY;
-			// 	}
-			// 	// Para touchend (touches está vacío, usar changedTouches)
-			// 	else if (event.changedTouches && event.changedTouches.length > 0) {
-			// 		item.x = event.changedTouches[0].clientX;
-			// 		item.y = event.changedTouches[0].clientY;
-			// 	}
-			// 	else {
-			// 		item.x = -1;
-			// 		item.y = -1;
-			// 	}
-			// }
-			// else if (typeof window !== "undefined" && window.event !== undefined) {
-			// 	item.x = window.event.clientX || -1;
-			// 	item.y = window.event.clientY || -1;
-			// }
-			// else {
-			// 	item.x = -1;
-			// 	item.y = -1;
-			// }
-			
-			// item.keyValueEvent = -1;
-			// item.keyCodeEvent = -1;
-			
-			// if(eventType == EVENT_KEY_DOWN || eventType == EVENT_KEY_PRESS || eventType == EVENT_KEY_UP){
-			// 	item.keyValueEvent = event.key;
-			// 	item.keyCodeEvent = event.keyCode;
-			// 	item.elementId = detectElementByName(event.target.id);
-			// 	if (item.elementId === -1) {
-			// 		item.elementId = detectElementEnhanced(item.x, item.y, event.target);
-			// 	}
-			// }
-			// else if(eventType == EVENT_FOCUS || eventType == EVENT_BLUR){
-			// 	item.elementId = detectElementByName(event.target.id);
-			// 	if (item.elementId === -1) {
-			// 		item.elementId = detectElementEnhanced(item.x, item.y, event.target);
-			// 	}
-			// }
-			// else if(eventType == EVENT_ON_CHANGE_SELECTION_OBJECT){
-			// 	item.elementId = detectElementByName(event.target.id);
-			// }
-			// else if(eventType == EVENT_ON_CLICK_SELECTION_OBJECT){
-			// 	item.elementId = detectElementByName(event.target.id);
-			// }
-			// else if(eventType == EVENT_WINDOW_SCROLL){
-			// 	item.scrollX = event?.scrollX ?? window.scrollX ?? 0;
-			// 	item.scrollY = event?.scrollY ?? window.scrollY ?? 0;
-
-		// 		item.docX = item.x + item.scrollX;
-		// 		item.docY = item.y + item.scrollY;
-
-		// 		//console.log(`[scroll] clientY=${item.y}, scrollY=${item.scrollY}, docY=${item.docY}`);
-
-		// 		item.elementId = detectElementEnhanced(item.x, item.y, event?.target);
-		// 	}
-		// 	else{
-		// 		// Usar detección mejorada que busca también en ancestros del target
-		// 		item.elementId = detectElementEnhanced(item.x, item.y, event?.target);
-		// 	}
-		// 	//console.log("Tracking event "+eventType+" at ("+item.x+","+item.y+"), scene "+sceneId+", element "+item.elementId);
-		// 	//console.log("Event tracked: ", event);
-		// 	enrichPointerData(item, event);
-		// 	console.log(item);
-		// 	list[list.length] = item;
-			
-		// 	if ( list.length >= TOP_LIMIT ){
-		// 		var deliverPackage = list;
-		// 		list = [];
-		// 		deliverData(deliverPackage);
-		// 	}
-		// }
 		
 		let lastPointerState = null;
 
@@ -714,8 +689,8 @@
 				listenersInitialized = true;
 			}
 
-			//trackEvent(EVENT_INIT_TRACKING);
-			trackEventOverElement(EVENT_INIT_TRACKING);
+			trackEvent(EVENT_INIT_TRACKING);
+			//trackEventOverElement(EVENT_INIT_TRACKING);
 		}
 
 		function finishTracking(_newPage)	
@@ -954,7 +929,7 @@
 						
 					},
 					success:  function (response) {
-						//console.log("Component registered: "+componentId+"("+x+", "+y+"), type " + typeId + " in scene "+sceneId);
+						console.log("Component registered: "+componentId+"("+x+", "+y+"), type " + typeId + " in scene "+sceneId);
 					}
 				});
 			}
