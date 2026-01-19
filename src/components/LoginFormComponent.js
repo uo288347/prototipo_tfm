@@ -19,7 +19,7 @@ import { clearFavorites } from "@/utils/UtilsFavorites";
 import { useTranslations } from 'next-intl';
 import { LanguageSwitcher } from "./shared/LanguageSwitcher";
 import useGestureDetector from "@/metrics/GestureDetectorHook";
-import { registerComponent, COMPONENT_BUTTON } from "@/metrics/scriptTest";
+import { registerComponent, COMPONENT_BUTTON } from "@/metrics/script_v2";
 import { getCurrentSceneId } from "@/metrics/constants/scenes";
 
 let LoginFormComponent = ({setLogin}) => {

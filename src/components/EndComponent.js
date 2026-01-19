@@ -10,7 +10,7 @@ import { clearFavorites } from "@/utils/UtilsFavorites";
 import { clearLogin } from "@/utils/UtilsLogin";
 import { useTranslations } from 'next-intl';
 import { LanguageSwitcher } from "./shared/LanguageSwitcher";
-import { registerComponent, COMPONENT_BUTTON, getCurrentSceneId } from "@/metrics/scriptTest";
+import { registerComponent, COMPONENT_BUTTON, getCurrentSceneId } from "@/metrics/script_v2";
 
 export const EndComponent = ({ }) => {
     const t = useTranslations();

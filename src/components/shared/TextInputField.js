@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import { Form, Input, Typography } from "antd";
 import { modifyStateProperty } from "../../utils/UtilsState";
-import { registerComponent, COMPONENT_TEXT_FIELD } from "../../metrics/scriptTest";
+import { registerComponent, COMPONENT_TEXT_FIELD } from "../../metrics/script_v2";
 import { getCurrentSceneId } from "../../metrics/constants/scenes";
 
 /**

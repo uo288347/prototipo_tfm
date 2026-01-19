@@ -11,7 +11,7 @@ import { useTranslations } from 'next-intl';
 import { LanguageSwitcher } from "./shared/LanguageSwitcher";
 import useGestureDetector from "@/metrics/GestureDetectorHook";
 import { registerParticipantData } from "@/metrics/registerInBd";
-import { getUser, registerComponent, COMPONENT_BUTTON } from "../metrics/scriptTest";
+import { getUser, registerComponent, COMPONENT_BUTTON } from "../metrics/script_v2";
 import { getCurrentSceneId } from "@/metrics/constants/scenes";
 
 export const InitialFormComponent = ({ }) => {

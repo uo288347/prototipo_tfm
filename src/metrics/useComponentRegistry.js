@@ -1,5 +1,5 @@
 import { useEffect, useRef, useCallback } from "react";
-import { registerComponent } from "./scriptTest";
+import { registerComponent } from "./script_v2";
 import { getCurrentSceneId } from "./constants/scenes";
 
 /**

@@ -6,7 +6,7 @@ import { BulbOutlined } from "@ant-design/icons";
 import confetti from 'canvas-confetti';
 import { useTranslations } from 'next-intl';
 import { useRouter } from 'next/router';
-import { registerComponent, COMPONENT_BANNER } from "@/metrics/scriptTest";
+import { registerComponent, COMPONENT_BANNER } from "@/metrics/script_v2";
 import { getCurrentSceneId } from "@/metrics/constants/scenes";
 
 export const InstructionsBanner = forwardRef((props, ref) => {

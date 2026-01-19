@@ -3,7 +3,7 @@ import { Row, Typography, Button } from "antd";
 import { useRouter } from "next/router";
 import { LanguageSwitcher } from "./LanguageSwitcher";
 import { useRef, useEffect } from "react";
-import { registerComponent, COMPONENT_BUTTON, getCurrentSceneId } from "@/metrics/scriptTest";
+import { registerComponent, COMPONENT_BUTTON, getCurrentSceneId } from "@/metrics/script_v2";
 
 const {Title} = Typography
 

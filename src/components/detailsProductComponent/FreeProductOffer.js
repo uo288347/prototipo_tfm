@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { isEligibleForFree, isProductFree, setItemAsOffer } from "@/utils/UtilsOffer";
 import { task3 } from "@/utils/UtilsTasks";
 import { useTranslations } from 'next-intl';
-import { registerComponent, COMPONENT_TEXT_FIELD, COMPONENT_BUTTON, COMPONENT_COMBOBOX } from "@/metrics/scriptTest";
+import { registerComponent, COMPONENT_TEXT_FIELD, COMPONENT_BUTTON, COMPONENT_COMBOBOX } from "@/metrics/script_v2";
 import { getCurrentSceneId } from "@/metrics/constants/scenes";
 
 export const FreeProductOffer = ({ id, freeCode, isApplied, setIsApplied }) => {

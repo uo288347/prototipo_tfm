@@ -14,7 +14,7 @@ import { FreeProductOffer } from "./FreeProductOffer";
 import { getCategoryLabel } from "@/utils/UtilsCategories";
 import { getProductTitle, getProductDescription } from "@/utils/UtilsProductTranslations";
 import { useTranslations } from 'next-intl';
-import { registerComponent, COMPONENT_BUTTON, COMPONENT_RADIO_BUTTON, COMPONENT_STEPPER } from "@/metrics/scriptTest";
+import { registerComponent, COMPONENT_BUTTON, COMPONENT_RADIO_BUTTON, COMPONENT_STEPPER } from "@/metrics/script_v2";
 import { getCurrentSceneId } from "@/metrics/constants/scenes";
 
 let DetailsProductComponent = ({ id }) => {

@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 import { Typography, Row, Button } from "antd";
 import { useTranslations } from 'next-intl';
 import { useRef, useEffect } from "react";
-import { registerComponent, COMPONENT_BUTTON, getCurrentSceneId } from "@/metrics/scriptTest";
+import { registerComponent, COMPONENT_BUTTON, getCurrentSceneId } from "@/metrics/script_v2";
 
 const {Title} = Typography
 

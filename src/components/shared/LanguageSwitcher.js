@@ -3,7 +3,7 @@ import { Button, Dropdown } from "antd";
 import { useRouter } from "next/router";
 import { useRef, useEffect } from "react";
 import useGestureDetector from "@/metrics/GestureDetectorHook";
-import { registerComponent, COMPONENT_BUTTON, COMPONENT_OPTION, getCurrentSceneId } from "@/metrics/scriptTest";
+import { registerComponent, COMPONENT_BUTTON, COMPONENT_OPTION, getCurrentSceneId } from "@/metrics/script_v2";
 
 export const LanguageSwitcher = () => {
     const {

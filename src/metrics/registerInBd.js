@@ -1,4 +1,4 @@
-import { getUser, idExperiment } from './scriptTest.js';
+import { getUser, idExperiment } from './script_v2.js';
 		/**
 		 * Registra datos del participante en la base de datos MySQL local
 		 * @param {Object} data - Datos del participante

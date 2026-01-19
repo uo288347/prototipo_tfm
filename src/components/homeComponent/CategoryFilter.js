@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import { label } from "framer-motion/client";
 import { getCategories } from "@/utils/UtilsCategories";
 import { useRouter } from "next/router";
-import { registerComponent, COMPONENT_CARD, getCurrentSceneId } from "@/metrics/scriptTest";
+import { registerComponent, COMPONENT_CARD, getCurrentSceneId } from "@/metrics/script_v2";
 
 export const CategoryFilter = ({selectedCategory, onSelectCategory}) => {
     const router = useRouter();

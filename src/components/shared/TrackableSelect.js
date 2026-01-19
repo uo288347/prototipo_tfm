@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from "react";
 import { Select } from "antd";
-import { registerComponent, COMPONENT_COMBOBOX, COMPONENT_OPTION, trackWithEvent, EVENT_ON_POINTER_DOWN } from "../../metrics/scriptTest";
+import { registerComponent, COMPONENT_COMBOBOX, COMPONENT_OPTION } from "../../metrics/script_v2";
 import { getCurrentSceneId } from "../../metrics/constants/scenes";
 
 /**

@@ -1,7 +1,7 @@
 import LoginFormComponent from "@/components/LoginFormComponent";
 import { LanguageSwitcher } from "@/components/shared/LanguageSwitcher";
 import { useEffect } from "react";
-import { finishSubsceneTracking } from "@/metrics/scriptTest";
+import { finishSubsceneTracking } from "@/metrics/script_v2";
 import { useScene } from "@/experiment/useScene";
 import { SCENES, getCurrentSceneId } from "@/metrics/constants/scenes";
 

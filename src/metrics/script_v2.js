@@ -57,7 +57,7 @@ var newPage = null;
 var elements = [];
 var emittingData = true;
 
-var idExperiment = 33;
+var idExperiment = 34;
 var urlBase = 'https://interactionlab.hci.uniovi.es:8443';
 
 var url = urlBase + '/TrackerServer/restws/track';
@@ -251,7 +251,7 @@ function detectElementByName(name) {
 
 function registerElement(id, x, y, xF, yF, typeId, sceneId) {
     elements.push(new Element(id, x, y, xF, yF, sceneId));
-    addFocusAndBlurEvents(id);
+    //addFocusAndBlurEvents(id);
     if (typeId === COMPONENT_COMBOBOX || typeId === COMPONENT_OPTION) {
         addSelectionEvent(id);
     }
@@ -529,8 +529,11 @@ function finalizeGesture(finalEventData = null, gestureSpecificData = {}) {
         duration,
         eventCount: events.length,
 
-        // Eventos (resumen para el servidor)
-        trajectory: trajectory,
+        // Eventos completos
+        events: events,
+        
+        // Trayectoria resumida
+        //trajectory: trajectory,
 
         // Información del dispositivo
         deviceInfo: firstEvent.deviceInfo,

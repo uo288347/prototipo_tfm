@@ -6,7 +6,7 @@ import { useRouter } from "next/router";
 import { useTranslations } from 'next-intl';
 import Lottie from 'react-lottie';
 import animationData from '../../public/Rewards.json';
-import { registerComponent, COMPONENT_BUTTON, getCurrentSceneId } from "@/metrics/scriptTest";
+import { registerComponent, COMPONENT_BUTTON, getCurrentSceneId } from "@/metrics/script_v2";
 
 export const FinalComponent = ({ }) => {
     const t = useTranslations();

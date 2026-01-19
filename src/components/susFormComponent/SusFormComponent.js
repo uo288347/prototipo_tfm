@@ -12,7 +12,7 @@ import { SecondSusComponent } from "./SecondSusComponent";
 import { ThirdSusComponent } from "./ThirdSusComponent";
 import { NumberIndicator } from "../shared/NumberIndicator";
 import { task10 } from "../../utils/UtilsTasks";
-import { registerComponent, COMPONENT_BUTTON, getCurrentSceneId } from "@/metrics/scriptTest";
+import { registerComponent, COMPONENT_BUTTON, getCurrentSceneId } from "@/metrics/script_v2";
 import { registerSUSResults } from "../../metrics/registerInBd";
 
 export const SusFormComponent = ({}) => {

@@ -1,6 +1,6 @@
 import { HomeComponent } from "@/components/homeComponent/HomeComponent";
 import { useEffect } from "react";
-import { finishSubsceneTracking } from "@/metrics/scriptTest";
+import { finishSubsceneTracking } from "@/metrics/script_v2";
 import { useScene } from "@/experiment/useScene";
 import { getCurrentSceneId } from "@/metrics/constants/scenes";
 

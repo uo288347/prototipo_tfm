@@ -6,7 +6,7 @@ import { CheckCircleFilled } from "@ant-design/icons";
 import { useDrag } from 'react-dnd';
 import { getProductTitle } from "@/utils/UtilsProductTranslations";
 import { useTranslations } from 'next-intl';
-import { registerComponent, COMPONENT_CARD } from "@/metrics/scriptTest";
+import { registerComponent, COMPONENT_CARD } from "@/metrics/script_v2";
 import { getCurrentSceneId } from "@/metrics/constants/scenes";
 
 const { Text, Title } = Typography;

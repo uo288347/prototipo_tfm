@@ -5,7 +5,7 @@ import { getFavorite } from "./UtilsFavorites";
 import { isInCart } from "./UtilsCart";
 import tasksEn from '../../messages/tasks_en.json';
 import tasksEs from '../../messages/tasks_es.json';
-import { finishSubsceneTracking, initTracking, getUser, idExperiment } from '../metrics/scriptTest';
+import { finishSubsceneTracking, initTracking, getUser, idExperiment } from '../metrics/script_v2';
 import { getCurrentSceneId, TASK_TO_SCENE } from '../metrics/constants/scenes';
 
 const tasksTranslations = {

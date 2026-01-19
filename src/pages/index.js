@@ -3,7 +3,7 @@ import { Button } from "antd";
 import { useTranslations } from 'next-intl';
 import { LanguageSwitcher } from "@/components/shared/LanguageSwitcher";
 import useGestureDetector from "@/metrics/GestureDetectorHook";
-import { startExperiment, registerUserData, registerComponent, COMPONENT_BUTTON, getCurrentSceneId } from "@/metrics/scriptTest";
+import { startExperiment, registerUserData, registerComponent, COMPONENT_BUTTON, getCurrentSceneId } from "@/metrics/script_v2";
 import { useScene } from "@/experiment/useScene";
 import { SCENES } from "@/metrics/constants/scenes";
 import { useEffect, useRef } from "react";

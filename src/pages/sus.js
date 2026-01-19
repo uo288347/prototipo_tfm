@@ -1,7 +1,7 @@
 import { LanguageSwitcher } from "@/components/shared/LanguageSwitcher";
 import { SusFormComponent } from "@/components/susFormComponent/SusFormComponent";
 import { useEffect } from "react";
-import { finishSubsceneTracking, finishExperiment } from "@/metrics/scriptTest";
+import { finishSubsceneTracking, finishExperiment } from "@/metrics/script_v2";
 import { useScene } from "@/experiment/useScene";
 import { SCENES } from "@/metrics/constants/scenes";
 

@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from "react";
 import { Rate } from "antd";
-import { registerComponent, COMPONENT_RATE } from "../../metrics/scriptTest";
+import { registerComponent, COMPONENT_RATE } from "../../metrics/script_v2";
 import { getCurrentSceneId } from "../../metrics/constants/scenes";
 
 /**

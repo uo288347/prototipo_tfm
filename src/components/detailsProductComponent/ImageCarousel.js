@@ -3,7 +3,7 @@ import { ArrowLeftOutlined } from "@ant-design/icons";
 import { useRouter } from "next/router";
 import { PinchZoomImage } from "./PinchZoomImage";
 import { useRef, useEffect } from "react";
-import { registerComponent, COMPONENT_BUTTON, COMPONENT_CAROUSEL, getCurrentSceneId } from "@/metrics/scriptTest";
+import { registerComponent, COMPONENT_BUTTON, COMPONENT_CAROUSEL, getCurrentSceneId } from "@/metrics/script_v2";
 
 export const ImageCarousel = ({ product }) => {
     const router = useRouter();

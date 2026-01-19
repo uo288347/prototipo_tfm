@@ -7,7 +7,7 @@ import { HeartOutline } from "antd-mobile-icons";
 import { ShoppingCartOutlined } from "@ant-design/icons";
 import { task6 } from "@/utils/UtilsTasks";
 import { LanguageSwitcher } from "./LanguageSwitcher";
-import { registerComponent, COMPONENT_BUTTON, getCurrentSceneId } from "@/metrics/scriptTest";
+import { registerComponent, COMPONENT_BUTTON, getCurrentSceneId } from "@/metrics/script_v2";
 
 export const StandardNavBar = ({ }) => {
     const router = useRouter();

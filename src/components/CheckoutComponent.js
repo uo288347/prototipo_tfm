@@ -14,7 +14,7 @@ import { clearFavorites } from "@/utils/UtilsFavorites";
 import { task8 } from "@/utils/UtilsTasks";
 import { useTranslations } from 'next-intl';
 import { getProductTitle } from "@/utils/UtilsProductTranslations";
-import { registerComponent, COMPONENT_BUTTON } from "@/metrics/scriptTest";
+import { registerComponent, COMPONENT_BUTTON } from "@/metrics/script_v2";
 import { getCurrentSceneId } from "@/metrics/constants/scenes";
 
 
