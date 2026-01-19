@@ -192,7 +192,7 @@ function detectElement(x, y) {
     let highestZIndex = -Infinity;
 
     const visibleElements = elements.filter(entry =>
-        entry.getScene() === sceneId && isElementVisible(entry.id)
+        isElementVisible(entry.id)
     );
 
     visibleElements.forEach(entry => {
@@ -244,7 +244,7 @@ function detectElementEnhanced(x, y, eventTarget) {
 }
 
 function detectElementByName(name) {
-    const entry = elements.find(e => e.id === name && e.getScene() === sceneId);
+    const entry = elements.find(e => e.id === name /*&& e.getScene() === sceneId*/);
     if (!entry) return -1;
     return isElementVisible(name) ? entry.id : -1;
 }

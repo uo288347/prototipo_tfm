@@ -289,7 +289,7 @@
 
 			// Filtrar solo elementos de la escena actual y visibles
 			const visibleElements = elements.filter(entry => 
-				entry.getScene() === sceneId && isElementVisible(entry.id)
+				/*entry.getScene() === sceneId && */isElementVisible(entry.id)
 			);
 
 			visibleElements.forEach(entry => {
@@ -391,7 +391,7 @@
 			// 		found = entry.id;
 			// 	}
 			// });
-			const entry = elements.find(e => e.id === name && e.getScene() === sceneId);
+			const entry = elements.find(e => e.id === name /*&& e.getScene() === sceneId*/);
     		if (!entry) return -1;
     		return isElementVisible(name) ? entry.id : -1;
 		}
