@@ -3,7 +3,8 @@ import { Button } from "antd";
 import { useTranslations } from 'next-intl';
 import { LanguageSwitcher } from "@/components/shared/LanguageSwitcher";
 import useGestureDetector from "@/metrics/GestureDetectorHook";
-import { startExperiment, registerUserData, registerComponent, COMPONENT_BUTTON, getCurrentSceneId } from "@/metrics/scriptTest";
+import { startExperiment, registerUserData, registerComponent, COMPONENT_BUTTON, getCurrentSceneId,
+  registerid, getUser } from "@/metrics/scriptTest";
 import { useScene } from "@/experiment/useScene";
 import { SCENES } from "@/metrics/constants/scenes";
 import { useEffect, useRef } from "react";
@@ -41,6 +42,7 @@ export default function Index() {
   const handleStart = () => {
     startExperiment();
     registerUserData();
+    registerid(getUser());
     scene.start();
     router.push("/form");
   };

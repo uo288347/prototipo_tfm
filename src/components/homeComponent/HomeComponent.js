@@ -11,6 +11,7 @@ import { getCategory, getCategoryLabel } from "@/utils/UtilsCategories";
 import { StandardNavBar } from "../shared/StandardNavBar";
 import { useTranslations } from 'next-intl';
 import { useRouter as useNextRouter } from 'next/router';
+//
 import useGestureDetector from "@/metrics/GestureDetectorHook";
 import { TrackableSelect } from "../shared/TrackableSelect";
 import { GestureScrollController } from "@/metrics/GestureScrollController";
@@ -19,11 +20,11 @@ import { ingestPointerSample } from "@/metrics/scriptTest";
 export const HomeComponent = ({ }) => {
     //const containerRef = useRef<HTMLDivElement>(null);
 
-    const {
+    /*const {
         handlePointerDown,
         handlePointerMove,
         handlePointerUp,
-        handlePointerCancel } = useGestureDetector();
+        handlePointerCancel } = useGestureDetector();*/
 
     const t = useTranslations();
     const nextRouter = useNextRouter();

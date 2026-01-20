@@ -2,15 +2,14 @@ import { GlobalOutlined } from "@ant-design/icons";
 import { Button, Dropdown } from "antd";
 import { useRouter } from "next/router";
 import { useRef, useEffect } from "react";
-import useGestureDetector from "@/metrics/GestureDetectorHook";
 import { registerComponent, COMPONENT_BUTTON, COMPONENT_OPTION, getCurrentSceneId } from "@/metrics/scriptTest";
 
 export const LanguageSwitcher = () => {
-    const {
+    /*const {
         handlePointerDown,
         handlePointerMove,
         handlePointerUp,
-        handlePointerCancel } = useGestureDetector();
+        handlePointerCancel } = useGestureDetector();*/
 
     const router = useRouter();
     const { locale, pathname, asPath, query } = router;
@@ -52,10 +51,10 @@ export const LanguageSwitcher = () => {
             key: 'en',
             label: <span
                 data-trackable-id="lang-option-en"
-                onPointerDown={handlePointerDown}
+                /*onPointerDown={handlePointerDown}
                 onPointerMove={handlePointerMove}
                 onPointerUp={handlePointerUp}
-                onPointerCancel={handlePointerCancel}
+                onPointerCancel={handlePointerCancel}*/
             >English</span>,
             onClick: () => changeLanguage('en'),
         },
@@ -63,10 +62,10 @@ export const LanguageSwitcher = () => {
             key: 'es',
             label: <span
                 data-trackable-id="lang-option-es"
-                onPointerDown={handlePointerDown}
+                /*onPointerDown={handlePointerDown}
                 onPointerMove={handlePointerMove}
                 onPointerUp={handlePointerUp}
-                onPointerCancel={handlePointerCancel}
+                onPointerCancel={handlePointerCancel}*/
             >Español</span>,
             onClick: () => changeLanguage('es'),
         },
@@ -80,10 +79,10 @@ export const LanguageSwitcher = () => {
                 ref={buttonRef}
                 id="btn-language-switcher"
                 data-trackable-id="btn-language-switcher"
-                onPointerDown={handlePointerDown}
+                /*onPointerDown={handlePointerDown}
                 onPointerMove={handlePointerMove}
                 onPointerUp={handlePointerUp}
-                onPointerCancel={handlePointerCancel}
+                onPointerCancel={handlePointerCancel}*/
                 icon={<GlobalOutlined />} type="text">
                 {locale === 'es' ? 'ES' : 'EN'}
             </Button>

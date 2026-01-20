@@ -46,9 +46,6 @@
 
 		var listenersInitialized = false;
 		var activeScene = null;
-		// ===== Scroll / Pointer tracking state =====
-		let isPointerDown = false;
-		let isScrolling = false;
 
 		let lastPointerPos = { x: null, y: null };
 		let lastTrackedPos = { x: null, y: null, time: 0 };
@@ -56,8 +53,6 @@
 		const MOVE_THRESHOLD = 2;   // píxeles
 		const TIME_THRESHOLD = 30; // ms
 
-
-		
 		function getUser() {
 			if (user === null && typeof window !== "undefined" && typeof localStorage !== "undefined") {
 				user = createUser();
@@ -260,7 +255,6 @@
 				    async: false
 				});
 			}
-			registerid(getUser());
 		}
 		
 		
@@ -287,10 +281,8 @@
 			var found = -1 ;
 			let highestZIndex = -Infinity;
 
-			// Filtrar solo elementos de la escena actual y visibles
-			const visibleElements = elements.filter(entry => 
-				/*entry.getScene() === sceneId && */isElementVisible(entry.id)
-			);
+			// Filtrar solo elementos visibles
+			const visibleElements = elements.filter(entry => isElementVisible(entry.id));
 
 			visibleElements.forEach(entry => {
 				if (entry.isOver(x, y)) {
@@ -304,16 +296,6 @@
 					}
 				}
 			});
-
-			// console.log(`[detectElement] Checking ${elements.length} elements for (${x}, ${y}) in scene ${sceneId}`);
-			// elements.forEach ( function(entry){
-			// 	if (entry.getScene() === sceneId) {
-			// 		// console.log(`[detectElement] Element ${entry.id}: (${entry.x},${entry.y}) to (${entry.xF},${entry.yF}), isOver: ${entry.isOver(x,y)}`);
-			// 	}
-			// 	if (entry.isOver(x,y) && entry.getScene() === sceneId) {
-			// 		found = entry.id;
-			// 	}
-			// });
 			return found;
 
 			// let found = -1;
@@ -338,7 +320,6 @@
 		 */
 		function findTrackableIdInAncestors(element) {
 			let current = element;
-			// console.log(`[findTrackableIdInAncestors] Starting search from:`, current?.tagName, current?.id, current?.className);
 			while (current && current !== document.body) {
 				if (!isElementVisible(current.id)) {
 					current = current.parentElement;
@@ -347,17 +328,14 @@
 				// Buscar por data-trackable-id (nuestro atributo personalizado)
 				const trackableId = current.getAttribute('data-trackable-id');
 				if (trackableId) {
-					// console.log(`[findTrackableIdInAncestors] Found data-trackable-id: ${trackableId}`);
 					return trackableId;
 				}
 				// Buscar por ID normal si está registrado
 				if (current.id && detectElementByName(current.id) !== -1) {
-					// console.log(`[findTrackableIdInAncestors] Found registered id: ${current.id}`);
 					return current.id;
 				}
 				current = current.parentElement;
 			}
-			// console.log(`[findTrackableIdInAncestors] No trackable ID found`);
 			return null;
 		}
 
@@ -366,22 +344,16 @@
 		 * busca en los ancestros del target del evento
 		 */
 		function detectElementEnhanced(x, y, eventTarget) {
-			// console.log(`[detectElementEnhanced] Searching at (${x}, ${y}), target:`, eventTarget?.tagName, eventTarget?.id);
-			
-			// Primero intentar por coordenadas
-			var found = detectElement(x, y);
-			// console.log(`[detectElementEnhanced] detectElement result: ${found}`);
-			
-			// Si no se encontró y tenemos el target del evento, buscar en ancestros
-			if (found === -1 && eventTarget) {
+			// Estrategia 1: Buscar en ancestros del target (más confiable)
+			if (eventTarget) {
 				const ancestorId = findTrackableIdInAncestors(eventTarget);
-				if (ancestorId) {
-					found = ancestorId;
-					//console.log(`[detectElementEnhanced] Found via ancestor: ${found}`);
+				if (ancestorId !== -1) {
+					return ancestorId;
 				}
 			}
 			
-			return found;
+			// Estrategia 2: Solo si falla lo anterior, buscar por coordenadas
+			return detectElement(x, y);
 		}
 		
 		function detectElementByName(name){
@@ -391,7 +363,7 @@
 			// 		found = entry.id;
 			// 	}
 			// });
-			const entry = elements.find(e => e.id === name /*&& e.getScene() === sceneId*/);
+			const entry = elements.find(e => e.id === name);
     		if (!entry) return -1;
     		return isElementVisible(name) ? entry.id : -1;
 		}
@@ -454,49 +426,56 @@
 				trackEventOverElement(eventType, null);
 			}
 		}
+
+		function getEventCoordinates(event) {
+			if (!event) {
+				return { x: -1, y: -1, docX: -1, docY: -1 };
+			}
+			
+			const touch = event.touches?.[0] || event.changedTouches?.[0];
+			let clientX, clientY;
+			
+			if (touch) {
+				clientX = touch.clientX;
+				clientY = touch.clientY;
+			} else if (event.clientX !== undefined) {
+				clientX = event.clientX;
+				clientY = event.clientY;
+			} else {
+				return { x: -1, y: -1, docX: -1, docY: -1 };
+			}
+			
+			// Coordenadas absolutas del documento (incluyendo scroll)
+			const scrollX = window.scrollX || window.pageXOffset || 0;
+			const scrollY = window.scrollY || window.pageYOffset || 0;
+			
+			return {
+				x: clientX,           // Viewport
+				y: clientY,           // Viewport
+				docX: clientX + scrollX,  // Documento completo
+				docY: clientY + scrollY   // Documento completo
+			};
+		}
 		
 		function trackEventOverElement(eventType, event) {
-			const item = {};
-			item.id = eventCounter++;
-			item.sceneId = sceneId;
-			item.eventType = eventType;
-			item.timeStamp = Date.now();
+			const item = {
+				id: eventCounter++,
+				sceneId: sceneId,
+				eventType: eventType,
+				timeStamp: Date.now(),
+				keyValueEvent: -1,
+				keyCodeEvent: -1
+			};
 			
-			//console.log("[trackEventOverElement] eventType:", eventType, "event:", event);
-			if (event !== null && event !== undefined) {
-				// Para eventos de puntero/ratón
-				if (event.clientX !== undefined) {
-					item.x = event.clientX;
-					item.y = event.clientY;
-				}
-				// Para eventos táctiles
-				else if (event.touches && event.touches.length > 0) {
-					item.x = event.touches[0].clientX;
-					item.y = event.touches[0].clientY;
-				}
-				// Para touchend (touches está vacío, usar changedTouches)
-				else if (event.changedTouches && event.changedTouches.length > 0) {
-					item.x = event.changedTouches[0].clientX;
-					item.y = event.changedTouches[0].clientY;
-				}
-				else {
-					item.x = -1;
-					item.y = -1;
-				}
-			}
-			else if (typeof window !== "undefined" && window.event !== undefined) {
-				item.x = window.event.clientX || -1;
-				item.y = window.event.clientY || -1;
-			}
-			else {
-				item.x = -1;
-				item.y = -1;
-			}
+			// Obtener coordenadas
+			const coords = getEventCoordinates(event);
+			item.x = coords.x;
+			item.y = coords.y;
+			item.docX = coords.docX;
+			item.docY = coords.docY;
 			
-			item.keyValueEvent = -1;
-			item.keyCodeEvent = -1;
-			
-			if(eventType == EVENT_KEY_DOWN || eventType == EVENT_KEY_PRESS || eventType == EVENT_KEY_UP){
+			// Eventos de teclado
+			if ([EVENT_KEY_DOWN, EVENT_KEY_PRESS, EVENT_KEY_UP].includes(eventType)) {
 				item.keyValueEvent = event.key;
 				item.keyCodeEvent = event.keyCode;
 				item.elementId = detectElementByName(event.target.id);
@@ -504,40 +483,36 @@
 					item.elementId = detectElementEnhanced(item.x, item.y, event.target);
 				}
 			}
-			else if(eventType == EVENT_FOCUS || eventType == EVENT_BLUR){
+			// Eventos de foco
+			else if ([EVENT_FOCUS, EVENT_BLUR].includes(eventType)) {
 				item.elementId = detectElementByName(event.target.id);
 				if (item.elementId === -1) {
 					item.elementId = detectElementEnhanced(item.x, item.y, event.target);
 				}
 			}
-			else if(eventType == EVENT_ON_CHANGE_SELECTION_OBJECT){
+			// Eventos de selección
+			else if ([EVENT_ON_CHANGE_SELECTION_OBJECT, EVENT_ON_CLICK_SELECTION_OBJECT].includes(eventType)) {
 				item.elementId = detectElementByName(event.target.id);
 			}
-			else if(eventType == EVENT_ON_CLICK_SELECTION_OBJECT){
-				item.elementId = detectElementByName(event.target.id);
-			}
-			else if(eventType == EVENT_WINDOW_SCROLL){
+			// Evento de scroll
+			else if (eventType === EVENT_WINDOW_SCROLL) {
 				item.scrollX = event?.scrollX ?? window.scrollX ?? 0;
 				item.scrollY = event?.scrollY ?? window.scrollY ?? 0;
-
 				item.docX = item.x + item.scrollX;
 				item.docY = item.y + item.scrollY;
-
-				//console.log(`[scroll] clientY=${item.y}, scrollY=${item.scrollY}, docY=${item.docY}`);
-
 				item.elementId = detectElementEnhanced(item.x, item.y, event?.target);
 			}
-			else{
-				// Usar detección mejorada que busca también en ancestros del target
+			// Otros eventos (táctiles, ratón, etc.)
+			else {
 				item.elementId = detectElementEnhanced(item.x, item.y, event?.target);
 			}
-			//console.log("Tracking event "+eventType+" at ("+item.x+","+item.y+"), scene "+sceneId+", element "+item.elementId);
+			
 			enrichPointerData(item, event);
 			console.log(item);
-			list[list.length] = item;
+			list.push(item); // Más idiomático que list[list.length]
 			
-			if ( list.length >= TOP_LIMIT ){
-				var deliverPackage = list;
+			if (list.length >= TOP_LIMIT) {
+				const deliverPackage = list;
 				list = [];
 				deliverData(deliverPackage);
 			}
@@ -701,26 +676,9 @@
 				target: target
 			});
 		}
-		
-		
+	
 		function initializeGlobalListeners(){
-			
-			// document.addEventListener('pointerdown', function(event) {
-			// 	trackWithEvent(EVENT_ON_POINTER_DOWN, event);
-			// });
-			
-			// document.addEventListener('pointerup', function(event) {
-			// 	trackWithEvent(EVENT_ON_POINTER_UP, event);
-			// });
-			
-			// document.addEventListener('pointermove', function(event) {
-			// 	trackWithEvent(EVENT_ON_POINTER_MOVE, event);
-			// });
-			
 			document.addEventListener('pointerdown', function(event) {
-				isPointerDown = true;
-				isScrolling = false;
-
 				lastPointerPos.x = event.clientX;
 				lastPointerPos.y = event.clientY;
 
@@ -728,84 +686,22 @@
 			});
 			
 			document.addEventListener('pointermove', function(event) {
-				/*const scrollX = window.scrollX;
-				const scrollY = window.scrollY;
-
-				const now = Date.now();
-
-				// Detectar scroll
-				const dx = Math.abs(scrollX - lastScrollPos.x);
-				const dy = Math.abs(scrollY - lastScrollPos.y);
-				const dt = now - lastScrollPos.time;
-
-				if (dx >= SCROLL_THRESHOLD || dy >= SCROLL_THRESHOLD || dt >= TIME_THRESHOLD) {
-					lastScrollPos = { x: scrollX, y: scrollY, time: now };
-					isScrolling = true;
-
-					const target = document.elementFromPoint(event.clientX, event.clientY);
-
-					trackEventOverElement(EVENT_WINDOW_SCROLL, {
-						clientX: event.clientX,
-						clientY: event.clientY,
-						scrollX,
-						scrollY,
-						target
-					});
-				}*/
-
 				// Actualizar última posición del puntero
 				lastPointerPos.x = event.pageX;
 				lastPointerPos.y = event.pageY;
 
-				// Tracking de movimiento normal
-				/*if (!isScrolling) {
-					trackMoveIfNeeded(event.clientX, event.clientY, event.target, EVENT_ON_POINTER_MOVE);
-				}*/
-
 				console.log(`[pointermove] `, event);
 				trackWithEvent(EVENT_ON_POINTER_MOVE, event);
-				//trackMoveIfNeeded(event.pageX, event.pageY, event.target, EVENT_ON_POINTER_MOVE);
 			});
 			
 			document.addEventListener('pointerup', function(event) {
-				isPointerDown = false;
-				isScrolling = false;
-
 				trackWithEvent(EVENT_ON_POINTER_UP, event);
 			});
 
 			document.addEventListener('pointercancel', function(event) {
-				isScrolling = true;
 				trackWithEvent(EVENT_ON_POINTER_CANCEL, event);	
 			});
 
-			// document.addEventListener('scroll', (event) => {
-			// 	if (!isPointerDown) return;
-			// 	console.log("[Scroll] ", event);
-			
-			// 	isScrolling = true;
-			
-			// 	if (lastPointerPos.x == null || lastPointerPos.y == null) return;
-			
-			// 	const target = document.elementFromPoint(
-			// 		lastPointerPos.x,
-			// 		lastPointerPos.y
-			// 	);
-			
-			// 	// Obtener scroll del elemento correcto (puede ser un contenedor o el documento)
-			// 	const scrollTarget = event.target === document ? document.documentElement : event.target;
-			// 	const scrollX = scrollTarget.scrollLeft || window.scrollX || 0;
-			// 	const scrollY = scrollTarget.scrollTop || window.scrollY || 0;
-			
-			// 	//console.log(`[scroll] Scrolled to (${scrollX}, ${scrollY}), target:`, event.target?.tagName || 'document');
-			// 	//trackScrollEvent(scrollX, scrollY, target);
-			// 	trackWithEvent(EVENT_WINDOW_SCROLL, {
-			// 		clientX: -1,
-			// 		clientY: -1,
-			// 		target: document.elementFromPoint(0, 0),
-			// 	})
-			// }, true);
-			
 			document.addEventListener('keydown', function(event) {
 				trackWithEvent(EVENT_KEY_DOWN, event);
 			});
@@ -854,9 +750,7 @@
 					window.location.href = newPage;
 				}
 			}
-		
 		}
-		
 		
 		function finishSubsceneTracking()	
 		{

@@ -13,16 +13,15 @@ import { SelectionIndicator } from "../shared/SelectionIndicator";
 import { BottomSection } from "./BottomSection";
 import { useTranslations } from 'next-intl';
 import { registerComponent, COMPONENT_BUTTON, COMPONENT_CARD, getCurrentSceneId } from "@/metrics/scriptTest";
-import useGestureDetector from "@/metrics/GestureDetectorHook";
 
 const { Text } = Typography
 
 export const ShoppingCartComponent = ({ }) => {
-    const { 
+    /*const { 
         handlePointerDown, 
         handlePointerMove, 
         handlePointerUp, 
-        handlePointerCancel } = useGestureDetector();
+        handlePointerCancel } = useGestureDetector();*/
 
     const router = useRouter();
     const t = useTranslations();

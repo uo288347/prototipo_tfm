@@ -18,16 +18,15 @@ import { clearCart } from "@/utils/UtilsCart";
 import { clearFavorites } from "@/utils/UtilsFavorites";
 import { useTranslations } from 'next-intl';
 import { LanguageSwitcher } from "./shared/LanguageSwitcher";
-import useGestureDetector from "@/metrics/GestureDetectorHook";
 import { registerComponent, COMPONENT_BUTTON } from "@/metrics/scriptTest";
 import { getCurrentSceneId } from "@/metrics/constants/scenes";
 
 let LoginFormComponent = ({setLogin}) => {
-    const { 
+    /*const { 
         handlePointerDown, 
         handlePointerMove, 
         handlePointerUp, 
-        handlePointerCancel } = useGestureDetector();
+        handlePointerCancel } = useGestureDetector();*/
 
     const t = useTranslations();
     let router = useRouter()
@@ -94,10 +93,10 @@ let LoginFormComponent = ({setLogin}) => {
                             id="btn-login"
                             size="large"
                             data-trackable-id="btn-login"
-                            onPointerDown={handlePointerDown}
+                            /*onPointerDown={handlePointerDown}
                             onPointerMove={handlePointerMove}
                             onPointerUp={handlePointerUp}
-                            onPointerCancel={handlePointerCancel}
+                            onPointerCancel={handlePointerCancel}*/
                             type="primary" onClick={clickLogin} block >{t('auth.login')}</Button> :
                             <Button type="primary" size="large" block disabled>{t('auth.login')}</Button>
                         }
