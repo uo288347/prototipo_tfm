@@ -1,5 +1,5 @@
 import { Breadcrumb, Col, Row, Typography } from "antd";
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo, useRef } from "react";
 import { StandardMenu } from "../shared/StandardMenu";
 import { FilterOutlined } from "@ant-design/icons";
 import { modifyStateProperty } from "@/utils/UtilsState";
@@ -13,8 +13,12 @@ import { useTranslations } from 'next-intl';
 import { useRouter as useNextRouter } from 'next/router';
 import useGestureDetector from "@/metrics/GestureDetectorHook";
 import { TrackableSelect } from "../shared/TrackableSelect";
+import { GestureScrollController } from "@/metrics/GestureScrollController";
+import { ingestPointerSample } from "@/metrics/scriptTest";
 
 export const HomeComponent = ({ }) => {
+    //const containerRef = useRef<HTMLDivElement>(null);
+
     const {
         handlePointerDown,
         handlePointerMove,
@@ -48,6 +52,19 @@ export const HomeComponent = ({ }) => {
         }
         router.push(`${pathname}?${params.toString()}`);
     };
+
+    // useEffect(() => {
+    //     if (!containerRef.current) return;
+
+    //     const controller = new GestureScrollController(containerRef.current, 
+    //     (sample) => {
+    //         ingestPointerSample(sample); 
+    //     });
+
+    //     return () => controller.destroy();
+    // }, []);
+
+
 
     // Cada vez que cambian los parámetros de la URL, sincroniza el estado local
     useEffect(() => {

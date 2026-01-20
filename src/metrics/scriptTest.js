@@ -404,6 +404,24 @@
 			}
 		}
 		
+		function ingestPointerSample(sample) {
+			// sample = { x, y, t, pressure, width, ... , scrollY }
+			trackEventOverElement(EVENT_ON_POINTER_MOVE, {
+				clientX: sample.x,
+				clientY: sample.y,
+				pointerId: sample.pointerId,
+				pointerType: "touch",
+				pressure: sample.pressure,
+				width: sample.width,
+				height: sample.height,
+				tiltX: sample.tiltX,
+				tiltY: sample.tiltY,
+				scrollX: 0,
+				scrollY: sample.scrollY,
+				target: document.elementFromPoint(sample.x, sample.y)
+			});
+		}
+
 		function addFocusAndBlurEvents(elementId){
 			var element = document.getElementById(elementId);
 			if(element != undefined && element != null){
@@ -436,6 +454,8 @@
 				trackEventOverElement(eventType, null);
 			}
 		}
+
+
 		
 		function trackEventOverElement(eventType, event) {
 			const item = {};
@@ -444,6 +464,7 @@
 			item.eventType = eventType;
 			item.timeStamp = Date.now();
 			
+			//console.log("[trackEventOverElement] eventType:", eventType, "event:", event);
 			if (event !== null && event !== undefined) {
 				// Para eventos de puntero/ratón
 				if (event.clientX !== undefined) {
@@ -546,8 +567,8 @@
 				item.buttons = event.buttons;
 			}
 
-			const scrollX = event.scrollX ?? window.scrollX ?? 0;
-			const scrollY = event.scrollY ?? window.scrollY ?? 0;
+			const scrollX = event.scrollX ?? 0;
+			const scrollY = event.scrollY ?? 0;
 
 			item.scrollX = scrollX;
 			item.scrollY = scrollY;
@@ -725,7 +746,7 @@
 
 					const target = document.elementFromPoint(event.clientX, event.clientY);
 
-					trackEventOverElement(EVENT_WINDOW_SCROLL, -1, {
+					trackEventOverElement(EVENT_WINDOW_SCROLL, {
 						clientX: event.clientX,
 						clientY: event.clientY,
 						scrollX,
@@ -756,31 +777,32 @@
 				trackWithEvent(EVENT_ON_POINTER_CANCEL, event);	
 			});
 
-			document.addEventListener('scroll', (event) => {
-				if (!isPointerDown) return;
+			// document.addEventListener('scroll', (event) => {
+			// 	if (!isPointerDown) return;
+			// 	console.log("[Scroll] ", event);
 			
-				isScrolling = true;
+			// 	isScrolling = true;
 			
-				if (lastPointerPos.x == null || lastPointerPos.y == null) return;
+			// 	if (lastPointerPos.x == null || lastPointerPos.y == null) return;
 			
-				const target = document.elementFromPoint(
-					lastPointerPos.x,
-					lastPointerPos.y
-				);
+			// 	const target = document.elementFromPoint(
+			// 		lastPointerPos.x,
+			// 		lastPointerPos.y
+			// 	);
 			
-				// Obtener scroll del elemento correcto (puede ser un contenedor o el documento)
-				const scrollTarget = event.target === document ? document.documentElement : event.target;
-				const scrollX = scrollTarget.scrollLeft || window.scrollX || 0;
-				const scrollY = scrollTarget.scrollTop || window.scrollY || 0;
+			// 	// Obtener scroll del elemento correcto (puede ser un contenedor o el documento)
+			// 	const scrollTarget = event.target === document ? document.documentElement : event.target;
+			// 	const scrollX = scrollTarget.scrollLeft || window.scrollX || 0;
+			// 	const scrollY = scrollTarget.scrollTop || window.scrollY || 0;
 			
-				//console.log(`[scroll] Scrolled to (${scrollX}, ${scrollY}), target:`, event.target?.tagName || 'document');
-				//trackScrollEvent(scrollX, scrollY, target);
-				trackWithEvent(EVENT_WINDOW_SCROLL, {
-					clientX: -1,
-					clientY: -1,
-					target: document.elementFromPoint(0, 0),
-				})
-			}, true);
+			// 	//console.log(`[scroll] Scrolled to (${scrollX}, ${scrollY}), target:`, event.target?.tagName || 'document');
+			// 	//trackScrollEvent(scrollX, scrollY, target);
+			// 	trackWithEvent(EVENT_WINDOW_SCROLL, {
+			// 		clientX: -1,
+			// 		clientY: -1,
+			// 		target: document.elementFromPoint(0, 0),
+			// 	})
+			// }, true);
 			
 			document.addEventListener('keydown', function(event) {
 				trackWithEvent(EVENT_KEY_DOWN, event);
@@ -869,7 +891,7 @@
 						
 					},
 					success:  function (response) {
-						console.log("Component registered: "+componentId+"("+x+", "+y+"), type " + typeId + " in scene "+sceneId);
+						//console.log("Component registered: "+componentId+"("+x+", "+y+"), type " + typeId + " in scene "+sceneId);
 					}
 				});
 			}
@@ -1136,6 +1158,7 @@ export {
 	trackWithEvent,
 	getCurrentSceneId,
 	getUser,
+	ingestPointerSample,
 	idExperiment,
 	// Constantes de tipos de componentes
 	COMPONENT_TEXT_FIELD,
