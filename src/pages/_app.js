@@ -18,6 +18,7 @@ import { getTourSteps } from '@/utils/UtilsTour';
 import { task1, UtilsTasks } from '@/utils/UtilsTasks';
 import { NextIntlClientProvider } from 'next-intl';
 import { useRouter } from 'next/router';
+import { getCurrentSceneId, registerComponent, COMPONENT_TOUR} from '../metrics/scriptTest';
 
 export default function App({ Component, pageProps }) {
     const router = useRouter();
@@ -81,6 +82,33 @@ export default function App({ Component, pageProps }) {
         setOpenTour(false); 
     };
 
+    const tourRef = useRef(false);
+    useEffect(() => {
+        console.log("[_app] Registering tour for metrics: ", tourRef.current);
+        if (openTour) {
+            const componentId = 'tour-instructions-banner';
+            const tour = document.getElementById(componentId);
+            if (!tour) {
+                tourRef.current = false;
+                return;
+            }
+
+            console.log("[_app] Registering tour for metrics: ", tour);
+            const sceneId = getCurrentSceneId();
+            if (sceneId === null || sceneId === undefined || tourRef.current) return;
+
+            const rect = tour.getBoundingClientRect()
+            const scrollX = window.scrollX || window.pageXOffset || 0;
+            const scrollY = window.scrollY || window.pageYOffset || 0;
+            registerComponent(sceneId, componentId,
+                rect.left + scrollX,
+                rect.top + scrollY,
+                rect.right + scrollX,
+                rect.bottom + scrollY, 
+                COMPONENT_TOUR, null);
+        }
+    }, []);
+
     return (
         <ExperimentProvider>
             <NextIntlClientProvider locale={locale} messages={pageProps.messages}>
@@ -103,6 +131,8 @@ export default function App({ Component, pageProps }) {
                             open={openTour} 
                             onClose={closeTour} 
                             steps={getTourSteps({bannerRef, locale})}
+                            id = "tour-instructions-banner"
+                            data-trackable-id="tour-instructions-banner"
                         />
                     </AntdMobileConfigProvider>
                 </AntdConfigProvider>

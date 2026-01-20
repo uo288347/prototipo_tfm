@@ -29,15 +29,15 @@ export const StandardNavBar = ({ }) => {
         const timer = setTimeout(() => {
             if (favButtonRef.current) {
                 const rect = favButtonRef.current.getBoundingClientRect();
-                registerComponent("btn-favorites", COMPONENT_BUTTON, sceneId, rect.x, rect.y, rect.width, rect.height);
+                registerComponent(sceneId, "btn-favorites", rect.x, rect.y, rect.width, rect.height, COMPONENT_BUTTON, null);
             }
             if (cartButtonRef.current) {
                 const rect = cartButtonRef.current.getBoundingClientRect();
-                registerComponent("btn-shopping-cart", COMPONENT_BUTTON, sceneId, rect.x, rect.y, rect.width, rect.height);
+                registerComponent(sceneId, "btn-shopping-cart", rect.x, rect.y, rect.width, rect.height, COMPONENT_BUTTON, null);
             }
             if (logoRef.current) {
                 const rect = logoRef.current.getBoundingClientRect();
-                registerComponent("btn-home-logo", COMPONENT_BUTTON, sceneId, rect.x, rect.y, rect.width, rect.height);
+                registerComponent(sceneId, "btn-home-logo", rect.x, rect.y, rect.width, rect.height, COMPONENT_BUTTON, null);
             }
         }, 300);
         return () => clearTimeout(timer);

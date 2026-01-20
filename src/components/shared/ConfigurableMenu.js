@@ -15,7 +15,7 @@ export const ConfigurableMenu = ({icon, text, onClick}) => {
         const timer = setTimeout(() => {
             if (backButtonRef.current) {
                 const rect = backButtonRef.current.getBoundingClientRect();
-                registerComponent("btn-menu-back", COMPONENT_BUTTON, sceneId, rect.x, rect.y, rect.width, rect.height);
+                registerComponent(sceneId, "btn-menu-back", rect.x, rect.y, rect.width, rect.height, COMPONENT_BUTTON, null);
             }
         }, 300);
         return () => clearTimeout(timer);

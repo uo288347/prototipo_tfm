@@ -30,11 +30,11 @@ export default function Index() {
     return () => clearTimeout(timer);
   }, []);
 
-  const { 
+  /*const { 
     handlePointerDown, 
     handlePointerMove, 
     handlePointerUp, 
-    handlePointerCancel } = useGestureDetector();
+    handlePointerCancel } = useGestureDetector();*/
 
   const t = useTranslations();
   const router = useRouter();
@@ -61,10 +61,6 @@ export default function Index() {
         ref={startButtonRef}
         id="btn-start-experiment"
         data-trackable-id="btn-start-experiment"
-        onPointerDown={handlePointerDown}
-        onPointerMove={handlePointerMove}
-        onPointerUp={handlePointerUp}
-        onPointerCancel={handlePointerCancel}
         style={{ width: "100%" }} size="large" type="primary" onClick={handleStart}>
           {t('auth.start')}
         </Button>

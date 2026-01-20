@@ -17,7 +17,7 @@ export const BottomSection = ({productsLength, selectionMode, calculateTotal}) =
         const timer = setTimeout(() => {
             if (continueButtonRef.current && productsLength > 0 && !selectionMode) {
                 const rect = continueButtonRef.current.getBoundingClientRect();
-                registerComponent("btn-continue-checkout", COMPONENT_BUTTON, sceneId, rect.x, rect.y, rect.width, rect.height);
+                registerComponent(sceneId, "btn-continue-checkout", rect.x, rect.y, rect.width, rect.height, COMPONENT_BUTTON, null);
             }
         }, 300);
         return () => clearTimeout(timer);

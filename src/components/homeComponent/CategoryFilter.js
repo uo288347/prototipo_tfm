@@ -24,7 +24,7 @@ export const CategoryFilter = ({selectedCategory, onSelectCategory}) => {
                 const ref = cardRefs.current[cat.key];
                 if (ref) {
                     const rect = ref.getBoundingClientRect();
-                    registerComponent(`category-card-${cat.key}`, COMPONENT_CARD, sceneId, rect.x, rect.y, rect.width, rect.height);
+                    registerComponent(sceneId, `category-card-${cat.key}`, rect.x, rect.y, rect.width, rect.height, COMPONENT_CARD, null);
                 }
             });
         }, 300);

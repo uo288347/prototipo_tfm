@@ -17,12 +17,6 @@ import { registerComponent, COMPONENT_BUTTON, COMPONENT_CARD, getCurrentSceneId 
 const { Text } = Typography
 
 export const ShoppingCartComponent = ({ }) => {
-    /*const { 
-        handlePointerDown, 
-        handlePointerMove, 
-        handlePointerUp, 
-        handlePointerCancel } = useGestureDetector();*/
-
     const router = useRouter();
     const t = useTranslations();
 
@@ -43,6 +37,7 @@ export const ShoppingCartComponent = ({ }) => {
     const dragStartPosition = useRef({ x: 0, y: 0 });
     const hasVibrated = useRef(false);
 
+    const sceneId = getCurrentSceneId();
     const getItemKey = (item) => `${item.id}-${item.size}`;
 
     useEffect(() => {
@@ -52,7 +47,7 @@ export const ShoppingCartComponent = ({ }) => {
 
     useEffect(() => {
         if (typeof window === "undefined") return;
-        const button = document.getElementById("btn-continue-checkout");
+        const button = document.getElementById("btn-cancel-selection");
         if (!button || productsLength === 0 || selectionMode) {
             continueButtonRegisteredRef.current = false;
             return;
@@ -67,7 +62,7 @@ export const ShoppingCartComponent = ({ }) => {
 
         registerComponent(
             sceneId,
-            "btn-continue-checkout",
+            "btn-cancel-selection",
             rect.left + scrollX,
             rect.top + scrollY,
             rect.right + scrollX,
@@ -83,17 +78,19 @@ export const ShoppingCartComponent = ({ }) => {
         const sceneId = getCurrentSceneId();
         if (sceneId === null || sceneId === undefined) return;
 
-        const timer = setTimeout(() => {
+        const registerCards = () => {
             products.forEach((item) => {
                 const key = getItemKey(item);
                 const node = cardRefs.current[key];
-                if (!node || registeredCardsRef.current.has(key)) {
+                
+                if (!node) {
+                    console.warn(`[ShoppingCartComponent] Node not found for ${key}`);
                     return;
                 }
 
                 const rect = node.getBoundingClientRect();
-                const scrollX = window.scrollX || 0;
-                const scrollY = window.scrollY || 0;
+                const scrollX = window.scrollX || window.pageXOffset || 0;
+                const scrollY = window.scrollY || window.pageYOffset || 0;
                 const trackingId = `cart-card-${key}`;
 
                 registerComponent(
@@ -109,10 +106,14 @@ export const ShoppingCartComponent = ({ }) => {
 
                 registeredCardsRef.current.add(key);
             });
-        }, 250);
+        };
 
-        return () => clearTimeout(timer);
-    }, [products]);
+        // Usar requestAnimationFrame para asegurar que el DOM está pintado
+        const rafId = requestAnimationFrame(() => {
+            setTimeout(registerCards, 250); // Delay más corto después del RAF
+        });
+
+    }, [products, sceneId]); // Añadir sceneId a dependencias
 
     const assignCardRef = (key) => (node) => {
         if (node) {
@@ -327,7 +328,7 @@ export const ShoppingCartComponent = ({ }) => {
                     marginBottom: "1rem"
                 }}>
                     <ConfigurableMenu icon={<ShoppingCartOutlined />} text={t('cart.title')} onClick={() => router.push("/home")} />
-                    <SelectionIndicator selectionMode={selectionMode} nSelectedItems={selectedItems.size} cancelSelection={cancelSelection} />
+                    <SelectionIndicator id ="btn-cancel-selection" data-trackable-id="btn-cancel-selection" selectionMode={selectionMode} nSelectedItems={selectedItems.size} cancelSelection={cancelSelection} />
 
                     <div style={{ paddingBottom: 0 }}>
                         {products.length === 0 ? (
@@ -341,6 +342,7 @@ export const ShoppingCartComponent = ({ }) => {
                                 </div>
                                 {products.map((item, index) => {
                                     const itemKey = getItemKey(item);
+                                    console.log("Rendering itemKey: ", itemKey);
                                     const isSelected = selectedItems.has(itemKey);
 
                                     return (

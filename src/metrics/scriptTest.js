@@ -42,6 +42,7 @@ import html2canvas from "html2canvas";
 		const COMPONENT_CAROUSEL = 11;
 		const COMPONENT_LINK = 12;
 		const COMPONENT_BANNER = 13;
+		const COMPONENT_TOUR = 14;
 		
 		var user = null;
 
@@ -785,7 +786,8 @@ import html2canvas from "html2canvas";
 						
 					},
 					success:  function (response) {
-						//console.log("Component registered: "+componentId+"("+x+", "+y+"), type " + typeId + " in scene "+sceneId);
+						console.log("Component registered: "+componentId+"("+x+", "+y+"), type " + 
+							typeId + " in scene "+sceneId+", response: "+response);
 					}
 				});
 			}
@@ -1068,6 +1070,7 @@ export {
 	COMPONENT_CAROUSEL,
 	COMPONENT_LINK,
 	COMPONENT_BANNER,
+	COMPONENT_TOUR,
 	// Constantes de eventos
 	EVENT_ON_POINTER_DOWN,
 	EVENT_ON_POINTER_UP,
