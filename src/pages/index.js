@@ -30,20 +30,14 @@ export default function Index() {
     return () => clearTimeout(timer);
   }, []);
 
-  /*const { 
-    handlePointerDown, 
-    handlePointerMove, 
-    handlePointerUp, 
-    handlePointerCancel } = useGestureDetector();*/
-
   const t = useTranslations();
   const router = useRouter();
-  const scene = useScene(SCENES.WELCOME);
+  //const scene = useScene(SCENES.WELCOME);
   const handleStart = () => {
     startExperiment();
     registerUserData();
     registerid(getUser());
-    scene.start();
+    //scene.start();
     router.push("/form");
   };
 

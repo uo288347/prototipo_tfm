@@ -57,7 +57,7 @@ export const ProductCard = ({p, index, onClick, onTouchStart, onTouchEnd, enable
     }, [trackingId, enableTracking]);
 
     return (
-        <div ref={cardRef} data-trackable-id={trackingId}>
+        <div ref={cardRef} data-trackable-id={trackingId} id = {trackingId}>
             <Card key={p.id}
                   className="hover-card"
                   hoverable 

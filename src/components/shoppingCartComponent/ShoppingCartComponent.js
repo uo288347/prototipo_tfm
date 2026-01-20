@@ -349,6 +349,7 @@ export const ShoppingCartComponent = ({ }) => {
                                         <div
                                             key={itemKey}
                                             ref={assignCardRef(itemKey)}
+                                            id={`cart-card-${itemKey}`}
                                             data-trackable-id={`cart-card-${itemKey}`}
                                             draggable={isSelected}
                                             onTouchStart={(e) => handleTouchStart(e, item)}
