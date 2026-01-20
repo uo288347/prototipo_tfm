@@ -454,8 +454,6 @@
 				trackEventOverElement(eventType, null);
 			}
 		}
-
-
 		
 		function trackEventOverElement(eventType, event) {
 			const item = {};
@@ -665,7 +663,7 @@
 
 			lastTrackedPos = { x, y, time: now };
 
-			trackEventOverElement(event, -1, {
+			trackEventOverElement(event, {
 				clientX: x,
 				clientY: y,
 				target
@@ -730,7 +728,7 @@
 			});
 			
 			document.addEventListener('pointermove', function(event) {
-				const scrollX = window.scrollX;
+				/*const scrollX = window.scrollX;
 				const scrollY = window.scrollY;
 
 				const now = Date.now();
@@ -753,16 +751,20 @@
 						scrollY,
 						target
 					});
-				}
+				}*/
 
 				// Actualizar última posición del puntero
-				lastPointerPos.x = event.clientX;
-				lastPointerPos.y = event.clientY;
+				lastPointerPos.x = event.pageX;
+				lastPointerPos.y = event.pageY;
 
 				// Tracking de movimiento normal
-				if (!isScrolling) {
+				/*if (!isScrolling) {
 					trackMoveIfNeeded(event.clientX, event.clientY, event.target, EVENT_ON_POINTER_MOVE);
-				}
+				}*/
+
+				console.log(`[pointermove] `, event);
+				trackWithEvent(EVENT_ON_POINTER_MOVE, event);
+				//trackMoveIfNeeded(event.pageX, event.pageY, event.target, EVENT_ON_POINTER_MOVE);
 			});
 			
 			document.addEventListener('pointerup', function(event) {
