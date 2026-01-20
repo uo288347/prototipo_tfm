@@ -1,4 +1,5 @@
-		import html2canvas from "html2canvas";
+		import { track } from "framer-motion/client";
+import html2canvas from "html2canvas";
 		import $ from "jquery";
 
 		const VERSION = 3;
@@ -621,14 +622,14 @@
 			checkReadyToLeave();
 		}	
 
-		function trackMoveIfNeeded(x, y, target, event) {
+		function trackMoveIfNeeded(eventType, event) {
 			if (!trackingOn) return;
 
 			const now = Date.now();
 
 			if (lastTrackedPos.x !== null) {
-				const dx = Math.abs(x - lastTrackedPos.x);
-				const dy = Math.abs(y - lastTrackedPos.y);
+				const dx = Math.abs(event.clientX - lastTrackedPos.x);
+				const dy = Math.abs(event.clientY - lastTrackedPos.y);
 				const dt = now - lastTrackedPos.time;
 
 				if (dx < MOVE_THRESHOLD && dy < MOVE_THRESHOLD && dt < TIME_THRESHOLD) {
@@ -636,13 +637,9 @@
 				}
 			}
 
-			lastTrackedPos = { x, y, time: now };
+			lastTrackedPos = { x: event.clientX, y: event.clientY, time: now };
 
-			trackEventOverElement(event, {
-				clientX: x,
-				clientY: y,
-				target
-			});
+			trackEventOverElement(eventType, event);
 		}
 
 		// Variable para rastrear la última posición de scroll
@@ -692,6 +689,7 @@
 
 				console.log(`[pointermove] `, event);
 				trackWithEvent(EVENT_ON_POINTER_MOVE, event);
+				trackMoveIfNeeded(EVENT_ON_POINTER_MOVE, event);
 			});
 			
 			document.addEventListener('pointerup', function(event) {
