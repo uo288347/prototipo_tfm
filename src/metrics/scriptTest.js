@@ -135,7 +135,7 @@ import html2canvas from "html2canvas";
 			html2canvas(document.body).then(canvas => { 
 				console.log("Delivering background for scene "+sceneId)
 				deliverSnapshot(sceneId, canvas);
-				 });
+			});
 		}
 
 		function deliverSnapshot(sceneId, canvas) {

@@ -17,6 +17,9 @@ import { registerComponent, COMPONENT_BUTTON, getCurrentSceneId,
     registersus6, registersus7, registersus8, registersus9, registersus10 } from "@/metrics/scriptTest";
 import { registerSUSResults } from "../../metrics/registerInBd";
 import { form } from "framer-motion/client";
+import { clearCart } from "@/utils/UtilsCart";
+import { clearFavorites } from "@/utils/UtilsFavorites";
+import { clearLogin } from "@/utils/UtilsLogin";
 
 export const SusFormComponent = ({}) => {
     const t = useTranslations();
