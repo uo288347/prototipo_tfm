@@ -688,7 +688,7 @@ import html2canvas from "html2canvas";
 				lastPointerPos.x = event.pageX;
 				lastPointerPos.y = event.pageY;
 
-				console.log(`[pointermove] `, event);
+				//console.log(`[pointermove] `, event);
 				trackWithEvent(EVENT_ON_POINTER_MOVE, event);
 				trackMoveIfNeeded(EVENT_ON_POINTER_MOVE, event);
 			});
