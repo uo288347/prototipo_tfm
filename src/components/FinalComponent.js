@@ -36,7 +36,7 @@ export const FinalComponent = ({ }) => {
         const timer = setTimeout(() => {
             if (backButtonRef.current) {
                 const rect = backButtonRef.current.getBoundingClientRect();
-                registerComponent("btn-back-to-start", COMPONENT_BUTTON, sceneId, rect.x, rect.y, rect.width, rect.height);
+                registerComponent(sceneId, "btn-back-to-start",  rect.x, rect.y, rect.width, rect.height, COMPONENT_BUTTON, null);
             }
         }, 300);
         return () => clearTimeout(timer);

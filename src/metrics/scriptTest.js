@@ -83,7 +83,7 @@ import html2canvas from "html2canvas";
 		var elements = [];
 		var emittingData = true;
 		
-		var idExperiment = 33;
+		var idExperiment = 35;
 		var urlBase='https://interactionlab.hci.uniovi.es:8443'
 		
 		var url = urlBase + '/TrackerServer/restws/track';
@@ -786,8 +786,8 @@ import html2canvas from "html2canvas";
 						
 					},
 					success:  function (response) {
-						console.log("Component registered: "+componentId+"("+x+", "+y+"), type " + 
-							typeId + " in scene "+sceneId+", response: "+response);
+						/*console.log("Component registered: "+componentId+"("+x+", "+y+"), type " + 
+							typeId + " in scene "+sceneId+", response: "+response);*/
 					}
 				});
 			}
@@ -1035,8 +1035,53 @@ import html2canvas from "html2canvas";
 		}
 
 function registerid(value) {
-	console.log("Registering id: ", value);
-	postNumberDD(158, value);}
+	console.log("Registering id: "+value);
+	postStringDD(161, value);}
+function registerhandedness(value) {
+	console.log("Registering handedness: "+value);
+	postStringDD(162, value);}
+function registersex(value) {
+	console.log("Registering sex: "+value);
+	postStringDD(163, value);}
+function registerbirth_year(value) {
+	console.log("Registering birth year: "+value);
+	postNumberDD(164, value);}
+function registerecommerce_frequency(value) {
+	console.log("Registering ecommerce frequency: "+value);
+	postStringDD(165, value);}
+function registerpreferred_device(value) {
+	console.log("Registering preferred device: "+value);
+	postStringDD(166, value);}
+function registersus1(value) {
+	console.log("Registering SUS 1: "+value);
+	postNumberDD(167, value);}
+function registersus2(value) {
+	console.log("Registering SUS 2: "+value);
+	postNumberDD(168, value);}
+function registersus3(value) {
+	console.log("Registering SUS 3: "+value);
+	postNumberDD(169, value);}
+function registersus4(value) {
+	console.log("Registering SUS 4: "+value);
+	postNumberDD(170, value);}
+function registersus5(value) {
+	console.log("Registering SUS 5: "+value);
+	postNumberDD(171, value);}
+function registersus6(value) {
+	console.log("Registering SUS 6: "+value);
+	postNumberDD(172, value);}
+function registersus7(value) {
+	console.log("Registering SUS 7: "+value);
+	postNumberDD(173, value);}
+function registersus8(value) {
+	console.log("Registering SUS 8: "+value);
+	postNumberDD(174, value);}
+function registersus9(value) {
+	console.log("Registering SUS 9: "+value);
+	postNumberDD(175, value);}
+function registersus10(value) {
+	console.log("Registering SUS 10: "+value);
+	postNumberDD(176, value);}
 
 // Exportar funciones para uso en otros componentes
 export { 
@@ -1055,6 +1100,21 @@ export {
 	getCurrentSceneId,
 	getUser,
 	ingestPointerSample,
+	registerhandedness,
+	registersex,
+	registerbirth_year,
+	registerecommerce_frequency,
+	registerpreferred_device,
+	registersus1,
+	registersus2,
+	registersus3,
+	registersus4,
+	registersus5,
+	registersus6,
+	registersus7,
+	registersus8,
+	registersus9,
+	registersus10,
 	idExperiment,
 	// Constantes de tipos de componentes
 	COMPONENT_TEXT_FIELD,

@@ -12,8 +12,11 @@ import { SecondSusComponent } from "./SecondSusComponent";
 import { ThirdSusComponent } from "./ThirdSusComponent";
 import { NumberIndicator } from "../shared/NumberIndicator";
 import { task10 } from "../../utils/UtilsTasks";
-import { registerComponent, COMPONENT_BUTTON, getCurrentSceneId } from "@/metrics/scriptTest";
+import { registerComponent, COMPONENT_BUTTON, getCurrentSceneId, 
+    registersus1, registersus2, registersus3, registersus4, registersus5,
+    registersus6, registersus7, registersus8, registersus9, registersus10 } from "@/metrics/scriptTest";
 import { registerSUSResults } from "../../metrics/registerInBd";
+import { form } from "framer-motion/client";
 
 export const SusFormComponent = ({}) => {
     const t = useTranslations();
@@ -125,7 +128,7 @@ export const SusFormComponent = ({}) => {
                                             ];
                                             // Si alguna respuesta falta, no continuar
                                             if (susAnswers.some(v => v == null)) return;
-                                            await registerSUSResults({
+                                            /*await registerSUSResults({
                                                 q1: formData.sus1,
                                                 q2: formData.sus2,
                                                 q3: formData.sus3,
@@ -136,9 +139,22 @@ export const SusFormComponent = ({}) => {
                                                 q8: formData.sus8,
                                                 q9: formData.sus9,
                                                 q10: formData.sus10,
-                                            });
+                                            });*/
+                                            registersus1(formData.sus1);
+                                            registersus2(formData.sus2);
+                                            registersus3(formData.sus3);
+                                            registersus4(formData.sus4);
+                                            registersus5(formData.sus5);
+                                            registersus6(formData.sus6);
+                                            registersus7(formData.sus7);
+                                            registersus8(formData.sus8);
+                                            registersus9(formData.sus9);
+                                            registersus10(formData.sus10);
                                             task10();
                                             router.push('/final');
+                                            clearCart();
+                                            clearFavorites();
+                                            clearLogin();
                                         }}
                                         disabled={!isStepComplete()}
                                         style={{ width: "100%" }}

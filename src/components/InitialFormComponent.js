@@ -10,7 +10,7 @@ import { LaptopOutlined, MobileOutlined, TabletOutlined } from "@ant-design/icon
 import { useTranslations } from 'next-intl';
 import { LanguageSwitcher } from "./shared/LanguageSwitcher";
 import { registerParticipantData } from "@/metrics/registerInBd";
-import { getUser, registerComponent, COMPONENT_BUTTON } from "../metrics/scriptTest";
+import { getUser, registerComponent, COMPONENT_BUTTON, registerhandedness, registersex, registerbirth_year, registerecommerce_frequency, registerpreferred_device } from "../metrics/scriptTest";
 import { getCurrentSceneId } from "@/metrics/constants/scenes";
 
 export const InitialFormComponent = ({ }) => {
@@ -179,15 +179,19 @@ export const InitialFormComponent = ({ }) => {
                                     id="registerButton"
                                     type="primary" size="large" onClick={async () => { 
                                         // Guardar datos del participante en la base de datos
-                                        await registerParticipantData({
+                                        /*await registerParticipantData({
                                             handedness: formData.handedness || null,
                                             sex: formData.sex || null,
                                             birthYear: formData.birthYear ? parseInt(formData.birthYear) : null,
                                             ecommerceFrequency: formData.frequency || null,
                                             preferredDevice: formData.device || null,
                                             selectedLanguage: router.locale || 'es'
-                                        });
-                                        router.push("/login");
+                                        });*/
+                                        registerhandedness(formData.handedness || null);
+                                        registersex(formData.sex || null);
+                                        registerbirth_year(formData.birthYear ? parseInt(formData.birthYear) : null);
+                                        registerecommerce_frequency(formData.frequency || null);
+                                        registerpreferred_device(formData.device || null);                                        router.push("/login");
                                     }} block >{t('auth.register')}</Button> :
                                 <Button type="primary" size="large" block disabled>{t('auth.register')}</Button>
                             }

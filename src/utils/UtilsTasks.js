@@ -56,7 +56,7 @@ export const UtilsTasks = {
     localStorage.setItem(storageKey, 'true');
     window.dispatchEvent(new Event('taskCompleted'));
     // Enviar a la base de datos
-    try {
+    /*try {
       const sessionId = getUser && getUser();
       const experimentId = typeof idExperiment !== 'undefined' ? idExperiment : 32;
       const taskObj = this.tasks.find(t => t.storageKey === storageKey);
@@ -75,7 +75,7 @@ export const UtilsTasks = {
       });
     } catch (err) {
       console.error('Error enviando tarea a la BD:', err);
-    }
+    }*/
     // Iniciar tracking de la siguiente tarea
     const nextSceneId = getCurrentSceneId();
     if (nextSceneId !== undefined) {
