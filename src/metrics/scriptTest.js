@@ -83,7 +83,7 @@ import html2canvas from "html2canvas";
 		var elements = [];
 		var emittingData = true;
 		
-		var idExperiment = 35;
+		var idExperiment = 36;
 		var urlBase='https://interactionlab.hci.uniovi.es:8443'
 		
 		var url = urlBase + '/TrackerServer/restws/track';
@@ -1036,52 +1036,64 @@ import html2canvas from "html2canvas";
 
 function registerid(value) {
 	console.log("Registering id: "+value);
-	postStringDD(161, value);}
+	postStringDD(177, value);}
 function registerhandedness(value) {
 	console.log("Registering handedness: "+value);
-	postStringDD(162, value);}
+	postStringDD(178, value);}
 function registersex(value) {
 	console.log("Registering sex: "+value);
-	postStringDD(163, value);}
+	postStringDD(179, value);}
 function registerbirth_year(value) {
 	console.log("Registering birth year: "+value);
-	postNumberDD(164, value);}
+	postNumberDD(180, value);}
 function registerecommerce_frequency(value) {
 	console.log("Registering ecommerce frequency: "+value);
-	postStringDD(165, value);}
+	postStringDD(181, value);}
 function registerpreferred_device(value) {
 	console.log("Registering preferred device: "+value);
-	postStringDD(166, value);}
+	postStringDD(182, value);}
+function registerusername(value) {
+	console.log("Registering username: "+value);
+	postStringDD(183, value);}
+function registerpassword(value) {
+	console.log("Registering password: "+value);
+	postStringDD(184, value);}
+function registercity(value) {
+	console.log("Registering city: "+value);
+	postStringDD(185, value);}
+function registercountry(value) {
+	console.log("Registering country: "+value);
+	postStringDD(186, value);}
 function registersus1(value) {
 	console.log("Registering SUS 1: "+value);
-	postNumberDD(167, value);}
+	postNumberDD(187, value);}
 function registersus2(value) {
 	console.log("Registering SUS 2: "+value);
-	postNumberDD(168, value);}
+	postNumberDD(188, value);}
 function registersus3(value) {
 	console.log("Registering SUS 3: "+value);
-	postNumberDD(169, value);}
+	postNumberDD(189, value);}
 function registersus4(value) {
 	console.log("Registering SUS 4: "+value);
-	postNumberDD(170, value);}
+	postNumberDD(190, value);}
 function registersus5(value) {
 	console.log("Registering SUS 5: "+value);
-	postNumberDD(171, value);}
+	postNumberDD(191, value);}
 function registersus6(value) {
 	console.log("Registering SUS 6: "+value);
-	postNumberDD(172, value);}
+	postNumberDD(192, value);}
 function registersus7(value) {
 	console.log("Registering SUS 7: "+value);
-	postNumberDD(173, value);}
+	postNumberDD(193, value);}
 function registersus8(value) {
 	console.log("Registering SUS 8: "+value);
-	postNumberDD(174, value);}
+	postNumberDD(194, value);}
 function registersus9(value) {
 	console.log("Registering SUS 9: "+value);
-	postNumberDD(175, value);}
+	postNumberDD(195, value);}
 function registersus10(value) {
 	console.log("Registering SUS 10: "+value);
-	postNumberDD(176, value);}
+	postNumberDD(196, value);}
 
 // Exportar funciones para uso en otros componentes
 export { 
@@ -1105,6 +1117,10 @@ export {
 	registerbirth_year,
 	registerecommerce_frequency,
 	registerpreferred_device,
+	registerusername,
+	registerpassword,
+	registercity,
+	registercountry,
 	registersus1,
 	registersus2,
 	registersus3,

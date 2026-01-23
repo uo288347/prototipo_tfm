@@ -14,9 +14,8 @@ import { clearFavorites } from "@/utils/UtilsFavorites";
 import { task8 } from "@/utils/UtilsTasks";
 import { useTranslations } from 'next-intl';
 import { getProductTitle } from "@/utils/UtilsProductTranslations";
-import { registerComponent, COMPONENT_BUTTON } from "@/metrics/scriptTest";
+import { registerComponent, COMPONENT_BUTTON, registercity, registercountry } from "@/metrics/scriptTest";
 import { getCurrentSceneId } from "@/metrics/constants/scenes";
-
 
 export const CheckoutComponent = () => {
     const t = useTranslations();
@@ -63,6 +62,8 @@ export const CheckoutComponent = () => {
         task8();
         clearCart();
         clearFavorites();
+        registercity(formData.city || "");
+        registercountry(formData.country || "");
         router.push("/end")
     }
     return (

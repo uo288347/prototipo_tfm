@@ -18,7 +18,7 @@ import { clearCart } from "@/utils/UtilsCart";
 import { clearFavorites } from "@/utils/UtilsFavorites";
 import { useTranslations } from 'next-intl';
 import { LanguageSwitcher } from "./shared/LanguageSwitcher";
-import { registerComponent, COMPONENT_BUTTON } from "@/metrics/scriptTest";
+import { registerComponent, COMPONENT_BUTTON, registerusername, registerpassword } from "@/metrics/scriptTest";
 import { getCurrentSceneId } from "@/metrics/constants/scenes";
 
 let LoginFormComponent = ({setLogin}) => {
@@ -71,6 +71,8 @@ let LoginFormComponent = ({setLogin}) => {
         clearCart();
         clearFavorites();
         UtilsTasks.resetAllTasks();
+        registerusername(formData.email);
+        registerpassword(formData.password);
         router.push("/home");
    }
 

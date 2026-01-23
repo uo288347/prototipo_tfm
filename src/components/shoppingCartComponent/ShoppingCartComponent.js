@@ -174,9 +174,9 @@ export const ShoppingCartComponent = ({ }) => {
                 });
 
                 //const itemsToDelete = JSON.parse(e.dataTransfer.getData('text/plain'));
-                console.log("items to delete: ", itemsToDelete)
+                //console.log("items to delete: ", itemsToDelete)
                 const updated = deleteFromCart(itemsToDelete);
-                console.log("updated cart: ", updated)
+                //console.log("updated cart: ", updated)
 
                 setProducts(updated)
                 setProductsLength(getShoppingCartLength());
@@ -186,7 +186,7 @@ export const ShoppingCartComponent = ({ }) => {
                 setSelectionMode(false);
                 setDraggedOver(false);
 
-                console.log(`${itemsToDelete.length} prenda(s) eliminada(s)`);
+                //console.log(`${itemsToDelete.length} prenda(s) eliminada(s)`);
             } catch (error) {
                 console.log('Error al eliminar prendas', error);
             }
@@ -227,7 +227,7 @@ export const ShoppingCartComponent = ({ }) => {
             }
         }
 
-        console.log("is over: ", isOverDeleteZone(touch))
+        //console.log("is over: ", isOverDeleteZone(touch))
         if (isOverDeleteZone(touch)) {
             setDraggedOver(true);
         } else {
@@ -260,7 +260,7 @@ export const ShoppingCartComponent = ({ }) => {
 
         try {
             const itemsToDelete = JSON.parse(e.dataTransfer.getData('text/plain'));
-            console.log("items to delete: ", itemsToDelete)
+            //console.log("items to delete: ", itemsToDelete)
             const updated = deleteFromCart(itemsToDelete);
             console.log("updated cart: ", updated)
 
@@ -276,7 +276,7 @@ export const ShoppingCartComponent = ({ }) => {
             setSelectedItems(new Set());
             setSelectionMode(false);
 
-            console.log(`${itemsToDelete.length} products deleted`);
+            //console.log(`${itemsToDelete.length} products deleted`);
         } catch (error) {
             console.log('Error while deleting products');
         }
@@ -342,7 +342,7 @@ export const ShoppingCartComponent = ({ }) => {
                                 </div>
                                 {products.map((item, index) => {
                                     const itemKey = getItemKey(item);
-                                    console.log("Rendering itemKey: ", itemKey);
+                                    //console.log("Rendering itemKey: ", itemKey);
                                     const isSelected = selectedItems.has(itemKey);
 
                                     return (
