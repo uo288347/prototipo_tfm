@@ -54,8 +54,8 @@ export const StandardNavBar = ({ }) => {
                     <Badge content={favorites.size} style={{ '--top': '20%', '--right': '12%' }}>
                         <span ref={favButtonRef}>
                             <Button id="btn-favorites" data-trackable-id="btn-favorites" type="icon" style={{ border: "none" }} onClick={() => {
-                                task6();
                                 router.push("/favorites")
+                                task6();
                             }}>
                                 <HeartOutline style={{ fontSize: 24 }} />
                             </Button>

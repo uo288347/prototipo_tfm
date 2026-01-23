@@ -29,7 +29,7 @@ export const UtilsTasks = {
     { id: 'check_favorites', storageKey: 'task_favorites_checked' },
     { id: 'delete_item', storageKey: 'task_delete_item_completed' },
     { id: 'make_purchase', storageKey: 'task_purchase_completed' },
-    { id: 'end', storageKey: 'task_end_completed' },
+    { id: 'double_button', storageKey: 'task_end_completed' },
     { id: 'questionnaire', storageKey: 'task_questionnaire_completed' }
   ],
 
