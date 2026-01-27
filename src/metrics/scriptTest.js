@@ -374,93 +374,15 @@ function initTracking(_sceneId) {
 	}
 
 	trackEvent(EVENT_INIT_TRACKING);
-	/*parent.addEventListener('scroll', function () {
-		trackWindowScroll();
-	});
-	parent.addEventListener('resize', function () {
-		trackWindowResize();
-	});
-	parent.addEventListener('mousemove', function () {
-		trackMouseMovement();
-	});
-	parent.addEventListener('mousedown', function () {
-		trackMouseDown();
-	});
-	parent.addEventListener('mouseup', function () {
-		trackMouseUp();
-	});
-	parent.addEventListener('click', function () {
-		trackClick();
-	});
-	parent.addEventListener('dblclick', function () {
-		trackDblclick();
-	});
-	parent.addEventListener('contextmenu', function () {
-		trackContextmenu();
-	});
-	parent.addEventListener('wheel', function () {
-		trackWheel();
-	});*/
-	/*parent.addEventListener('keydown', function (event) {
-		trackEventKeydown(event);
-	});
-	parent.addEventListener('keypress', function (event) {
-		trackEventKeypress(event);
-	});
-	parent.addEventListener('keyup', function (event) {
-		trackEventKeyup(event);
-	});
-
-	parent.addEventListener('pointerdown', function (event) {
-		/*lastPointerPos.x = event.clientX;
-		lastPointerPos.y = event.clientY;
-
-		trackWithEvent(EVENT_ON_POINTER_DOWN, event);
-	});
-
-	parent.addEventListener('pointermove', function (event) {
-		// Actualizar última posición del puntero
-		/*lastPointerPos.x = event.pageX;
-		lastPointerPos.y = event.pageY;
-
-		//console.log(`[pointermove] `, event);
-		trackWithEvent(EVENT_ON_POINTER_MOVE, event);
-		//trackMoveIfNeeded(EVENT_ON_POINTER_MOVE, event);
-	});
-
-	parent.addEventListener('pointerup', function (event) {
-		trackWithEvent(EVENT_ON_POINTER_UP, event);
-	});
-
-	parent.addEventListener('pointercancel', function (event) {
-		trackWithEvent(EVENT_ON_POINTER_CANCEL, event);
-	});*/
-
-	/*document.addEventListener('keydown', function (event) {
-		trackWithEvent(EVENT_KEY_DOWN, event);
-	});
-
-	document.addEventListener('keyup', function (event) {
-		trackWithEvent(EVENT_KEY_UP, event);
-	});*/
 }
 
 function initializeGlobalListeners() {
 	document.addEventListener('pointerdown', function (event) {
-		/*lastPointerPos.x = event.clientX;
-		lastPointerPos.y = event.clientY;*/
-
 		trackWithEvent(EVENT_ON_POINTER_DOWN, event);
 	});
 
 	document.addEventListener('pointermove', function (event) {
-		// Actualizar última posición del puntero
-		/*lastPointerPos.x = event.pageX;
-		lastPointerPos.y = event.pageY;*/
-
-		//console.log(`[pointermove] `, event);
 		trackWithEvent(EVENT_ON_POINTER_MOVE, event);
-		//trackMoveIfNeeded(EVENT_ON_POINTER_MOVE, event);
 	});
 
 	document.addEventListener('pointerup', function (event) {
@@ -596,7 +518,7 @@ function finishSubsceneTracking() {
 }
 
 function registerComponent(sceneId, componentId, x, y, xF, yF, typeId, componentAssociated) {
-	registerElement(componentId, x, y, xF, yF, typeId, sceneId);
+	/*registerElement(componentId, x, y, xF, yF, typeId, sceneId);
 	var parametros = {
 		"timezone": (new Date()).getTimezoneOffset() / 60 * (-1),
 		"sceneId": sceneId,
@@ -624,7 +546,7 @@ function registerComponent(sceneId, componentId, x, y, xF, yF, typeId, component
 
 			}
 		});
-	}
+	}*/
 }
 
 function deliverChunk(chunk) {
