@@ -75,7 +75,7 @@ export const FreeProductOffer = ({ id, freeCode, isApplied, setIsApplied }) => {
     };
 
     return (
-        <div style={{ marginTop: "0", marginBottom: "1rem" }} data>
+        <div style={{ marginTop: "0", marginBottom: "1rem" }}>
             <Collapse onChange={handleCollapseChange}>
                 <Collapse.Panel
                     key="1"
