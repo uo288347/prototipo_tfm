@@ -36,8 +36,8 @@ export const StandardMenu = () => {
                         label: favorites.size > 0 ? (
                             <Badge content={favorites.length} style={{ '--top': '20%', '--right': '12%' }}>
                                 <Button type="icon" style={{ border: "none" }} onClick={() => {
-                                    task6();
                                     router.push("/favorites")
+                                    task6();
                                 }}>
                                     <HeartOutline style={{ fontSize: 24 }} />
                                 </Button>
@@ -65,7 +65,6 @@ export const StandardMenu = () => {
                 ]} >
                 </Menu>
             </Col>
-
         </Row>
     )
 }

@@ -131,18 +131,6 @@ export const SusFormComponent = ({}) => {
                                             ];
                                             // Si alguna respuesta falta, no continuar
                                             if (susAnswers.some(v => v == null)) return;
-                                            /*await registerSUSResults({
-                                                q1: formData.sus1,
-                                                q2: formData.sus2,
-                                                q3: formData.sus3,
-                                                q4: formData.sus4,
-                                                q5: formData.sus5,
-                                                q6: formData.sus6,
-                                                q7: formData.sus7,
-                                                q8: formData.sus8,
-                                                q9: formData.sus9,
-                                                q10: formData.sus10,
-                                            });*/
                                             registersus1(formData.sus1);
                                             registersus2(formData.sus2);
                                             registersus3(formData.sus3);

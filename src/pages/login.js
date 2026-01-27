@@ -8,8 +8,8 @@ import { SCENES, getCurrentSceneId } from "@/metrics/constants/scenes";
 export default function LoginPage({ }) {
   const scene = useScene(SCENES.LOGIN);
   useEffect(() => {
-    scene.start();
-    return () => scene.end();
+    //scene.start();
+    return () => {}//scene.end();
   }, []);
 
   return (

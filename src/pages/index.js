@@ -35,10 +35,10 @@ export default function Index() {
   //const scene = useScene(SCENES.WELCOME);
   const handleStart = () => {
     startExperiment();
+    router.push("/form");
     registerUserData();
     registerid(getUser());
     //scene.start();
-    router.push("/form");
   };
 
   return (

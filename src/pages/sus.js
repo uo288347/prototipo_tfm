@@ -1,7 +1,7 @@
 import { LanguageSwitcher } from "@/components/shared/LanguageSwitcher";
 import { SusFormComponent } from "@/components/susFormComponent/SusFormComponent";
 import { useEffect } from "react";
-import { finishSubsceneTracking, finishExperiment } from "@/metrics/scriptTest";
+import { finishSubsceneTracking, finishExperiment, finishTracking } from "@/metrics/scriptTest";
 import { useScene } from "@/experiment/useScene";
 import { SCENES } from "@/metrics/constants/scenes";
 
@@ -10,8 +10,8 @@ export default function SusForm() {
   useEffect(() => {
     scene.start();
     return () => {
-      scene.end();
       finishExperiment();
+      scene.end();
       console.log("Experimento finalizado");
     };
   }, []);
