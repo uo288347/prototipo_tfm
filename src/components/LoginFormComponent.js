@@ -18,16 +18,10 @@ import { clearCart } from "@/utils/UtilsCart";
 import { clearFavorites } from "@/utils/UtilsFavorites";
 import { useTranslations } from 'next-intl';
 import { LanguageSwitcher } from "./shared/LanguageSwitcher";
-import { registerComponent, COMPONENT_BUTTON, registerusername, registerpassword } from "@/metrics/scriptTest";
-import { getCurrentSceneId } from "@/metrics/constants/scenes";
+import { registerComponent, COMPONENT_BUTTON, registerusername, registerpassword, finishTracking, initTracking, finishExperiment } from "@/metrics/scriptTest";
+import { getCurrentSceneId, SCENES } from "@/metrics/constants/scenes";
 
 let LoginFormComponent = ({setLogin}) => {
-    /*const { 
-        handlePointerDown, 
-        handlePointerMove, 
-        handlePointerUp, 
-        handlePointerCancel } = useGestureDetector();*/
-
     const t = useTranslations();
     let router = useRouter()
 
@@ -37,6 +31,10 @@ let LoginFormComponent = ({setLogin}) => {
     let [formErrors, setFormErrors] = useState({})
  
     let [formData,setFormData] = useState({})
+
+    useEffect(() => {
+        initTracking(SCENES.LOGIN);
+    }, []);
 
     // Auto-registro del botón de login
     useEffect(() => {
@@ -73,6 +71,9 @@ let LoginFormComponent = ({setLogin}) => {
         UtilsTasks.resetAllTasks();
         registerusername(formData.email);
         registerpassword(formData.password);
+
+        finishExperiment();
+        finishTracking();
         router.push("/home");
    }
 
@@ -95,10 +96,6 @@ let LoginFormComponent = ({setLogin}) => {
                             id="btn-login"
                             size="large"
                             data-trackable-id="btn-login"
-                            /*onPointerDown={handlePointerDown}
-                            onPointerMove={handlePointerMove}
-                            onPointerUp={handlePointerUp}
-                            onPointerCancel={handlePointerCancel}*/
                             type="primary" onClick={clickLogin} block >{t('auth.login')}</Button> :
                             <Button type="primary" size="large" block disabled>{t('auth.login')}</Button>
                         }
@@ -112,35 +109,3 @@ let LoginFormComponent = ({setLogin}) => {
 }
 
 export default LoginFormComponent;
-
-/*
-            <Col xs={0} sm={0} md={12} lg={8} xl={6}  ><img src="/iniciar-sesion.png" width="100%"/></Col>
-
-{formErrors?.email?.msg &&
-                    <Typography.Text type="danger"> {formErrors?.email?.msg} </Typography.Text>}
-            <Form.Item label=""  key="email-input" name="email" validateStatus={
-                validateFormDataInputEmail(
-                    formData, "email", formErrors, setFormErrors) ? "success" : "error"}>
-                <Input placeholder="your email"
-                    value={formData.email}
-                    onChange={(i) => {
-                    modifyStateProperty(formData, setFormData,
-                        "email", i.currentTarget.value)
-                }}/>
-            </Form.Item>
-
-
-            {formErrors?.password?.msg &&
-                <Typography.Text type="danger"> {formErrors?.password?.msg} </Typography.Text>}
-            <Form.Item label="" name="password" validateStatus={
-                validateFormDataInputRequired(
-                    formData, "password", formErrors, setFormErrors) ? "success" : "error"}>
-                <Input.Password
-                    placeholder="your password"
-                    onChange={(i) => {
-                    modifyStateProperty(formData, setFormData,
-                        "password", i.currentTarget.value)
-                }}/>
-            </Form.Item>
-
-            */

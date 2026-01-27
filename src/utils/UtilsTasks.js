@@ -5,7 +5,7 @@ import { getFavorite } from "./UtilsFavorites";
 import { isInCart } from "./UtilsCart";
 import tasksEn from '../../messages/tasks_en.json';
 import tasksEs from '../../messages/tasks_es.json';
-import { finishSubsceneTracking, initTracking, getUser, idExperiment } from '../metrics/scriptTest';
+import { finishSubsceneTracking, initTracking, finishTracking, getUser, idExperiment } from '../metrics/scriptTest';
 import { getCurrentSceneId, TASK_TO_SCENE } from '../metrics/constants/scenes';
 
 const tasksTranslations = {
@@ -55,27 +55,6 @@ export const UtilsTasks = {
     if (typeof window === "undefined") return;
     localStorage.setItem(storageKey, 'true');
     window.dispatchEvent(new Event('taskCompleted'));
-    // Enviar a la base de datos
-    /*try {
-      const sessionId = getUser && getUser();
-      const experimentId = typeof idExperiment !== 'undefined' ? idExperiment : 32;
-      const taskObj = this.tasks.find(t => t.storageKey === storageKey);
-      const taskId = taskObj ? taskObj.id : storageKey;
-      const taskName = taskId;
-      await fetch('/api/tasks', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          sessionId,
-          experimentId,
-          taskId,
-          taskName,
-          completed: true
-        })
-      });
-    } catch (err) {
-      console.error('Error enviando tarea a la BD:', err);
-    }*/
     // Iniciar tracking de la siguiente tarea
     const nextSceneId = getCurrentSceneId();
     if (nextSceneId !== undefined) {

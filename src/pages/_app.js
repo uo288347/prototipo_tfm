@@ -110,7 +110,6 @@ export default function App({ Component, pageProps }) {
     }, []);
 
     return (
-        <ExperimentProvider>
             <NextIntlClientProvider locale={locale} messages={pageProps.messages}>
                 <AntdConfigProvider locale={customLocale}>
                     <AntdMobileConfigProvider locale={antdMobileLocale}>
@@ -137,6 +136,8 @@ export default function App({ Component, pageProps }) {
                     </AntdMobileConfigProvider>
                 </AntdConfigProvider>
             </NextIntlClientProvider>
-        </ExperimentProvider>
     );
 }
+
+/*        </ExperimentProvider>
+*/

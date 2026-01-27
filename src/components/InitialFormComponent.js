@@ -10,15 +10,10 @@ import { LaptopOutlined, MobileOutlined, TabletOutlined } from "@ant-design/icon
 import { useTranslations } from 'next-intl';
 import { LanguageSwitcher } from "./shared/LanguageSwitcher";
 import { registerParticipantData } from "@/metrics/registerInBd";
-import { getUser, registerComponent, COMPONENT_BUTTON, registerhandedness, registersex, registerbirth_year, registerecommerce_frequency, registerpreferred_device } from "../metrics/scriptTest";
-import { getCurrentSceneId } from "@/metrics/constants/scenes";
+import { getUser, registerComponent, COMPONENT_BUTTON, registerhandedness, registersex, registerbirth_year, registerecommerce_frequency, registerpreferred_device, initTracking, finishTracking } from "../metrics/scriptTest";
+import { getCurrentSceneId, SCENES } from "@/metrics/constants/scenes";
 
 export const InitialFormComponent = ({ }) => {
-    /*const {
-        handlePointerDown,
-        handlePointerMove,
-        handlePointerUp,
-        handlePointerCancel } = useGestureDetector();*/
 
     const t = useTranslations();
     const router = useRouter();
@@ -28,7 +23,10 @@ export const InitialFormComponent = ({ }) => {
     let [formErrors, setFormErrors] = useState({})
 
     const currentYear = new Date().getFullYear();
-    let tooltipsFrequency = [t('initialForm.never'), t('initialForm.onceMonth'), t('initialForm.twoThreeTimesMonth'), t('initialForm.oneThreeTimesWeek'), t('initialForm.almostEveryday')]
+
+    useEffect(() => {
+        initTracking(SCENES.INITIAL_FORM);
+    }, []);
 
     // Auto-registro del botón de registro para métricas
     useEffect(() => {
@@ -48,26 +46,17 @@ export const InitialFormComponent = ({ }) => {
         return () => clearTimeout(timer);
     }, []);
 
-    // Props comunes para eventos de pointer
-    const pointerEventProps = {
-        /*onPointerDown: handlePointerDown,
-        onPointerMove: handlePointerMove,
-        onPointerUp: handlePointerUp,
-        onPointerCancel: handlePointerCancel*/
-    };
-
     const user = getUser();
     return (
         <Row align="middle" justify="center" style={{ minHeight: "100%", minWidth: "100%" }}>
             <div>{user}</div>
             <Col xs={24} sm={24} md={12} lg={8} xl={7} justify="center" >
                 <Card title={t('initialForm.title')}>
-                    <Form {...pointerEventProps}>
-                        <Form.Item {...pointerEventProps} id="handedness" name="handedness">
+                    <Form >
+                        <Form.Item  id="handedness" name="handedness">
                             <TrackableSelect
                                 id="select-handedness"
                                 name={"handedness"}
-                                pointerEventProps={pointerEventProps}
                                 placeholder={t('initialForm.handedness')}
                                 onChange={(value) => {
                                     modifyStateProperty(formData, setFormData, "handedness", value);
@@ -75,11 +64,11 @@ export const InitialFormComponent = ({ }) => {
                                 options={[
                                     {
                                         value: 'right',
-                                        label: <span {...pointerEventProps}>{t('initialForm.rightHanded')}</span>
+                                        label: <span>{t('initialForm.rightHanded')}</span>
                                     },
                                     {
                                         value: 'left', 
-                                        label: <span {...pointerEventProps}>{t('initialForm.leftHanded')}</span>
+                                        label: <span>{t('initialForm.leftHanded')}</span>
                                     }
                                 ]}
                                 data-testid="select-handedness"
@@ -89,7 +78,6 @@ export const InitialFormComponent = ({ }) => {
                             <TrackableSelect
                                 id="select-sex"
                                 name={"sex"}
-                                pointerEventProps={pointerEventProps}
                                 placeholder={t('initialForm.sex')}
                                 onChange={(value) => {
                                     modifyStateProperty(formData, setFormData, "sex", value);
@@ -97,11 +85,11 @@ export const InitialFormComponent = ({ }) => {
                                 options={[
                                     {
                                         value: 'man', 
-                                        label: <span {...pointerEventProps}>{t('initialForm.man')}</span>
+                                        label: <span>{t('initialForm.man')}</span>
                                     },
                                     {
                                         value: 'woman', 
-                                        label: <span {...pointerEventProps}>{t('initialForm.woman')}</span>
+                                        label: <span>{t('initialForm.woman')}</span>
                                     },
                                 ]}
                                 data-testid="select-sex"
@@ -117,29 +105,28 @@ export const InitialFormComponent = ({ }) => {
                             <TrackableSelect
                                 id="select-frequency"
                                 name={"frequency"}
-                                pointerEventProps={pointerEventProps}
                                 placeholder={t('initialForm.selectFrequency')}
                                 onChange={(value) => modifyStateProperty(formData, setFormData, "frequency", value)}
                                 options={[
                                     {
                                         value: 'never', 
-                                        label: <span {...pointerEventProps}>{t('initialForm.never')}</span>
+                                        label: <span>{t('initialForm.never')}</span>
                                     },
                                     {
                                         value: 'once_month', 
-                                        label: <span {...pointerEventProps}>{t('initialForm.onceMonth')}</span>
+                                        label: <span>{t('initialForm.onceMonth')}</span>
                                     },
                                     {
                                         value: '2_3_times_month', 
-                                        label: <span {...pointerEventProps}>{t('initialForm.twoThreeTimesMonth')}</span>
+                                        label: <span>{t('initialForm.twoThreeTimesMonth')}</span>
                                     },
                                     {
                                         value: '1_3_times_week', 
-                                        label: <span {...pointerEventProps}>{t('initialForm.oneThreeTimesWeek')}</span>
+                                        label: <span>{t('initialForm.oneThreeTimesWeek')}</span>
                                     },
                                     {
                                         value: 'everyday', 
-                                        label: <span {...pointerEventProps}>{t('initialForm.almostEveryday')}</span>
+                                        label: <span>{t('initialForm.almostEveryday')}</span>
                                     },
                                 ]}
                                 data-testid="select-frequency"
@@ -150,7 +137,6 @@ export const InitialFormComponent = ({ }) => {
                             <TrackableSelect
                                 id="select-device"
                                 name={"device"}
-                                pointerEventProps={pointerEventProps}
                                 placeholder={t('initialForm.deviceType')}
                                 onChange={(value) => {
                                     modifyStateProperty(formData, setFormData, "device", value);
@@ -158,15 +144,15 @@ export const InitialFormComponent = ({ }) => {
                                 options={[
                                     {
                                         value: 'computer', 
-                                        label: <span {...pointerEventProps}><LaptopOutlined /> {t('initialForm.laptop')}</span>
+                                        label: <span><LaptopOutlined /> {t('initialForm.laptop')}</span>
                                     },
                                     {
                                         value: 'phone', 
-                                        label: <span {...pointerEventProps}><MobileOutlined /> {t('initialForm.smartphone')}</span>
+                                        label: <span><MobileOutlined /> {t('initialForm.smartphone')}</span>
                                     },
                                     {
                                         value: 'tablet', 
-                                        label: <span {...pointerEventProps}><TabletOutlined /> {t('initialForm.tablet')}</span>
+                                        label: <span><TabletOutlined /> {t('initialForm.tablet')}</span>
                                     },
                                 ]}
                                 data-testid="select-device"
@@ -178,20 +164,13 @@ export const InitialFormComponent = ({ }) => {
                                 <Button
                                     id="registerButton"
                                     type="primary" size="large" onClick={async () => { 
-                                        // Guardar datos del participante en la base de datos
-                                        /*await registerParticipantData({
-                                            handedness: formData.handedness || null,
-                                            sex: formData.sex || null,
-                                            birthYear: formData.birthYear ? parseInt(formData.birthYear) : null,
-                                            ecommerceFrequency: formData.frequency || null,
-                                            preferredDevice: formData.device || null,
-                                            selectedLanguage: router.locale || 'es'
-                                        });*/
                                         registerhandedness(formData.handedness || null);
                                         registersex(formData.sex || null);
                                         registerbirth_year(formData.birthYear ? parseInt(formData.birthYear) : null);
                                         registerecommerce_frequency(formData.frequency || null);
-                                        registerpreferred_device(formData.device || null);                                        router.push("/login");
+                                        registerpreferred_device(formData.device || null);          
+                                        finishTracking();                 
+                                        router.push("/login");
                                     }} block >{t('auth.register')}</Button> :
                                 <Button type="primary" size="large" block disabled>{t('auth.register')}</Button>
                             }
