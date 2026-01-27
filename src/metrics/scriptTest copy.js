@@ -157,22 +157,22 @@ import html2canvas from "html2canvas";
 					beforeSend: function() {
 						//We incremente the pendingbackgroundsdelivered number
 						pendingBackgroundsDelivered++;
-						console.log("Sending background. Pending backgrounds: " + pendingBackgroundsDelivered + "/" + sentRequest);
+						//console.log("Sending background. Pending backgrounds: " + pendingBackgroundsDelivered + "/" + sentRequest);
 					},
 					success: function(response) {
 						pendingBackgroundsDelivered--;
 						backgroundsDelivered++;
-						console.log('Result: ' + response);
-						console.log("Pending Backgrounds: " + pendingBackgroundsDelivered + "/" + sentRequest);
+						//console.log('Result: ' + response);
+						//console.log("Pending Backgrounds: " + pendingBackgroundsDelivered + "/" + sentRequest);
 					},
 					complete: function(jqXHR, textStatus) {
-						console.log("Call completed. Status: " + textStatus + ", Pending Requests: " + pendingRequest + "/" + sentRequest);
+						//console.log("Call completed. Status: " + textStatus + ", Pending Requests: " + pendingRequest + "/" + sentRequest);
 						//checkReadyToLeave();
 					},
 					error: function(XMLHttpRequest, textStatus, errorThrown) {
 						//alert("Status: " + textStatus); alert("Error: " + errorThrown);
-						console.log("Status: " + textStatus);
-						console.log("Error: " + errorThrown);
+						//console.log("Status: " + textStatus);
+						//console.log("Error: " + errorThrown);
 					}
 				}).always(function(jqXHR, textStatus) {
 					if (textStatus != "success") {
@@ -419,13 +419,13 @@ import html2canvas from "html2canvas";
 		
 		function trackWithEvent(eventType, event){
 			if (trackingOn){
-				trackEventOverElement(eventType, -1, event);
+				trackEventOverElement(eventType, event);
 			}
 		}
 		
 		function trackEvent(eventType){
 			if (trackingOn){
-				trackEventOverElement(eventType, -1, null);
+				trackEventOverElement(eventType, null);
 			}
 		}
 
@@ -459,8 +459,7 @@ import html2canvas from "html2canvas";
 			};
 		}
 		
-		function trackEventOverElement(eventType, elementId, event) 
-		{
+		function trackEventOverElement(eventType, event) {
 			var item = new Object();
 			item.id=eventCounter++;
 			item.sceneId=sceneId;
@@ -476,15 +475,9 @@ import html2canvas from "html2canvas";
 			}
 			
 			// Obtener coordenadas
-			/*const coords = getEventCoordinates(event);
+			const coords = getEventCoordinates(event);
 			item.x = coords.x;
-			item.y = coords.y;*/
-			if(item.x == null ){
-				item.x=-1;
-			}
-			if(item.y== null){
-				item.y=-1;
-			}
+			item.y = coords.y;
 			//item.docX = coords.docX;
 			//item.docY = coords.docY;
 		
@@ -492,7 +485,7 @@ import html2canvas from "html2canvas";
 			item.keyCodeEvent = -1;
 			
 			// Eventos de teclado
-			if(eventType == EVENT_KEY_DOWN || eventType == EVENT_KEY_PRESS || eventType == EVENT_KEY_UP){
+			if ([EVENT_KEY_DOWN, EVENT_KEY_PRESS, EVENT_KEY_UP].includes(eventType)) {
 				item.keyValueEvent = event.key;
 				item.keyCodeEvent = event.keyCode;
 				item.elementId = detectElementByName(event.target.id);
@@ -501,14 +494,14 @@ import html2canvas from "html2canvas";
 				}*/
 			}
 			// Eventos de foco
-			else if(eventType == EVENT_FOCUS || eventType == EVENT_BLUR){
+			else if ([EVENT_FOCUS, EVENT_BLUR].includes(eventType)) {
 				item.elementId = detectElementByName(event.target.id);
 				/*if (item.elementId === -1) {
 					item.elementId = detectElementEnhanced(item.x, item.y, event.target);
 				}*/
 			}
 			// Eventos de selección
-			else if(eventType == EVENT_ON_CHANGE_SELECTION_OBJECT || eventType == EVENT_ON_CLICK_SELECTION_OBJECT){
+			else if ([EVENT_ON_CHANGE_SELECTION_OBJECT, EVENT_ON_CLICK_SELECTION_OBJECT].includes(eventType)) {
 				item.elementId = detectElementByName(event.target.id);
 			}
 			// Evento de scroll
@@ -526,11 +519,10 @@ import html2canvas from "html2canvas";
 			
 			//enrichPointerData(item, event);
 			console.log(item);
-			//list.push(item); // Más idiomático que list[list.length]
-			list[list.length] = item;
-
-			if ( list.length >= TOP_LIMIT ){
-				var deliverPackage = list;
+			list.push(item); // Más idiomático que list[list.length]
+			
+			if (list.length >= TOP_LIMIT) {
+				const deliverPackage = list;
 				list = [];
 				deliverData(deliverPackage);
 			}
@@ -740,19 +732,19 @@ import html2canvas from "html2canvas";
 		
 		function checkReadyToLeave() {	
 			if (eventsDelivered == false || pendingRequest > 0) {
-				console.log("Not ready to leave page, events still pending");
+				//console.log("Not ready to leave page, events still pending");
 			}
 			else {
 				//Events are delivered, we wait for the background delivery
 				if ( pendingBackgroundsDelivered > 0) {
-					console.log("Not ready to leave page, "+ pendingBackgroundsDelivered+" backgrounds still pending");
+					//console.log("Not ready to leave page, "+ pendingBackgroundsDelivered+" backgrounds still pending");
 					setTimeout(() => {
 						checkReadyToLeave();
 					}, 2000);
 					return;
 				}
 		
-				console.log("Ready to leave page, pending request:" + pendingRequest+", pending backgrounds "+pendingBackgroundsDelivered+"/"+backgroundsDelivered);
+				//console.log("Ready to leave page, pending request:" + pendingRequest+", pending backgrounds "+pendingBackgroundsDelivered+"/"+backgroundsDelivered);
 				if ( finishedExperiment )
 				{
 					//We delete the user
@@ -826,15 +818,15 @@ import html2canvas from "html2canvas";
 					beforeSend: function() {
 						pendingRequest++;
 						sentRequest++;
-						console.log("Sending request. Pending requests: " + pendingRequest + "/" + sentRequest);
+						//console.log("Sending request. Pending requests: " + pendingRequest + "/" + sentRequest);
 					},
 					success: function(response) {
-						console.log('Result: ' + response);
-						console.log("Pending Requests: " + pendingRequest + "/" + sentRequest);
+						//console.log('Result: ' + response);
+						//console.log("Pending Requests: " + pendingRequest + "/" + sentRequest);
 					},
 					complete: function(jqXHR, textStatus) {
 						pendingRequest--;
-						console.log("Call completed. Status: " + textStatus + ", Pending Requests: " + pendingRequest + "/" + sentRequest);
+						//console.log("Call completed. Status: " + textStatus + ", Pending Requests: " + pendingRequest + "/" + sentRequest);
 		
 						if (pendingRequest == 0) {
 							eventsDelivered = true;
@@ -843,8 +835,8 @@ import html2canvas from "html2canvas";
 					},
 					error: function(XMLHttpRequest, textStatus, errorThrown) {
 						alert("Status: " + textStatus); alert("Error: " + errorThrown);
-						console.log("Status: " + textStatus);
-						console.log("Error: " + errorThrown);
+						//console.log("Status: " + textStatus);
+						//console.log("Error: " + errorThrown);
 					}
 				}).always(function(jqXHR, textStatus) {
 					if (textStatus != "success") {
