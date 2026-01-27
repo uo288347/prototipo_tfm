@@ -8,10 +8,10 @@ export default function InitialForm() {
   const scene = useScene(SCENES.INITIAL_FORM);
   
   useEffect(() => {
-    //scene.start();
+    scene.start();
 
     return () => {
-      //scene.end();
+      scene.end();
     };
   }, []);
 

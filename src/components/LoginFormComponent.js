@@ -32,9 +32,9 @@ let LoginFormComponent = ({setLogin}) => {
  
     let [formData,setFormData] = useState({})
 
-    useEffect(() => {
+    /*useEffect(() => {
         initTracking(SCENES.LOGIN);
-    }, []);
+    }, []);*/
 
     // Auto-registro del botón de login
     useEffect(() => {
@@ -72,8 +72,8 @@ let LoginFormComponent = ({setLogin}) => {
         registerusername(formData.email);
         registerpassword(formData.password);
 
-        finishExperiment();
-        finishTracking();
+        //finishExperiment();
+        //finishTracking();
         router.push("/home");
    }
 

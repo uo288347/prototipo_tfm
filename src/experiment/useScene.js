@@ -2,7 +2,7 @@ import { useExperiment } from "./ExperimentContext";
 import { useRef } from "react";
 
 export function useScene(sceneId) {
-  /*const { state, dispatch } = useExperiment();
+  const { state, dispatch } = useExperiment();
   const startedRef = useRef(false);
   
   const start = () => {
@@ -27,5 +27,5 @@ export function useScene(sceneId) {
     start,
     end,
     active: state.currentScene === sceneId
-  };*/
+  };
 }

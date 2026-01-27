@@ -24,11 +24,11 @@ export const InitialFormComponent = ({ }) => {
 
     const currentYear = new Date().getFullYear();
 
-    useEffect(() => {
+    /*useEffect(() => {
         initTracking(SCENES.INITIAL_FORM);
-    }, []);
+    }, []);*/
 
-    // Auto-registro del botón de registro para métricas
+    // Auto-registro del botón de registro
     useEffect(() => {
         const timer = setTimeout(() => {
             const sceneId = getCurrentSceneId();
@@ -169,7 +169,7 @@ export const InitialFormComponent = ({ }) => {
                                         registerbirth_year(formData.birthYear ? parseInt(formData.birthYear) : null);
                                         registerecommerce_frequency(formData.frequency || null);
                                         registerpreferred_device(formData.device || null);          
-                                        finishTracking();                 
+                                        //finishTracking();                 
                                         router.push("/login");
                                     }} block >{t('auth.register')}</Button> :
                                 <Button type="primary" size="large" block disabled>{t('auth.register')}</Button>
