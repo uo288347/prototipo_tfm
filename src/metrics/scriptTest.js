@@ -518,7 +518,7 @@ function finishSubsceneTracking() {
 }
 
 function registerComponent(sceneId, componentId, x, y, xF, yF, typeId, componentAssociated) {
-	/*registerElement(componentId, x, y, xF, yF, typeId, sceneId);
+	registerElement(componentId, x, y, xF, yF, typeId, sceneId);
 	var parametros = {
 		"timezone": (new Date()).getTimezoneOffset() / 60 * (-1),
 		"sceneId": sceneId,
@@ -546,7 +546,7 @@ function registerComponent(sceneId, componentId, x, y, xF, yF, typeId, component
 
 			}
 		});
-	}*/
+	}
 }
 
 function deliverChunk(chunk) {
