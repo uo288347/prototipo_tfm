@@ -3,20 +3,25 @@ import { ConfigurableMenu } from "../shared/ConfigurableMenu";
 import { Card, Typography, Col, Row, Divider, Button } from 'antd';
 import { getProduct } from "@/utils/UtilsProducts";
 import { getProductTitle } from "@/utils/UtilsProductTranslations";
-import { HorizontalProductCard } from "../shared/HorizontalProductCard";  
+import { HorizontalProductCard } from "../shared/HorizontalProductCard";
 import { GhostProductCard } from "../shared/GhostProductCard";
 import { ShoppingCartOutlined } from "@ant-design/icons";
 import { useEffect, useState, useRef } from "react";
-import { DeleteZone } from "../shared/DeleteZone"; 
+import { DeleteZone } from "../shared/DeleteZone";
 import { useRouter } from "next/router";
-import { SelectionIndicator } from "../shared/SelectionIndicator"; 
+import { SelectionIndicator } from "../shared/SelectionIndicator";
 import { BottomSection } from "./BottomSection";
 import { useTranslations } from 'next-intl';
 import { registerComponent, COMPONENT_BUTTON, COMPONENT_CARD, getCurrentSceneId } from "@/metrics/scriptTest";
+import { ManualScrollEngine } from "@/metrics/ManualScrollEngine";
 
 const { Text } = Typography
 
 export const ShoppingCartComponent = ({ }) => {
+    const containerRef = useRef(null);
+    const contentRef = useRef(null);
+    const scrollEngineRef = useRef(null);
+
     const router = useRouter();
     const t = useTranslations();
 
@@ -82,7 +87,7 @@ export const ShoppingCartComponent = ({ }) => {
             products.forEach((item) => {
                 const key = getItemKey(item);
                 const node = cardRefs.current[key];
-                
+
                 if (!node) {
                     console.warn(`[ShoppingCartComponent] Node not found for ${key}`);
                     return;
@@ -202,18 +207,18 @@ export const ShoppingCartComponent = ({ }) => {
         }
 
         const touch = e.touches[0];
-        
+
         // Si hay items seleccionados y estamos en modo selección, activar el arrastre
         if (selectionMode && selectedItems.size > 0) {
             // Calcular si se ha movido lo suficiente para iniciar el drag
             const deltaX = Math.abs(touch.clientX - dragStartPosition.current.x);
             const deltaY = Math.abs(touch.clientY - dragStartPosition.current.y);
-            
+
             if ((deltaX > 10 || deltaY > 10) && !dragging) {
                 // Iniciar arrastre: vibración + mostrar ghost
                 setDragging(true);
                 setShowDragGhost(true);
-                
+
                 // Vibrar solo si no se ha vibrado ya
                 if (!hasVibrated.current) {
                     navigator.vibrate?.(30);
@@ -267,16 +272,8 @@ export const ShoppingCartComponent = ({ }) => {
             setProducts(updated)
             setProductsLength(getShoppingCartLength());
 
-            // Filtrar productos eliminados del carrito
-            /*setProducts(prev => prev.filter(p => {
-                const itemKey = getItemKey(p);
-                return !selectedItems.has(itemKey);
-            }));*/
-
             setSelectedItems(new Set());
             setSelectionMode(false);
-
-            //console.log(`${itemsToDelete.length} products deleted`);
         } catch (error) {
             console.log('Error while deleting products');
         }
@@ -301,8 +298,6 @@ export const ShoppingCartComponent = ({ }) => {
         return element?.closest('.delete-zone') !== null;
     };
 
-
-
     //    const total = products.reduce((sum, p) => sum + (p.price * p.quantity), 0);
     const onUpdateUnits = (id, size, units) => {
         updateUnits(id, size, units)
@@ -318,116 +313,121 @@ export const ShoppingCartComponent = ({ }) => {
         }, 0).toFixed(2); // redondea a 2 decimales
     };
 
+    useEffect(() => {
+        const container = containerRef.current;
+        const content = contentRef.current;
+        console.log("Initializing ManualScrollEngine", { container, content });
+        if (!container || !content) return;
+
+        // Esperar a que el contenido se renderice completamente
+        const initScroll = () => {
+            container.getBoundingClientRect();
+            content.getBoundingClientRect();
+
+            const availableHeight = container.clientHeight;
+            const scrollHeight = content.scrollHeight;
+
+            console.log({ availableHeight, scrollHeight });
+
+            const maxOffset = 0;
+            const minOffset = -(scrollHeight - availableHeight);
+
+            scrollEngineRef.current = new ManualScrollEngine(container, content, {
+                axis: "y",
+                scrollFactor: 1,
+                minOffset,
+                maxOffset,
+            });
+        };
+
+        setTimeout(initScroll, 100);
+
+        return () => {
+            if (scrollEngineRef.current) {
+                scrollEngineRef.current.destroy();
+                scrollEngineRef.current = null;
+            }
+        };
+    }, [products, selectionMode]);
+
     return (
         <>
-            <div style={{ flex: 1, display: "flex", flexDirection: "column", justifyContent: "space-between", height: "100vh", }}>
-                <div style={{
-                    flex: 1,
-                    overflowY: "auto",
-                    paddingBottom: selectionMode ? "5rem" : "10rem",
-                    marginBottom: "1rem"
-                }}>
-                    <ConfigurableMenu icon={<ShoppingCartOutlined />} text={t('cart.title')} onClick={() => router.push("/home")} />
-                    <SelectionIndicator id ="btn-cancel-selection" data-trackable-id="btn-cancel-selection" selectionMode={selectionMode} nSelectedItems={selectedItems.size} cancelSelection={cancelSelection} />
+            <div ref={containerRef}>
+                <div
+                    style={{ flex: 1, display: "flex", flexDirection: "column", justifyContent: "space-between", height: "100vh", }}>
+                    <div ref={contentRef} style={{
+                        flex: 1,
+                        /*overflowY: "auto",*/
+                        paddingBottom: selectionMode ? "5rem" : "10rem",
+                        marginBottom: "1rem",
+                        touchAction: "none",
+                        position: "relative",
+                        overflow: "hidden",
+                        width: "100%",
+                        height: "100vh"
+                    }}>
+                        <ConfigurableMenu icon={<ShoppingCartOutlined />} text={t('cart.title')} onClick={() => router.push("/home")} />
 
-                    <div style={{ paddingBottom: 0 }}>
-                        {products.length === 0 ? (
-                            <div style={{ display: "flex", justifyContent: "center", paddingBottom: "0.5rem" }}>
-                                <Text type="secondary">{t('cart.emptyMessage')}</Text>
-                            </div>
-                        ) : (
-                            <>
+                        <SelectionIndicator id="btn-cancel-selection" data-trackable-id="btn-cancel-selection" selectionMode={selectionMode} nSelectedItems={selectedItems.size} cancelSelection={cancelSelection} />
+
+                        <div style={{ paddingBottom: 0 }}>
+                            {products.length === 0 ? (
                                 <div style={{ display: "flex", justifyContent: "center", paddingBottom: "0.5rem" }}>
-                                    <Text>{productsLength} {t('cart.totalProducts')}</Text>
+                                    <Text type="secondary">{t('cart.emptyMessage')}</Text>
                                 </div>
-                                {products.map((item, index) => {
-                                    const itemKey = getItemKey(item);
-                                    //console.log("Rendering itemKey: ", itemKey);
-                                    const isSelected = selectedItems.has(itemKey);
+                            ) : (
+                                <>
+                                    <div style={{ display: "flex", justifyContent: "center", paddingBottom: "0.5rem" }}>
+                                        <Text>{productsLength} {t('cart.totalProducts')}</Text>
+                                    </div>
+                                    {products.map((item, index) => {
+                                        const itemKey = getItemKey(item);
+                                        const isSelected = selectedItems.has(itemKey);
 
-                                    return (
-                                        <div
-                                            key={itemKey}
-                                            ref={assignCardRef(itemKey)}
-                                            id={`cart-card-${itemKey}`}
-                                            data-trackable-id={`cart-card-${itemKey}`}
-                                            draggable={isSelected}
-                                            onTouchStart={(e) => handleTouchStart(e, item)}
-                                            onTouchEnd={(e) => handleTouchEnd(e, item)}
-                                            onTouchMove={handleTouchMove}
-                                            style={{
-                                                position: "relative",
-                                                transition: "all 0.2s",
-                                                opacity: dragging && isSelected ? 0.5 : 1,
-                                                transform: dragging && isSelected ? "scale(0.95)" : "scale(1)"
-                                            }}
-                                        >
-                                            <HorizontalProductCard item={item} index={index}
-                                                isSelected={isSelected}
-                                                selectedItems={selectedItems}
-                                                updateUnits={onUpdateUnits}
-                                                enableTracking={false}
-                                            /></div>
-                                    )
-                                })}
-                            </>
-                        )}
+                                        return (
+                                            <div
+                                                key={itemKey}
+                                                ref={assignCardRef(itemKey)}
+                                                id={`cart-card-${itemKey}`}
+                                                data-trackable-id={`cart-card-${itemKey}`}
+                                                draggable={isSelected}
+                                                onTouchStart={(e) => handleTouchStart(e, item)}
+                                                onTouchEnd={(e) => handleTouchEnd(e, item)}
+                                                onTouchMove={handleTouchMove}
+                                                style={{
+                                                    position: "relative",
+                                                    transition: "all 0.2s",
+                                                    opacity: dragging && isSelected ? 0.5 : 1,
+                                                    transform: dragging && isSelected ? "scale(0.95)" : "scale(1)"
+                                                }}
+                                            >
+                                                <HorizontalProductCard item={item} index={index}
+                                                    isSelected={isSelected}
+                                                    selectedItems={selectedItems}
+                                                    updateUnits={onUpdateUnits}
+                                                    enableTracking={false}
+                                                /></div>
+                                        )
+                                    })}
+                                </>
+                            )}
+                        </div>
                     </div>
                 </div>
-
                 <DeleteZone handleDrop={handleDrop} handleDragOver={handleDragOver} handleDragLeave={handleDragLeave}
                     selectionMode={selectionMode} draggedOver={draggedOver} />
+                <Divider />
+                <BottomSection productsLength={products.length} selectionMode={selectionMode} calculateTotal={calculateTotal} />
             </div>
 
-            {/* Ghost element durante el arrastre - VERSIÓN BADGE SIMPLE (comentada) */}
-            {/* {showDragGhost && selectedItems.size > 0 && (
-                <div
-                    style={{
-                        position: 'fixed',
-                        left: dragGhostPosition.x,
-                        top: dragGhostPosition.y,
-                        transform: 'translate(-50%, -50%)',
-                        pointerEvents: 'none',
-                        zIndex: 9999,
-                        opacity: 0.8,
-                        transition: 'none',
-                    }}
-                >
-                    <div
-                        style={{
-                            background: 'white',
-                            borderRadius: '12px',
-                            padding: '12px',
-                            boxShadow: '0 8px 24px rgba(0,0,0,0.25)',
-                            border: '2px solid #1890ff',
-                            minWidth: '200px',
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            gap: '8px'
-                        }}
-                    >
-                        <DeleteOutlined style={{ fontSize: '20px', color: '#1890ff' }} />
-                        <Text strong style={{ fontSize: '16px' }}>
-                            {selectedItems.size} {selectedItems.size === 1 ? t('cart.product') : t('cart.products')}
-                        </Text>
-                    </div>
-                </div>
-            )} */}
-
-            {/* Ghost element durante el arrastre - VERSIÓN CARDS VISUALES */}
             {showDragGhost && selectedItems.size > 0 && (
-                <GhostProductCard 
+                <GhostProductCard
                     dragGhostPosition={dragGhostPosition}
                     selectedItems={selectedItems}
                     products={products}
                     locale={router.locale}
                 />
             )}
-
-            <Divider />
-
-            <BottomSection productsLength={products.length} selectionMode={selectionMode} calculateTotal={calculateTotal} />
         </>
     );
 }
