@@ -321,16 +321,16 @@ export const ShoppingCartComponent = ({ }) => {
 
         // Esperar a que el contenido se renderice completamente
         const initScroll = () => {
-            container.getBoundingClientRect();
-            content.getBoundingClientRect();
+            const containerRect = container.getBoundingClientRect();
+            const contentRect = content.getBoundingClientRect();
 
-            const availableHeight = container.clientHeight;
+            const availableHeight = containerRect.height;
             const scrollHeight = content.scrollHeight;
 
-            console.log({ availableHeight, scrollHeight });
+            console.log({ availableHeight, scrollHeight, contentScrollHeight: content.scrollHeight });
 
             const maxOffset = 0;
-            const minOffset = -(scrollHeight - availableHeight);
+            const minOffset = Math.min(0, -(scrollHeight - availableHeight));
 
             scrollEngineRef.current = new ManualScrollEngine(container, content, {
                 axis: "y",
@@ -352,19 +352,23 @@ export const ShoppingCartComponent = ({ }) => {
 
     return (
         <>
-            <div ref={containerRef}>
-                <div
-                    style={{ flex: 1, display: "flex", flexDirection: "column", justifyContent: "space-between", height: "100vh", }}>
+            <div style={{ 
+                display: "flex", 
+                flexDirection: "column", 
+                height: "100vh",
+                position: "relative",
+            }}>
+                {/* Contenedor scrolleable */}
+                <div ref={containerRef} style={{
+                    flex: 1,
+                    position: "relative",
+                    overflow: "hidden",
+                    touchAction: "none",
+                }}>
                     <div ref={contentRef} style={{
-                        flex: 1,
-                        /*overflowY: "auto",*/
                         paddingBottom: selectionMode ? "5rem" : "10rem",
                         marginBottom: "1rem",
-                        touchAction: "none",
-                        position: "relative",
-                        overflow: "hidden",
                         width: "100%",
-                        height: "100vh"
                     }}>
                         <ConfigurableMenu icon={<ShoppingCartOutlined />} text={t('cart.title')} onClick={() => router.push("/home")} />
 
@@ -414,9 +418,11 @@ export const ShoppingCartComponent = ({ }) => {
                         </div>
                     </div>
                 </div>
+                
+                {/* Sección fija inferior */}
                 <DeleteZone handleDrop={handleDrop} handleDragOver={handleDragOver} handleDragLeave={handleDragLeave}
                     selectionMode={selectionMode} draggedOver={draggedOver} />
-                <Divider />
+                <Divider style={{ margin: 0 }} />
                 <BottomSection productsLength={products.length} selectionMode={selectionMode} calculateTotal={calculateTotal} />
             </div>
 
