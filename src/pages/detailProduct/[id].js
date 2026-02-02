@@ -6,7 +6,7 @@ export default function DetailsProductPage() {
   const { id } = router.query; 
 
   return (
-    <div >
+    <div style={{ height: "100%", display: "flex", flexDirection: "column" }}>
       <DetailsProductComponent id = {id}/>
     </div>
   );

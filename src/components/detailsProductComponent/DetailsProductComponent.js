@@ -105,9 +105,7 @@ let DetailsProductComponent = ({ id }) => {
         console.log("Initializing ManualScrollEngine", { container, content });
         if (!container || !content) return;
 
-        // Esperar a que el contenido se renderice completamente
-        const initScroll = () => {
-            // Forzar recálculo de layout
+        const updateScrollBounds = () => {
             content.style.position = 'relative';
             
             const availableHeight = container.clientHeight;
@@ -115,29 +113,50 @@ let DetailsProductComponent = ({ id }) => {
 
             console.log("ManualScrollEngine values:", { availableHeight, scrollHeight, diff: scrollHeight - availableHeight });
 
-            // Solo crear el engine si hay contenido que scrollear
             if (scrollHeight <= availableHeight) {
                 console.log("No scroll needed, content fits in container");
+                // Si ya existe el engine, destruirlo
+                if (scrollEngineRef.current) {
+                    scrollEngineRef.current.destroy();
+                    scrollEngineRef.current = null;
+                }
                 return;
             }
 
             const maxOffset = 0;
             const minOffset = -(scrollHeight - availableHeight);
 
-            console.log("Creating ManualScrollEngine with:", { minOffset, maxOffset });
+            console.log("ManualScrollEngine bounds:", { minOffset, maxOffset });
 
-            scrollEngineRef.current = new ManualScrollEngine(container, content, {
-                axis: "y",
-                scrollFactor: 1,
-                minOffset,
-                maxOffset,
-            });
+            // Si ya existe el engine, actualizar los límites
+            if (scrollEngineRef.current) {
+                scrollEngineRef.current.options.minOffset = minOffset;
+                scrollEngineRef.current.options.maxOffset = maxOffset;
+                // Asegurar que el offset actual esté dentro de los nuevos límites
+                scrollEngineRef.current.currentOffset.y = Math.max(minOffset, Math.min(maxOffset, scrollEngineRef.current.currentOffset.y));
+                scrollEngineRef.current._applyTransform();
+            } else {
+                scrollEngineRef.current = new ManualScrollEngine(container, content, {
+                    axis: "y",
+                    scrollFactor: 1,
+                    minOffset,
+                    maxOffset,
+                });
+            }
         };
 
-        // Aumentar timeout para asegurar que todo está renderizado
-        setTimeout(initScroll, 300);
+        // Inicializar después de que el contenido se renderice
+        const initTimer = setTimeout(updateScrollBounds, 300);
+
+        // Observar cambios de tamaño en el contenido (para Collapse, etc.)
+        const resizeObserver = new ResizeObserver(() => {
+            updateScrollBounds();
+        });
+        resizeObserver.observe(content);
 
         return () => {
+            clearTimeout(initTimer);
+            resizeObserver.disconnect();
             if (scrollEngineRef.current) {
                 scrollEngineRef.current.destroy();
                 scrollEngineRef.current = null;
@@ -175,7 +194,8 @@ let DetailsProductComponent = ({ id }) => {
                 position: "relative",
                 overflow: "hidden",
                 width: "100%",
-                height: "100vh",
+                height: "100%",
+                flex: 1,
                 userSelect: "none",
             }}>
             <div ref={contentRef} style={{ position: "relative" }}>
@@ -185,7 +205,7 @@ let DetailsProductComponent = ({ id }) => {
                     </Col>
                 </Row>
 
-                {/* 📦 Información del producto */}
+                {/* Información del producto */}
                 <Row gutter={24} style={{ padding: "1rem" }}>
                     <Col xs={24}>
                         <Row style={{ paddingBottom: "0.5rem", }}>
