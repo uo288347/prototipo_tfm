@@ -18,7 +18,7 @@ import { getTourSteps } from '@/utils/UtilsTour';
 import { task1, UtilsTasks } from '@/utils/UtilsTasks';
 import { NextIntlClientProvider } from 'next-intl';
 import { useRouter } from 'next/router';
-import { getCurrentSceneId, registerComponent, COMPONENT_TOUR} from '../metrics/scriptTest';
+import { getCurrentSceneId, registerComponent, COMPONENT_TOUR } from '../metrics/scriptTest';
 
 export default function App({ Component, pageProps }) {
     const router = useRouter();
@@ -42,7 +42,7 @@ export default function App({ Component, pageProps }) {
             Finish: locale === 'es' ? 'Finalizar' : 'Finish',
         },
     };
-    
+
     useEffect(() => {
         initNotification(api);
         clearCart();
@@ -57,15 +57,15 @@ export default function App({ Component, pageProps }) {
         setIsUserLoggedIn(loggedIn);
 
         if (loggedIn) {
-            setTimeout(() => {setOpenTour(true);}, 500);
+            setTimeout(() => { setOpenTour(true); }, 500);
         }
-        
+
         // Verificar periódicamente el estado del login
         const interval = setInterval(() => {
             const currentLoginState = isLoggedIn();
             const wasLoggedOut = !isUserLoggedIn;
             setIsUserLoggedIn(currentLoginState);
-            
+
             // Si cambió de logged out a logged in, mostrar tour
             if (wasLoggedOut && currentLoginState) {
                 setTimeout(() => {
@@ -73,13 +73,13 @@ export default function App({ Component, pageProps }) {
                 }, 500);
             }
         }, 500);
-        
+
         return () => clearInterval(interval);
     }, [isUserLoggedIn]);
 
-    const closeTour = () => { 
+    const closeTour = () => {
         task1();
-        setOpenTour(false); 
+        setOpenTour(false);
     };
 
     const tourRef = useRef(false);
@@ -104,7 +104,7 @@ export default function App({ Component, pageProps }) {
                 rect.left + scrollX,
                 rect.top + scrollY,
                 rect.right + scrollX,
-                rect.bottom + scrollY, 
+                rect.bottom + scrollY,
                 COMPONENT_TOUR, null);
         }
     }, []);
@@ -115,23 +115,33 @@ export default function App({ Component, pageProps }) {
                 <AntdConfigProvider locale={customLocale}>
                     <AntdMobileConfigProvider locale={antdMobileLocale}>
                         {contextHolder}
-                        <div style={{ height: "100vh", display: "flex", flexDirection: "column", backgroundColor: "#fff" }}>
-                            <div style={{ flex: 1, display: "flex", minHeight: 0,
-                            flexDirection: "column", padding: "0px 0px", paddingTop: isUserLoggedIn ? "40px" : "0px", overflow: "auto"}}>
-                                {isUserLoggedIn && <InstructionsBanner ref={bannerRef}/>}
-                                <Component {...pageProps} />
+                        <div style={{
+                            minHeight: "100vh",
+                            display: "flex",
+                            flexDirection: "column",
+                            backgroundColor: "#fff"
+                        }}>
+                            <div style={{
+                                flex: 1, display: "flex", minHeight: 0,
+                                flexDirection: "column", padding: "0px 0px",
+                                paddingTop: isUserLoggedIn ? "40px" : "0px",
+                                overflow: "auto"
+                            }}>
+                                {isUserLoggedIn && <InstructionsBanner ref={bannerRef} />}
+                                <Component {...pageProps} footer={
+                                    <footer style={{ textAlign: "center", padding: "16px" }}>
+                                        Universidad de Oviedo
+                                    </footer>
+                                } />
                             </div>
-                            <footer style={{ textAlign: "center", padding: "16px" }}>
-                                Universidad de Oviedo
-                            </footer>
                         </div>
 
-                        <Tour 
-                            style={{margin: "0 30px"}}
-                            open={openTour} 
-                            onClose={closeTour} 
-                            steps={getTourSteps({bannerRef, locale})}
-                            id = "tour-instructions-banner"
+                        <Tour
+                            style={{ margin: "0 30px" }}
+                            open={openTour}
+                            onClose={closeTour}
+                            steps={getTourSteps({ bannerRef, locale })}
+                            id="tour-instructions-banner"
                             data-trackable-id="tour-instructions-banner"
                         />
                     </AntdMobileConfigProvider>
