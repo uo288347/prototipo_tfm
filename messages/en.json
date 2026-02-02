@@ -56,7 +56,8 @@
     "size": "Size",
     "color": "Color",
     "free": "FREE",
-    "viewProduct": "View Product"
+    "viewProduct": "View Product",
+    "noProductsFound": "No products found with selected filters"
   },
   "freeOffer": {
     "title": "🎁 Unlock a Free Product!",

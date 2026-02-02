@@ -1,3 +1,4 @@
+
 import Link from "next/link";
 import { useEffect, useMemo } from "react";
 import { Row, Col, Pagination, Modal } from "antd";
@@ -7,9 +8,12 @@ import { getProducts } from "@/utils/UtilsProducts";
 import { useRouter } from "next/router";
 import { LongPressWrapper } from "./shared/LongPressWrapper"
 import { ModalProductCard } from "./homeComponent/ModalProductCard";
+import { useTranslations } from 'next-intl';
+
 
 const ProductGrid = ({ category, filter }) => {
   const router = useRouter();
+  const t = useTranslations();
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [isModalVisible, setIsModalVisible] = useState(false);
 
@@ -20,7 +24,7 @@ const ProductGrid = ({ category, filter }) => {
   }, [])
 
   useEffect(() => {
-        console.log("filters: ", category)
+    console.log("filters: ", category)
 
     if (products.length == 0) setFilteredProducts([])
     else {
@@ -49,11 +53,10 @@ const ProductGrid = ({ category, filter }) => {
     setSelectedProduct(null);
   };
 
-
   if (filteredProducts.length === 0) {
     return (
       <div style={{ textAlign: "center" }}>
-        <p>No products found with selected filters</p>
+        <p>{t('product.noProductsFound')}</p>
       </div>
     );
   }
