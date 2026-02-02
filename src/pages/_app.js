@@ -115,9 +115,9 @@ export default function App({ Component, pageProps }) {
                 <AntdConfigProvider locale={customLocale}>
                     <AntdMobileConfigProvider locale={antdMobileLocale}>
                         {contextHolder}
-                        <div style={{ minHeight: "100vh", display: "flex", flexDirection: "column", backgroundColor: "#fff" }}>
-                            <div style={{ flex: 1, display: "flex",
-                            flexDirection: "column", padding: "0px 0px", paddingTop: isUserLoggedIn ? "40px" : "0px"}}>
+                        <div style={{ height: "100dvh", display: "flex", flexDirection: "column", backgroundColor: "#fff", overflow: "hidden" }}>
+                            <div style={{ flex: 1, display: "flex", minHeight: 0,
+                            flexDirection: "column", padding: "0px 0px", paddingTop: isUserLoggedIn ? "40px" : "0px", overflow: "auto"}}>
                                 {isUserLoggedIn && <InstructionsBanner ref={bannerRef}/>}
                                 <Component {...pageProps} />
                             </div>
