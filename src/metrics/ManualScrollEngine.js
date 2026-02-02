@@ -8,6 +8,8 @@ const DEFAULT_OPTIONS = {
   scrollFactor: 1,       // sensibilidad
   minOffset: -Infinity,  // límite mínimo (en px)
   maxOffset: Infinity,   // límite máximo (en px)
+  stopPropagation: false, // detener propagación de eventos (para scrolls anidados)
+  onPointerEvent: null,  // callback para notificar eventos de pointer (para tracking)
 };
 
 export class ManualScrollEngine {
@@ -58,6 +60,14 @@ export class ManualScrollEngine {
   }
 
   _pointerDown(e) {
+    // Notificar evento para tracking antes de stopPropagation
+    if (this.options.onPointerEvent) {
+      this.options.onPointerEvent('pointerdown', e);
+    }
+    // Detener propagación si está configurado (para scrolls anidados)
+    if (this.options.stopPropagation) {
+      e.stopPropagation();
+    }
     // Capturamos el puntero para seguir recibiendo eventos aunque salga del elemento. [web:20]
     if (this.container.setPointerCapture) {
       this.container.setPointerCapture(e.pointerId);
@@ -68,6 +78,15 @@ export class ManualScrollEngine {
 
   _pointerMove(e) {
     if (!this.isDragging) return;
+
+    // Notificar evento para tracking antes de stopPropagation
+    if (this.options.onPointerEvent) {
+      this.options.onPointerEvent('pointermove', e);
+    }
+    // Detener propagación si está configurado (para scrolls anidados)
+    if (this.options.stopPropagation) {
+      e.stopPropagation();
+    }
 
     // NO generamos pointermove manualmente: dejamos que el sistema nativo dispare el evento
     // y tus listeners globales de tracking lo capturarán.
@@ -95,6 +114,13 @@ export class ManualScrollEngine {
   }
 
   _pointerUp(e) {
+    // Notificar evento para tracking
+    if (this.options.onPointerEvent) {
+      this.options.onPointerEvent('pointerup', e);
+    }
+    if (this.options.stopPropagation) {
+      e.stopPropagation();
+    }
     this.isDragging = false;
     if (this.container.releasePointerCapture) {
       try {
@@ -105,6 +131,13 @@ export class ManualScrollEngine {
   }
 
   _pointerCancel(e) {
+    // Notificar evento para tracking
+    if (this.options.onPointerEvent) {
+      this.options.onPointerEvent('pointercancel', e);
+    }
+    if (this.options.stopPropagation) {
+      e.stopPropagation();
+    }
     this._pointerUp(e);
   }
 
