@@ -7,8 +7,8 @@ export default function DetailsProductPage({footer}) {
 
   return (
     <div style={{ height: "100%", display: "flex", flexDirection: "column" }}>
-      <DetailsProductComponent id = {id}/>
-      {footer}
+      <DetailsProductComponent id = {id} footer={footer}/>
+      
     </div>
   );
 }

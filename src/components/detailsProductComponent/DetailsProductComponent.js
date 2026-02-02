@@ -18,7 +18,7 @@ import { registerComponent, COMPONENT_BUTTON, COMPONENT_RADIO_BUTTON, COMPONENT_
 import { getCurrentSceneId } from "@/metrics/constants/scenes";
 import { ManualScrollEngine } from "@/metrics/ManualScrollEngine";
 
-let DetailsProductComponent = ({ id }) => {
+let DetailsProductComponent = ({ id , footer}) => {
     const containerRef = useRef(null);
     const contentRef = useRef(null);
     const scrollEngineRef = useRef(null);
@@ -195,12 +195,10 @@ let DetailsProductComponent = ({ id }) => {
                 overflow: "hidden",
                 width: "100%",
                 height: "calc(100vh - 40px)",
-                flex: 1,
-                userSelect: "none",
             }}>
-            <div ref={contentRef} style={{ position: "relative" }}>
-                <Row style={{ maxHeight: "50vh", overflow: "hidden", touchAction: "pan-y" }}>
-                    <Col xs={24} style={{ height: "50vh", touchAction: "pan-y" }}>
+            <div ref={contentRef} >
+                <Row style={{ maxHeight: "50vh", overflow: "hidden" }}>
+                    <Col xs={24} style={{ height: "50vh"}}>
                         <ImageCarousel product={product} />
                     </Col>
                 </Row>
@@ -294,6 +292,7 @@ let DetailsProductComponent = ({ id }) => {
                         >{t('product.addToCart')}</Button>
                     </Col>
                 </Row>
+                {footer}
             </div>
         </div>
     )
