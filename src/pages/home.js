@@ -4,7 +4,7 @@ import { finishSubsceneTracking } from "@/metrics/scriptTest";
 import { useScene } from "@/experiment/useScene";
 import { getCurrentSceneId } from "@/metrics/constants/scenes";
 
-export default function Home() {
+export default function Home({footer}) {
     const currentSceneId = getCurrentSceneId();
     const scene = useScene(currentSceneId);
     useEffect(() => {
@@ -14,7 +14,7 @@ export default function Home() {
 
     return (
     <div style={{margin: "0 10px"}}>
-      <HomeComponent />
+      <HomeComponent footer={footer}/>
     </div>
   ); 
 }

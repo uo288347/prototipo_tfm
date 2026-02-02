@@ -11,7 +11,7 @@ import { useRouter as useNextRouter } from 'next/router';
 import { TrackableSelect } from "../shared/TrackableSelect";
 import { ManualScrollEngine } from "@/metrics/ManualScrollEngine";
 
-export const HomeComponent = ({ }) => {
+export const HomeComponent = ({ footer}) => {
     const containerRef = useRef(null);
     const contentRef = useRef(null);
     const scrollEngineRef = useRef(null);
@@ -146,6 +146,7 @@ export const HomeComponent = ({ }) => {
                             filter={filters.filter} />
                     </Col>
                 </Row>
+                {footer}
             </div>
         </div>
     );

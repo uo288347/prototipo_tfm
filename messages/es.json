@@ -56,7 +56,8 @@
     "size": "Talla",
     "color": "Color",
     "free": "GRATIS",
-    "viewProduct": "Ver Producto"
+    "viewProduct": "Ver Producto",
+    "noProductsFound": "No se encontraron productos con los filtros seleccionados"
   },
   "freeOffer": {
     "title": "🎁 ¡Desbloquea un Producto Gratis!",
