@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/router";
 import { Typography, Card, Carousel, Image, Button, Link, Row, Col, Select, InputNumber, FloatButton, Breadcrumb, Radio } from 'antd';
 const { Title, Paragraph } = Typography;
@@ -16,8 +16,13 @@ import { getProductTitle, getProductDescription } from "@/utils/UtilsProductTran
 import { useTranslations } from 'next-intl';
 import { registerComponent, COMPONENT_BUTTON, COMPONENT_RADIO_BUTTON, COMPONENT_STEPPER } from "@/metrics/scriptTest";
 import { getCurrentSceneId } from "@/metrics/constants/scenes";
+import { ManualScrollEngine } from "@/metrics/ManualScrollEngine";
 
 let DetailsProductComponent = ({ id }) => {
+    const containerRef = useRef(null);
+    const contentRef = useRef(null);
+    const scrollEngineRef = useRef(null);
+
     const router = useRouter();
     const locale = router.locale || 'es';
     const t = useTranslations();
@@ -78,7 +83,7 @@ let DetailsProductComponent = ({ id }) => {
             }
 
             //console.log(`[DetailsProductComponent] Components registered for product ${id}`);
-            
+
         }, 500);
 
         return () => clearTimeout(timer);
@@ -93,6 +98,52 @@ let DetailsProductComponent = ({ id }) => {
         setFavorite(getFavorite(id))
         setCategory(getCategoryLabel(p.category, locale))
     }, [id, locale])
+
+    useEffect(() => {
+        const container = containerRef.current;
+        const content = contentRef.current;
+        console.log("Initializing ManualScrollEngine", { container, content });
+        if (!container || !content) return;
+
+        // Esperar a que el contenido se renderice completamente
+        const initScroll = () => {
+            // Forzar recálculo de layout
+            content.style.position = 'relative';
+            
+            const availableHeight = container.clientHeight;
+            const scrollHeight = content.scrollHeight;
+
+            console.log("ManualScrollEngine values:", { availableHeight, scrollHeight, diff: scrollHeight - availableHeight });
+
+            // Solo crear el engine si hay contenido que scrollear
+            if (scrollHeight <= availableHeight) {
+                console.log("No scroll needed, content fits in container");
+                return;
+            }
+
+            const maxOffset = 0;
+            const minOffset = -(scrollHeight - availableHeight);
+
+            console.log("Creating ManualScrollEngine with:", { minOffset, maxOffset });
+
+            scrollEngineRef.current = new ManualScrollEngine(container, content, {
+                axis: "y",
+                scrollFactor: 1,
+                minOffset,
+                maxOffset,
+            });
+        };
+
+        // Aumentar timeout para asegurar que todo está renderizado
+        setTimeout(initScroll, 300);
+
+        return () => {
+            if (scrollEngineRef.current) {
+                scrollEngineRef.current.destroy();
+                scrollEngineRef.current = null;
+            }
+        };
+    }, [product, isApplied]);
 
     let onToggleFavorite = () => {
         toggleFavorite(id)
@@ -118,104 +169,113 @@ let DetailsProductComponent = ({ id }) => {
 
     const sizes = ["S", "M", "L", "XL"];
     return (
-        <>
-            <Row style={{ maxHeight: "50vh", overflow: "hidden" }}>
-                <Col xs={24} style={{ height: "50vh" }}>
-                    <ImageCarousel product={product} />
-                </Col>
-            </Row>
+        <div ref={containerRef}
+            style={{
+                touchAction: "none",
+                position: "relative",
+                overflow: "hidden",
+                width: "100%",
+                height: "100vh",
+                userSelect: "none",
+            }}>
+            <div ref={contentRef} style={{ position: "relative" }}>
+                <Row style={{ maxHeight: "50vh", overflow: "hidden", touchAction: "pan-y" }}>
+                    <Col xs={24} style={{ height: "50vh", touchAction: "pan-y" }}>
+                        <ImageCarousel product={product} />
+                    </Col>
+                </Row>
 
-            {/* 📦 Información del producto */}
-            <Row gutter={24} style={{ padding: "1rem" }}>
-                <Col xs={24}>
-                    <Row style={{ paddingBottom: "0.5rem", }}>
-                        <Breadcrumb
-                            items={[{ title: <a href="/home">{t('home.home')}</a>, },
-                            { title: <a href="/home">{category}</a> }]}
-                        />
-                    </Row>
-                    <Row align="middle" justify="space-between" style={{
-                        paddingBottom: "0.5rem", display: "flex",
-                        flexWrap: "nowrap",
-                        gap: "0.5rem",
-                    }}>
-                        <Title level={3} style={{
-                            margin: 0,
-                            whiteSpace: "nowrap",
-                            overflow: "hidden",
-                            textOverflow: "ellipsis",
-                            flex: "1 1 auto",
-                            minWidth: 0,
+                {/* 📦 Información del producto */}
+                <Row gutter={24} style={{ padding: "1rem" }}>
+                    <Col xs={24}>
+                        <Row style={{ paddingBottom: "0.5rem", }}>
+                            <Breadcrumb
+                                items={[{ title: <a href="/home">{t('home.home')}</a>, },
+                                { title: <a href="/home">{category}</a> }]}
+                            />
+                        </Row>
+                        <Row align="middle" justify="space-between" style={{
+                            paddingBottom: "0.5rem", display: "flex",
+                            flexWrap: "nowrap",
+                            gap: "0.5rem",
                         }}>
-                            {productTitle}
-                        </Title>
+                            <Title level={3} style={{
+                                margin: 0,
+                                whiteSpace: "nowrap",
+                                overflow: "hidden",
+                                textOverflow: "ellipsis",
+                                flex: "1 1 auto",
+                                minWidth: 0,
+                            }}>
+                                {productTitle}
+                            </Title>
 
-                        <Button id="btn-favorite" type="text" size="large" style={{ border: "none", flex: "0 0 auto" }}
-                            onClick={() => onToggleFavorite()}
-                            data-trackable-id="btn-favorite"
-                            icon={favorite ? <HeartFill style={{ fontSize: "30px", color: "#b90104ff" }} /> : <HeartOutline style={{ fontSize: "30px" }} />} />
+                            <Button id="btn-favorite" type="text" size="large" style={{ border: "none", flex: "0 0 auto" }}
+                                onClick={() => onToggleFavorite()}
+                                data-trackable-id="btn-favorite"
+                                icon={favorite ? <HeartFill style={{ fontSize: "30px", color: "#b90104ff" }} /> : <HeartOutline style={{ fontSize: "30px" }} />} />
 
-                    </Row>
+                        </Row>
 
-                    <Row align="middle" style={{ paddingBottom: "1rem" }}>
-                        <Text style={{ fontSize: "1rem", color: "#666" }}>
-                            {productDescription}
-                        </Text>
-                    </Row>
+                        <Row align="middle" style={{ paddingBottom: "1rem" }}>
+                            <Text style={{ fontSize: "1rem", color: "#666" }}>
+                                {productDescription}
+                            </Text>
+                        </Row>
 
-                    <Row align="middle" style={{ paddingBottom: "1rem" }}>
-                        <Radio.Group value={selectedSize}
-                            onChange={handleSizeChange}>
-                            {sizes.map((size) => (
-                                <Radio.Button
-                                    key={size}
-                                    value={size}
-                                    style={{
-                                        backgroundColor: selectedSize === size ? "black" : undefined,
-                                        color: selectedSize === size ? "white" : undefined,
-                                        borderColor: selectedSize === size ? "black" : undefined,
-                                    }}
-                                >
-                                    {size}
-                                </Radio.Button>
-                            ))}
-                        </Radio.Group>
-                    </Row>
+                        <Row align="middle" style={{ paddingBottom: "1rem" }}>
+                            <Radio.Group value={selectedSize}
+                                onChange={handleSizeChange}>
+                                {sizes.map((size) => (
+                                    <Radio.Button
+                                        key={size}
+                                        value={size}
+                                        style={{
+                                            backgroundColor: selectedSize === size ? "black" : undefined,
+                                            color: selectedSize === size ? "white" : undefined,
+                                            borderColor: selectedSize === size ? "black" : undefined,
+                                        }}
+                                    >
+                                        {size}
+                                    </Radio.Button>
+                                ))}
+                            </Radio.Group>
+                        </Row>
 
-                    <Row align="top" style={{ paddingBottom: "0", marginBottom: "0" }}>
-                        <Col xs={12}>
-                            <Stepper style={{ marginTop: "0.5rem", }}
-                                min={1}
-                                max={10}
-                                value={quantity}
-                                onChange={val => setQuantity(val)} />
-                        </Col>
-                        <Col xs={12} align="right">
-                            {isApplied ? (
-                                <div style={{ display: "flex", justifyContent: "flex-end", alignItems: "center", gap: "0.5rem" }}>
-                                    <Text style={{ textDecoration: "line-through", color: "red", fontSize: "1rem" }}>
-                                        {product.price}€
-                                    </Text>
-                                    <Title level={1} style={{ margin: 0 }}>
-                                        0€
-                                    </Title>
-                                </div>
-                            ) : (
-                                <Title level={1}>{product.price}€</Title>
-                            )}
-                        </Col>
-                    </Row>
-                    <FreeProductOffer id={id} freeCode={product.freeCode} isApplied={isApplied} setIsApplied={setIsApplied}/>
+                        <Row align="top" style={{ paddingBottom: "0", marginBottom: "0" }}>
+                            <Col xs={12}>
+                                <Stepper style={{ marginTop: "0.5rem", }}
+                                    min={1}
+                                    max={10}
+                                    value={quantity}
+                                    onChange={val => setQuantity(val)} />
+                            </Col>
+                            <Col xs={12} align="right">
+                                {isApplied ? (
+                                    <div style={{ display: "flex", justifyContent: "flex-end", alignItems: "center", gap: "0.5rem" }}>
+                                        <Text style={{ textDecoration: "line-through", color: "red", fontSize: "1rem" }}>
+                                            {product.price}€
+                                        </Text>
+                                        <Title level={1} style={{ margin: 0 }}>
+                                            0€
+                                        </Title>
+                                    </div>
+                                ) : (
+                                    <Title level={1}>{product.price}€</Title>
+                                )}
+                            </Col>
+                        </Row>
+                        <FreeProductOffer id={id} freeCode={product.freeCode} isApplied={isApplied} setIsApplied={setIsApplied} />
 
-                    <Button type="primary" block id="btn-add-to-cart"
-                        onClick={addToShoppingCart}
-                        data-trackable-id="btn-add-to-cart"
-                        icon={<ShoppingCartOutlined />}
-                    >{t('product.addToCart')}</Button>
-                </Col>
-            </Row>
-
-        </>
+                        <Button type="primary" block id="btn-add-to-cart"
+                            onClick={addToShoppingCart}
+                            data-trackable-id="btn-add-to-cart"
+                            icon={<ShoppingCartOutlined />}
+                        >{t('product.addToCart')}</Button>
+                    </Col>
+                </Row>
+            </div>
+        </div>
     )
 }
 
