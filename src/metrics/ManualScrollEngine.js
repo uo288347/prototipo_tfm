@@ -11,7 +11,10 @@ const DEFAULT_OPTIONS = {
   stopPropagation: false, // detener propagación de eventos (para scrolls anidados)
   onPointerEvent: null,  // callback para notificar eventos de pointer (para tracking)
   friction: 0.95,        // Factor de fricción (0.9-0.98)
-  velocityThreshold: 0.1 // Velocidad mínima para detener la inercia
+  velocityThreshold: 0.1, // Velocidad mínima para detener la inercia
+  rubberBanding: true,        // Activar/desactivar efecto elástico
+  rubberBandingStrength: 3,   // Factor de resistencia (2-5 recomendado)
+  snapBackSpeed: 0.15
 };
 
 export class ManualScrollEngine {
@@ -47,7 +50,7 @@ export class ManualScrollEngine {
     // Cancelamos comportamiento táctil nativo (scroll, zoom) sobre el contenedor. [web:4][web:23]
     this.container.style.touchAction =
       this.options.axis === "y" ? "pan-x" :
-      this.options.axis === "x" ? "pan-y" : "none";
+        this.options.axis === "x" ? "pan-y" : "none";
 
     this.container.addEventListener("pointerdown", this._pointerDown);
     this.container.addEventListener("pointermove", this._pointerMove);
@@ -88,7 +91,7 @@ export class ManualScrollEngine {
       this.momentumRAF = null;
     }
     this.velocity = { x: 0, y: 0 };
-    
+
     // Capturamos el puntero para seguir recibiendo eventos aunque salga del elemento. [web:20]
     if (this.container.setPointerCapture) {
       this.container.setPointerCapture(e.pointerId);
@@ -129,13 +132,37 @@ export class ManualScrollEngine {
 
     if (this.options.axis === "y" || this.options.axis === "both") {
       let nextY = this.currentOffset.y + dy * factor; // invertimos sentido para que arrastrar hacia arriba suba contenido
-      nextY = Math.max(this.options.minOffset, Math.min(this.options.maxOffset, nextY));
+      // Aplicar rubber banding si está habilitado
+      if (this.options.rubberBanding) {
+        if (nextY < this.options.minOffset) {
+          const overflow = this.options.minOffset - nextY;
+          nextY = this.options.minOffset - Math.sqrt(overflow) * this.options.rubberBandingStrength;
+        } else if (nextY > this.options.maxOffset) {
+          const overflow = nextY - this.options.maxOffset;
+          nextY = this.options.maxOffset + Math.sqrt(overflow) * this.options.rubberBandingStrength;
+        }
+      } else {
+        // Sin rubber banding: límite estricto
+        nextY = Math.max(this.options.minOffset, Math.min(this.options.maxOffset, nextY));
+      }
       this.currentOffset.y = nextY;
     }
 
     if (this.options.axis === "x" || this.options.axis === "both") {
       let nextX = this.currentOffset.x + dx * factor;
-      nextX = Math.max(this.options.minOffset, Math.min(this.options.maxOffset, nextX));
+      // Aplicar rubber banding si está habilitado
+      if (this.options.rubberBanding) {
+        if (nextX < this.options.minOffset) {
+          const overflow = this.options.minOffset - nextX;
+          nextX = this.options.minOffset - Math.sqrt(overflow) * this.options.rubberBandingStrength;
+        } else if (nextX > this.options.maxOffset) {
+          const overflow = nextX - this.options.maxOffset;
+          nextX = this.options.maxOffset + Math.sqrt(overflow) * this.options.rubberBandingStrength;
+        }
+      } else {
+        // Sin rubber banding
+        nextX = Math.max(this.options.minOffset, Math.min(this.options.maxOffset, nextX));
+      }
       this.currentOffset.x = nextX;
     }
 
@@ -154,7 +181,7 @@ export class ManualScrollEngine {
     if (this.container.releasePointerCapture) {
       try {
         this.container.releasePointerCapture(e.pointerId);
-      } catch (_) {}
+      } catch (_) { }
     }
     // Aquí podrías añadir inercia si lo necesitas (requestAnimationFrame con velocidad). [web:22][web:26]
     this._startMomentum();
@@ -174,36 +201,78 @@ export class ManualScrollEngine {
   _startMomentum() {
     const friction = this.options.friction;
     const threshold = this.options.velocityThreshold;
-    
+
     const animate = () => {
       // Aplicar fricción
       this.velocity.x *= friction;
       this.velocity.y *= friction;
-      
+
       // Actualizar posición con la velocidad
       if (this.options.axis === "y" || this.options.axis === "both") {
-        let nextY = this.currentOffset.y + this.velocity.y;
-        nextY = Math.max(this.options.minOffset, Math.min(this.options.maxOffset, nextY));
-        this.currentOffset.y = nextY;
-        
-        // Si choca con un límite, detener velocidad en ese eje
-        if (nextY === this.options.minOffset || nextY === this.options.maxOffset) {
+        if (this.options.rubberBanding &&
+          (this.currentOffset.y < this.options.minOffset ||
+            this.currentOffset.y > this.options.maxOffset)) {
+
+          // Calcular objetivo (el límite más cercano)
+          const target = this.currentOffset.y < this.options.minOffset
+            ? this.options.minOffset
+            : this.options.maxOffset;
+
+          // Retorno elástico suave
+          this.currentOffset.y += (target - this.currentOffset.y) * snapBackSpeed;
           this.velocity.y = 0;
+          isSnapping = true;
+
+          // Detener cuando está suficientemente cerca
+          if (Math.abs(this.currentOffset.y - target) < 0.5) {
+            this.currentOffset.y = target;
+            isSnapping = false;
+          }
+        } else {
+          // Inercia normal
+          this.velocity.y *= friction;
+          let nextY = this.currentOffset.y + this.velocity.y;
+          nextY = Math.max(this.options.minOffset, Math.min(this.options.maxOffset, nextY));
+          this.currentOffset.y = nextY;
+
+          // Detener velocidad si choca con límite
+          if (nextY === this.options.minOffset || nextY === this.options.maxOffset) {
+            this.velocity.y = 0;
+          }
         }
       }
-      
+
       if (this.options.axis === "x" || this.options.axis === "both") {
-        let nextX = this.currentOffset.x + this.velocity.x;
-        nextX = Math.max(this.options.minOffset, Math.min(this.options.maxOffset, nextX));
-        this.currentOffset.x = nextX;
-        
-        if (nextX === this.options.minOffset || nextX === this.options.maxOffset) {
+        if (this.options.rubberBanding &&
+          (this.currentOffset.x < this.options.minOffset ||
+            this.currentOffset.x > this.options.maxOffset)) {
+
+          const target = this.currentOffset.x < this.options.minOffset
+            ? this.options.minOffset
+            : this.options.maxOffset;
+
+          this.currentOffset.x += (target - this.currentOffset.x) * snapBackSpeed;
           this.velocity.x = 0;
+          isSnapping = true;
+
+          if (Math.abs(this.currentOffset.x - target) < 0.5) {
+            this.currentOffset.x = target;
+            isSnapping = false;
+          }
+        } else {
+          this.velocity.x *= friction;
+          let nextX = this.currentOffset.x + this.velocity.x;
+          nextX = Math.max(this.options.minOffset, Math.min(this.options.maxOffset, nextX));
+          this.currentOffset.x = nextX;
+
+          if (nextX === this.options.minOffset || nextX === this.options.maxOffset) {
+            this.velocity.x = 0;
+          }
         }
       }
-      
+
       this._applyTransform();
-      
+
       // Continuar si hay velocidad suficiente
       if (Math.abs(this.velocity.x) > threshold || Math.abs(this.velocity.y) > threshold) {
         this.momentumRAF = requestAnimationFrame(animate);
@@ -212,13 +281,21 @@ export class ManualScrollEngine {
         this.momentumRAF = null;
       }
     };
+
+    // Iniciar animación si hay velocidad O si está fuera de límites (rubber banding)
+    const needsAnimation = Math.abs(this.velocity.x) > threshold || 
+                          Math.abs(this.velocity.y) > threshold ||
+                          (this.options.rubberBanding && 
+                           (this.currentOffset.y < this.options.minOffset ||
+                            this.currentOffset.y > this.options.maxOffset ||
+                            this.currentOffset.x < this.options.minOffset ||
+                            this.currentOffset.x > this.options.maxOffset));
     
-    // Solo iniciar si hay velocidad inicial
-    if (Math.abs(this.velocity.x) > threshold || Math.abs(this.velocity.y) > threshold) {
+    if (needsAnimation) {
       this.momentumRAF = requestAnimationFrame(animate);
     }
   }
-  
+
   _applyTransform() {
     const x = this.options.axis === "y" ? 0 : this.currentOffset.x;
     const y = this.options.axis === "x" ? 0 : this.currentOffset.y;
