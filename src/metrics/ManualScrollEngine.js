@@ -10,6 +10,8 @@ const DEFAULT_OPTIONS = {
   maxOffset: Infinity,   // límite máximo (en px)
   stopPropagation: false, // detener propagación de eventos (para scrolls anidados)
   onPointerEvent: null,  // callback para notificar eventos de pointer (para tracking)
+  friction: 0.95,        // Factor de fricción (0.9-0.98)
+  velocityThreshold: 0.1 // Velocidad mínima para detener la inercia
 };
 
 export class ManualScrollEngine {
@@ -26,6 +28,10 @@ export class ManualScrollEngine {
     this.isDragging = false;
     this.lastPointerPos = { x: 0, y: 0 };
     this.currentOffset = { x: 0, y: 0 };
+
+    this.velocity = { x: 0, y: 0 };
+    this.lastMoveTime = 0;
+    this.momentumRAF = null;
 
     this._pointerDown = this._pointerDown.bind(this);
     this._pointerMove = this._pointerMove.bind(this);
@@ -52,6 +58,13 @@ export class ManualScrollEngine {
 
   destroy() {
     if (!this.container) return;
+
+    // Cancelar animación de inercia si existe
+    if (this.momentumRAF) {
+      cancelAnimationFrame(this.momentumRAF);
+      this.momentumRAF = null;
+    }
+
     this.container.removeEventListener("pointerdown", this._pointerDown);
     this.container.removeEventListener("pointermove", this._pointerMove);
     this.container.removeEventListener("pointerup", this._pointerUp);
@@ -68,6 +81,14 @@ export class ManualScrollEngine {
     if (this.options.stopPropagation) {
       e.stopPropagation();
     }
+
+    // Detener inercia si está activa
+    if (this.momentumRAF) {
+      cancelAnimationFrame(this.momentumRAF);
+      this.momentumRAF = null;
+    }
+    this.velocity = { x: 0, y: 0 };
+    
     // Capturamos el puntero para seguir recibiendo eventos aunque salga del elemento. [web:20]
     if (this.container.setPointerCapture) {
       this.container.setPointerCapture(e.pointerId);
@@ -91,10 +112,18 @@ export class ManualScrollEngine {
     // NO generamos pointermove manualmente: dejamos que el sistema nativo dispare el evento
     // y tus listeners globales de tracking lo capturarán.
 
+    const now = performance.now();
+    const dt = now - this.lastMoveTime || 16;
+
     const dx = e.clientX - this.lastPointerPos.x;
     const dy = e.clientY - this.lastPointerPos.y;
 
+    // Calcular velocidad (normalizada a 60fps)
+    this.velocity.x = (dx / dt) * 16;
+    this.velocity.y = (dy / dt) * 16;
+
     this.lastPointerPos = { x: e.clientX, y: e.clientY };
+    this.lastMoveTime = now;
 
     const factor = this.options.scrollFactor;
 
@@ -128,6 +157,7 @@ export class ManualScrollEngine {
       } catch (_) {}
     }
     // Aquí podrías añadir inercia si lo necesitas (requestAnimationFrame con velocidad). [web:22][web:26]
+    this._startMomentum();
   }
 
   _pointerCancel(e) {
@@ -141,6 +171,54 @@ export class ManualScrollEngine {
     this._pointerUp(e);
   }
 
+  _startMomentum() {
+    const friction = this.options.friction;
+    const threshold = this.options.velocityThreshold;
+    
+    const animate = () => {
+      // Aplicar fricción
+      this.velocity.x *= friction;
+      this.velocity.y *= friction;
+      
+      // Actualizar posición con la velocidad
+      if (this.options.axis === "y" || this.options.axis === "both") {
+        let nextY = this.currentOffset.y + this.velocity.y;
+        nextY = Math.max(this.options.minOffset, Math.min(this.options.maxOffset, nextY));
+        this.currentOffset.y = nextY;
+        
+        // Si choca con un límite, detener velocidad en ese eje
+        if (nextY === this.options.minOffset || nextY === this.options.maxOffset) {
+          this.velocity.y = 0;
+        }
+      }
+      
+      if (this.options.axis === "x" || this.options.axis === "both") {
+        let nextX = this.currentOffset.x + this.velocity.x;
+        nextX = Math.max(this.options.minOffset, Math.min(this.options.maxOffset, nextX));
+        this.currentOffset.x = nextX;
+        
+        if (nextX === this.options.minOffset || nextX === this.options.maxOffset) {
+          this.velocity.x = 0;
+        }
+      }
+      
+      this._applyTransform();
+      
+      // Continuar si hay velocidad suficiente
+      if (Math.abs(this.velocity.x) > threshold || Math.abs(this.velocity.y) > threshold) {
+        this.momentumRAF = requestAnimationFrame(animate);
+      } else {
+        this.velocity = { x: 0, y: 0 };
+        this.momentumRAF = null;
+      }
+    };
+    
+    // Solo iniciar si hay velocidad inicial
+    if (Math.abs(this.velocity.x) > threshold || Math.abs(this.velocity.y) > threshold) {
+      this.momentumRAF = requestAnimationFrame(animate);
+    }
+  }
+  
   _applyTransform() {
     const x = this.options.axis === "y" ? 0 : this.currentOffset.x;
     const y = this.options.axis === "x" ? 0 : this.currentOffset.y;
