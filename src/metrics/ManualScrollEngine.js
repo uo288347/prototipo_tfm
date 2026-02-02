@@ -10,11 +10,11 @@ const DEFAULT_OPTIONS = {
   maxOffset: Infinity,   // límite máximo (en px)
   stopPropagation: false, // detener propagación de eventos (para scrolls anidados)
   onPointerEvent: null,  // callback para notificar eventos de pointer (para tracking)
-  friction: 0.95,        // Factor de fricción (0.9-0.98)
+  friction: 0.97,        // Factor de fricción (0.9-0.98)
   velocityThreshold: 0.1, // Velocidad mínima para detener la inercia
   rubberBanding: true,        // Activar/desactivar efecto elástico
   rubberBandingStrength: 3,   // Factor de resistencia (2-5 recomendado)
-  snapBackSpeed: 0.15
+  snapBackSpeed: 0.1
 };
 
 export class ManualScrollEngine {
