@@ -14,7 +14,7 @@ const DEFAULT_OPTIONS = {
   velocityThreshold: 0.1, // Velocidad mínima para detener la inercia
   rubberBanding: true,        // Activar/desactivar efecto elástico
   rubberBandingStrength: 3,   // Factor de resistencia (2-5 recomendado)
-  snapBackSpeed: 0.1
+  snapBackSpeed: 0.15
 };
 
 export class ManualScrollEngine {
@@ -201,8 +201,11 @@ export class ManualScrollEngine {
   _startMomentum() {
     const friction = this.options.friction;
     const threshold = this.options.velocityThreshold;
+    const snapBackSpeed = this.options.snapBackSpeed;
 
     const animate = () => {
+      let isSnapping = false;
+
       // Aplicar fricción
       this.velocity.x *= friction;
       this.velocity.y *= friction;
