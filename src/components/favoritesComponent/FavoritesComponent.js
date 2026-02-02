@@ -13,11 +13,16 @@ import { HeartOutline } from "antd-mobile-icons";
 import { FavoriteCard } from "./FavoriteCard";
 import { useTranslations } from 'next-intl';
 import { GhostFavoriteCard } from "../shared/GhostFavoriteCard";
+import { ManualScrollEngine } from "@/metrics/ManualScrollEngine";
 
 const { Text, Title } = Typography
 
 
 export const FavoritesComponent = ({ }) => {
+    const containerRef = useRef(null);
+    const contentRef = useRef(null);
+    const scrollEngineRef = useRef(null);
+
     const router = useRouter();
     const t = useTranslations();
 
@@ -103,14 +108,14 @@ export const FavoritesComponent = ({ }) => {
             // Calcular si se ha movido lo suficiente para iniciar el drag
             const deltaX = Math.abs(touch.clientX - dragStartPosition.current.x);
             const deltaY = Math.abs(touch.clientY - dragStartPosition.current.y);
-            
+
             // Solo al inicio del arrastre (cuando NO estamos arrastrando aún)
             if ((deltaX > 10 || deltaY > 10) && !dragging) {
                 // Vibrar una sola vez al inicio
                 if (navigator.vibrate) {
                     navigator.vibrate(30);
                 }
-                
+
                 setDragging(true);
                 setShowDragGhost(true);
             }
@@ -187,50 +192,99 @@ export const FavoritesComponent = ({ }) => {
         return element?.closest('.delete-zone') !== null;
     };
 
+    useEffect(() => {
+        const container = containerRef.current;
+        const content = contentRef.current;
+        console.log("Initializing ManualScrollEngine", { container, content });
+        if (!container || !content) return;
+
+        // Esperar a que el contenido se renderice completamente
+        const initScroll = () => {
+            const containerRect = container.getBoundingClientRect();
+            const contentRect = content.getBoundingClientRect();
+
+            const availableHeight = containerRect.height;
+            const scrollHeight = content.scrollHeight;
+
+            console.log({ availableHeight, scrollHeight, contentScrollHeight: content.scrollHeight });
+
+            const maxOffset = 0;
+            const minOffset = Math.min(0, -(scrollHeight - availableHeight));
+
+            scrollEngineRef.current = new ManualScrollEngine(container, content, {
+                axis: "y",
+                scrollFactor: 1,
+                minOffset,
+                maxOffset,
+            });
+        };
+
+        setTimeout(initScroll, 100);
+
+        return () => {
+            if (scrollEngineRef.current) {
+                scrollEngineRef.current.destroy();
+                scrollEngineRef.current = null;
+            }
+        };
+    }, [ids, selectionMode]);
+
     return (<>
-        <div style={{ flex: 1, display: "flex", flexDirection: "column", justifyContent: "space-between", height: "100vh", }}>
-            <div style={{
+        <div style={{
+            display: "flex",
+            flexDirection: "column",
+            height: "100vh",
+            position: "relative",
+        }}>
+            {/* Contenedor scrolleable */}
+            <div ref={containerRef} style={{
                 flex: 1,
-                overflowY: "auto",
-                paddingBottom: selectionMode ? "5rem" : "10rem",
-                marginBottom: "1rem"
+                position: "relative",
+                overflow: "hidden",
+                touchAction: "none",
             }}>
-                <ConfigurableMenu icon={<HeartOutlined />} text={t('favorites.title')} onClick={() => router.push("/home")} />
-                <SelectionIndicator selectionMode={selectionMode} nSelectedItems={selectedItems.size} cancelSelection={cancelSelection} />
+                <div ref={contentRef} style={{
+                    paddingBottom: selectionMode ? "5rem" : "10rem",
+                    marginBottom: "1rem",
+                    width: "100%",
+                }}>
+                    <ConfigurableMenu icon={<HeartOutlined />} text={t('favorites.title')} onClick={() => router.push("/home")} />
+                    <SelectionIndicator selectionMode={selectionMode} nSelectedItems={selectedItems.size} cancelSelection={cancelSelection} />
 
-                <div style={{ paddingBottom: 0 }}>
-                    {ids.length === 0 ? (
-                        <div style={{ display: "flex", justifyContent: "center", paddingBottom: "0.5rem" }}>
-                            <Text type="secondary">{t('favorites.emptyMessage')}</Text>
-                        </div>
-                    ) : (
-                        <>
+                    <div style={{ paddingBottom: 0 }}>
+                        {ids.length === 0 ? (
                             <div style={{ display: "flex", justifyContent: "center", paddingBottom: "0.5rem" }}>
-                                <Text>{[...ids].length} {t('favorites.totalFavorites')}</Text>
+                                <Text type="secondary">{t('favorites.emptyMessage')}</Text>
                             </div>
-                            {[...ids].map((item, index) => {
-                                const isSelected = selectedItems.has(item);
+                        ) : (
+                            <>
+                                <div style={{ display: "flex", justifyContent: "center", paddingBottom: "0.5rem" }}>
+                                    <Text>{[...ids].length} {t('favorites.totalFavorites')}</Text>
+                                </div>
+                                {[...ids].map((item, index) => {
+                                    const isSelected = selectedItems.has(item);
 
-                                return (
-                                    <div
-                                        key={item}
-                                        draggable={isSelected}
-                                        onTouchStart={(e) => handleTouchStart(e, item)}
-                                        onTouchEnd={(e) => handleTouchEnd(e, item)}
-                                        onTouchMove={handleTouchMove}
-                                        style={{
-                                            position: "relative",
-                                            transition: "all 0.2s",
-                                            opacity: dragging && isSelected ? 0.5 : 1,
-                                            transform: dragging && isSelected ? "scale(0.95)" : "scale(1)"
-                                        }}
-                                    >
-                                        <FavoriteCard item={item} index={index} isSelected={isSelected} selectedItems={selectedItems}/>
-                                    </div>
-                                )
-                            })}
-                        </>
-                    )}
+                                    return (
+                                        <div
+                                            key={item}
+                                            draggable={isSelected}
+                                            onTouchStart={(e) => handleTouchStart(e, item)}
+                                            onTouchEnd={(e) => handleTouchEnd(e, item)}
+                                            onTouchMove={handleTouchMove}
+                                            style={{
+                                                position: "relative",
+                                                transition: "all 0.2s",
+                                                opacity: dragging && isSelected ? 0.5 : 1,
+                                                transform: dragging && isSelected ? "scale(0.95)" : "scale(1)"
+                                            }}
+                                        >
+                                            <FavoriteCard item={item} index={index} isSelected={isSelected} selectedItems={selectedItems} />
+                                        </div>
+                                    )
+                                })}
+                            </>
+                        )}
+                    </div>
                 </div>
             </div>
 
@@ -238,12 +292,12 @@ export const FavoritesComponent = ({ }) => {
                 selectionMode={selectionMode} draggedOver={draggedOver} />
         </div>
         {showDragGhost && selectedItems.size > 0 && (
-                <GhostFavoriteCard 
-                    dragGhostPosition={dragGhostPosition}
-                    selectedItems={selectedItems}
-                    locale={router.locale}
-                />
-            )}
+            <GhostFavoriteCard
+                dragGhostPosition={dragGhostPosition}
+                selectedItems={selectedItems}
+                locale={router.locale}
+            />
+        )}
 
     </>);
 }
