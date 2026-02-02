@@ -105,7 +105,7 @@ export const HomeComponent = ({ }) => {
                 position: "relative",
                 overflow: "hidden",
                 width: "100%",
-                height: "100vh"
+                height: "100%"
             }}>
             <div ref={contentRef}>
                 <StandardNavBar />
