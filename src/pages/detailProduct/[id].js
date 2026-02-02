@@ -1,13 +1,14 @@
 import DetailsProductComponent from "@/components/detailsProductComponent/DetailsProductComponent";
 import { useRouter } from "next/router";
 
-export default function DetailsProductPage() {
+export default function DetailsProductPage({footer}) {
   const router = useRouter();
   const { id } = router.query; 
 
   return (
     <div style={{ height: "100%", display: "flex", flexDirection: "column" }}>
       <DetailsProductComponent id = {id}/>
+      {footer}
     </div>
   );
 }

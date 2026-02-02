@@ -1,7 +1,7 @@
 import { EndComponent } from "@/components/EndComponent";
 import { LanguageSwitcher } from "@/components/shared/LanguageSwitcher";
 
-export default function End() {
+export default function End({footer}) {
 
   return (
     <div style={{
@@ -13,9 +13,9 @@ export default function End() {
         <LanguageSwitcher />
       </div>
       <div style={{ flex: 1, display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", width: "100%" }}>
-        <EndComponent />
+        <EndComponent  />
       </div>
-
+      {footer}
     </div>
 
   );

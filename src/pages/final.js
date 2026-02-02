@@ -1,7 +1,7 @@
 import { FinalComponent } from "@/components/FinalComponent";
 import { LanguageSwitcher } from "@/components/shared/LanguageSwitcher";
 
-export default function Final() {
+export default function Final({footer}) {
 
   return (
     <div style={{
@@ -15,7 +15,7 @@ export default function Final() {
       <div style={{ flex: 1, display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", width: "100%" }}>
         <FinalComponent />
       </div>
-
+      {footer}
     </div>
 
   );

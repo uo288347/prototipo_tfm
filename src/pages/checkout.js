@@ -1,10 +1,11 @@
 import { CheckoutComponent } from "@/components/CheckoutComponent";
 
-export default function Checkout() {
+export default function Checkout({footer}) {
 
     return (
         <div style={{ flex:1, display:"flex", flexDirection:"column", height: "100%", padding: "0px 20px"}}>
-            <CheckoutComponent/>
+            <CheckoutComponent />
+            {footer}
         </div>
     );
 }

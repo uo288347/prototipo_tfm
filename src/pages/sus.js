@@ -5,7 +5,7 @@ import { finishSubsceneTracking, finishExperiment, finishTracking } from "@/metr
 import { useScene } from "@/experiment/useScene";
 import { SCENES } from "@/metrics/constants/scenes";
 
-export default function SusForm() {
+export default function SusForm({footer}) {
   const scene = useScene(SCENES.QUESTIONNAIRE);
   useEffect(() => {
     scene.start();
@@ -26,8 +26,9 @@ export default function SusForm() {
           <LanguageSwitcher />
         </div>
         <div style={{ flex: 1, display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", width: "100%" }}>
-          <SusFormComponent/>
+          <SusFormComponent  />
         </div>
+        {footer}
       </div>
     );
 }

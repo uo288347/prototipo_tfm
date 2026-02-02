@@ -5,7 +5,7 @@ import { finishSubsceneTracking } from "@/metrics/scriptTest";
 import { useScene } from "@/experiment/useScene";
 import { SCENES, getCurrentSceneId } from "@/metrics/constants/scenes";
 
-export default function LoginPage({ }) {
+export default function LoginPage({ footer}) {
   const scene = useScene(SCENES.LOGIN);
   useEffect(() => {
     scene.start();
@@ -22,8 +22,9 @@ export default function LoginPage({ }) {
         <LanguageSwitcher />
       </div>
       <div style={{ flex: 1, display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", width: "100%" }}>
-        <LoginFormComponent />
+        <LoginFormComponent  />
       </div>
+      {footer}
     </div>
   );
 }

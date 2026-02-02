@@ -19,6 +19,7 @@ import { task1, UtilsTasks } from '@/utils/UtilsTasks';
 import { NextIntlClientProvider } from 'next-intl';
 import { useRouter } from 'next/router';
 import { getCurrentSceneId, registerComponent, COMPONENT_TOUR } from '../metrics/scriptTest';
+import { Footer } from '@/components/shared/Footer';
 
 export default function App({ Component, pageProps }) {
     const router = useRouter();
@@ -128,11 +129,7 @@ export default function App({ Component, pageProps }) {
                                 overflow: "auto"
                             }}>
                                 {isUserLoggedIn && <InstructionsBanner ref={bannerRef} />}
-                                <Component {...pageProps} footer={
-                                    <footer style={{ textAlign: "center", padding: "16px" }}>
-                                        Universidad de Oviedo
-                                    </footer>
-                                } />
+                                <Component {...pageProps} footer={<Footer />} />
                             </div>
                         </div>
 

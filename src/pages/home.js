@@ -3,6 +3,7 @@ import { useEffect } from "react";
 import { finishSubsceneTracking } from "@/metrics/scriptTest";
 import { useScene } from "@/experiment/useScene";
 import { getCurrentSceneId } from "@/metrics/constants/scenes";
+import { Footer } from "@/components/shared/Footer";
 
 export default function Home({footer}) {
     const currentSceneId = getCurrentSceneId();

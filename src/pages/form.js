@@ -4,7 +4,7 @@ import { useEffect } from "react";
 import { useScene } from "@/experiment/useScene";
 import { SCENES } from "@/metrics/constants/scenes";
 
-export default function InitialForm() {
+export default function InitialForm({footer}) {
   const scene = useScene(SCENES.INITIAL_FORM);
   
   useEffect(() => {
@@ -26,8 +26,9 @@ export default function InitialForm() {
         <LanguageSwitcher />
       </div>
       <div style={{ flex: 1, display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", width: "100%" }}>
-        <InitialFormComponent />
+        <InitialFormComponent  />
       </div>
+      {footer}
     </div>
   );
 }

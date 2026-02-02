@@ -9,7 +9,7 @@ import { useScene } from "@/experiment/useScene";
 import { SCENES } from "@/metrics/constants/scenes";
 import { useEffect, useRef } from "react";
 
-export default function Index() {
+export default function Index({footer}) {
   const startButtonRef = useRef(null);
 
   // Limpiar usuario al cargar la página para forzar creación de uno nuevo
@@ -59,7 +59,7 @@ export default function Index() {
           {t('auth.start')}
         </Button>
       </div>
-
+      {footer}
     </div>
   );
 }
