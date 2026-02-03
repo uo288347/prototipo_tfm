@@ -194,13 +194,13 @@ let DetailsProductComponent = ({ id }) => {
                 position: "relative",
                 overflow: "hidden",
                 width: "100%",
-                height: "100%",
+                height: "calc(100vh - 40px)",
                 flex: 1,
                 userSelect: "none",
             }}>
             <div ref={contentRef} style={{ position: "relative" }}>
-                <Row style={{ maxHeight: "50%", overflow: "hidden", touchAction: "pan-y" }}>
-                    <Col xs={24} style={{ height: "50%", touchAction: "pan-y" }}>
+                <Row style={{ maxHeight: "50vh", overflow: "hidden", touchAction: "pan-y" }}>
+                    <Col xs={24} style={{ height: "50vh", touchAction: "pan-y" }}>
                         <ImageCarousel product={product} />
                     </Col>
                 </Row>

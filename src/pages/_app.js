@@ -122,13 +122,13 @@ export default function App({ Component, pageProps }) {
                             flexDirection: "column",
                             backgroundColor: "#fff"
                         }}>
+                            {isUserLoggedIn && <InstructionsBanner ref={bannerRef} />}
                             <div style={{
                                 flex: 1, display: "flex", minHeight: 0,
                                 flexDirection: "column", padding: "0px 0px",
                                 paddingTop: isUserLoggedIn ? "40px" : "0px",
                                 overflow: "auto"
                             }}>
-                                {isUserLoggedIn && <InstructionsBanner ref={bannerRef} />}
                                 <Component {...pageProps} footer={<Footer />} />
                             </div>
                         </div>
