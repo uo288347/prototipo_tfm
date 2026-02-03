@@ -22,9 +22,9 @@ export default function LoginPage({ footer}) {
         <LanguageSwitcher />
       </div>
       <div style={{ flex: 1, display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", width: "100%" }}>
-        <LoginFormComponent footer={footer} />
+        <LoginFormComponent  />
       </div>
-      
+      {footer}
     </div>
   );
 }

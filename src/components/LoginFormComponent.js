@@ -22,7 +22,7 @@ import { registerComponent, COMPONENT_BUTTON, registerusername, registerpassword
 import { getCurrentSceneId, SCENES } from "@/metrics/constants/scenes";
 import { footer } from "framer-motion/client";
 
-let LoginFormComponent = ({ footer }) => {
+let LoginFormComponent = ({ }) => {
     const t = useTranslations();
     let router = useRouter()
 
@@ -79,35 +79,32 @@ let LoginFormComponent = ({ footer }) => {
     }
 
     return (
-        <>
-            <Row align="middle" justify="center" style={{ minHeight: "100%", minWidth: "100%" }}>
-                <Col xs={24} sm={24} md={12} lg={8} xl={7} justify="center" >
-                    <Card title={t('auth.login')} style={{ width: "100%" }}>
-                        <Form>
-                            <TextInputField id="input-email" name="email" placeholder={t('auth.yourEmail')} formData={formData} setFormData={setFormData}
-                                formErrors={formErrors} setFormErrors={setFormErrors} validateFunc={validateFormDataInputEmail}
-                                validateParams={[t('errors.invalidEmail')]}
-                            />
-                            <PasswordInputField id="input-password" name="password" placeholder={t('auth.yourPassword')} formData={formData} setFormData={setFormData}
-                                formErrors={formErrors} setFormErrors={setFormErrors} validateFunc={validateFormDataInputRequired}
-                                validateParams={[t('errors.required')]}
-                            />
-                            <Form.Item>
-                                {allowSubmitForm(formData, formErrors, requiredInForm) ?
-                                    <Button
-                                        id="btn-login"
-                                        size="large"
-                                        data-trackable-id="btn-login"
-                                        type="primary" onClick={clickLogin} block >{t('auth.login')}</Button> :
-                                    <Button type="primary" size="large" block disabled>{t('auth.login')}</Button>
-                                }
-                            </Form.Item>
-                        </Form>
-                    </Card>
-                </Col>
-            </Row>
-            {footer}
-        </>
+        <Row align="middle" justify="center" style={{ minHeight: "100%", minWidth: "100%" }}>
+            <Col xs={24} sm={24} md={12} lg={8} xl={7} justify="center" >
+                <Card title={t('auth.login')} style={{ width: "100%" }}>
+                    <Form>
+                        <TextInputField id="input-email" name="email" placeholder={t('auth.yourEmail')} formData={formData} setFormData={setFormData}
+                            formErrors={formErrors} setFormErrors={setFormErrors} validateFunc={validateFormDataInputEmail}
+                            validateParams={[t('errors.invalidEmail')]}
+                        />
+                        <PasswordInputField id="input-password" name="password" placeholder={t('auth.yourPassword')} formData={formData} setFormData={setFormData}
+                            formErrors={formErrors} setFormErrors={setFormErrors} validateFunc={validateFormDataInputRequired}
+                            validateParams={[t('errors.required')]}
+                        />
+                        <Form.Item>
+                            {allowSubmitForm(formData, formErrors, requiredInForm) ?
+                                <Button
+                                    id="btn-login"
+                                    size="large"
+                                    data-trackable-id="btn-login"
+                                    type="primary" onClick={clickLogin} block >{t('auth.login')}</Button> :
+                                <Button type="primary" size="large" block disabled>{t('auth.login')}</Button>
+                            }
+                        </Form.Item>
+                    </Form>
+                </Card>
+            </Col>
+        </Row>
     )
 }
 
