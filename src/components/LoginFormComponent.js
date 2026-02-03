@@ -1,16 +1,16 @@
 import { useState, useRef, useEffect } from "react";
 import { useRouter } from "next/router";
-import {modifyStateProperty} from "../utils/UtilsState";
-import {Card, Col, Row, Form, Input, Button , Typography } from "antd";
+import { modifyStateProperty } from "../utils/UtilsState";
+import { Card, Col, Row, Form, Input, Button, Typography } from "antd";
 import {
     validateFormDataInputRequired,
     validateFormDataInputEmail,
     allowSubmitForm,
     setServerErrors,
     joinAllServerErrorMessages
- } from "../utils/UtilsValidations"
+} from "../utils/UtilsValidations"
 import { openNotification } from '../utils/UtilsNotifications';
-import {TextInputField} from "./shared/TextInputField";
+import { TextInputField } from "./shared/TextInputField";
 import { PasswordInputField } from "./shared/PasswordInputField";
 import { clearLogin, login } from "@/utils/UtilsLogin";
 import { UtilsTasks } from "@/utils/UtilsTasks";
@@ -20,8 +20,9 @@ import { useTranslations } from 'next-intl';
 import { LanguageSwitcher } from "./shared/LanguageSwitcher";
 import { registerComponent, COMPONENT_BUTTON, registerusername, registerpassword, finishTracking, initTracking, finishExperiment } from "@/metrics/scriptTest";
 import { getCurrentSceneId, SCENES } from "@/metrics/constants/scenes";
+import { footer } from "framer-motion/client";
 
-let LoginFormComponent = ({setLogin}) => {
+let LoginFormComponent = ({ footer }) => {
     const t = useTranslations();
     let router = useRouter()
 
@@ -29,8 +30,8 @@ let LoginFormComponent = ({setLogin}) => {
     //let requiredInForm = ["email","password"]
     let requiredInForm = []
     let [formErrors, setFormErrors] = useState({})
- 
-    let [formData,setFormData] = useState({})
+
+    let [formData, setFormData] = useState({})
 
     /*useEffect(() => {
         initTracking(SCENES.LOGIN);
@@ -75,36 +76,38 @@ let LoginFormComponent = ({setLogin}) => {
         //finishExperiment();
         //finishTracking();
         router.push("/home");
-   }
+    }
 
     return (
-        <Row align="middle" justify="center" style={{  minHeight:"100%", minWidth:"100%"}}>
-            <Col xs={24} sm={24} md={12} lg={8} xl={7} justify="center" >
-                <Card title={t('auth.login')} style={{ width: "100%" }}>
-                    <Form>
-                    <TextInputField id="input-email" name="email" placeholder={t('auth.yourEmail')} formData={formData} setFormData={setFormData}
-                        formErrors={formErrors} setFormErrors={setFormErrors} validateFunc={validateFormDataInputEmail}
-                        validateParams={[t('errors.invalidEmail')]}
-                    />
-                    <PasswordInputField id="input-password" name="password" placeholder={t('auth.yourPassword')} formData={formData} setFormData={setFormData}
-                        formErrors={formErrors} setFormErrors={setFormErrors} validateFunc={validateFormDataInputRequired}
-                        validateParams={[t('errors.required')]}
-                    />
-                    <Form.Item>
-                        { allowSubmitForm(formData,formErrors,requiredInForm) ?
-                            <Button 
-                            id="btn-login"
-                            size="large"
-                            data-trackable-id="btn-login"
-                            type="primary" onClick={clickLogin} block >{t('auth.login')}</Button> :
-                            <Button type="primary" size="large" block disabled>{t('auth.login')}</Button>
-                        }
-                    </Form.Item>
-                    </Form>
-                </Card>
-            </Col>
-    </Row>
-
+        <>
+            <Row align="middle" justify="center" style={{ minHeight: "100%", minWidth: "100%" }}>
+                <Col xs={24} sm={24} md={12} lg={8} xl={7} justify="center" >
+                    <Card title={t('auth.login')} style={{ width: "100%" }}>
+                        <Form>
+                            <TextInputField id="input-email" name="email" placeholder={t('auth.yourEmail')} formData={formData} setFormData={setFormData}
+                                formErrors={formErrors} setFormErrors={setFormErrors} validateFunc={validateFormDataInputEmail}
+                                validateParams={[t('errors.invalidEmail')]}
+                            />
+                            <PasswordInputField id="input-password" name="password" placeholder={t('auth.yourPassword')} formData={formData} setFormData={setFormData}
+                                formErrors={formErrors} setFormErrors={setFormErrors} validateFunc={validateFormDataInputRequired}
+                                validateParams={[t('errors.required')]}
+                            />
+                            <Form.Item>
+                                {allowSubmitForm(formData, formErrors, requiredInForm) ?
+                                    <Button
+                                        id="btn-login"
+                                        size="large"
+                                        data-trackable-id="btn-login"
+                                        type="primary" onClick={clickLogin} block >{t('auth.login')}</Button> :
+                                    <Button type="primary" size="large" block disabled>{t('auth.login')}</Button>
+                                }
+                            </Form.Item>
+                        </Form>
+                    </Card>
+                </Col>
+            </Row>
+            {footer}
+        </>
     )
 }
 

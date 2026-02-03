@@ -26,9 +26,9 @@ export default function InitialForm({footer}) {
         <LanguageSwitcher />
       </div>
       <div style={{ flex: 1, display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", width: "100%" }}>
-        <InitialFormComponent  />
+        <InitialFormComponent footer={footer} />
       </div>
-      {footer}
+     
     </div>
   );
 }

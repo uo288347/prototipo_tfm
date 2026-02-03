@@ -12,6 +12,7 @@ import { LanguageSwitcher } from "./shared/LanguageSwitcher";
 import { registerParticipantData } from "@/metrics/registerInBd";
 import { getUser, registerComponent, COMPONENT_BUTTON, registerhandedness, registersex, registerbirth_year, registerecommerce_frequency, registerpreferred_device, initTracking, finishTracking } from "../metrics/scriptTest";
 import { getCurrentSceneId, SCENES } from "@/metrics/constants/scenes";
+import { footer } from "framer-motion/client";
 
 export const InitialFormComponent = ({ }) => {
 
@@ -48,6 +49,7 @@ export const InitialFormComponent = ({ }) => {
 
     const user = getUser();
     return (
+        <>
         <Row align="middle" justify="center" style={{ minHeight: "100%", minWidth: "100%" }}>
             <div>{user}</div>
             <Col xs={24} sm={24} md={12} lg={8} xl={7} justify="center" >
@@ -179,5 +181,7 @@ export const InitialFormComponent = ({ }) => {
                 </Card>
             </Col>
         </Row>
+        {footer}
+        </>
     );
 }
