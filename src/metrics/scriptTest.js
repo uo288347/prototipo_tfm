@@ -1,8 +1,6 @@
 
-import { track } from "framer-motion/client";
 import html2canvas from "html2canvas";
 import $ from "jquery";
-
 
 const VERSION = 3;
 
@@ -783,58 +781,20 @@ function postAJAXDemographicData(parametros) {
 function registerid(value) { postStringDD(177, value); } function registerhandedness(value) { postStringDD(178, value); } function registersex(value) { postStringDD(179, value); } function registerbirth_year(value) { postNumberDD(180, value); } function registerecommerce_frequency(value) { postStringDD(181, value); } function registerpreferred_device(value) { postStringDD(182, value); } function registerusername(value) { postStringDD(183, value); } function registerpassword(value) { postStringDD(184, value); } function registercity(value) { postStringDD(185, value); } function registercountry(value) { postStringDD(186, value); } function registersus1(value) { postNumberDD(187, value); } function registersus2(value) { postNumberDD(188, value); } function registersus3(value) { postNumberDD(189, value); } function registersus4(value) { postNumberDD(190, value); } function registersus5(value) { postNumberDD(191, value); } function registersus6(value) { postNumberDD(192, value); } function registersus7(value) { postNumberDD(193, value); } function registersus8(value) { postNumberDD(194, value); } function registersus9(value) { postNumberDD(195, value); } function registersus10(value) { postNumberDD(196, value); }
 
 export {
-	startExperiment,
-	finishExperiment,
-	initTracking,
-	finishTracking,
-	finishSubsceneTracking,
-	registerUserData,
-	registerComponent,
-	registerid,
-	postNumberDD,
-	postStringDD,
-	postDateDD,
-	trackWithEvent,
-	getCurrentSceneId,
-	getUser,
-	registerhandedness,
-	registersex,
-	registerbirth_year,
-	registerecommerce_frequency,
-	registerpreferred_device,
-	registerusername,
-	registerpassword,
-	registercity,
-	registercountry,
-	registersus1,
-	registersus2,
+	COMPONENT_BANNER, COMPONENT_BUTTON,
+	COMPONENT_CARD, COMPONENT_CAROUSEL, COMPONENT_CHECK_BOX, COMPONENT_COMBOBOX, COMPONENT_IMAGE, COMPONENT_LINK, COMPONENT_OPTION,
+	COMPONENT_RADIO_BUTTON, COMPONENT_RATE, COMPONENT_STEPPER,
+	// Constantes de tipos de componentes
+	COMPONENT_TEXT_FIELD, COMPONENT_TOUR, EVENT_ON_POINTER_CANCEL,
+	// Constantes de eventos
+	EVENT_ON_POINTER_DOWN, EVENT_ON_POINTER_MOVE, EVENT_ON_POINTER_UP, finishExperiment, finishSubsceneTracking, finishTracking, getCurrentSceneId,
+	getUser, idExperiment, initTracking, postDateDD, postNumberDD,
+	postStringDD, registerbirth_year, registercity, registerComponent, registercountry, registerecommerce_frequency, registerhandedness, registerid, registerpassword, registerpreferred_device, registersex, registersus1, registersus10, registersus2,
 	registersus3,
 	registersus4,
 	registersus5,
 	registersus6,
 	registersus7,
 	registersus8,
-	registersus9,
-	registersus10,
-	idExperiment,
-	// Constantes de tipos de componentes
-	COMPONENT_TEXT_FIELD,
-	COMPONENT_COMBOBOX,
-	COMPONENT_OPTION,
-	COMPONENT_RADIO_BUTTON,
-	COMPONENT_CHECK_BOX,
-	COMPONENT_BUTTON,
-	COMPONENT_CARD,
-	COMPONENT_RATE,
-	COMPONENT_IMAGE,
-	COMPONENT_STEPPER,
-	COMPONENT_CAROUSEL,
-	COMPONENT_LINK,
-	COMPONENT_BANNER,
-	COMPONENT_TOUR,
-	// Constantes de eventos
-	EVENT_ON_POINTER_DOWN,
-	EVENT_ON_POINTER_UP,
-	EVENT_ON_POINTER_MOVE,
-	EVENT_ON_POINTER_CANCEL
+	registersus9, registerUserData, registerusername, startExperiment, trackWithEvent
 };

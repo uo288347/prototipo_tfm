@@ -1,7 +1,7 @@
-import React, { useEffect, useRef } from "react";
 import { Select } from "antd";
-import { registerComponent, COMPONENT_COMBOBOX, COMPONENT_OPTION, trackWithEvent, EVENT_ON_POINTER_DOWN } from "../../metrics/scriptTest";
+import { useEffect, useRef } from "react";
 import { getCurrentSceneId } from "../../metrics/constants/scenes";
+import { COMPONENT_COMBOBOX, COMPONENT_OPTION, EVENT_ON_POINTER_DOWN, registerComponent, trackWithEvent } from "../../metrics/scriptTest";
 
 /**
  * Componente Select con tracking automático para métricas.

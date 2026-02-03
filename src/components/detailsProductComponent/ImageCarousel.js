@@ -1,9 +1,9 @@
-import { Carousel, Button } from "antd";
+import { COMPONENT_BUTTON, COMPONENT_CAROUSEL, getCurrentSceneId, registerComponent } from "@/metrics/scriptTest";
 import { ArrowLeftOutlined } from "@ant-design/icons";
+import { Button, Carousel } from "antd";
 import { useRouter } from "next/router";
+import { useEffect, useRef } from "react";
 import { PinchZoomImage } from "./PinchZoomImage";
-import { useRef, useEffect } from "react";
-import { registerComponent, COMPONENT_BUTTON, COMPONENT_CAROUSEL, getCurrentSceneId } from "@/metrics/scriptTest";
 
 export const ImageCarousel = ({ product }) => {
     const router = useRouter();
@@ -66,14 +66,3 @@ export const ImageCarousel = ({ product }) => {
         </>
     );
 }
-
-/*                        <img
-                            src={img}
-                            alt={`Imagen ${index + 1}`}
-                            style={{
-                                width: "100%",
-                                height: "500px",
-                                objectFit: "cover",
-                                objectPosition: 'top'
-                            }}
-                        />*/

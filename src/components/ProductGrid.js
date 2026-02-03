@@ -1,14 +1,12 @@
 
-import Link from "next/link";
-import { useEffect, useMemo } from "react";
-import { Row, Col, Pagination, Modal } from "antd";
-import { useState } from "react";
-import { ProductCard } from "./homeComponent/ProductCard";
 import { getProducts } from "@/utils/UtilsProducts";
-import { useRouter } from "next/router";
-import { LongPressWrapper } from "./shared/LongPressWrapper"
-import { ModalProductCard } from "./homeComponent/ModalProductCard";
+import { Col, Modal, Row } from "antd";
 import { useTranslations } from 'next-intl';
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
+import { ModalProductCard } from "./homeComponent/ModalProductCard";
+import { ProductCard } from "./homeComponent/ProductCard";
+import { LongPressWrapper } from "./shared/LongPressWrapper";
 
 
 const ProductGrid = ({ category, filter }) => {

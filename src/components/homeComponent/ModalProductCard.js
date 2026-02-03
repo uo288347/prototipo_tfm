@@ -1,17 +1,6 @@
+import { getProductDescription, getProductTitle } from "@/utils/UtilsProductTranslations";
+import { Card } from "antd";
 import { useRouter } from "next/router";
-import { Card, Button, Tooltip, Avatar } from "antd";
-import {
-  AppstoreOutlined,
-  BookOutlined,
-  CarOutlined,
-  CustomerServiceOutlined,
-  HomeOutlined,
-  LaptopOutlined,
-  SkinOutlined,
-  TrophyOutlined,
-} from '@ant-design/icons';
-import { getProductTitle, getProductDescription } from "@/utils/UtilsProductTranslations";
-import { useTranslations } from 'next-intl';
 
 const {Meta} = Card;
 

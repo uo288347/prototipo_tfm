@@ -1,9 +1,8 @@
+import { COMPONENT_BUTTON, getCurrentSceneId, registerComponent } from "@/metrics/scriptTest";
 import { ArrowLeftOutlined } from "@ant-design/icons";
-import { Row, Typography, Button } from "antd";
-import { useRouter } from "next/router";
+import { Button, Row, Typography } from "antd";
+import { useEffect, useRef } from "react";
 import { LanguageSwitcher } from "./LanguageSwitcher";
-import { useRef, useEffect } from "react";
-import { registerComponent, COMPONENT_BUTTON, getCurrentSceneId } from "@/metrics/scriptTest";
 
 const {Title} = Typography
 

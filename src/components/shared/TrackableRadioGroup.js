@@ -1,7 +1,7 @@
-import React, { useEffect, useRef } from "react";
 import { Radio } from "antd";
-import { registerComponent, COMPONENT_RADIO_BUTTON } from "../../metrics/scriptTest";
+import { useEffect, useRef } from "react";
 import { getCurrentSceneId } from "../../metrics/constants/scenes";
+import { COMPONENT_RADIO_BUTTON, registerComponent } from "../../metrics/scriptTest";
 
 /**
  * Componente Radio.Group con tracking automático para métricas.

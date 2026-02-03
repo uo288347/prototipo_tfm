@@ -1,13 +1,13 @@
-import { ShoppingCartOutlined } from "@ant-design/icons"
-import { Row, Col, Menu } from "antd"
-import Link from "next/link";
-import { Badge, Button } from "antd-mobile";
-import { useRouter } from "next/router";
-import { useState, useEffect } from "react";
-import { getShoppingCart, getShoppingCartLength } from "@/utils/UtilsCart";
-import { HeartOutline } from "antd-mobile-icons";
+import { getShoppingCartLength } from "@/utils/UtilsCart";
 import { getFavorites } from "@/utils/UtilsFavorites";
-import { task6, UtilsTasks } from "@/utils/UtilsTasks";
+import { task6 } from "@/utils/UtilsTasks";
+import { ShoppingCartOutlined } from "@ant-design/icons";
+import { Col, Menu, Row } from "antd";
+import { Badge, Button } from "antd-mobile";
+import { HeartOutline } from "antd-mobile-icons";
+import Link from "next/link";
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
 
 export const StandardMenu = () => {
     const [favorites, setFavorites] = useState(new Set());

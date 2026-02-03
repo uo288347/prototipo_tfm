@@ -1,15 +1,14 @@
-import { useRouter } from "next/router";
-import { Card, Button, Tooltip, Avatar, Row, Col, Divider, Typography, InputNumber } from "antd";
-import { useEffect, useRef } from "react";
-import { getProduct } from "@/utils/UtilsProducts";
-import { LongPressWrapper } from "./LongPressWrapper";
-import { useDrag } from 'react-dnd';
-import { CheckCircleFilled } from "@ant-design/icons";
-import { Stepper } from "antd-mobile";
-import { getProductTitle } from "@/utils/UtilsProductTranslations";
-import { useTranslations } from 'next-intl';
-import { registerComponent, COMPONENT_CARD } from "@/metrics/scriptTest";
 import { getCurrentSceneId } from "@/metrics/constants/scenes";
+import { COMPONENT_CARD, registerComponent } from "@/metrics/scriptTest";
+import { getProduct } from "@/utils/UtilsProducts";
+import { getProductTitle } from "@/utils/UtilsProductTranslations";
+import { CheckCircleFilled } from "@ant-design/icons";
+import { Button, Card, Col, Row, Typography } from "antd";
+import { Stepper } from "antd-mobile";
+import { useTranslations } from 'next-intl';
+import { useRouter } from "next/router";
+import { useEffect, useRef } from "react";
+import { useDrag } from 'react-dnd';
 
 const { Text, Title } = Typography;
 
@@ -44,8 +43,6 @@ export const HorizontalProductCard = ({ item, index, isSelected, selectedItems, 
                 COMPONENT_CARD,
                 null
             );
-
-            //console.log(`[HorizontalProductCard] Registered ${trackingId} at (${rect.left},${rect.top}) in scene ${sceneId}`);
         }, 300);
 
         return () => clearTimeout(timer);
@@ -147,8 +144,3 @@ export const HorizontalProductCard = ({ item, index, isSelected, selectedItems, 
         </div>
     );
 };
-
-/*
-<LongPressWrapper onLongPressRelease={onLongClick}>
-            </LongPressWrapper>
-*/

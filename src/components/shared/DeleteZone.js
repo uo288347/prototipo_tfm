@@ -1,7 +1,7 @@
-import { useEffect, useRef } from 'react';
+import { COMPONENT_CARD, getCurrentSceneId, registerComponent } from '@/metrics/scriptTest';
 import { DeleteOutlined } from '@ant-design/icons';
 import { useTranslations } from 'next-intl';
-import { registerComponent, COMPONENT_CARD, getCurrentSceneId } from '@/metrics/scriptTest';
+import { useEffect, useRef } from 'react';
 
 const DELETE_ZONE_TRACKING_ID = 'cart-delete-zone';
 

@@ -1,11 +1,9 @@
-import React, { useEffect, useState, useRef } from "react";
-import { Card, Col, Row, Image } from "antd";
-import { motion } from "framer-motion";
-import { label } from "framer-motion/client";
-import { getCategories } from "@/utils/UtilsCategories";
-import { useRouter } from "next/router";
-import { registerComponent, COMPONENT_CARD, getCurrentSceneId, trackWithEvent, EVENT_ON_POINTER_DOWN, EVENT_ON_POINTER_UP, EVENT_ON_POINTER_MOVE, EVENT_ON_POINTER_CANCEL } from "@/metrics/scriptTest";
 import { ManualScrollEngine } from "@/metrics/ManualScrollEngine";
+import { COMPONENT_CARD, EVENT_ON_POINTER_CANCEL, EVENT_ON_POINTER_DOWN, EVENT_ON_POINTER_MOVE, EVENT_ON_POINTER_UP, getCurrentSceneId, registerComponent, trackWithEvent } from "@/metrics/scriptTest";
+import { getCategories } from "@/utils/UtilsCategories";
+import { Card } from "antd";
+import { useRouter } from "next/router";
+import { useEffect, useRef, useState } from "react";
 
 export const CategoryFilter = ({ selectedCategory, onSelectCategory }) => {
     const containerRef = useRef(null);
@@ -128,8 +126,7 @@ export const CategoryFilter = ({ selectedCategory, onSelectCategory }) => {
                         bodyStyle={{ padding: '8px 0', textAlign: 'center' }}
                         style={{
                             width: '160px', border: 'none', borderRadius: '0', boxShadow: 'none',
-                            display: 'flex', flexDirection: 'column', alignItems: 'center',
-                            /*pointerEvents: 'auto'*/
+                            display: 'flex', flexDirection: 'column', alignItems: 'center'
                         }}
                     >
                         <div style={{ fontSize: '14px', lineHeight: '1' }}>{cat.label}</div>

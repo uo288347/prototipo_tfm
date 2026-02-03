@@ -1,12 +1,15 @@
-import { useRouter } from "next/router";
+import { LanguageSwitcher } from "@/components/shared/LanguageSwitcher";
+import {
+  COMPONENT_BUTTON, getCurrentSceneId,
+  getUser,
+  registerComponent,
+  registerid,
+  registerUserData,
+  startExperiment
+} from "@/metrics/scriptTest";
 import { Button } from "antd";
 import { useTranslations } from 'next-intl';
-import { LanguageSwitcher } from "@/components/shared/LanguageSwitcher";
-import useGestureDetector from "@/metrics/GestureDetectorHook";
-import { startExperiment, registerUserData, registerComponent, COMPONENT_BUTTON, getCurrentSceneId,
-  registerid, getUser } from "@/metrics/scriptTest";
-import { useScene } from "@/experiment/useScene";
-import { SCENES } from "@/metrics/constants/scenes";
+import { useRouter } from "next/router";
 import { useEffect, useRef } from "react";
 
 export default function Index({footer}) {
@@ -32,13 +35,11 @@ export default function Index({footer}) {
 
   const t = useTranslations();
   const router = useRouter();
-  //const scene = useScene(SCENES.WELCOME);
   const handleStart = () => {
     startExperiment();
     router.push("/form");
     registerUserData();
     registerid(getUser());
-    //scene.start();
   };
 
   return (

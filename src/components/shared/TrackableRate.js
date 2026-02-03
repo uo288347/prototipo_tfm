@@ -1,7 +1,7 @@
-import React, { useEffect, useRef } from "react";
 import { Rate } from "antd";
-import { registerComponent, COMPONENT_RATE } from "../../metrics/scriptTest";
+import { useEffect, useRef } from "react";
 import { getCurrentSceneId } from "../../metrics/constants/scenes";
+import { COMPONENT_RATE, registerComponent } from "../../metrics/scriptTest";
 
 /**
  * Componente Rate con tracking automático para métricas.

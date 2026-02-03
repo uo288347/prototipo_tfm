@@ -1,21 +1,21 @@
-import { CreditCardOutlined, EnvironmentOutlined, HomeOutlined, ShoppingCartOutlined } from "@ant-design/icons";
-import { Divider, Form, Row, Typography, Button } from 'antd';
-import { ConfigurableMenu } from "./shared/ConfigurableMenu";
-import { getProduct } from "@/utils/UtilsProducts";
+import { getCurrentSceneId } from "@/metrics/constants/scenes";
+import { COMPONENT_BUTTON, registercity, registerComponent, registercountry } from "@/metrics/scriptTest";
 import { clearCart, getShoppingCart } from "@/utils/UtilsCart";
-import { useEffect, useState } from "react";
-const { Title, Text } = Typography
-import { useRouter } from "next/router";
-import { TextInputField } from "./shared/TextInputField";
+import { clearFavorites } from "@/utils/UtilsFavorites";
+import { getProduct } from "@/utils/UtilsProducts";
+import { getProductTitle } from "@/utils/UtilsProductTranslations";
+import { task8 } from "@/utils/UtilsTasks";
 import { allowSubmitForm, validateFormDataInputRequired } from "@/utils/UtilsValidations";
+import { CreditCardOutlined, EnvironmentOutlined, HomeOutlined, ShoppingCartOutlined } from "@ant-design/icons";
+import { Button, Divider, Form, Row, Typography } from 'antd';
 import { Collapse } from "antd-mobile";
 import { CollapsePanel } from "antd-mobile/es/components/collapse/collapse";
-import { clearFavorites } from "@/utils/UtilsFavorites";
-import { task8 } from "@/utils/UtilsTasks";
 import { useTranslations } from 'next-intl';
-import { getProductTitle } from "@/utils/UtilsProductTranslations";
-import { registerComponent, COMPONENT_BUTTON, registercity, registercountry } from "@/metrics/scriptTest";
-import { getCurrentSceneId } from "@/metrics/constants/scenes";
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
+import { ConfigurableMenu } from "./shared/ConfigurableMenu";
+import { TextInputField } from "./shared/TextInputField";
+const { Title, Text } = Typography
 
 export const CheckoutComponent = () => {
     const t = useTranslations();

@@ -1,8 +1,8 @@
-import React, { useEffect, useRef } from "react";
 import { Form, Input, Typography } from "antd";
-import { modifyStateProperty } from "../../utils/UtilsState";
-import { registerComponent, COMPONENT_TEXT_FIELD } from "../../metrics/scriptTest";
+import { useEffect, useRef } from "react";
 import { getCurrentSceneId } from "../../metrics/constants/scenes";
+import { COMPONENT_TEXT_FIELD, registerComponent } from "../../metrics/scriptTest";
+import { modifyStateProperty } from "../../utils/UtilsState";
 
 /**
  * Componente de Input de formulario reutilizable con validación
@@ -62,8 +62,6 @@ export const TextInputField = ({
         COMPONENT_TEXT_FIELD,
         null
       );
-
-      //console.log(`[TextInputField] Registered ${id} at (${rect.left},${rect.top}) in scene ${sceneId}`);
     }, 300);
 
     return () => clearTimeout(timer);

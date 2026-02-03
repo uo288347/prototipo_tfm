@@ -1,9 +1,8 @@
 import LoginFormComponent from "@/components/LoginFormComponent";
 import { LanguageSwitcher } from "@/components/shared/LanguageSwitcher";
-import { useEffect } from "react";
-import { finishSubsceneTracking } from "@/metrics/scriptTest";
 import { useScene } from "@/experiment/useScene";
-import { SCENES, getCurrentSceneId } from "@/metrics/constants/scenes";
+import { SCENES } from "@/metrics/constants/scenes";
+import { useEffect } from "react";
 
 export default function LoginPage({ footer}) {
   const scene = useScene(SCENES.LOGIN);

@@ -1,5 +1,5 @@
-import { createContext, useContext, useReducer, useRef, useEffect } from "react";
-import { initTracking, finishTracking } from "@/metrics/scriptTest";
+import { finishTracking, initTracking } from "@/metrics/scriptTest";
+import { createContext, useContext, useEffect, useReducer, useRef } from "react";
 
 const ExperimentContext = createContext(null);
 

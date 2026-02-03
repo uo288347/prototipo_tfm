@@ -1,9 +1,9 @@
 import { LanguageSwitcher } from "@/components/shared/LanguageSwitcher";
 import { SusFormComponent } from "@/components/susFormComponent/SusFormComponent";
-import { useEffect } from "react";
-import { finishSubsceneTracking, finishExperiment, finishTracking } from "@/metrics/scriptTest";
 import { useScene } from "@/experiment/useScene";
 import { SCENES } from "@/metrics/constants/scenes";
+import { finishExperiment } from "@/metrics/scriptTest";
+import { useEffect } from "react";
 
 export default function SusForm({footer}) {
   const scene = useScene(SCENES.QUESTIONNAIRE);

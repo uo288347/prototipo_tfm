@@ -1,5 +1,4 @@
 import { FavoritesComponent } from '@/components/favoritesComponent/FavoritesComponent';
-import { Footer } from '@/components/shared/Footer';
 import { DndProvider } from 'react-dnd';
 import { TouchBackend } from 'react-dnd-touch-backend';
 

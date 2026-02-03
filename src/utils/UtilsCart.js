@@ -1,5 +1,5 @@
 import { saveItemsAsOffer } from "./UtilsOffer";
-import { task2, task3, task4, task5, task7 } from "./UtilsTasks";
+import { task2, task4, task5, task7 } from "./UtilsTasks";
 
 const isBrowser = () => typeof window !== "undefined";
 
@@ -91,58 +91,7 @@ export const isInCart = (id, size = null) => {
 };
 
 export const getShoppingCartLength = () => {
-  //console.log("Cart length called");
   if (!isBrowser()) return 0;
   const cart = getShoppingCart();
-  //console.log("Cart: ", cart);
   return cart.reduce((total, item) => total + (item.quantity ?? 1), 0);
 };
-
-// ==========================
-
-
-/*
-// Guarda el carrito en localStorage
-const saveItemsAsOffer = (items) => {
-  if (!isBrowser()) return;
-  localStorage.setItem("freeProductOffers", JSON.stringify(items));
-};
-
-// Marca un producto como oferta gratuita
-export const setItemAsOffer = (id) => {
-  if (!isBrowser()) return;
-  try {
-    const storedOffers = localStorage.getItem("freeProductOffers");
-    let offers = storedOffers ? JSON.parse(storedOffers) : [];
-    if (!offers.includes(id)) {
-      offers.push(id);
-      localStorage.setItem("freeProductOffers", JSON.stringify(offers));
-    }
-  } catch (error) {
-    console.error("Error saving free product offer:", error);
-  }
-};
-
-// Obtiene las ofertas gratuitas
-export const getFreeProductOffers = () => {
-  if (!isBrowser()) return [];
-  try {
-    const storedOffers = localStorage.getItem("freeProductOffers");
-    return storedOffers ? JSON.parse(storedOffers) : [];
-  } catch (error) {
-    console.error("Error reading free product offers:", error);
-    return [];
-  }
-};
-
-// Comprueba si un producto es gratuito
-export const isProductFree = (id) => {
-  if (!isBrowser()) return false;
-  try {
-    const offers = getFreeProductOffers();
-    return offers.includes(id);
-  } catch (error) {
-    console.error("Error checking if product is free:", error);
-    return false;
-  }
-};*/

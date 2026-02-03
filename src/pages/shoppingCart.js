@@ -1,5 +1,4 @@
 
-import { Footer } from '@/components/shared/Footer';
 import { ShoppingCartComponent } from '@/components/shoppingCartComponent/ShoppingCartComponent';
 import { DndProvider } from 'react-dnd';
 import { TouchBackend } from 'react-dnd-touch-backend';

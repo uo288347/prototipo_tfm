@@ -1,10 +1,10 @@
-import { Collapse, Input, Button } from "antd-mobile";
-import { useState, useEffect } from "react";
+import { getCurrentSceneId } from "@/metrics/constants/scenes";
+import { COMPONENT_BUTTON, COMPONENT_COMBOBOX, COMPONENT_TEXT_FIELD, registerComponent } from "@/metrics/scriptTest";
 import { isEligibleForFree, isProductFree, setItemAsOffer } from "@/utils/UtilsOffer";
 import { task3 } from "@/utils/UtilsTasks";
+import { Button, Collapse, Input } from "antd-mobile";
 import { useTranslations } from 'next-intl';
-import { registerComponent, COMPONENT_TEXT_FIELD, COMPONENT_BUTTON, COMPONENT_COMBOBOX } from "@/metrics/scriptTest";
-import { getCurrentSceneId } from "@/metrics/constants/scenes";
+import { useEffect, useState } from "react";
 
 export const FreeProductOffer = ({ id, freeCode, isApplied, setIsApplied }) => {
     const t = useTranslations();

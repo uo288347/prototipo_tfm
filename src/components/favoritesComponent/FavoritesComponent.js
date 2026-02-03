@@ -1,19 +1,15 @@
-import { ConfigurableMenu } from "../shared/ConfigurableMenu";
-import { Card, Typography, Col, Row, Divider, Button } from 'antd';
-import { getProduct } from "@/utils/UtilsProducts";
-import { HorizontalProductCard } from "../shared/HorizontalProductCard";
-import { DeleteOutlined, HeartOutlined, ShoppingCartOutlined } from "@ant-design/icons";
-import { useEffect, useState, useRef } from "react";
-import { DeleteZone } from "../shared/DeleteZone"
-import { useRouter } from "next/router";
-import { NavBar } from "antd-mobile";
-import { SelectionIndicator } from "../shared/SelectionIndicator";
-import { deleteFromFavorites, getFavorites } from "@/utils/UtilsFavorites";
-import { HeartOutline } from "antd-mobile-icons";
-import { FavoriteCard } from "./FavoriteCard";
-import { useTranslations } from 'next-intl';
-import { GhostFavoriteCard } from "../shared/GhostFavoriteCard";
 import { ManualScrollEngine } from "@/metrics/ManualScrollEngine";
+import { deleteFromFavorites, getFavorites } from "@/utils/UtilsFavorites";
+import { HeartOutlined } from "@ant-design/icons";
+import { Typography } from 'antd';
+import { useTranslations } from 'next-intl';
+import { useRouter } from "next/router";
+import { useEffect, useRef, useState } from "react";
+import { ConfigurableMenu } from "../shared/ConfigurableMenu";
+import { DeleteZone } from "../shared/DeleteZone";
+import { GhostFavoriteCard } from "../shared/GhostFavoriteCard";
+import { SelectionIndicator } from "../shared/SelectionIndicator";
+import { FavoriteCard } from "./FavoriteCard";
 
 const { Text, Title } = Typography
 

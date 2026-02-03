@@ -1,6 +1,6 @@
-import { Form } from "antd"
-import { modifyStateProperty } from "../../utils/UtilsState";
+import { Form } from "antd";
 import { useTranslations } from 'next-intl';
+import { modifyStateProperty } from "../../utils/UtilsState";
 import { TrackableRate } from "../shared/TrackableRate";
 
 export const ThirdSusComponent = ({ formData, setFormData }) => {

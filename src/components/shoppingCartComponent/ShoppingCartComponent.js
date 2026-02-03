@@ -1,19 +1,18 @@
-import { getShoppingCart, deleteFromCart, updateUnits, getShoppingCartLength } from "@/utils/UtilsCart";
-import { ConfigurableMenu } from "../shared/ConfigurableMenu";
-import { Card, Typography, Col, Row, Divider, Button } from 'antd';
+import { ManualScrollEngine } from "@/metrics/ManualScrollEngine";
+import { COMPONENT_BUTTON, COMPONENT_CARD, getCurrentSceneId, registerComponent } from "@/metrics/scriptTest";
+import { deleteFromCart, getShoppingCart, getShoppingCartLength, updateUnits } from "@/utils/UtilsCart";
 import { getProduct } from "@/utils/UtilsProducts";
-import { getProductTitle } from "@/utils/UtilsProductTranslations";
-import { HorizontalProductCard } from "../shared/HorizontalProductCard";
-import { GhostProductCard } from "../shared/GhostProductCard";
 import { ShoppingCartOutlined } from "@ant-design/icons";
-import { useEffect, useState, useRef } from "react";
-import { DeleteZone } from "../shared/DeleteZone";
+import { Divider, Typography } from 'antd';
+import { useTranslations } from 'next-intl';
 import { useRouter } from "next/router";
+import { useEffect, useRef, useState } from "react";
+import { ConfigurableMenu } from "../shared/ConfigurableMenu";
+import { DeleteZone } from "../shared/DeleteZone";
+import { GhostProductCard } from "../shared/GhostProductCard";
+import { HorizontalProductCard } from "../shared/HorizontalProductCard";
 import { SelectionIndicator } from "../shared/SelectionIndicator";
 import { BottomSection } from "./BottomSection";
-import { useTranslations } from 'next-intl';
-import { registerComponent, COMPONENT_BUTTON, COMPONENT_CARD, getCurrentSceneId } from "@/metrics/scriptTest";
-import { ManualScrollEngine } from "@/metrics/ManualScrollEngine";
 
 const { Text } = Typography
 
@@ -166,9 +165,6 @@ export const ShoppingCartComponent = ({ }) => {
         setShowDragGhost(false);
         setDragging(false);
 
-        /*if (!longPressTriggered.current && selectionMode) {
-            toggleSelection(item);
-        }*/
         if (wasDragging && draggedOver) {
             // Simula el drop
             try {
@@ -178,10 +174,7 @@ export const ShoppingCartComponent = ({ }) => {
                     return { id: productId, size };
                 });
 
-                //const itemsToDelete = JSON.parse(e.dataTransfer.getData('text/plain'));
-                //console.log("items to delete: ", itemsToDelete)
                 const updated = deleteFromCart(itemsToDelete);
-                //console.log("updated cart: ", updated)
 
                 setProducts(updated)
                 setProductsLength(getShoppingCartLength());
@@ -232,7 +225,6 @@ export const ShoppingCartComponent = ({ }) => {
             }
         }
 
-        //console.log("is over: ", isOverDeleteZone(touch))
         if (isOverDeleteZone(touch)) {
             setDraggedOver(true);
         } else {
@@ -265,7 +257,6 @@ export const ShoppingCartComponent = ({ }) => {
 
         try {
             const itemsToDelete = JSON.parse(e.dataTransfer.getData('text/plain'));
-            //console.log("items to delete: ", itemsToDelete)
             const updated = deleteFromCart(itemsToDelete);
             console.log("updated cart: ", updated)
 
@@ -298,7 +289,6 @@ export const ShoppingCartComponent = ({ }) => {
         return element?.closest('.delete-zone') !== null;
     };
 
-    //    const total = products.reduce((sum, p) => sum + (p.price * p.quantity), 0);
     const onUpdateUnits = (id, size, units) => {
         updateUnits(id, size, units)
         setProducts(getShoppingCart())

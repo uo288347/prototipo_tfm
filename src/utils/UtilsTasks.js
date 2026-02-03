@@ -1,12 +1,9 @@
-import { NoticeBar } from "antd-mobile";
-import React, { forwardRef, useState, useEffect } from 'react';
-import confetti from 'canvas-confetti';
-import { getFavorite } from "./UtilsFavorites";
-import { isInCart } from "./UtilsCart";
 import tasksEn from '../../messages/tasks_en.json';
 import tasksEs from '../../messages/tasks_es.json';
-import { finishSubsceneTracking, initTracking, finishTracking, getUser, idExperiment } from '../metrics/scriptTest';
 import { getCurrentSceneId, TASK_TO_SCENE } from '../metrics/constants/scenes';
+import { finishSubsceneTracking, initTracking } from '../metrics/scriptTest';
+import { isInCart } from "./UtilsCart";
+import { getFavorite } from "./UtilsFavorites";
 
 const tasksTranslations = {
   en: tasksEn,

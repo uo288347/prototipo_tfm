@@ -1,16 +1,11 @@
-import { CheckOutlined } from "@ant-design/icons"
-import { Button, Typography } from "antd"
-const { Title } = Typography
-import confetti from 'canvas-confetti';
-import { useRef, useEffect } from "react";
-import { useRouter } from "next/router";
-import { task9, UtilsTasks } from "@/utils/UtilsTasks";
-import { clearCart } from "@/utils/UtilsCart";
-import { clearFavorites } from "@/utils/UtilsFavorites";
-import { clearLogin } from "@/utils/UtilsLogin";
+import { COMPONENT_BUTTON, getCurrentSceneId, registerComponent } from "@/metrics/scriptTest";
+import { task9 } from "@/utils/UtilsTasks";
+import { CheckOutlined } from "@ant-design/icons";
+import { Button, Typography } from "antd";
 import { useTranslations } from 'next-intl';
-import { LanguageSwitcher } from "./shared/LanguageSwitcher";
-import { registerComponent, COMPONENT_BUTTON, getCurrentSceneId } from "@/metrics/scriptTest";
+import { useRouter } from "next/router";
+import { useEffect, useRef } from "react";
+const { Title } = Typography
 
 export const EndComponent = ({ }) => {
     const t = useTranslations();
@@ -35,12 +30,6 @@ export const EndComponent = ({ }) => {
         const DOUBLE_TAP_DELAY = 300; // milisegundos entre taps
 
         if (now - lastTapRef.current < DOUBLE_TAP_DELAY) {
-            // 🎉 Doble tap detectado → lanzar confetti
-            /*confetti({
-                particleCount: 150,
-                spread: 80,
-                origin: { y: 0.6 },
-            });*/
             task9();
             router.push('/sus');
         }
@@ -61,12 +50,3 @@ export const EndComponent = ({ }) => {
         </div>
     )
 }
-
-/*
-                <Button type="text" onClick={() => {
-                    router.push("/")
-                    clearCart();
-                    clearFavorites();
-                    clearLogin();
-                    UtilsTasks.resetAllTasks();
-                }} block>{t('end.backToStart')}</Button>*/

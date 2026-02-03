@@ -1,26 +1,20 @@
-import { useState, useRef, useEffect } from "react";
-import { useRouter } from "next/router";
-import { modifyStateProperty } from "../utils/UtilsState";
-import { Card, Col, Row, Form, Input, Button, Typography } from "antd";
-import {
-    validateFormDataInputRequired,
-    validateFormDataInputEmail,
-    allowSubmitForm,
-    setServerErrors,
-    joinAllServerErrorMessages
-} from "../utils/UtilsValidations"
-import { openNotification } from '../utils/UtilsNotifications';
-import { TextInputField } from "./shared/TextInputField";
-import { PasswordInputField } from "./shared/PasswordInputField";
-import { clearLogin, login } from "@/utils/UtilsLogin";
-import { UtilsTasks } from "@/utils/UtilsTasks";
+import { getCurrentSceneId } from "@/metrics/constants/scenes";
+import { COMPONENT_BUTTON, registerComponent, registerpassword, registerusername } from "@/metrics/scriptTest";
 import { clearCart } from "@/utils/UtilsCart";
 import { clearFavorites } from "@/utils/UtilsFavorites";
+import { clearLogin, login } from "@/utils/UtilsLogin";
+import { UtilsTasks } from "@/utils/UtilsTasks";
+import { Button, Card, Col, Form, Row } from "antd";
 import { useTranslations } from 'next-intl';
-import { LanguageSwitcher } from "./shared/LanguageSwitcher";
-import { registerComponent, COMPONENT_BUTTON, registerusername, registerpassword, finishTracking, initTracking, finishExperiment } from "@/metrics/scriptTest";
-import { getCurrentSceneId, SCENES } from "@/metrics/constants/scenes";
-import { footer } from "framer-motion/client";
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
+import {
+    allowSubmitForm,
+    validateFormDataInputEmail,
+    validateFormDataInputRequired
+} from "../utils/UtilsValidations";
+import { PasswordInputField } from "./shared/PasswordInputField";
+import { TextInputField } from "./shared/TextInputField";
 
 let LoginFormComponent = ({ }) => {
     const t = useTranslations();
@@ -32,12 +26,6 @@ let LoginFormComponent = ({ }) => {
     let [formErrors, setFormErrors] = useState({})
 
     let [formData, setFormData] = useState({})
-
-    /*useEffect(() => {
-        initTracking(SCENES.LOGIN);
-    }, []);*/
-
-    // Auto-registro del botón de login
     useEffect(() => {
         const timer = setTimeout(() => {
             const loginBtn = document.getElementById('btn-login');
@@ -72,9 +60,6 @@ let LoginFormComponent = ({ }) => {
         UtilsTasks.resetAllTasks();
         registerusername(formData.email);
         registerpassword(formData.password);
-
-        //finishExperiment();
-        //finishTracking();
         router.push("/home");
     }
 

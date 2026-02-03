@@ -1,18 +1,15 @@
-import { Col, Form, Row, Card, Rate, Button, Divider } from "antd"
+import { Button, Card, Col, Divider, Form, Row } from "antd";
 //import { Form  } from "antd-mobile";
-import { useRouter } from "next/router";
-import { useState, useEffect } from "react";
-import { TextInputField } from "./shared/TextInputField";
-import { TrackableSelect } from "./shared/TrackableSelect";
-import { validateFormDataInputYear, allowSubmitForm } from "../utils/UtilsValidations"
-import { modifyStateProperty } from "../utils/UtilsState";
+import { getCurrentSceneId } from "@/metrics/constants/scenes";
 import { LaptopOutlined, MobileOutlined, TabletOutlined } from "@ant-design/icons";
 import { useTranslations } from 'next-intl';
-import { LanguageSwitcher } from "./shared/LanguageSwitcher";
-import { registerParticipantData } from "@/metrics/registerInBd";
-import { getUser, registerComponent, COMPONENT_BUTTON, registerhandedness, registersex, registerbirth_year, registerecommerce_frequency, registerpreferred_device, initTracking, finishTracking } from "../metrics/scriptTest";
-import { getCurrentSceneId, SCENES } from "@/metrics/constants/scenes";
-import { footer } from "framer-motion/client";
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
+import { COMPONENT_BUTTON, getUser, registerbirth_year, registerComponent, registerecommerce_frequency, registerhandedness, registerpreferred_device, registersex } from "../metrics/scriptTest";
+import { modifyStateProperty } from "../utils/UtilsState";
+import { allowSubmitForm, validateFormDataInputYear } from "../utils/UtilsValidations";
+import { TextInputField } from "./shared/TextInputField";
+import { TrackableSelect } from "./shared/TrackableSelect";
 
 export const InitialFormComponent = ({ }) => {
 
@@ -25,11 +22,6 @@ export const InitialFormComponent = ({ }) => {
 
     const currentYear = new Date().getFullYear();
 
-    /*useEffect(() => {
-        initTracking(SCENES.INITIAL_FORM);
-    }, []);*/
-
-    // Auto-registro del botón de registro
     useEffect(() => {
         const timer = setTimeout(() => {
             const sceneId = getCurrentSceneId();
@@ -170,7 +162,6 @@ export const InitialFormComponent = ({ }) => {
                                         registerbirth_year(formData.birthYear ? parseInt(formData.birthYear) : null);
                                         registerecommerce_frequency(formData.frequency || null);
                                         registerpreferred_device(formData.device || null);          
-                                        //finishTracking();                 
                                         router.push("/login");
                                     }} block >{t('auth.register')}</Button> :
                                 <Button type="primary" size="large" block disabled>{t('auth.register')}</Button>

@@ -1,7 +1,7 @@
-import React, { useEffect, useRef } from "react";
 import { Card } from "antd";
-import { registerComponent, COMPONENT_CARD } from "../../metrics/scriptTest";
+import React, { useEffect, useRef } from "react";
 import { getCurrentSceneId } from "../../metrics/constants/scenes";
+import { COMPONENT_CARD, registerComponent } from "../../metrics/scriptTest";
 
 /**
  * Componente Card con tracking automático para métricas.
@@ -47,8 +47,6 @@ export const TrackableCard = ({
         COMPONENT_CARD,
         null
       );
-
-      //console.log(`[TrackableCard] Registered ${trackingId} at (${rect.left},${rect.top}) in scene ${sceneId}`);
     }, 300);
 
     return () => clearTimeout(timer);

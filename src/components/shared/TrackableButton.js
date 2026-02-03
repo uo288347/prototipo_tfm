@@ -1,7 +1,7 @@
-import React, { useEffect, useRef } from "react";
 import { Button } from "antd";
-import { registerComponent, COMPONENT_BUTTON } from "../../metrics/scriptTest";
+import React, { useEffect, useRef } from "react";
 import { getCurrentSceneId } from "../../metrics/constants/scenes";
+import { COMPONENT_BUTTON, registerComponent } from "../../metrics/scriptTest";
 
 /**
  * Componente Button con tracking automático para métricas.
@@ -50,8 +50,6 @@ export const TrackableButton = ({
 
       // Añadir atributo para detección mejorada
       element.setAttribute('data-trackable-id', id);
-
-      //console.log(`[TrackableButton] Registered ${id} at (${rect.left},${rect.top}) in scene ${sceneId}`);
     }, 300);
 
     return () => clearTimeout(timer);

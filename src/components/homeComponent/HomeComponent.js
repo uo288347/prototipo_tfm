@@ -1,15 +1,15 @@
-import { Breadcrumb, Col, Row, Typography } from "antd";
-import { useState, useEffect, useMemo, useRef } from "react";
-import { FilterOutlined } from "@ant-design/icons";
-import { CategoryFilter } from "./CategoryFilter";
-import ProductGrid from "../ProductGrid";
-import { useSearchParams, useRouter, usePathname } from "next/navigation";
-import { getCategory, getCategoryLabel } from "@/utils/UtilsCategories";
-import { StandardNavBar } from "../shared/StandardNavBar";
-import { useTranslations } from 'next-intl';
-import { useRouter as useNextRouter } from 'next/router';
-import { TrackableSelect } from "../shared/TrackableSelect";
 import { ManualScrollEngine } from "@/metrics/ManualScrollEngine";
+import { getCategoryLabel } from "@/utils/UtilsCategories";
+import { FilterOutlined } from "@ant-design/icons";
+import { Breadcrumb, Col, Row } from "antd";
+import { useTranslations } from 'next-intl';
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useRouter as useNextRouter } from 'next/router';
+import { useEffect, useRef, useState } from "react";
+import ProductGrid from "../ProductGrid";
+import { StandardNavBar } from "../shared/StandardNavBar";
+import { TrackableSelect } from "../shared/TrackableSelect";
+import { CategoryFilter } from "./CategoryFilter";
 
 export const HomeComponent = ({ footer}) => {
     const containerRef = useRef(null);
@@ -60,7 +60,6 @@ export const HomeComponent = ({ footer}) => {
             category: value,
             categoryLabel: label
         }));
-        //console.log("category, ", value, label, filters.category, filters.categoryLabel)
         updateUrl("category", value);
     };
 

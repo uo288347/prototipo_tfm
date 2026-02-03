@@ -1,12 +1,11 @@
-import { Button, Typography } from "antd"
-const { Title } = Typography
-import confetti from 'canvas-confetti';
-import { useEffect, useRef } from "react";
-import { useRouter } from "next/router";
+import { COMPONENT_BUTTON, getCurrentSceneId, registerComponent } from "@/metrics/scriptTest";
+import { Button, Typography } from "antd";
 import { useTranslations } from 'next-intl';
+import { useRouter } from "next/router";
+import { useEffect, useRef } from "react";
 import Lottie from 'react-lottie';
 import animationData from '../../public/Rewards.json';
-import { registerComponent, COMPONENT_BUTTON, getCurrentSceneId } from "@/metrics/scriptTest";
+const { Title } = Typography
 
 export const FinalComponent = ({ }) => {
     const t = useTranslations();
@@ -21,15 +20,6 @@ export const FinalComponent = ({ }) => {
             preserveAspectRatio: 'xMidYMid slice'
         }
     };
-
-    useEffect(() => {
-        // Lanzar confetti al montar el componente
-        /*confetti({
-            particleCount: 150,
-            spread: 80,
-            origin: { y: 0.6 },
-        });*/
-    }, []);
 
     useEffect(() => {
         const sceneId = getCurrentSceneId();

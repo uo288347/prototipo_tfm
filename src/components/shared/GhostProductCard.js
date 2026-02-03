@@ -1,9 +1,7 @@
-import { Card, Typography, Col, Row } from 'antd';
 import { getProduct } from "@/utils/UtilsProducts";
 import { getProductTitle } from "@/utils/UtilsProductTranslations";
+import { Card, Col, Row, Typography } from 'antd';
 import { useTranslations } from 'next-intl';
-import { useEffect, useRef } from 'react';
-import { registerComponent, COMPONENT_CARD, getCurrentSceneId } from '@/metrics/scriptTest';
 
 const { Text } = Typography;
 

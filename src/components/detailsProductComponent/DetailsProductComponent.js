@@ -1,22 +1,22 @@
-import { useState, useEffect, useRef } from "react";
-import { useRouter } from "next/router";
-import { Typography, Card, Carousel, Image, Button, Link, Row, Col, Select, InputNumber, FloatButton, Breadcrumb, Radio } from 'antd';
-const { Title, Paragraph } = Typography;
-import { getProduct } from "@/utils/UtilsProducts";
-import { addToCart } from "@/utils/UtilsCart";
-import { HeartFilled, HeartOutlined, ShoppingCartOutlined } from "@ant-design/icons";
-import { openNotification } from "@/utils/UtilsNotifications";
-import { ImageCarousel } from "./ImageCarousel";
-import { Collapse, Stepper } from "antd-mobile";
-import { HeartFill, HeartOutline } from "antd-mobile-icons";
-import { getFavorite, toggleFavorite } from "@/utils/UtilsFavorites";
-import { FreeProductOffer } from "./FreeProductOffer";
-import { getCategoryLabel } from "@/utils/UtilsCategories";
-import { getProductTitle, getProductDescription } from "@/utils/UtilsProductTranslations";
-import { useTranslations } from 'next-intl';
-import { registerComponent, COMPONENT_BUTTON, COMPONENT_RADIO_BUTTON, COMPONENT_STEPPER } from "@/metrics/scriptTest";
 import { getCurrentSceneId } from "@/metrics/constants/scenes";
 import { ManualScrollEngine } from "@/metrics/ManualScrollEngine";
+import { COMPONENT_BUTTON, COMPONENT_RADIO_BUTTON, COMPONENT_STEPPER, registerComponent } from "@/metrics/scriptTest";
+import { addToCart } from "@/utils/UtilsCart";
+import { getCategoryLabel } from "@/utils/UtilsCategories";
+import { getFavorite, toggleFavorite } from "@/utils/UtilsFavorites";
+import { openNotification } from "@/utils/UtilsNotifications";
+import { getProduct } from "@/utils/UtilsProducts";
+import { getProductDescription, getProductTitle } from "@/utils/UtilsProductTranslations";
+import { ShoppingCartOutlined } from "@ant-design/icons";
+import { Breadcrumb, Button, Col, Radio, Row, Typography } from 'antd';
+import { Stepper } from "antd-mobile";
+import { HeartFill, HeartOutline } from "antd-mobile-icons";
+import { useTranslations } from 'next-intl';
+import { useRouter } from "next/router";
+import { useEffect, useRef, useState } from "react";
+import { FreeProductOffer } from "./FreeProductOffer";
+import { ImageCarousel } from "./ImageCarousel";
+const { Title, Paragraph } = Typography;
 
 let DetailsProductComponent = ({ id , footer}) => {
     const containerRef = useRef(null);
@@ -91,7 +91,6 @@ let DetailsProductComponent = ({ id , footer}) => {
 
     useEffect(() => {
         let p = getProduct(id);
-        //console.log("product: ", p)
         setProduct(p);
         setProductTitle(getProductTitle(id, locale))
         setProductDescription(getProductDescription(id, locale))

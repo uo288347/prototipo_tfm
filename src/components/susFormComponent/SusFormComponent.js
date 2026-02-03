@@ -1,25 +1,24 @@
-import { Col, Form, Row, Select, Card, Button, Divider, Rate } from "antd"
-import { Steps } from "antd-mobile";
-import { useRouter } from "next/router";
-import { useState, useRef, useEffect } from "react";
-import { TextInputField } from "../shared/TextInputField";
-import { validateFormDataInputYear, allowSubmitForm } from "../../utils/UtilsValidations"
-import { modifyStateProperty } from "../../utils/UtilsState";
-import { LaptopOutlined, MobileOutlined, TabletOutlined } from "@ant-design/icons";
-import { useTranslations } from 'next-intl';
-import { FirstSusComponent } from "./FirstSusComponent";
-import { SecondSusComponent } from "./SecondSusComponent";
-import { ThirdSusComponent } from "./ThirdSusComponent";
-import { NumberIndicator } from "../shared/NumberIndicator";
-import { task10 } from "../../utils/UtilsTasks";
-import { registerComponent, COMPONENT_BUTTON, getCurrentSceneId, 
-    registersus1, registersus2, registersus3, registersus4, registersus5,
-    registersus6, registersus7, registersus8, registersus9, registersus10 } from "@/metrics/scriptTest";
-import { registerSUSResults } from "../../metrics/registerInBd";
-import { form } from "framer-motion/client";
+import {
+    COMPONENT_BUTTON, getCurrentSceneId,
+    registerComponent,
+    registersus1,
+    registersus10,
+    registersus2, registersus3, registersus4, registersus5,
+    registersus6, registersus7, registersus8, registersus9
+} from "@/metrics/scriptTest";
 import { clearCart } from "@/utils/UtilsCart";
 import { clearFavorites } from "@/utils/UtilsFavorites";
 import { clearLogin } from "@/utils/UtilsLogin";
+import { Button, Card, Col, Row } from "antd";
+import { Steps } from "antd-mobile";
+import { useTranslations } from 'next-intl';
+import { useRouter } from "next/router";
+import { useEffect, useRef, useState } from "react";
+import { task10 } from "../../utils/UtilsTasks";
+import { NumberIndicator } from "../shared/NumberIndicator";
+import { FirstSusComponent } from "./FirstSusComponent";
+import { SecondSusComponent } from "./SecondSusComponent";
+import { ThirdSusComponent } from "./ThirdSusComponent";
 
 export const SusFormComponent = ({}) => {
     const t = useTranslations();

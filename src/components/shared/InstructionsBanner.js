@@ -1,13 +1,12 @@
-import { NoticeBar } from "antd-mobile"
-import React, { forwardRef } from 'react';
-import { useState, useEffect } from "react";
+import { getCurrentSceneId } from "@/metrics/constants/scenes";
+import { COMPONENT_BANNER, registerComponent } from "@/metrics/scriptTest";
 import { UtilsTasks, getTaskText } from "@/utils/UtilsTasks";
 import { BulbOutlined } from "@ant-design/icons";
+import { NoticeBar } from "antd-mobile";
 import confetti from 'canvas-confetti';
 import { useTranslations } from 'next-intl';
 import { useRouter } from 'next/router';
-import { registerComponent, COMPONENT_BANNER } from "@/metrics/scriptTest";
-import { getCurrentSceneId } from "@/metrics/constants/scenes";
+import { forwardRef, useEffect, useState } from 'react';
 
 export const InstructionsBanner = forwardRef((props, ref) => {
     const t = useTranslations();

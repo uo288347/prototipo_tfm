@@ -1,6 +1,6 @@
-import { useEffect, useRef, useCallback } from "react";
-import { registerComponent } from "./scriptTest";
+import { useCallback, useEffect, useRef } from "react";
 import { getCurrentSceneId } from "./constants/scenes";
+import { registerComponent } from "./scriptTest";
 
 /**
  * Hook para registrar automáticamente un componente en el sistema de métricas.

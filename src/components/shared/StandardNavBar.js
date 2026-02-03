@@ -1,13 +1,13 @@
-import { NavBar, Button, Badge } from "antd-mobile";
-import { useRouter } from "next/router";
-import { useState, useEffect, useRef } from "react";
-import { getFavorites } from "@/utils/UtilsFavorites";
+import { COMPONENT_BUTTON, getCurrentSceneId, registerComponent } from "@/metrics/scriptTest";
 import { getShoppingCartLength } from "@/utils/UtilsCart";
-import { HeartOutline } from "antd-mobile-icons";
-import { ShoppingCartOutlined } from "@ant-design/icons";
+import { getFavorites } from "@/utils/UtilsFavorites";
 import { task6 } from "@/utils/UtilsTasks";
+import { ShoppingCartOutlined } from "@ant-design/icons";
+import { Badge, Button, NavBar } from "antd-mobile";
+import { HeartOutline } from "antd-mobile-icons";
+import { useRouter } from "next/router";
+import { useEffect, useRef, useState } from "react";
 import { LanguageSwitcher } from "./LanguageSwitcher";
-import { registerComponent, COMPONENT_BUTTON, getCurrentSceneId } from "@/metrics/scriptTest";
 
 export const StandardNavBar = ({ }) => {
     const router = useRouter();

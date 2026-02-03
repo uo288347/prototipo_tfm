@@ -1,5 +1,4 @@
-import { useState, useRef, useEffect } from 'react';
-import { Carousel } from 'antd';
+import { useEffect, useRef, useState } from 'react';
 
 export const PinchZoomImage = ({ src, alt }) => {
     const [scale, setScale] = useState(1);
@@ -209,23 +208,3 @@ export const PinchZoomImage = ({ src, alt }) => {
         </div>
     );
 };
-
-/*
- {scale > 1 && (
-                <div
-                    style={{
-                        position: 'absolute',
-                        top: '10px',
-                        right: '10px',
-                        background: 'rgba(0,0,0,0.6)',
-                        color: 'white',
-                        padding: '5px 10px',
-                        borderRadius: '15px',
-                        fontSize: '12px',
-                        zIndex: 10
-                    }}
-                >
-                    {Math.round(scale * 100)}%
-                </div>
-            )}
-                */

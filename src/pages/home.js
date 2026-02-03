@@ -1,9 +1,7 @@
 import { HomeComponent } from "@/components/homeComponent/HomeComponent";
-import { useEffect } from "react";
-import { finishSubsceneTracking } from "@/metrics/scriptTest";
 import { useScene } from "@/experiment/useScene";
 import { getCurrentSceneId } from "@/metrics/constants/scenes";
-import { Footer } from "@/components/shared/Footer";
+import { useEffect } from "react";
 
 export default function Home({footer}) {
     const currentSceneId = getCurrentSceneId();

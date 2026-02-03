@@ -1,20 +1,10 @@
-import { useRouter } from "next/router";
-import { Card, Button, Tooltip, Avatar } from "antd";
-import { useEffect, useRef } from "react";
-import {
-  AppstoreOutlined,
-  BookOutlined,
-  CarOutlined,
-  CustomerServiceOutlined,
-  HomeOutlined,
-  LaptopOutlined,
-  SkinOutlined,
-  TrophyOutlined,
-} from '@ant-design/icons';
-import { getProductTitle, getProductDescription } from "@/utils/UtilsProductTranslations";
-import { useTranslations } from 'next-intl';
-import { registerComponent, COMPONENT_CARD } from "@/metrics/scriptTest";
 import { getCurrentSceneId } from "@/metrics/constants/scenes";
+import { COMPONENT_CARD, registerComponent } from "@/metrics/scriptTest";
+import { getProductDescription, getProductTitle } from "@/utils/UtilsProductTranslations";
+import { Card } from "antd";
+import { useTranslations } from 'next-intl';
+import { useRouter } from "next/router";
+import { useEffect, useRef } from "react";
 
 const {Meta} = Card;
 
@@ -49,8 +39,6 @@ export const ProductCard = ({p, index, onClick, onTouchStart, onTouchEnd, enable
                 COMPONENT_CARD,
                 null
             );
-
-            //console.log(`[ProductCard] Registered ${trackingId} at (${rect.left},${rect.top}) in scene ${sceneId}`);
         }, 300);
 
         return () => clearTimeout(timer);

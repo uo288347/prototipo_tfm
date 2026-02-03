@@ -1,9 +1,9 @@
 
-import { useRouter } from "next/router";
-import { Typography, Row, Button } from "antd";
+import { COMPONENT_BUTTON, getCurrentSceneId, registerComponent } from "@/metrics/scriptTest";
+import { Button, Row, Typography } from "antd";
 import { useTranslations } from 'next-intl';
-import { useRef, useEffect } from "react";
-import { registerComponent, COMPONENT_BUTTON, getCurrentSceneId } from "@/metrics/scriptTest";
+import { useRouter } from "next/router";
+import { useEffect, useRef } from "react";
 
 const {Title} = Typography
 
