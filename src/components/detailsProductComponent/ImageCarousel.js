@@ -16,13 +16,15 @@ export const ImageCarousel = ({ product }) => {
             // Register back button
             if (backButtonRef.current) {
                 const rect = backButtonRef.current.getBoundingClientRect();
-                registerComponent("btn-back-home", COMPONENT_BUTTON, sceneId, rect.x, rect.y, rect.width, rect.height);
+                registerComponent(sceneId, "btn-back-home", rect.left + window.scrollX, rect.top + window.scrollY,
+                    rect.right + window.scrollX, rect.bottom + window.scrollY, COMPONENT_BUTTON, null);
             }
             // Register carousel
             if (carouselRef.current) {
                 const carouselElement = carouselRef.current.querySelector('.ant-carousel') || carouselRef.current;
                 const rect = carouselElement.getBoundingClientRect();
-                registerComponent("carousel-product-images", COMPONENT_CAROUSEL, sceneId, rect.x, rect.y, rect.width, rect.height);
+                registerComponent(sceneId, "carousel-product-images", rect.left + window.scrollX, rect.top + window.scrollY,
+                    rect.right + window.scrollX, rect.bottom + window.scrollY, COMPONENT_CAROUSEL, null);
             }
         }, 300);
         return () => clearTimeout(timer);

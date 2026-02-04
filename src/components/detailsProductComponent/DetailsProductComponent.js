@@ -101,7 +101,6 @@ let DetailsProductComponent = ({ id , footer}) => {
     useEffect(() => {
         const container = containerRef.current;
         const content = contentRef.current;
-        console.log("Initializing ManualScrollEngine", { container, content });
         if (!container || !content) return;
 
         const updateScrollBounds = () => {
@@ -110,10 +109,8 @@ let DetailsProductComponent = ({ id , footer}) => {
             const availableHeight = container.clientHeight;
             const scrollHeight = content.scrollHeight;
 
-            console.log("ManualScrollEngine values:", { availableHeight, scrollHeight, diff: scrollHeight - availableHeight });
 
             if (scrollHeight <= availableHeight) {
-                console.log("No scroll needed, content fits in container");
                 // Si ya existe el engine, destruirlo
                 if (scrollEngineRef.current) {
                     scrollEngineRef.current.destroy();
@@ -124,8 +121,6 @@ let DetailsProductComponent = ({ id , footer}) => {
 
             const maxOffset = 0;
             const minOffset = -(scrollHeight - availableHeight);
-
-            console.log("ManualScrollEngine bounds:", { minOffset, maxOffset });
 
             // Si ya existe el engine, actualizar los límites
             if (scrollEngineRef.current) {

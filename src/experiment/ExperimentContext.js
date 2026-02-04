@@ -29,10 +29,12 @@ export function ExperimentProvider({ children }) {
     const curr = state.currentScene;
 
     if (prev !== null && prev !== curr) {
+      console.log(`[ExperimentContext] Ending tracking for Scene ID: ${prev}`);
       finishTracking(null);
     }
 
     if (curr !== null && prev !== curr) {
+      console.log(`[ExperimentContext] Starting tracking for Scene ID: ${curr}`);
       initTracking(curr);
     }
 

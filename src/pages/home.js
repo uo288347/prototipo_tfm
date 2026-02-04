@@ -4,13 +4,6 @@ import { getCurrentSceneId } from "@/metrics/constants/scenes";
 import { useEffect } from "react";
 
 export default function Home({footer}) {
-    const currentSceneId = getCurrentSceneId();
-    const scene = useScene(currentSceneId);
-    useEffect(() => {
-      scene.start();
-      return () => scene.end();
-    }, []);
-
     return (
     <div style={{margin: "0 10px"}}>
       <HomeComponent footer={footer}/>
