@@ -79,8 +79,8 @@ export default function App({ Component, pageProps }) {
     }, [isUserLoggedIn]);
 
     const closeTour = () => {
-        task1();
         setOpenTour(false);
+        task1();
     };
 
     const tourRef = useRef(false);
