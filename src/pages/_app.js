@@ -117,7 +117,7 @@ export default function App({ Component, pageProps }) {
                     <AntdMobileConfigProvider locale={antdMobileLocale}>
                         {contextHolder}
                         <div style={{
-                            minHeight: "100vh",
+                            minHeight: "100dvh",
                             display: "flex",
                             flexDirection: "column",
                             backgroundColor: "#fff"
