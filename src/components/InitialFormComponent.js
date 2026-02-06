@@ -10,6 +10,8 @@ import { modifyStateProperty } from "../utils/UtilsState";
 import { allowSubmitForm, validateFormDataInputYear } from "../utils/UtilsValidations";
 import { TextInputField } from "./shared/TextInputField";
 import { TrackableSelect } from "./shared/TrackableSelect";
+import { useScene } from "@/experiment/useScene";
+import { SCENES } from "@/metrics/constants/scenes";
 
 export const InitialFormComponent = ({ }) => {
 
@@ -21,6 +23,16 @@ export const InitialFormComponent = ({ }) => {
     let [formErrors, setFormErrors] = useState({})
 
     const currentYear = new Date().getFullYear();
+
+    const scene = useScene(SCENES.INITIAL_FORM);
+
+    useEffect(() => {
+        scene.start();
+
+        return () => {
+            scene.end();
+        };
+    }, []);
 
     useEffect(() => {
         const timer = setTimeout(() => {
@@ -46,7 +58,7 @@ export const InitialFormComponent = ({ }) => {
             <Col xs={24} sm={24} md={12} lg={8} xl={7} justify="center" >
                 <Card title={t('initialForm.title')}>
                     <Form >
-                        <Form.Item  id="handedness" name="handedness">
+                        <Form.Item id="handedness" name="handedness">
                             <TrackableSelect
                                 id="select-handedness"
                                 name={"handedness"}
@@ -60,7 +72,7 @@ export const InitialFormComponent = ({ }) => {
                                         label: <span>{t('initialForm.rightHanded')}</span>
                                     },
                                     {
-                                        value: 'left', 
+                                        value: 'left',
                                         label: <span>{t('initialForm.leftHanded')}</span>
                                     }
                                 ]}
@@ -77,11 +89,11 @@ export const InitialFormComponent = ({ }) => {
                                 }}
                                 options={[
                                     {
-                                        value: 'man', 
+                                        value: 'man',
                                         label: <span>{t('initialForm.man')}</span>
                                     },
                                     {
-                                        value: 'woman', 
+                                        value: 'woman',
                                         label: <span>{t('initialForm.woman')}</span>
                                     },
                                 ]}
@@ -102,23 +114,23 @@ export const InitialFormComponent = ({ }) => {
                                 onChange={(value) => modifyStateProperty(formData, setFormData, "frequency", value)}
                                 options={[
                                     {
-                                        value: 'never', 
+                                        value: 'never',
                                         label: <span>{t('initialForm.never')}</span>
                                     },
                                     {
-                                        value: 'once_month', 
+                                        value: 'once_month',
                                         label: <span>{t('initialForm.onceMonth')}</span>
                                     },
                                     {
-                                        value: '2_3_times_month', 
+                                        value: '2_3_times_month',
                                         label: <span>{t('initialForm.twoThreeTimesMonth')}</span>
                                     },
                                     {
-                                        value: '1_3_times_week', 
+                                        value: '1_3_times_week',
                                         label: <span>{t('initialForm.oneThreeTimesWeek')}</span>
                                     },
                                     {
-                                        value: 'everyday', 
+                                        value: 'everyday',
                                         label: <span>{t('initialForm.almostEveryday')}</span>
                                     },
                                 ]}
@@ -136,15 +148,15 @@ export const InitialFormComponent = ({ }) => {
                                 }}
                                 options={[
                                     {
-                                        value: 'computer', 
+                                        value: 'computer',
                                         label: <span><LaptopOutlined /> {t('initialForm.laptop')}</span>
                                     },
                                     {
-                                        value: 'phone', 
+                                        value: 'phone',
                                         label: <span><MobileOutlined /> {t('initialForm.smartphone')}</span>
                                     },
                                     {
-                                        value: 'tablet', 
+                                        value: 'tablet',
                                         label: <span><TabletOutlined /> {t('initialForm.tablet')}</span>
                                     },
                                 ]}
@@ -156,12 +168,12 @@ export const InitialFormComponent = ({ }) => {
                             {allowSubmitForm(formData, formErrors, requiredInForm) ?
                                 <Button
                                     id="registerButton"
-                                    type="primary" size="large" onClick={async () => { 
+                                    type="primary" size="large" onClick={async () => {
                                         registerhandedness(formData.handedness || null);
                                         registersex(formData.sex || null);
                                         registerbirth_year(formData.birthYear ? parseInt(formData.birthYear) : null);
                                         registerecommerce_frequency(formData.frequency || null);
-                                        registerpreferred_device(formData.device || null);          
+                                        registerpreferred_device(formData.device || null);
                                         router.push("/login");
                                     }} block >{t('auth.register')}</Button> :
                                 <Button type="primary" size="large" block disabled>{t('auth.register')}</Button>

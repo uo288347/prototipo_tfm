@@ -5,7 +5,7 @@ import { useScene } from "@/experiment/useScene";
 import { SCENES } from "@/metrics/constants/scenes";
 
 export default function InitialForm({footer}) {
-  const scene = useScene(SCENES.INITIAL_FORM);
+  /*const scene = useScene(SCENES.INITIAL_FORM);
   
   useEffect(() => {
     scene.start();
@@ -14,7 +14,7 @@ export default function InitialForm({footer}) {
       scene.end();
     };
   }, []);
-
+*/
 
   return (
     <div id="initial-form-root" style={{

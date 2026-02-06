@@ -51,10 +51,6 @@ export const SusFormComponent = ({}) => {
         return () => clearTimeout(timer);
     }, [currentStep]);
 
-    const currentYear = new Date().getFullYear();
-    let tooltipsFrequency = ["Totalmente en desacuerdo", "En desacuerdo", "Neutro",
-        "De acuerdo", "Totalmente de acuerdo"]
-
     const handleNext = () => {
         setCurrentStep(currentStep + 1);
     };
