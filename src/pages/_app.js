@@ -20,6 +20,21 @@ import { useEffect, useRef, useState } from 'react';
 import { COMPONENT_TOUR, getCurrentSceneId, registerComponent } from '../metrics/scriptTest';
 import '../styles/output.css';
 import { initNotification } from "../utils/UtilsNotifications";
+import { useScene } from "@/experiment/useScene";
+import { SCENES } from "@/metrics/constants/scenes";
+
+function TourSceneManager({ openTour }) {
+    const sceneTour = useScene(SCENES.TASK_ACCEPT_TUTORIAL);
+    // Lanzar la escena del tutorial cuando se abre el tour
+    useEffect(() => {
+        if (openTour) {
+            sceneTour.start();
+        } else {
+            sceneTour.end && sceneTour.end();
+        }
+    }, [openTour]);
+    return null;
+}
 
 export default function App({ Component, pageProps }) {
     const router = useRouter();
@@ -29,6 +44,7 @@ export default function App({ Component, pageProps }) {
     const [openTour, setOpenTour] = useState(false);
 
     const bannerRef = useRef(null);
+
 
     // Seleccionar los locales de Ant Design según el idioma
     const antdLocale = locale === 'es' ? esESAntd : enUSAntd;
@@ -78,6 +94,7 @@ export default function App({ Component, pageProps }) {
         return () => clearInterval(interval);
     }, [isUserLoggedIn]);
 
+
     const closeTour = () => {
         setOpenTour(false);
         task1();
@@ -112,6 +129,7 @@ export default function App({ Component, pageProps }) {
 
     return (
         <ExperimentProvider>
+            <TourSceneManager openTour={openTour} />
             <NextIntlClientProvider locale={locale} messages={pageProps.messages}>
                 <AntdConfigProvider locale={customLocale}>
                     <AntdMobileConfigProvider locale={antdMobileLocale}>
@@ -147,6 +165,3 @@ export default function App({ Component, pageProps }) {
         </ExperimentProvider>
     );
 }
-
-/*        </ExperimentProvider>
-*/
