@@ -52,6 +52,7 @@ function getUser() {
 }
 
 function getCurrentSceneId() {
+	console.log("CURRENT SCENE ID: " + sceneId);
 	return sceneId;
 }
 
@@ -241,10 +242,18 @@ class Element {
 	}
 }
 
+function isVisible(elementId) {
+	const el = document.getElementById(elementId);
+	if (!el) return false;
+	const style = window.getComputedStyle(el);
+	return style.display !== "none" && style.visibility !== "hidden" && el.offsetParent !== null;
+}
+
 function detectElement(x, y) {
+	console.log("[by position] Detecting element at position: " + x + "," + y);
 	var found = -1;
 	elements.forEach(function (entry) {
-		if (entry.isOver(x, y) && entry.getScene() === sceneId) {
+		if (entry.isOver(x, y) && (entry.getScene() === sceneId || isVisible(entry.id))) {
 			found = entry.id;
 		}
 	});
@@ -252,9 +261,10 @@ function detectElement(x, y) {
 }
 
 function detectElementByName(name) {
+	console.log("[by name] Detecting element by name: " + name);
 	var found = -1;
 	elements.forEach(function (entry) {
-		if (entry.id === name && entry.getScene() === sceneId) {
+		if (entry.id === name && (entry.getScene() === sceneId || isVisible(entry.id))) {
 			found = entry.id;
 		}
 	});
@@ -262,6 +272,7 @@ function detectElementByName(name) {
 }
 
 function registerElement(id, x, y, xF, yF, typeId, sceneId) {
+	console.log("{id: " + id + ", x: " + x + ", y: " + y + ", xF: " + xF + ", yF: " + yF + ", typeId: " + typeId + ", sceneId: " + sceneId + "}");
 	elements.push(new Element(id, x, y, xF, yF, sceneId));
 	addFocusAndBlurEvents(id);
 	if (typeId === COMPONENT_COMBOBOX || typeId === COMPONENT_OPTION) {
@@ -330,6 +341,19 @@ function trackEventOverElement(eventType, elementId, event) {
 	item.keyValueEvent = -1;
 	item.keyCodeEvent = -1;
 
+
+
+	// Unificar obtención de elementId
+	if (event && event.target && event.target.id) {
+		item.elementId = detectElementByName(event.target.id);
+	} else {
+		item.elementId = detectElement(item.x, item.y);
+	}
+	if (eventType == EVENT_KEY_DOWN || eventType == EVENT_KEY_PRESS || eventType == EVENT_KEY_UP) {
+		item.keyValueEvent = event.key;
+		item.keyCodeEvent = event.keyCode;
+	}
+	/*
 	if (eventType == EVENT_KEY_DOWN || eventType == EVENT_KEY_PRESS || eventType == EVENT_KEY_UP) {
 		item.keyValueEvent = event.key;
 		item.keyCodeEvent = event.keyCode;
@@ -346,7 +370,7 @@ function trackEventOverElement(eventType, elementId, event) {
 	}
 	else {
 		item.elementId = detectElement(item.x, item.y);
-	}
+	}*/
 
 	console.log(item);
 	list[list.length] = item;
@@ -364,7 +388,7 @@ function initTracking(_sceneId) {
 	trackingOn = true;
 	getExperimentStatus();
 	sceneId = _sceneId;
-	console.log("Initializing tracking for scene " + _sceneId);
+	console.log("UPDATE: Initializing tracking for scene " + _sceneId);
 
 	if (!listenersInitialized) {
 		initializeGlobalListeners();
@@ -506,7 +530,6 @@ function checkReadyToLeave() {
 	}
 
 }
-
 
 function finishSubsceneTracking() {
 	trackEvent(EVENT_TRACKIND_END);
@@ -778,26 +801,26 @@ function postAJAXDemographicData(parametros) {
 	}
 }
 
-function registersus1(value) {/*postNumberDD(251, value);*/}
-function registerid(value) {/*postStringDD(252, value);*/}
-function registersus2(value) {/*postNumberDD(253, value);*/}
-function registerpreferred_device(value) {/*postStringDD(254, value);*/}
-function registersex(value) {/*postStringDD(255, value);*/}
-function registerbirth_year(value) {/*postNumberDD(256, value);*/}
-function registerusername(value) {/*postStringDD(257, value);*/}
-function registersus7(value) {/*postNumberDD(258, value);*/}
-function registerecommerce_frequency(value) {/*postStringDD(259, value);*/}
-function registerhandedness(value) {/*postStringDD(260, value);*/}
-function registersus9(value) {/*postNumberDD(261, value);*/}
-function registercountry(value) {/*postStringDD(262, value);*/}
-function registersus8(value) {/*postNumberDD(263, value);*/}
-function registersus10(value) {/*postNumberDD(264, value);*/}
-function registersus5(value) {/*postNumberDD(265, value);*/}
-function registersus4(value) {/*postNumberDD(266, value);*/}
-function registersus3(value) {/*postNumberDD(267, value);*/}
-function registersus6(value) {/*postNumberDD(268, value);*/}
-function registerpassword(value) {/*postStringDD(269, value);*/}
-function registercity(value) {/*postStringDD(270, value);*/}
+function registersus1(value) {/*postNumberDD(251, value);*/ }
+function registerid(value) {/*postStringDD(252, value);*/ }
+function registersus2(value) {/*postNumberDD(253, value);*/ }
+function registerpreferred_device(value) {/*postStringDD(254, value);*/ }
+function registersex(value) {/*postStringDD(255, value);*/ }
+function registerbirth_year(value) {/*postNumberDD(256, value);*/ }
+function registerusername(value) {/*postStringDD(257, value);*/ }
+function registersus7(value) {/*postNumberDD(258, value);*/ }
+function registerecommerce_frequency(value) {/*postStringDD(259, value);*/ }
+function registerhandedness(value) {/*postStringDD(260, value);*/ }
+function registersus9(value) {/*postNumberDD(261, value);*/ }
+function registercountry(value) {/*postStringDD(262, value);*/ }
+function registersus8(value) {/*postNumberDD(263, value);*/ }
+function registersus10(value) {/*postNumberDD(264, value);*/ }
+function registersus5(value) {/*postNumberDD(265, value);*/ }
+function registersus4(value) {/*postNumberDD(266, value);*/ }
+function registersus3(value) {/*postNumberDD(267, value);*/ }
+function registersus6(value) {/*postNumberDD(268, value);*/ }
+function registerpassword(value) {/*postStringDD(269, value);*/ }
+function registercity(value) {/*postStringDD(270, value);*/ }
 export {
 	COMPONENT_BANNER, COMPONENT_BUTTON,
 	COMPONENT_CARD, COMPONENT_CAROUSEL, COMPONENT_CHECK_BOX, COMPONENT_COMBOBOX, COMPONENT_IMAGE, COMPONENT_LINK, COMPONENT_OPTION,

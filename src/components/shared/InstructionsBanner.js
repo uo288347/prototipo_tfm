@@ -1,4 +1,4 @@
-import { getCurrentSceneId } from "@/metrics/constants/scenes";
+import { getCurrentSceneId } from "@/metrics/scriptTest";
 import { COMPONENT_BANNER, registerComponent } from "@/metrics/scriptTest";
 import { UtilsTasks, getTaskText } from "@/utils/UtilsTasks";
 import { BulbOutlined } from "@ant-design/icons";

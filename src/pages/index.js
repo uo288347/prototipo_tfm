@@ -22,7 +22,7 @@ export default function Index({footer}) {
     }
   }, []);
 
-  useEffect(() => {
+  /*useEffect(() => {
     const sceneId = getCurrentSceneId();
     const timer = setTimeout(() => {
       if (startButtonRef.current) {
@@ -31,7 +31,7 @@ export default function Index({footer}) {
       }
     }, 300);
     return () => clearTimeout(timer);
-  }, []);
+  }, []);*/
 
   const t = useTranslations();
   const router = useRouter();

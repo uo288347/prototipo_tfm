@@ -1,6 +1,6 @@
 import { Radio } from "antd";
 import { useEffect, useRef } from "react";
-import { getCurrentSceneId } from "../../metrics/constants/scenes";
+import { getCurrentSceneId } from "@/metrics/scriptTest";
 import { COMPONENT_RADIO_BUTTON, registerComponent } from "../../metrics/scriptTest";
 
 /**

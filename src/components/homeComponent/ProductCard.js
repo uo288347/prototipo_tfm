@@ -1,4 +1,4 @@
-import { getCurrentSceneId } from "@/metrics/constants/scenes";
+import { getCurrentSceneId } from "@/metrics/scriptTest";
 import { COMPONENT_CARD, registerComponent } from "@/metrics/scriptTest";
 import { getProductDescription, getProductTitle } from "@/utils/UtilsProductTranslations";
 import { Card } from "antd";

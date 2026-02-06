@@ -1,7 +1,4 @@
 import { HomeComponent } from "@/components/homeComponent/HomeComponent";
-import { useScene } from "@/experiment/useScene";
-import { getCurrentSceneId } from "@/metrics/constants/scenes";
-import { useEffect } from "react";
 
 export default function Home({footer}) {
     return (

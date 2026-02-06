@@ -1,4 +1,4 @@
-import { getCurrentSceneId } from "@/metrics/constants/scenes";
+import { getCurrentSceneId } from "@/metrics/scriptTest";
 import { COMPONENT_BUTTON, COMPONENT_COMBOBOX, COMPONENT_TEXT_FIELD, registerComponent } from "@/metrics/scriptTest";
 import { isEligibleForFree, isProductFree, setItemAsOffer } from "@/utils/UtilsOffer";
 import { task3 } from "@/utils/UtilsTasks";

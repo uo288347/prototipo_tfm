@@ -1,4 +1,4 @@
-import { getCurrentSceneId } from "@/metrics/constants/scenes";
+import { getCurrentSceneId } from "@/metrics/scriptTest";
 import { COMPONENT_BUTTON, registercity, registerComponent, registercountry } from "@/metrics/scriptTest";
 import { clearCart, getShoppingCart } from "@/utils/UtilsCart";
 import { clearFavorites } from "@/utils/UtilsFavorites";

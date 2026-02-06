@@ -1,4 +1,4 @@
-import { getCurrentSceneId } from "@/metrics/constants/scenes";
+import { getCurrentSceneId } from "@/metrics/scriptTest";
 import { ManualScrollEngine } from "@/metrics/ManualScrollEngine";
 import { COMPONENT_BUTTON, COMPONENT_RADIO_BUTTON, COMPONENT_STEPPER, registerComponent } from "@/metrics/scriptTest";
 import { addToCart } from "@/utils/UtilsCart";

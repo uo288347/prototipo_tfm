@@ -7,7 +7,7 @@ import { useDrag } from 'react-dnd';
 import { getProductTitle } from "@/utils/UtilsProductTranslations";
 import { useTranslations } from 'next-intl';
 import { registerComponent, COMPONENT_CARD } from "@/metrics/scriptTest";
-import { getCurrentSceneId } from "@/metrics/constants/scenes";
+import { getCurrentSceneId } from "@/metrics/scriptTest";
 
 const { Text, Title } = Typography;
 

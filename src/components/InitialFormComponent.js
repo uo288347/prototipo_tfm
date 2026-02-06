@@ -1,6 +1,6 @@
 import { Button, Card, Col, Divider, Form, Row } from "antd";
 //import { Form  } from "antd-mobile";
-import { getCurrentSceneId } from "@/metrics/constants/scenes";
+import { getCurrentSceneId } from "@/metrics/scriptTest";
 import { LaptopOutlined, MobileOutlined, TabletOutlined } from "@ant-design/icons";
 import { useTranslations } from 'next-intl';
 import { useRouter } from "next/router";
@@ -37,6 +37,7 @@ export const InitialFormComponent = ({ }) => {
     useEffect(() => {
         const timer = setTimeout(() => {
             const sceneId = getCurrentSceneId();
+            console.log("Current Scene ID in InitialFormComponent: " + sceneId);
             if (sceneId === null) return;
 
             const registerBtn = document.getElementById('registerButton');
