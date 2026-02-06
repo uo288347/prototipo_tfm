@@ -60,7 +60,7 @@ var list = [];
 var sceneId = 0;
 var eventCounter = 0;
 var trackingOn = false;
-var TOP_LIMIT = 5;
+var TOP_LIMIT = 50;
 var sentRequest = 0;
 var pendingRequest = 0;
 
@@ -315,6 +315,7 @@ function trackEvent(eventType) {
 }
 
 function trackEventOverElement(eventType, elementId, event) {
+	console.log(`[trackEventOverElement] Tracking event type ${eventType} over element ${elementId}`);
 	var item = new Object();
 	item.id = eventCounter++;
 	item.sceneId = sceneId;

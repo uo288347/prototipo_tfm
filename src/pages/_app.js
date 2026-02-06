@@ -30,7 +30,8 @@ function TourSceneManager({ openTour }) {
         if (openTour) {
             sceneTour.start();
         } else {
-            sceneTour.end && sceneTour.end();
+            console.log(`[TourSceneManager] Ending tutorial scene`);
+            sceneTour.end();
         }
     }, [openTour]);
     return null;

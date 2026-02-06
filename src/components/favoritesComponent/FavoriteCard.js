@@ -43,7 +43,7 @@ export const FavoriteCard = ({item, index, isSelected, selectedItems, onClick, e
                 null
             );
 
-            console.log(`[FavoriteCard] Registered ${trackingId} at (${rect.left},${rect.top}) in scene ${sceneId}`);
+            //console.log(`[FavoriteCard] Registered ${trackingId} at (${rect.left},${rect.top}) in scene ${sceneId}`);
         }, 300);
 
         return () => clearTimeout(timer);
