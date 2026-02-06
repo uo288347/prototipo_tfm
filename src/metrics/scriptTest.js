@@ -52,7 +52,6 @@ function getUser() {
 }
 
 function getCurrentSceneId() {
-	console.log("CURRENT SCENE ID: " + sceneId);
 	return sceneId;
 }
 
@@ -250,7 +249,7 @@ function isVisible(elementId) {
 }
 
 function detectElement(x, y) {
-	console.log("[by position] Detecting element at position: " + x + "," + y);
+	//console.log("[by position] Detecting element at position: " + x + "," + y);
 	var found = -1;
 	elements.forEach(function (entry) {
 		if (entry.isOver(x, y) && (entry.getScene() === sceneId || isVisible(entry.id))) {
@@ -261,7 +260,7 @@ function detectElement(x, y) {
 }
 
 function detectElementByName(name) {
-	console.log("[by name] Detecting element by name: " + name);
+	//console.log("[by name] Detecting element by name: " + name);
 	var found = -1;
 	elements.forEach(function (entry) {
 		if (entry.id === name && (entry.getScene() === sceneId || isVisible(entry.id))) {
@@ -272,7 +271,6 @@ function detectElementByName(name) {
 }
 
 function registerElement(id, x, y, xF, yF, typeId, sceneId) {
-	console.log("{id: " + id + ", x: " + x + ", y: " + y + ", xF: " + xF + ", yF: " + yF + ", typeId: " + typeId + ", sceneId: " + sceneId + "}");
 	elements.push(new Element(id, x, y, xF, yF, sceneId));
 	addFocusAndBlurEvents(id);
 	if (typeId === COMPONENT_COMBOBOX || typeId === COMPONENT_OPTION) {
@@ -372,7 +370,6 @@ function trackEventOverElement(eventType, elementId, event) {
 		item.elementId = detectElement(item.x, item.y);
 	}*/
 
-	console.log(item);
 	list[list.length] = item;
 
 	if (list.length >= TOP_LIMIT) {
@@ -388,7 +385,6 @@ function initTracking(_sceneId) {
 	trackingOn = true;
 	getExperimentStatus();
 	sceneId = _sceneId;
-	console.log("UPDATE: Initializing tracking for scene " + _sceneId);
 
 	if (!listenersInitialized) {
 		initializeGlobalListeners();

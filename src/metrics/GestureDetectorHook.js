@@ -549,7 +549,7 @@ const useGestureDetector = (onGestureDetected) => {
                 setTimeout(() => {
                     if (gestureState.current.tapCount === 1 && gestureState.current.lastTapData) {
                         const tapGesture = gestureState.current.lastTapData;
-                        console.log('Gesto detectado:', tapGesture);
+                        //console.log('Gesto detectado:', tapGesture);
                         gestureState.current.tapCount = 0;
                         gestureState.current.lastTapData = null;
                     }
@@ -568,7 +568,7 @@ const useGestureDetector = (onGestureDetected) => {
             const gesture = finalizeGesture(eventData);
             if (gesture) {
                 gesture.cancelled = true;
-                console.log('Gesto cancelado:', gesture);
+                //console.log('Gesto cancelado:', gesture);
             }
         }
         pointerCache.current = pointerCache.current.filter(p => p.pointerId !== e.pointerId);

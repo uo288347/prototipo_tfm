@@ -102,7 +102,6 @@ export default function App({ Component, pageProps }) {
 
     const tourRef = useRef(false);
     useEffect(() => {
-        console.log("[_app] Registering tour for metrics: ", tourRef.current);
         if (openTour) {
             const componentId = 'tour-instructions-banner';
             const tour = document.getElementById(componentId);
@@ -111,7 +110,6 @@ export default function App({ Component, pageProps }) {
                 return;
             }
 
-            console.log("[_app] Registering tour for metrics: ", tour);
             const sceneId = getCurrentSceneId();
             if (sceneId === null || sceneId === undefined || tourRef.current) return;
 
@@ -125,7 +123,7 @@ export default function App({ Component, pageProps }) {
                 rect.bottom + scrollY,
                 COMPONENT_TOUR, null);
         }
-    }, []);
+    }, [openTour]);
 
     return (
         <ExperimentProvider>

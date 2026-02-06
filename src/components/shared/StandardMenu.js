@@ -17,7 +17,6 @@ export const StandardMenu = () => {
         const favs = getFavorites();
         setFavorites(favs);
         const cartLength = getShoppingCartLength();
-        console.log("Cart length in StandardMenu useEffect: ", cartLength);
         setCartCount(cartLength);
     }, []);
     const router = useRouter();

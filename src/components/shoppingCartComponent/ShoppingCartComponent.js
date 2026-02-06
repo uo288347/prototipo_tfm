@@ -258,7 +258,6 @@ export const ShoppingCartComponent = ({ }) => {
         try {
             const itemsToDelete = JSON.parse(e.dataTransfer.getData('text/plain'));
             const updated = deleteFromCart(itemsToDelete);
-            console.log("updated cart: ", updated)
 
             setProducts(updated)
             setProductsLength(getShoppingCartLength());
@@ -306,7 +305,7 @@ export const ShoppingCartComponent = ({ }) => {
     useEffect(() => {
         const container = containerRef.current;
         const content = contentRef.current;
-        console.log("Initializing ManualScrollEngine", { container, content });
+        //console.log("Initializing ManualScrollEngine", { container, content });
         if (!container || !content) return;
 
         // Esperar a que el contenido se renderice completamente
@@ -317,7 +316,7 @@ export const ShoppingCartComponent = ({ }) => {
             const availableHeight = containerRect.height;
             const scrollHeight = content.scrollHeight;
 
-            console.log({ availableHeight, scrollHeight, contentScrollHeight: content.scrollHeight });
+            //console.log({ availableHeight, scrollHeight, contentScrollHeight: content.scrollHeight });
 
             const maxOffset = 0;
             const minOffset = Math.min(0, -(scrollHeight - availableHeight));

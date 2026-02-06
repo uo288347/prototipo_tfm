@@ -74,17 +74,13 @@ export const FavoritesComponent = ({ }) => {
             try {
                 const itemsToDelete = Array.from(selectedItems)
 
-                console.log("items to delete: ", itemsToDelete)
                 const updated = deleteFromFavorites(itemsToDelete);
-                console.log("updated cart: ", updated)
 
                 setIds(updated)
 
                 setSelectedItems(new Set());
                 setSelectionMode(false);
                 setDraggedOver(false);
-
-                console.log(`${itemsToDelete.length} deleted from favorites`);
             } catch (error) {
                 console.log('Error while deleting favorites', error);
             }
@@ -122,7 +118,6 @@ export const FavoritesComponent = ({ }) => {
             }
         }
 
-        console.log("is over: ", isOverDeleteZone(touch))
         if (isOverDeleteZone(touch)) {
             setDraggedOver(true);
         } else {
@@ -154,16 +149,12 @@ export const FavoritesComponent = ({ }) => {
 
         try {
             const itemsToDelete = JSON.parse(e.dataTransfer.getData('text/plain'));
-            console.log("items to delete: ", itemsToDelete)
             const updated = deleteFromFavorites(itemsToDelete);
-            console.log("updated cart: ", updated)
 
             setIds(updated)
 
             setSelectedItems(new Set());
             setSelectionMode(false);
-
-            console.log(`${itemsToDelete.length} products deleted from favorites`);
         } catch (error) {
             console.log('Error while deleting favorites');
         }
@@ -191,7 +182,7 @@ export const FavoritesComponent = ({ }) => {
     useEffect(() => {
         const container = containerRef.current;
         const content = contentRef.current;
-        console.log("Initializing ManualScrollEngine", { container, content });
+        //console.log("Initializing ManualScrollEngine", { container, content });
         if (!container || !content) return;
 
         // Esperar a que el contenido se renderice completamente
@@ -202,7 +193,7 @@ export const FavoritesComponent = ({ }) => {
             const availableHeight = containerRect.height;
             const scrollHeight = content.scrollHeight;
 
-            console.log({ availableHeight, scrollHeight, contentScrollHeight: content.scrollHeight });
+            //console.log({ availableHeight, scrollHeight, contentScrollHeight: content.scrollHeight });
 
             const maxOffset = 0;
             const minOffset = Math.min(0, -(scrollHeight - availableHeight));

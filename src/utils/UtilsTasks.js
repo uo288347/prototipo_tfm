@@ -47,7 +47,7 @@ export const UtilsTasks = {
     const currentSceneId = TASK_TO_SCENE[storageKey];
     if (currentSceneId !== undefined) {
       finishSubsceneTracking();
-      console.log(`[utilsTasks] Tarea completada: ${storageKey}, Scene ID: ${currentSceneId}`);
+      //console.log(`[utilsTasks] Tarea completada: ${storageKey}, Scene ID: ${currentSceneId}`);
     }
     if (typeof window === "undefined") return;
     localStorage.setItem(storageKey, 'true');
@@ -56,7 +56,7 @@ export const UtilsTasks = {
     const nextSceneId = getCurrentSceneId();
     if (nextSceneId !== undefined) {
       initTracking(nextSceneId);
-      console.log(`[utilsTasks] Iniciando tracking de la siguiente tarea, Scene ID: ${nextSceneId}`);
+      //console.log(`[utilsTasks] Iniciando tracking de la siguiente tarea, Scene ID: ${nextSceneId}`);
     }
   },
 

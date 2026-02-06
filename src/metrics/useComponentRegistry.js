@@ -42,7 +42,7 @@ export function useComponentRegistry(componentId, componentType, parentId = null
     );
 
     registeredRef.current = true;
-    console.log(`[useComponentRegistry] Registered ${componentType} -> ${componentId} at (${x},${y}) in scene ${sceneId}`);
+    //console.log(`[useComponentRegistry] Registered ${componentType} -> ${componentId} at (${x},${y}) in scene ${sceneId}`);
   }, [componentId, componentType, parentId]);
 
   // Función para registrar manualmente (útil para elementos dinámicos)
@@ -118,7 +118,7 @@ export function useComponentRegistryById(elementId, componentId, componentType, 
       );
 
       registeredRef.current = true;
-      console.log(`[useComponentRegistryById] Registered ${componentType} -> ${componentId} at (${x},${y}) in scene ${sceneId}`);
+      //console.log(`[useComponentRegistryById] Registered ${componentType} -> ${componentId} at (${x},${y}) in scene ${sceneId}`);
     }, delay);
 
     return () => clearTimeout(timer);

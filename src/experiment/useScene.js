@@ -10,7 +10,7 @@ export function useScene(sceneId) {
     startedRef.current = true;
 
     if (state.currentScene !== sceneId) {
-      console.log(`[useScene] Starting scene tracking for Scene ID: ${sceneId}`);
+      //console.log(`[useScene] Starting scene tracking for Scene ID: ${sceneId}`);
       dispatch({ type: "START_SCENE", sceneId });
     }
   };
@@ -20,7 +20,7 @@ export function useScene(sceneId) {
     startedRef.current = false;
 
     if (state.currentScene === sceneId) {
-      console.log(`[useScene] Ending scene tracking for Scene ID: ${sceneId}`);
+      //console.log(`[useScene] Ending scene tracking for Scene ID: ${sceneId}`);
       dispatch({ type: "END_SCENE" });
     }
   };
