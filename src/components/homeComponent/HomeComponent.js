@@ -5,7 +5,7 @@ import { Breadcrumb, Col, Row } from "antd";
 import { useTranslations } from 'next-intl';
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useRouter as useNextRouter } from 'next/router';
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useCallback } from "react";
 import ProductGrid from "../ProductGrid";
 import { StandardNavBar } from "../shared/StandardNavBar";
 import { TrackableSelect } from "../shared/TrackableSelect";
@@ -94,6 +94,41 @@ export const HomeComponent = ({ footer}) => {
         };
     }, []);
 
+    // Función para recalcular el scroll después de que cambie el contenido
+    const recalculateScroll = useCallback(() => {
+        const container = containerRef.current;
+        const content = contentRef.current;
+        if (!container || !content) return;
+
+        setTimeout(() => {
+            // Destruir el scroll engine actual si existe
+            if (scrollEngineRef.current) {
+                scrollEngineRef.current.destroy();
+                scrollEngineRef.current = null;
+            }
+
+            // Recalcular límites y crear nuevo scroll engine
+            const availableHeight = container.clientHeight;
+            const scrollHeight = content.scrollHeight;
+            const maxOffset = 0;
+            const minOffset = -(scrollHeight - availableHeight);
+
+            scrollEngineRef.current = new ManualScrollEngine(container, content, {
+                axis: "y",
+                scrollFactor: 1,
+                minOffset,
+                maxOffset,
+            });
+        }, 100);
+    }, []);
+
+    // Recalcular scroll cuando cambien los filtros
+    useEffect(() => {
+        // Pequeño delay para asegurar que el DOM se haya actualizado
+        const timer = setTimeout(recalculateScroll, 200);
+        return () => clearTimeout(timer);
+    }, [filters.category, filters.filter, recalculateScroll]);
+
     return (
         <div ref={containerRef}
             style={{
@@ -138,8 +173,11 @@ export const HomeComponent = ({ footer}) => {
                 <Row style={{ minWidth: "100%", paddingTop: "1.5rem" }}>
                     <Col xs={24}>
                         {filters.category == null && <h2>{t('home.products')}</h2>}
-                        <ProductGrid category={filters.category}
-                            filter={filters.filter} />
+                        <ProductGrid 
+                            category={filters.category}
+                            filter={filters.filter}
+                            onLoadComplete={recalculateScroll}
+                        />
                     </Col>
                 </Row>
                 {footer}

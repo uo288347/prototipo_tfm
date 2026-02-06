@@ -57,7 +57,8 @@
     "color": "Color",
     "free": "GRATIS",
     "viewProduct": "Ver Producto",
-    "noProductsFound": "No se encontraron productos con los filtros seleccionados"
+    "noProductsFound": "No se encontraron productos con los filtros seleccionados",
+    "imageError": "Imagen no disponible"
   },
   "freeOffer": {
     "title": "🎁 ¡Desbloquea un Producto Gratis!",
