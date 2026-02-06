@@ -322,9 +322,9 @@ function trackEventOverElement(eventType, elementId, event) {
 	item.sceneId = sceneId;
 	item.eventType = eventType;
 	item.timeStamp = Date.now();
-	if (window.event !== undefined) {
-		item.x = window.event.clientX;
-		item.y = window.event.clientY;
+	if (event && typeof event.clientX === "number" && typeof event.clientY === "number") {
+		item.x = Math.round(event.clientX);
+		item.y = Math.round(event.clientY);
 	}
 	else {
 		item.x = 0;
