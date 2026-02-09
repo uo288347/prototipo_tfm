@@ -339,7 +339,7 @@
 			trackingOn = true;
 			getExperimentStatus();
 			sceneId = _sceneId;
-			console.log("Initializing tracking for scene "+_sceneId);
+			//console.log("Initializing tracking for scene "+_sceneId);
 			
 			trackEvent(EVENT_INIT_TRACKING);
 			parent.addEventListener('scroll', function() {

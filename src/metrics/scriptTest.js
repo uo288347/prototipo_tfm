@@ -52,6 +52,7 @@ function getUser() {
 }
 
 function getCurrentSceneId() {
+	//console.log("CURRENT SCENE ID: " + sceneId);
 	return sceneId;
 }
 
@@ -100,7 +101,7 @@ function finishExperiment() {
 
 function takeSnapshot(sceneId) {
 	html2canvas(document.body).then(canvas => {
-		console.log("Delivering background for scene " + sceneId)
+		//console.log("Delivering background for scene " + sceneId)
 		deliverSnapshot(sceneId, canvas);
 	});
 }
@@ -124,16 +125,16 @@ function deliverSnapshot(sceneId, canvas) {
 			beforeSend: function () {
 				//We incremente the pendingbackgroundsdelivered number
 				pendingBackgroundsDelivered++;
-				console.log("Sending background. Pending backgrounds: " + pendingBackgroundsDelivered + "/" + sentRequest);
+				//console.log("Sending background. Pending backgrounds: " + pendingBackgroundsDelivered + "/" + sentRequest);
 			},
 			success: function (response) {
 				pendingBackgroundsDelivered--;
 				backgroundsDelivered++;
-				console.log('Result: ' + response);
-				console.log("Pending Backgrounds: " + pendingBackgroundsDelivered + "/" + sentRequest);
+				//console.log('Result: ' + response);
+				//console.log("Pending Backgrounds: " + pendingBackgroundsDelivered + "/" + sentRequest);
 			},
 			complete: function (jqXHR, textStatus) {
-				console.log("Call completed. Status: " + textStatus + ", Pending Requests: " + pendingRequest + "/" + sentRequest);
+				//console.log("Call completed. Status: " + textStatus + ", Pending Requests: " + pendingRequest + "/" + sentRequest);
 				//checkReadyToLeave();
 			},
 			error: function (XMLHttpRequest, textStatus, errorThrown) {
@@ -271,6 +272,7 @@ function detectElementByName(name) {
 }
 
 function registerElement(id, x, y, xF, yF, typeId, sceneId) {
+	//console.log("{id: " + id + ", x: " + x + ", y: " + y + ", xF: " + xF + ", yF: " + yF + ", typeId: " + typeId + ", sceneId: " + sceneId + "}");
 	elements.push(new Element(id, x, y, xF, yF, sceneId));
 	addFocusAndBlurEvents(id);
 	if (typeId === COMPONENT_COMBOBOX || typeId === COMPONENT_OPTION) {
@@ -315,7 +317,7 @@ function trackEvent(eventType) {
 }
 
 function trackEventOverElement(eventType, elementId, event) {
-	console.log(`[trackEventOverElement] Tracking event type ${eventType} over element ${elementId}`);
+	//console.log(`[trackEventOverElement] Tracking event type ${eventType} over element ${elementId}`);
 	var item = new Object();
 	item.id = eventCounter++;
 	item.sceneId = sceneId;
@@ -387,6 +389,7 @@ function initTracking(_sceneId) {
 	trackingOn = true;
 	getExperimentStatus();
 	sceneId = _sceneId;
+	console.log("Initializing tracking for scene " + _sceneId);
 
 	if (!listenersInitialized) {
 		initializeGlobalListeners();
@@ -504,19 +507,19 @@ function finishTracking(_newPage) {
 function checkReadyToLeave() {
 
 	if (eventsDelivered == false || pendingRequest > 0) {
-		console.log("Not ready to leave page, events still pending");
+		//console.log("Not ready to leave page, events still pending");
 	}
 	else {
 		//Events are delivered, we wait for the background delivery
 		if (pendingBackgroundsDelivered > 0) {
-			console.log("Not ready to leave page, " + pendingBackgroundsDelivered + " backgrounds still pending");
+			//console.log("Not ready to leave page, " + pendingBackgroundsDelivered + " backgrounds still pending");
 			setTimeout(() => {
 				checkReadyToLeave();
 			}, 2000);
 			return;
 		}
 
-		console.log("Ready to leave page, pending request:" + pendingRequest + ", pending backgrounds " + pendingBackgroundsDelivered + "/" + backgroundsDelivered);
+		//console.log("Ready to leave page, pending request:" + pendingRequest + ", pending backgrounds " + pendingBackgroundsDelivered + "/" + backgroundsDelivered);
 		if (finishedExperiment) {
 			//We delete the user
 			console.log("Experiment finished, deleting user " + localStorage.getItem("user"));
@@ -530,6 +533,7 @@ function checkReadyToLeave() {
 }
 
 function finishSubsceneTracking() {
+	console.log("Finishing subscene tracking for scene " + sceneId);
 	trackEvent(EVENT_TRACKIND_END);
 	trackingOn = false;
 	//We take the snapshot
@@ -584,15 +588,15 @@ function deliverChunk(chunk) {
 			beforeSend: function () {
 				pendingRequest++;
 				sentRequest++;
-				console.log("Sending request. Pending requests: " + pendingRequest + "/" + sentRequest);
+				//console.log("Sending request. Pending requests: " + pendingRequest + "/" + sentRequest);
 			},
 			success: function (response) {
-				console.log('Result: ' + response);
-				console.log("Pending Requests: " + pendingRequest + "/" + sentRequest);
+				//console.log('Result: ' + response);
+				//console.log("Pending Requests: " + pendingRequest + "/" + sentRequest);
 			},
 			complete: function (jqXHR, textStatus) {
 				pendingRequest--;
-				console.log("Call completed. Status: " + textStatus + ", Pending Requests: " + pendingRequest + "/" + sentRequest);
+				//console.log("Call completed. Status: " + textStatus + ", Pending Requests: " + pendingRequest + "/" + sentRequest);
 
 				if (pendingRequest == 0) {
 					eventsDelivered = true;

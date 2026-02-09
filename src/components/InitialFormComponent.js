@@ -37,6 +37,7 @@ export const InitialFormComponent = ({ }) => {
     useEffect(() => {
         const timer = setTimeout(() => {
             const sceneId = getCurrentSceneId();
+            //console.log("Current Scene ID in InitialFormComponent: " + sceneId);
             if (sceneId === null) return;
 
             const registerBtn = document.getElementById('registerButton');
