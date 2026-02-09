@@ -23,19 +23,6 @@ import { initNotification } from "../utils/UtilsNotifications";
 import { useScene } from "@/experiment/useScene";
 import { SCENES } from "@/metrics/constants/scenes";
 
-function TourSceneManager({ openTour }) {
-    const sceneTour = useScene(SCENES.TASK_ACCEPT_TUTORIAL);
-    // Lanzar la escena del tutorial cuando se abre el tour
-    useEffect(() => {
-        if (openTour) {
-            sceneTour.start();
-        } else {
-            sceneTour.end && sceneTour.end();
-        }
-    }, [openTour]);
-    return null;
-}
-
 export default function App({ Component, pageProps }) {
     const router = useRouter();
     const locale = router.locale || 'en';
@@ -127,7 +114,6 @@ export default function App({ Component, pageProps }) {
 
     return (
         <ExperimentProvider>
-            <TourSceneManager openTour={openTour} />
             <NextIntlClientProvider locale={locale} messages={pageProps.messages}>
                 <AntdConfigProvider locale={customLocale}>
                     <AntdMobileConfigProvider locale={antdMobileLocale}>
