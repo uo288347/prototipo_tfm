@@ -35,6 +35,10 @@ export class ManualScrollEngine {
     this.velocity = { x: 0, y: 0 };
     this.lastMoveTime = 0;
     this.momentumRAF = null;
+    
+    // Control de múltiples toques (para detectar pinch)
+    this.activePointers = new Set();
+    this.isPaused = false;
 
     this._pointerDown = this._pointerDown.bind(this);
     this._pointerMove = this._pointerMove.bind(this);
@@ -76,6 +80,21 @@ export class ManualScrollEngine {
   }
 
   _pointerDown(e) {
+    // Registrar pointer activo
+    this.activePointers.add(e.pointerId);
+    
+    // Si hay múltiples toques (pinch), pausar el scroll
+    if (this.activePointers.size > 1) {
+      this.isPaused = true;
+      this.isDragging = false;
+      return; // No procesar el evento cuando hay pinch
+    }
+    
+    // Si está pausado manualmente, no procesar
+    if (this.isPaused) {
+      return;
+    }
+    
     // Notificar evento para tracking antes de stopPropagation
     if (this.options.onPointerEvent) {
       this.options.onPointerEvent('pointerdown', e);
@@ -101,6 +120,8 @@ export class ManualScrollEngine {
   }
 
   _pointerMove(e) {
+    // Ignorar si está pausado o hay múltiples toques
+    if (this.isPaused || this.activePointers.size > 1) return;
     if (!this.isDragging) return;
 
     // Notificar evento para tracking antes de stopPropagation
@@ -170,6 +191,19 @@ export class ManualScrollEngine {
   }
 
   _pointerUp(e) {
+    // Eliminar pointer de la lista de activos
+    this.activePointers.delete(e.pointerId);
+    
+    // Si volvemos a tener 0 o 1 toques, reactivar el scroll
+    if (this.activePointers.size <= 1) {
+      this.isPaused = false;
+    }
+    
+    // Si está pausado, no procesar el resto
+    if (this.isPaused) {
+      return;
+    }
+    
     // Notificar evento para tracking
     if (this.options.onPointerEvent) {
       this.options.onPointerEvent('pointerup', e);
@@ -304,5 +338,27 @@ export class ManualScrollEngine {
     const y = this.options.axis === "x" ? 0 : this.currentOffset.y;
     this.content.style.transform = `translate(${x}px, ${y}px)`;
     this.content.style.willChange = "transform";
+  }
+
+  /**
+   * Pausar manualmente el scroll (útil para deshabilitar temporalmente)
+   */
+  pause() {
+    this.isPaused = true;
+    this.isDragging = false;
+    if (this.momentumRAF) {
+      cancelAnimationFrame(this.momentumRAF);
+      this.momentumRAF = null;
+    }
+  }
+
+  /**
+   * Reanudar el scroll después de una pausa manual
+   */
+  resume() {
+    // Solo reanudar si no hay múltiples toques activos
+    if (this.activePointers.size <= 1) {
+      this.isPaused = false;
+    }
   }
 }
