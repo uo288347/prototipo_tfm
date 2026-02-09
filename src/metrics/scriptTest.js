@@ -490,6 +490,7 @@ function trackOnClickSelectionEvent(event) {
 }
 
 function finishTracking(_newPage) {
+	console.log("Finishing tracking for scene " + sceneId);
 	activeScene = null;
 	trackEvent(EVENT_TRACKIND_END);
 	trackingOn = false;
