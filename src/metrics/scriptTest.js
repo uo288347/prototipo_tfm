@@ -372,6 +372,7 @@ function trackEventOverElement(eventType, elementId, event) {
 		item.elementId = detectElement(item.x, item.y);
 	}*/
 
+	console.log(item);
 	list[list.length] = item;
 
 	if (list.length >= TOP_LIMIT) {
@@ -531,6 +532,7 @@ function checkReadyToLeave() {
 }
 
 function finishSubsceneTracking() {
+	console.log("Finishing subscene tracking for scene " + sceneId);
 	trackEvent(EVENT_TRACKIND_END);
 	trackingOn = false;
 	//We take the snapshot

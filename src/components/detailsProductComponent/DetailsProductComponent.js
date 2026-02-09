@@ -169,7 +169,7 @@ let DetailsProductComponent = ({ id , footer}) => {
     let addToShoppingCart = () => {
         let price = isApplied ? 0 : product.price
         addToCart(id, selectedSize, quantity, price)
-        console.log("product added to cart")
+        //console.log("product added to cart")
         openNotification("top", t('product.addedToCart'), "success")
     };
 
