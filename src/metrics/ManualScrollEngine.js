@@ -39,6 +39,10 @@ export class ManualScrollEngine {
     // Control de múltiples toques (para detectar pinch)
     this.activePointers = new Set();
     this.isPaused = false;
+    
+    // Control de bloqueo de dirección de scroll
+    this.lockedAxis = null; // 'x' o 'y' una vez detectada la dirección dominante
+    this.scrollThreshold = 5; // píxeles mínimos para determinar dirección
 
     this._pointerDown = this._pointerDown.bind(this);
     this._pointerMove = this._pointerMove.bind(this);
@@ -110,6 +114,9 @@ export class ManualScrollEngine {
       this.momentumRAF = null;
     }
     this.velocity = { x: 0, y: 0 };
+    
+    // Resetear bloqueo de dirección
+    this.lockedAxis = null;
 
     // Capturamos el puntero para seguir recibiendo eventos aunque salga del elemento. [web:20]
     if (this.container.setPointerCapture) {
@@ -141,6 +148,17 @@ export class ManualScrollEngine {
 
     const dx = e.clientX - this.lastPointerPos.x;
     const dy = e.clientY - this.lastPointerPos.y;
+    
+    // Detectar y bloquear dirección de scroll si aún no está bloqueada
+    if (!this.lockedAxis && (this.options.axis === "both" || !this.options.axis)) {
+      const absDx = Math.abs(dx);
+      const absDy = Math.abs(dy);
+      
+      // Si el movimiento supera el umbral, determinar la dirección dominante
+      if (absDx > this.scrollThreshold || absDy > this.scrollThreshold) {
+        this.lockedAxis = absDx > absDy ? 'x' : 'y';
+      }
+    }
 
     // Calcular velocidad (normalizada a 60fps)
     this.velocity.x = (dx / dt) * 16;
@@ -150,8 +168,14 @@ export class ManualScrollEngine {
     this.lastMoveTime = now;
 
     const factor = this.options.scrollFactor;
+    
+    // Determinar qué ejes están permitidos basándose en la configuración y el bloqueo
+    const allowY = (this.options.axis === "y" || this.options.axis === "both") && 
+                   (!this.lockedAxis || this.lockedAxis === 'y');
+    const allowX = (this.options.axis === "x" || this.options.axis === "both") && 
+                   (!this.lockedAxis || this.lockedAxis === 'x');
 
-    if (this.options.axis === "y" || this.options.axis === "both") {
+    if (allowY) {
       let nextY = this.currentOffset.y + dy * factor; // invertimos sentido para que arrastrar hacia arriba suba contenido
       // Aplicar rubber banding si está habilitado
       if (this.options.rubberBanding) {
@@ -169,7 +193,7 @@ export class ManualScrollEngine {
       this.currentOffset.y = nextY;
     }
 
-    if (this.options.axis === "x" || this.options.axis === "both") {
+    if (allowX) {
       let nextX = this.currentOffset.x + dx * factor;
       // Aplicar rubber banding si está habilitado
       if (this.options.rubberBanding) {
@@ -212,6 +236,10 @@ export class ManualScrollEngine {
       e.stopPropagation();
     }
     this.isDragging = false;
+    
+    // Resetear bloqueo de dirección
+    this.lockedAxis = null;
+    
     if (this.container.releasePointerCapture) {
       try {
         this.container.releasePointerCapture(e.pointerId);
