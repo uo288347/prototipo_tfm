@@ -77,7 +77,7 @@ var newPage = null;
 var elements = [];
 var emittingData = true;
 
-var idExperiment = 43;
+var idExperiment = 42;
 var urlBase = 'https://interactionlab.hci.uniovi.es:8443'
 
 var url = urlBase + '/TrackerServer/restws/track';
@@ -804,26 +804,26 @@ function postAJAXDemographicData(parametros) {
 	}
 }
 
-function registersus1(value) {/*postNumberDD(251, value);*/ }
-function registerid(value) {/*postStringDD(252, value);*/ }
-function registersus2(value) {/*postNumberDD(253, value);*/ }
-function registerpreferred_device(value) {/*postStringDD(254, value);*/ }
-function registersex(value) {/*postStringDD(255, value);*/ }
-function registerbirth_year(value) {/*postNumberDD(256, value);*/ }
-function registerusername(value) {/*postStringDD(257, value);*/ }
-function registersus7(value) {/*postNumberDD(258, value);*/ }
-function registerecommerce_frequency(value) {/*postStringDD(259, value);*/ }
-function registerhandedness(value) {/*postStringDD(260, value);*/ }
-function registersus9(value) {/*postNumberDD(261, value);*/ }
-function registercountry(value) {/*postStringDD(262, value);*/ }
-function registersus8(value) {/*postNumberDD(263, value);*/ }
-function registersus10(value) {/*postNumberDD(264, value);*/ }
-function registersus5(value) {/*postNumberDD(265, value);*/ }
-function registersus4(value) {/*postNumberDD(266, value);*/ }
-function registersus3(value) {/*postNumberDD(267, value);*/ }
-function registersus6(value) {/*postNumberDD(268, value);*/ }
-function registerpassword(value) {/*postStringDD(269, value);*/ }
-function registercity(value) {/*postStringDD(270, value);*/ }
+function registersus1(value) {postNumberDD(251, value);}
+function registerid(value) {postStringDD(252, value); }
+function registersus2(value) {postNumberDD(253, value); }
+function registerpreferred_device(value) {postStringDD(254, value); }
+function registersex(value) {postStringDD(255, value); }
+function registerbirth_year(value) {postNumberDD(256, value); }
+function registerusername(value) {postStringDD(257, value); }
+function registersus7(value) {postNumberDD(258, value); }
+function registerecommerce_frequency(value) {postStringDD(259, value); }
+function registerhandedness(value) {postStringDD(260, value); }
+function registersus9(value) {postNumberDD(261, value); }
+function registercountry(value) {postStringDD(262, value); }
+function registersus8(value) {postNumberDD(263, value); }
+function registersus10(value) {postNumberDD(264, value); }
+function registersus5(value) {postNumberDD(265, value); }
+function registersus4(value) {postNumberDD(266, value); }
+function registersus3(value) {postNumberDD(267, value); }
+function registersus6(value) {postNumberDD(268, value); }
+function registerpassword(value) {postStringDD(269, value); }
+function registercity(value) {postStringDD(270, value); }
 export {
 	COMPONENT_BANNER, COMPONENT_BUTTON,
 	COMPONENT_CARD, COMPONENT_CAROUSEL, COMPONENT_CHECK_BOX, COMPONENT_COMBOBOX, COMPONENT_IMAGE, COMPONENT_LINK, COMPONENT_OPTION,
