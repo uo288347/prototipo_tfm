@@ -158,6 +158,36 @@ let DetailsProductComponent = ({ id , footer}) => {
         };
     }, [product, isApplied]);
 
+    // Efecto adicional para recalcular cuando cambia isApplied
+    // Esto asegura que cuando se aplica el código de descuento y aparece el mensaje,
+    // se recalculen los límites de scroll permitiendo llegar hasta arriba
+    useEffect(() => {
+        if (!isApplied) return;
+
+        const container = containerRef.current;
+        const content = contentRef.current;
+        if (!container || !content || !scrollEngineRef.current) return;
+
+        // Esperamos a que el DOM se actualice completamente (incluyendo animaciones del Collapse)
+        const recalculateTimer = setTimeout(() => {
+            const availableHeight = container.clientHeight;
+            const scrollHeight = content.scrollHeight;
+
+            if (scrollHeight > availableHeight) {
+                const maxOffset = 0;
+                const minOffset = -(scrollHeight - availableHeight);
+
+                scrollEngineRef.current.options.minOffset = minOffset;
+                scrollEngineRef.current.options.maxOffset = maxOffset;
+                // Asegurar que el offset actual esté dentro de los nuevos límites
+                scrollEngineRef.current.currentOffset.y = Math.max(minOffset, Math.min(maxOffset, scrollEngineRef.current.currentOffset.y));
+                scrollEngineRef.current._applyTransform();
+            }
+        }, 500); // Delay mayor para asegurar que el Collapse y el mensaje se hayan renderizado
+
+        return () => clearTimeout(recalculateTimer);
+    }, [isApplied]);
+
     let onToggleFavorite = () => {
         toggleFavorite(id)
         setFavorite(getFavorite(id))
