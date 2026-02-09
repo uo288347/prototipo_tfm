@@ -191,7 +191,7 @@ export const FavoritesComponent = ({ }) => {
     useEffect(() => {
         const container = containerRef.current;
         const content = contentRef.current;
-        console.log("Initializing ManualScrollEngine", { container, content });
+        //console.log("Initializing ManualScrollEngine", { container, content });
         if (!container || !content) return;
 
         // Esperar a que el contenido se renderice completamente
@@ -202,7 +202,7 @@ export const FavoritesComponent = ({ }) => {
             const availableHeight = containerRect.height;
             const scrollHeight = content.scrollHeight;
 
-            console.log({ availableHeight, scrollHeight, contentScrollHeight: content.scrollHeight });
+            //console.log({ availableHeight, scrollHeight, contentScrollHeight: content.scrollHeight });
 
             const maxOffset = 0;
             const minOffset = Math.min(0, -(scrollHeight - availableHeight));

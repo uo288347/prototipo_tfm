@@ -22,7 +22,7 @@ const ProductGrid = ({ category, filter }) => {
   }, [])
 
   useEffect(() => {
-    console.log("filters: ", category)
+    //console.log("filters: ", category)
 
     if (products.length == 0) setFilteredProducts([])
     else {

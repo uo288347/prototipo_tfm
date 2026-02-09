@@ -38,7 +38,7 @@ export const CategoryFilter = ({ selectedCategory, onSelectCategory }) => {
     useEffect(() => {
         const container = containerRef.current;
         const content = contentRef.current;
-        console.log("Initializing ManualScrollEngine horizontal", { container, content });
+        //console.log("Initializing ManualScrollEngine horizontal", { container, content });
         if (!container || !content || categories.length === 0) return;
 
         // Esperar a que el contenido se renderice completamente
@@ -46,7 +46,7 @@ export const CategoryFilter = ({ selectedCategory, onSelectCategory }) => {
             const availableWidth = container.clientWidth;
             const scrollWidth = content.scrollWidth;
 
-            console.log("Scroll dimensions:", { availableWidth, scrollWidth });
+            //console.log("Scroll dimensions:", { availableWidth, scrollWidth });
 
             // Si el contenido cabe en el contenedor, no hay scroll
             if (scrollWidth <= availableWidth) {
@@ -57,7 +57,7 @@ export const CategoryFilter = ({ selectedCategory, onSelectCategory }) => {
             const maxOffset = 0;
             const minOffset = -(scrollWidth - availableWidth);
 
-            console.log("Scroll limits:", { minOffset, maxOffset });
+            //console.log("Scroll limits:", { minOffset, maxOffset });
 
             // Mapeo de tipos de evento a constantes de tracking
             const eventTypeMap = {
