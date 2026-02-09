@@ -258,7 +258,6 @@ export const ShoppingCartComponent = ({ }) => {
         try {
             const itemsToDelete = JSON.parse(e.dataTransfer.getData('text/plain'));
             const updated = deleteFromCart(itemsToDelete);
-            console.log("updated cart: ", updated)
 
             setProducts(updated)
             setProductsLength(getShoppingCartLength());

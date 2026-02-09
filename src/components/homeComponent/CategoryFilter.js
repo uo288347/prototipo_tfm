@@ -50,7 +50,7 @@ export const CategoryFilter = ({ selectedCategory, onSelectCategory }) => {
 
             // Si el contenido cabe en el contenedor, no hay scroll
             if (scrollWidth <= availableWidth) {
-                console.log("Content fits, no scroll needed");
+                //console.log("Content fits, no scroll needed");
                 return;
             }
 
