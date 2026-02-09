@@ -21,7 +21,7 @@ export const CheckoutComponent = () => {
     const t = useTranslations();
     const router = useRouter();
     const locale = router.locale || 'es';
-    let requiredInForm = []
+    let requiredInForm = ["city", "country"]
     let [formErrors, setFormErrors] = useState({})
 
     let [formData, setFormData] = useState({})

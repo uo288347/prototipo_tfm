@@ -25,7 +25,12 @@ export const SusFormComponent = ({}) => {
     const router = useRouter();
     let [formData, setFormData] = useState({})
     let [currentStep, setCurrentStep] = useState(0);
-    let requiredInForm = []
+    // Definir los campos requeridos por pantalla
+    const requiredInForm = [
+        ['sus1', 'sus2', 'sus3'],
+        ['sus4', 'sus5', 'sus6'],
+        ['sus7', 'sus8', 'sus9', 'sus10']
+    ];
     let [formErrors, setFormErrors] = useState({})
 
     const nextButtonRef = useRef(null);
@@ -59,15 +64,11 @@ export const SusFormComponent = ({}) => {
         setCurrentStep(currentStep - 1);
     };
 
+    // Valida si todos los campos requeridos para el paso actual están completos
     const isStepComplete = () => {
-        if (currentStep === 0) {
-            return formData.sus1 && formData.sus2 && formData.sus3;
-        } else if (currentStep === 1) {
-            return formData.sus4 && formData.sus5 && formData.sus6;
-        } else if (currentStep === 2) {
-            return formData.sus7 && formData.sus8 && formData.sus9 && formData.sus10;
-        }
-        return false;
+        return requiredInForm[currentStep]
+        .every(field => 
+            formData[field] !== undefined && formData[field] !== null && formData[field] !== '');
     };
 
     return (
@@ -82,9 +83,13 @@ export const SusFormComponent = ({}) => {
                     {currentStep === 0 && (
                         <>
                             <FirstSusComponent formData={formData} setFormData={setFormData} />
-                            <Button ref={nextButtonRef} id="btn-sus-next" data-trackable-id="btn-sus-next" type="primary" onClick={handleNext} disabled={!isStepComplete()} style={{ marginTop: 8, width: "100%" }}>
-                                {t('common.next')}
-                            </Button>
+                            {isStepComplete() ?
+                                <Button ref={nextButtonRef} id="btn-sus-next" data-trackable-id="btn-sus-next" type="primary" onClick={handleNext} style={{ marginTop: 8, width: "100%" }}>
+                                    {t('common.next')}
+                                </Button>
+                                :
+                                <Button type="primary" style={{ marginTop: 8, width: "100%" }} disabled>{t('common.next')}</Button>
+                            }
                         </>
                     )}
                     {currentStep === 1 && (
@@ -97,9 +102,13 @@ export const SusFormComponent = ({}) => {
                                     </Button>
                                 </Col>
                                 <Col span={12}>
-                                    <Button ref={nextButtonRef} id="btn-sus-next" data-trackable-id="btn-sus-next" type="primary" onClick={handleNext} disabled={!isStepComplete()} style={{ width: "100%" }}>
-                                        {t('common.next')}
-                                    </Button>
+                                    {isStepComplete() ?
+                                        <Button ref={nextButtonRef} id="btn-sus-next" data-trackable-id="btn-sus-next" type="primary" onClick={handleNext} style={{ width: "100%" }}>
+                                            {t('common.next')}
+                                        </Button>
+                                        :
+                                        <Button type="primary" style={{ width: "100%" }} disabled>{t('common.next')}</Button>
+                                    }
                                 </Col>
                             </Row>
                         </>

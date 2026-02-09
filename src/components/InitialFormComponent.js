@@ -18,8 +18,8 @@ export const InitialFormComponent = ({ }) => {
     const t = useTranslations();
     const router = useRouter();
     let [formData, setFormData] = useState({})
-    //let requiredInForm = ["handedness","sex","birthYear","rating"]
-    let requiredInForm = []
+    let requiredInForm = ["handedness","sex","birthYear","frequency", "device"]
+    //let requiredInForm = []
     let [formErrors, setFormErrors] = useState({})
 
     const currentYear = new Date().getFullYear();

@@ -25,8 +25,8 @@ let LoginFormComponent = ({ }) => {
     let router = useRouter()
 
     // validación
-    //let requiredInForm = ["email","password"]
-    let requiredInForm = []
+    let requiredInForm = ["email","password"]
+    //let requiredInForm = []
     let [formErrors, setFormErrors] = useState({})
 
     let [formData, setFormData] = useState({})
