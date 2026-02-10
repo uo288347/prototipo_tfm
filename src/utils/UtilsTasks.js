@@ -43,16 +43,24 @@ export const UtilsTasks = {
 
   // Marcar tarea como completada y enviar a la BD
   async completeTask(storageKey) {
-    // Finalizar tracking de la escena actual
+    if (typeof window === "undefined") return;
+
+    // 1. Marcar como completada y notificar PRIMERO (confetti, sonido, UI)
+    localStorage.setItem(storageKey, 'true');
+    window.dispatchEvent(new Event('taskCompleted'));
+
+    // 2. Dar tiempo al navegador para renderizar (confetti, animaciones)
+    //    antes de ejecutar operaciones pesadas de tracking
+    await new Promise(resolve => setTimeout(resolve, 100));
+
+    // 3. Ahora sí, finalizar tracking de la escena actual (incluye html2canvas)
     const currentSceneId = TASK_TO_SCENE[storageKey];
     if (currentSceneId !== undefined) {
       finishSubsceneTracking();
       console.log(`[utilsTasks] Tarea completada: ${storageKey}, Scene ID: ${currentSceneId}`);
     }
-    if (typeof window === "undefined") return;
-    localStorage.setItem(storageKey, 'true');
-    window.dispatchEvent(new Event('taskCompleted'));
-    // Iniciar tracking de la siguiente tarea
+
+    // 4. Iniciar tracking de la siguiente tarea
     const nextSceneId = getCurrentSceneId();
     if (nextSceneId !== undefined) {
       initTracking(nextSceneId);

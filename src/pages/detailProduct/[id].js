@@ -1,5 +1,6 @@
 import DetailsProductComponent from "@/components/detailsProductComponent/DetailsProductComponent";
 import { useRouter } from "next/router";
+import { getProducts } from "@/utils/UtilsProducts";
 
 export default function DetailsProductPage({footer}) {
   const router = useRouter();
@@ -14,9 +15,19 @@ export default function DetailsProductPage({footer}) {
 }
 
 export async function getStaticPaths() {
+  const products = getProducts();
+  const locales = ['en', 'es'];
+  
+  const paths = products.flatMap(product =>
+    locales.map(locale => ({
+      params: { id: product.id },
+      locale,
+    }))
+  );
+
   return {
-    paths: [],
-    fallback: 'blocking',
+    paths,
+    fallback: false,
   };
 }
 
