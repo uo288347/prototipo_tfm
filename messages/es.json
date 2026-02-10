@@ -59,7 +59,8 @@
     "free": "GRATIS",
     "viewProduct": "Ver Producto",
     "noProductsFound": "No se encontraron productos con los filtros seleccionados",
-    "imageError": "Imagen no disponible"
+    "imageError": "Imagen no disponible",
+    "holdToSelect": "Mantén pulsado para seleccionar"
   },
   "freeOffer": {
     "title": "🎁 ¡Desbloquea un Producto Gratis!",

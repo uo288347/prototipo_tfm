@@ -43,10 +43,11 @@ export const EndComponent = ({ }) => {
             flex: 1, minHeight: "100%", padding: "20px 20px",
             display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center"
         }}>
-                <Title style={{ paddingBottom: "3rem", textAlign: "center" }} level={3}>{t('end.thanksMessage')}</Title>
                 <Button ref={finishButtonRef} id="btn-finish-double-tap" data-trackable-id="btn-finish-double-tap" type="primary" size="large" block
                     icon={<CheckOutlined />}
                     onTouchStart={handleDoubleTap}>{t('end.doubleTapFinish')}</Button>
         </div>
     )
 }
+
+/*<Title style={{ paddingBottom: "3rem", textAlign: "center" }} level={3}>{t('end.thanksMessage')}</Title> */

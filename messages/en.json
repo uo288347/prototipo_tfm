@@ -59,7 +59,8 @@
     "free": "FREE",
     "viewProduct": "View Product",
     "noProductsFound": "No products found with selected filters",
-    "imageError": "Image not available"
+    "imageError": "Image not available",
+    "holdToSelect": "Hold to select"
   },
   "freeOffer": {
     "title": "🎁 Unlock a Free Product!",

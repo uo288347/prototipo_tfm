@@ -1,6 +1,6 @@
 import { useRouter } from "next/router";
-import { Card, Button, Tooltip, Avatar, Row, Col, Divider, Typography, InputNumber } from "antd";
-import { useEffect, useRef } from "react";
+import { Card, Button, Tooltip, Avatar, Row, Col, Divider, Typography, InputNumber, Popover } from "antd";
+import { useEffect, useRef, useState } from "react";
 import { getProduct } from "@/utils/UtilsProducts";
 import { CheckCircleFilled } from "@ant-design/icons";
 import { useDrag } from 'react-dnd';
@@ -19,6 +19,7 @@ export const FavoriteCard = ({item, index, isSelected, selectedItems, onClick, e
     const productTitle = getProductTitle(item, locale);
     const cardRef = useRef(null);
     const trackingId = `favorite-card-${item}`;
+    const [showPopover, setShowPopover] = useState(false);
 
     // Auto-registro del componente para métricas
     useEffect(() => {
@@ -58,8 +59,28 @@ export const FavoriteCard = ({item, index, isSelected, selectedItems, onClick, e
             }),
         });
 
+    // Manejador para mostrar el popover cuando se hace clic (excepto en el botón)
+    const handleCardClick = (e) => {
+        // Verificar si el click no fue en el botón o sus hijos
+        if (!e.target.closest('button')) {
+            setShowPopover(true);
+            // Ocultar el popover después de 2 segundos
+            setTimeout(() => setShowPopover(false), 2000);
+        }
+    };
+
     return (
-        <div ref={(el) => { cardRef.current = el; dragRef(el); }} style={{ opacity: isDragging ? 0.4 : 1 }} data-trackable-id={trackingId}>
+        <Popover
+            content={t('product.holdToSelect') || "Mantén pulsado para seleccionar"}
+            open={showPopover}
+            onOpenChange={setShowPopover}
+        >
+            <div 
+                ref={(el) => { cardRef.current = el; dragRef(el); }} 
+                style={{ opacity: isDragging ? 0.4 : 1 }} 
+                data-trackable-id={trackingId}
+                onClick={handleCardClick}
+            >
             <Card key={index}
                 style={{
                     marginBottom: "1rem",
@@ -120,7 +141,10 @@ export const FavoriteCard = ({item, index, isSelected, selectedItems, onClick, e
                             <Title level={4} style={{ fontWeight: "normal" }}>{product.price}€</Title>
                             <Button style={{ margin: 0 }}
                                 type="link"
-                                onClick={() => router.push(`/detailProduct/${product.id}`)}
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    router.push(`/detailProduct/${product.id}`);
+                                }}
                             >
                                 {t('product.viewProduct')}
                             </Button>
@@ -131,5 +155,6 @@ export const FavoriteCard = ({item, index, isSelected, selectedItems, onClick, e
                 </Row>
             </Card>
         </div>
+        </Popover>
     );
 }

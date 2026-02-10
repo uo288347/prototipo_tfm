@@ -3,11 +3,11 @@ import { COMPONENT_CARD, registerComponent } from "@/metrics/scriptTest";
 import { getProduct } from "@/utils/UtilsProducts";
 import { getProductTitle } from "@/utils/UtilsProductTranslations";
 import { CheckCircleFilled } from "@ant-design/icons";
-import { Button, Card, Col, Row, Typography } from "antd";
+import { Button, Card, Col, Row, Typography, Popover } from "antd";
 import { Stepper } from "antd-mobile";
 import { useTranslations } from 'next-intl';
 import { useRouter } from "next/router";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useDrag } from 'react-dnd';
 
 const { Text, Title } = Typography;
@@ -20,6 +20,7 @@ export const HorizontalProductCard = ({ item, index, isSelected, selectedItems, 
     const productTitle = getProductTitle(item.id, locale);
     const cardRef = useRef(null);
     const trackingId = `cart-card-${item.id}-${item.size}`;
+    const [showPopover, setShowPopover] = useState(false);
 
     // Auto-registro del componente para métricas
     useEffect(() => {
@@ -56,8 +57,29 @@ export const HorizontalProductCard = ({ item, index, isSelected, selectedItems, 
             isDragging: monitor.isDragging(),
         }),
     });
+
+    // Manejador para mostrar el popover cuando se hace clic (excepto en el botón y stepper)
+    const handleCardClick = (e) => {
+        // Verificar si el click no fue en el botón, stepper o sus hijos
+        if (!e.target.closest('button') && !e.target.closest('.adm-stepper')) {
+            setShowPopover(true);
+            // Ocultar el popover después de 2 segundos
+            setTimeout(() => setShowPopover(false), 2000);
+        }
+    };
+
     return (
-        <div ref={(el) => { cardRef.current = el; dragRef(el); }} style={{ opacity: isDragging ? 0.4 : 1 }} data-trackable-id={trackingId}>
+        <Popover
+            content={t('product.holdToSelect') || "Mantén pulsado para seleccionar"}
+            open={showPopover}
+            onOpenChange={setShowPopover}
+        >
+            <div 
+                ref={(el) => { cardRef.current = el; dragRef(el); }} 
+                style={{ opacity: isDragging ? 0.4 : 1 }} 
+                data-trackable-id={trackingId}
+                onClick={handleCardClick}
+            >
             <Card key={index}
                 style={{
                     marginBottom: "1rem",
@@ -117,13 +139,15 @@ export const HorizontalProductCard = ({ item, index, isSelected, selectedItems, 
                         </Title>
                         <Text style={{ marginTop: "0.5rem" }} >{t('product.size')} {item.size}</Text>
 
-                        <Stepper
-                            style={{ marginTop: "0.5rem", marginBottom: "0.5rem" }}
-                            min={1}
-                            max={10}
-                            value={item.quantity}
-                            onChange={val => updateUnits(product.id, item.size, val)}
-                        />
+                        <div onClick={(e) => e.stopPropagation()}>
+                            <Stepper
+                                style={{ marginTop: "0.5rem", marginBottom: "0.5rem" }}
+                                min={1}
+                                max={10}
+                                value={item.quantity}
+                                onChange={val => updateUnits(product.id, item.size, val)}
+                            />
+                        </div>
                         <Row align="top" style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", alignContent: "center" }}>
                             <Title level={4} style={{ fontWeight: "normal" }}> 
                                 {item.price === 0
@@ -131,7 +155,10 @@ export const HorizontalProductCard = ({ item, index, isSelected, selectedItems, 
                                 : `${item.quantity * item.price}€`}</Title>
                             <Button style={{ margin: 0 }}
                                 type="link"
-                                onClick={() => router.push(`/detailProduct/${item.id}`)}
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    router.push(`/detailProduct/${item.id}`);
+                                }}
                             >
                                 {t('product.viewProduct')}
                             </Button>
@@ -142,5 +169,6 @@ export const HorizontalProductCard = ({ item, index, isSelected, selectedItems, 
                 </Row>
             </Card>
         </div>
+        </Popover>
     );
 };
