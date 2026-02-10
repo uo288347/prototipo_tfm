@@ -156,14 +156,12 @@ let DetailsProductComponent = ({ id , footer}) => {
                 scrollEngineRef.current = null;
             }
         };
-    }, [product, isApplied]);
+    }, [product]);
 
     // Efecto adicional para recalcular cuando cambia isApplied
     // Esto asegura que cuando se aplica el código de descuento y aparece el mensaje,
     // se recalculen los límites de scroll permitiendo llegar hasta arriba
     useEffect(() => {
-        if (!isApplied) return;
-
         const container = containerRef.current;
         const content = contentRef.current;
         if (!container || !content || !scrollEngineRef.current) return;
