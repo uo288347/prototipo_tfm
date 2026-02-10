@@ -8,6 +8,7 @@
     "back": "Atrás",
     "next": "Siguiente",
     "finish": "Finalizar",
+    "close": "Cerrar",
     "selectedProducts": "producto(s) seleccionado(s)"
   },
   "auth": {

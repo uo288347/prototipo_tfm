@@ -2,7 +2,7 @@ import { getCurrentSceneId } from "@/metrics/scriptTest";
 import { COMPONENT_BANNER, registerComponent } from "@/metrics/scriptTest";
 import { UtilsTasks, getTaskText } from "@/utils/UtilsTasks";
 import { BulbOutlined } from "@ant-design/icons";
-import { NoticeBar } from "antd-mobile";
+import { NoticeBar, Dialog } from "antd-mobile";
 import confetti from 'canvas-confetti';
 import { useTranslations } from 'next-intl';
 import { useRouter } from 'next/router';
@@ -77,6 +77,19 @@ export const InstructionsBanner = forwardRef((props, ref) => {
             },
         });
     };
+
+    // Función para mostrar el mensaje completo
+    const showFullMessage = (message) => {
+        Dialog.alert({
+            content: message,
+            confirmText: t('common.close') || 'Cerrar',
+            closeOnMaskClick: true,
+            style: {
+                '--max-width': '30vw',
+            }
+        });
+    };
+
     // Actualizar la tarea actual
     const updateCurrentTask = () => {
         const task = UtilsTasks.getCurrentTask();
@@ -146,7 +159,9 @@ export const InstructionsBanner = forwardRef((props, ref) => {
                     icon={<BulbOutlined />}
                     content={t('instructions.allTasksCompleted')}
                     color="success"
-                />
+                    onClick={() => showFullMessage(t('instructions.allTasksCompleted'))}
+                    style={{ cursor: 'pointer' }}
+                    delay={3000}                />
             </div>
         );
     }
@@ -180,7 +195,14 @@ export const InstructionsBanner = forwardRef((props, ref) => {
                 style={{
                     backgroundColor: isSuccess ? '#d5ffcc' : '#a7d4ff',
                     color: isSuccess ? '#1f5c00' : '#003c74',
+                    cursor: 'pointer'
                 }}
+                onClick={() => showFullMessage(
+                    isSuccess
+                        ? t('instructions.taskCompleted')
+                        : getTaskText(currentTask.id, locale)
+                )}
+                delay={3000}
             />
 
             <div style={{
