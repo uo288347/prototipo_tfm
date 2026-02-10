@@ -2,6 +2,7 @@ import { useRouter } from "next/router";
 import { Card, Button, Tooltip, Avatar, Row, Col, Divider, Typography, InputNumber, Popover } from "antd";
 import { useEffect, useRef, useState } from "react";
 import { getProduct } from "@/utils/UtilsProducts";
+import { isProductFree } from "@/utils/UtilsOffer";
 import { CheckCircleFilled } from "@ant-design/icons";
 import { useDrag } from 'react-dnd';
 import { getProductTitle } from "@/utils/UtilsProductTranslations";
@@ -20,6 +21,7 @@ export const FavoriteCard = ({item, index, isSelected, selectedItems, onClick, e
     const cardRef = useRef(null);
     const trackingId = `favorite-card-${item}`;
     const [showPopover, setShowPopover] = useState(false);
+    const isFree = isProductFree(item);
 
     // Auto-registro del componente para métricas
     useEffect(() => {
@@ -138,7 +140,16 @@ export const FavoriteCard = ({item, index, isSelected, selectedItems, onClick, e
                         </Title>
 
                         <Row align="top" style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", alignContent: "center", }}>
-                            <Title level={4} style={{ fontWeight: "normal" }}>{product.price}€</Title>
+                            {isFree ? (
+                                <div style={{ display: "flex", alignItems: "center", gap: "0.3rem" }}>
+                                    <span style={{ fontSize: "0.9rem", textDecoration: "line-through", color: "red" }}>
+                                        {product.price}€
+                                    </span>
+                                    <Title level={4} style={{ fontWeight: "normal", margin: 0 }}>0€</Title>
+                                </div>
+                            ) : (
+                                <Title level={4} style={{ fontWeight: "normal" }}>{product.price}€</Title>
+                            )}
                             <Button style={{ margin: 0 }}
                                 type="link"
                                 onClick={(e) => {

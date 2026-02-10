@@ -1,5 +1,6 @@
 import { getCurrentSceneId } from "@/metrics/scriptTest";
 import { COMPONENT_BUTTON, COMPONENT_COMBOBOX, COMPONENT_TEXT_FIELD, registerComponent } from "@/metrics/scriptTest";
+import { updateProductPrice } from "@/utils/UtilsCart";
 import { isEligibleForFree, isProductFree, setItemAsOffer } from "@/utils/UtilsOffer";
 import { task3 } from "@/utils/UtilsTasks";
 import { Button, Collapse, Input } from "antd-mobile";
@@ -16,6 +17,7 @@ export const FreeProductOffer = ({ id, freeCode, isApplied, setIsApplied }) => {
         if (isProductFree(id)) {
             setIsApplied(true);
             setItemAsOffer(id);
+            updateProductPrice(id, 0); // Asegurar que el precio en el carrito sea 0
             setMessage(t('freeOffer.alreadyFree'));
         }
     }, [id, t]);
@@ -66,6 +68,7 @@ export const FreeProductOffer = ({ id, freeCode, isApplied, setIsApplied }) => {
             setMessage(t('freeOffer.success'));
             setIsApplied(true);
             setItemAsOffer(id);
+            updateProductPrice(id, 0); // Actualizar precio en el carrito si ya está añadido
             task3(id, 0);
         } else {
             //console.log("is eligible", isEligibleForFree(id))

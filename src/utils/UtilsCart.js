@@ -95,3 +95,21 @@ export const getShoppingCartLength = () => {
   const cart = getShoppingCart();
   return cart.reduce((total, item) => total + (item.quantity ?? 1), 0);
 };
+
+// Actualiza el precio de todas las instancias de un producto en el carrito
+export const updateProductPrice = (id, newPrice) => {
+  if (!isBrowser()) return;
+  const cart = getShoppingCart();
+  let updated = false;
+  
+  cart.forEach(item => {
+    if (item.id === id) {
+      item.price = newPrice;
+      updated = true;
+    }
+  });
+  
+  if (updated) {
+    saveCart(cart);
+  }
+};

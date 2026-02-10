@@ -1,4 +1,5 @@
 import { getProductDescription, getProductTitle } from "@/utils/UtilsProductTranslations";
+import { isProductFree } from "@/utils/UtilsOffer";
 import { Card } from "antd";
 import { useRouter } from "next/router";
 
@@ -9,6 +10,7 @@ export const ModalProductCard = ({product})=> {
     const locale = router.locale || 'es';
     const productTitle = getProductTitle(product?.id, locale);
     const productDescription = getProductDescription(product?.id, locale);
+    const isFree = isProductFree(product?.id);
     const imageSrc = Array.isArray(product?.images) && product.images.length > 0
         ? product.images[0]
         : "/picture3.jpg";
@@ -28,10 +30,21 @@ export const ModalProductCard = ({product})=> {
                 }/>
                 <p style={{ fontSize: "0.9rem", color: "#666" }}>{productDescription}</p>
                 <Meta description={
-                  <span style={{ fontSize: "2rem", fontWeight: "bold", display: "block" , color: "#000"}}>
-                    {product?.price}€
-                  </span>
-                }/>
+                  isFree ? (
+                    <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
+                      <span style={{ fontSize: "1.2rem", textDecoration: "line-through", color: "red" }}>
+                        {product?.price}€
+                      </span>
+                      <span style={{ fontSize: "2rem", fontWeight: "bold", color: "#000" }}>
+                        0€
+                      </span>
+                    </div>
+                  ) : (
+                    <span style={{ fontSize: "2rem", fontWeight: "bold", display: "block", color: "#000" }}>
+                      {product?.price}€
+                    </span>
+                  )
+                }/}
                 </div>
             </Card>
     );

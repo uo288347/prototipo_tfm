@@ -1,5 +1,6 @@
 import { getCurrentSceneId } from "@/metrics/scriptTest";
 import { COMPONENT_CARD, registerComponent } from "@/metrics/scriptTest";
+import { isProductFree } from "@/utils/UtilsOffer";
 import { getProductDescription, getProductTitle } from "@/utils/UtilsProductTranslations";
 import { Card } from "antd";
 import { useTranslations } from 'next-intl';
@@ -18,6 +19,7 @@ const ProductCardComponent = ({p, index, onClick, enableTracking = true}) => {
     const trackingId = `product-card-${p.id}`;
     const [imageLoaded, setImageLoaded] = useState(false);
     const [imageError, setImageError] = useState(false);
+    const isFree = isProductFree(p.id);
 
     // Auto-registro del componente para métricas
     useEffect(() => {
@@ -123,9 +125,20 @@ const ProductCardComponent = ({p, index, onClick, enableTracking = true}) => {
                       WebkitLineClamp: 2, WebkitBoxOrient: "vertical", overflow: "hidden", textOverflow: "ellipsis"}}
                     >{productDescription}</p>
                     <Meta description={
-                      <span style={{ fontSize: "1.5rem", fontWeight: "bold", display: "block" , color: "#000"}}>
-                        {p.price}€
-                      </span>
+                      isFree ? (
+                        <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
+                          <span style={{ fontSize: "1rem", textDecoration: "line-through", color: "red" }}>
+                            {p.price}€
+                          </span>
+                          <span style={{ fontSize: "1.5rem", fontWeight: "bold", color: "#000" }}>
+                            0€
+                          </span>
+                        </div>
+                      ) : (
+                        <span style={{ fontSize: "1.5rem", fontWeight: "bold", display: "block", color: "#000" }}>
+                          {p.price}€
+                        </span>
+                      )
                     }/>
                     </div>
                 </Card>

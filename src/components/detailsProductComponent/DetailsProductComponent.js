@@ -5,6 +5,7 @@ import { addToCart } from "@/utils/UtilsCart";
 import { getCategoryLabel } from "@/utils/UtilsCategories";
 import { getFavorite, toggleFavorite } from "@/utils/UtilsFavorites";
 import { openNotification } from "@/utils/UtilsNotifications";
+import { isProductFree } from "@/utils/UtilsOffer";
 import { getProduct } from "@/utils/UtilsProducts";
 import { getProductDescription, getProductTitle } from "@/utils/UtilsProductTranslations";
 import { ShoppingCartOutlined } from "@ant-design/icons";
@@ -96,6 +97,8 @@ let DetailsProductComponent = ({ id , footer}) => {
         setProductDescription(getProductDescription(id, locale))
         setFavorite(getFavorite(id))
         setCategory(getCategoryLabel(p.category, locale))
+        // Verificar si el producto ya tiene la oferta aplicada
+        setIsApplied(isProductFree(id));
     }, [id, locale])
 
     useEffect(() => {
