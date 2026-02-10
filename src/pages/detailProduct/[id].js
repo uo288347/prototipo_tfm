@@ -13,7 +13,14 @@ export default function DetailsProductPage({footer}) {
   );
 }
 
-export async function getServerSideProps(context) {
+export async function getStaticPaths() {
+  return {
+    paths: [],
+    fallback: 'blocking',
+  };
+}
+
+export async function getStaticProps(context) {
   const locale = context.locale || 'en';
   
   return {

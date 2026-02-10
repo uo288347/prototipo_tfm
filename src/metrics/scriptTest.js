@@ -100,10 +100,20 @@ function finishExperiment() {
 }
 
 function takeSnapshot(sceneId) {
-	html2canvas(document.body).then(canvas => {
-		//console.log("Delivering background for scene " + sceneId)
-		deliverSnapshot(sceneId, canvas);
-	});
+	// Use requestIdleCallback to avoid blocking navigation
+	const doSnapshot = () => {
+		html2canvas(document.body, { logging: false, useCORS: true }).then(canvas => {
+			deliverSnapshot(sceneId, canvas);
+		}).catch(err => {
+			console.log("Snapshot error: " + err);
+		});
+	};
+
+	if (typeof requestIdleCallback !== 'undefined') {
+		requestIdleCallback(doSnapshot, { timeout: 5000 });
+	} else {
+		setTimeout(doSnapshot, 100);
+	}
 }
 
 function deliverSnapshot(sceneId, canvas) {
@@ -204,18 +214,18 @@ function registerUserData() {
 		"idExperiment": idExperiment,
 		"sessionId": user
 	};
-	if (true) {
+	if (emittingData) {
 		$.ajax({
 			data: JSON.stringify(parametros),
 			url: urlRegisterUserData,
 			type: 'post',
 			beforeSend: function () {
-				$("#resultado").html("Registering user data...");
 			},
 			success: function (response) {
-				$("#result").html(response);
 			},
-			async: false
+			error: function (XMLHttpRequest, textStatus, errorThrown) {
+				console.log("registerUserData error: " + textStatus);
+			}
 		});
 	}
 }
