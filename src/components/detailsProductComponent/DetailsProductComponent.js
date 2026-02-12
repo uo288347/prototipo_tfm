@@ -307,15 +307,18 @@ let DetailsProductComponent = ({ id , footer}) => {
                             <Col xs={12} align="right">
                                 {isApplied ? (
                                     <div style={{ display: "flex", justifyContent: "flex-end", alignItems: "center", gap: "0.5rem" }}>
-                                        <Text style={{ textDecoration: "line-through", color: "red", fontSize: "1rem" }}>
+                                        <Text style={{ textDecoration: "line-through", color: "red", fontSize: "1rem", margin: 0 }}>
                                             {product.price}€
                                         </Text>
-                                        <Title level={1} style={{ fontSize: "2rem" }}>
-                                            0€
+                                        <Title level={1} style={{ fontSize: "2rem", margin: 0, 
+                                            marginLeft: "0.5rem", marginBottom: "0.5rem" }}>
+                                            0.00€
                                         </Title>
                                     </div>
                                 ) : (
-                                    <Title level={1} style={{fontSize: "2rem"}}>{product.price}€</Title>
+                                    <Title level={1} style={{fontSize: "2rem", margin: 0,
+                                        marginLeft: "0.5rem", marginBottom: "0.5rem"
+                                    }}>{product.price}€</Title>
                                 )}
                             </Col>
                         </Row>
