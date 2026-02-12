@@ -262,9 +262,33 @@ class Element {
 
 function isVisible(elementId) {
 	const el = document.getElementById(elementId);
+	// 1. Verificar si el elemento existe en el DOM actual
 	if (!el) return false;
+	
+	// 2. Verificar si el elemento está realmente conectado al documento
+	// Esto detecta elementos que fueron removidos del DOM pero aún existen en memoria
+	if (!document.body.contains(el)) {
+		return false;
+	}
+	
+	// 3. Verificar estilos CSS
 	const style = window.getComputedStyle(el);
-	return style.display !== "none" && style.visibility !== "hidden" && el.offsetParent !== null;
+	if (style.display === "none" || style.visibility === "hidden" || el.offsetParent === null) {
+		return false;
+	}
+	
+	// 4. Verificar si el elemento está en el viewport visible
+	const rect = el.getBoundingClientRect();
+	const isInViewport = (
+		rect.top < window.innerHeight &&
+		rect.bottom > 0 &&
+		rect.left < window.innerWidth &&
+		rect.right > 0 &&
+		rect.width > 0 &&
+		rect.height > 0
+	);
+	
+	return isInViewport;
 }
 
 function detectElement(x, y) {

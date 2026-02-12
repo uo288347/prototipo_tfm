@@ -62,9 +62,11 @@ export const HorizontalProductCard = ({ item, index, isSelected, selectedItems, 
     const handleCardClick = (e) => {
         // Verificar si el click no fue en el botón, stepper o sus hijos
         if (!e.target.closest('button') && !e.target.closest('.adm-stepper')) {
-            setShowPopover(true);
-            // Ocultar el popover después de 2 segundos
-            setTimeout(() => setShowPopover(false), 2000);
+            if(!isSelected) {
+                setShowPopover(true);
+                // Ocultar el popover después de 2 segundos
+                setTimeout(() => setShowPopover(false), 2000);
+            }
         }
     };
 
