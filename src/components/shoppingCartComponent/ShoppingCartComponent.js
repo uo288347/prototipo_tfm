@@ -353,7 +353,7 @@ export const ShoppingCartComponent = ({ }) => {
                     position: "relative",
                     overflow: "hidden",
                     touchAction: "none",
-                    height: "calc(100vh - 40px)"
+                    height: "calc(100dvh - 40px)"
                 }}>
                     <div ref={contentRef} style={{
                         paddingBottom: selectionMode ? "5rem" : "10rem",

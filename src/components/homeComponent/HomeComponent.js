@@ -136,7 +136,7 @@ export const HomeComponent = ({ footer}) => {
                 position: "relative",
                 overflow: "hidden",
                 width: "100%",
-                height: "calc(100vh - 40px)"
+                height: "calc(100dvh - 40px)"
             }}>
             <div ref={contentRef}>
                 <StandardNavBar />
