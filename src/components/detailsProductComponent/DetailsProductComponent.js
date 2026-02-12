@@ -109,9 +109,12 @@ let DetailsProductComponent = ({ id , footer}) => {
         const updateScrollBounds = () => {
             content.style.position = 'relative';
             
-            const viewportHeight = window.visualViewport?.height || window.innerHeight;
+            /*const viewportHeight = window.visualViewport?.height || window.innerHeight;
             const bannerHeight = 40; // Altura del banner superior
-            const availableHeight = viewportHeight - bannerHeight;
+            const availableHeight = viewportHeight - bannerHeight;*/
+
+            const availableHeight = container.clientHeight;
+
         
             //const availableHeight = container.clientHeight;
             const scrollHeight = content.scrollHeight;
