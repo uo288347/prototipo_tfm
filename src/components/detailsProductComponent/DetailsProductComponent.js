@@ -142,6 +142,11 @@ let DetailsProductComponent = ({ id , footer}) => {
             }
         };
 
+        // Guardar la función en una ref para que pueda ser llamada desde otros useEffect
+        if (!containerRef.updateScrollBounds) {
+            containerRef.updateScrollBounds = updateScrollBounds;
+        }
+
         // Inicializar después de que el contenido se renderice
         const initTimer = setTimeout(updateScrollBounds, 300);
 
@@ -161,32 +166,31 @@ let DetailsProductComponent = ({ id , footer}) => {
         };
     }, [product]);
 
-    // Efecto adicional para recalcular cuando cambia isApplied
-    // Esto asegura que cuando se aplica el código de descuento y aparece el mensaje,
-    // se recalculen los límites de scroll permitiendo llegar hasta arriba
+    // Efecto adicional para recalcular cuando cambia isApplied o message en FreeProductOffer
+    // Esto asegura que cuando se aplica el código de descuento o aparece un mensaje de error,
+    // se recalculen los límites de scroll
     useEffect(() => {
-        const container = containerRef.current;
-        const content = contentRef.current;
-        if (!container || !content || !scrollEngineRef.current) return;
+        if (!containerRef.updateScrollBounds) return;
 
         // Esperamos a que el DOM se actualice completamente (incluyendo animaciones del Collapse)
-        const recalculateTimer = setTimeout(() => {
-            const availableHeight = container.clientHeight;
-            const scrollHeight = content.scrollHeight;
+        // Usamos múltiples timeouts para capturar diferentes fases de la animación
+        const timer1 = setTimeout(() => {
+            containerRef.updateScrollBounds?.();
+        }, 200);
+        
+        const timer2 = setTimeout(() => {
+            containerRef.updateScrollBounds?.();
+        }, 500);
+        
+        const timer3 = setTimeout(() => {
+            containerRef.updateScrollBounds?.();
+        }, 800);
 
-            if (scrollHeight > availableHeight) {
-                const maxOffset = 0;
-                const minOffset = -(scrollHeight - availableHeight);
-
-                scrollEngineRef.current.options.minOffset = minOffset;
-                scrollEngineRef.current.options.maxOffset = maxOffset;
-                // Asegurar que el offset actual esté dentro de los nuevos límites
-                scrollEngineRef.current.currentOffset.y = Math.max(minOffset, Math.min(maxOffset, scrollEngineRef.current.currentOffset.y));
-                scrollEngineRef.current._applyTransform();
-            }
-        }, 500); // Delay mayor para asegurar que el Collapse y el mensaje se hayan renderizado
-
-        return () => clearTimeout(recalculateTimer);
+        return () => {
+            clearTimeout(timer1);
+            clearTimeout(timer2);
+            clearTimeout(timer3);
+        };
     }, [isApplied]);
 
     let onToggleFavorite = () => {
