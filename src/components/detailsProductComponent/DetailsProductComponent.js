@@ -112,25 +112,35 @@ let DetailsProductComponent = ({ id , footer}) => {
             const availableHeight = container.clientHeight;
             const scrollHeight = content.scrollHeight;
 
-
             if (scrollHeight <= availableHeight) {
-                // Si ya existe el engine, destruirlo
                 if (scrollEngineRef.current) {
                     scrollEngineRef.current.destroy();
                     scrollEngineRef.current = null;
                 }
+                // IMPORTANTE: Resetear la transformación cuando no hay scroll
+                content.style.transform = 'translate3d(0px, 0px, 0px)';
                 return;
             }
 
             const maxOffset = 0;
             const minOffset = -(scrollHeight - availableHeight);
 
-            // Si ya existe el engine, actualizar los límites
             if (scrollEngineRef.current) {
                 scrollEngineRef.current.options.minOffset = minOffset;
                 scrollEngineRef.current.options.maxOffset = maxOffset;
-                // Asegurar que el offset actual esté dentro de los nuevos límites
-                scrollEngineRef.current.currentOffset.y = Math.max(minOffset, Math.min(maxOffset, scrollEngineRef.current.currentOffset.y));
+                
+                // CAMBIO CLAVE: Asegurar que el offset actual esté dentro de los nuevos límites
+                // Y si el contenido creció, mantener la posición visual relativa
+                const currentOffset = scrollEngineRef.current.currentOffset.y;
+                
+                // Si estábamos en el tope (offset 0) y el contenido creció, mantener en el tope
+                if (currentOffset >= 0) {
+                    scrollEngineRef.current.currentOffset.y = 0;
+                } else {
+                    // Si estábamos scrolleados, ajustar al nuevo límite si es necesario
+                    scrollEngineRef.current.currentOffset.y = Math.max(minOffset, Math.min(maxOffset, currentOffset));
+                }
+                
                 scrollEngineRef.current._applyTransform();
             } else {
                 scrollEngineRef.current = new ManualScrollEngine(container, content, {
@@ -142,15 +152,12 @@ let DetailsProductComponent = ({ id , footer}) => {
             }
         };
 
-        // Guardar la función en una ref para que pueda ser llamada desde otros useEffect
         if (!containerRef.updateScrollBounds) {
             containerRef.updateScrollBounds = updateScrollBounds;
         }
 
-        // Inicializar después de que el contenido se renderice
         const initTimer = setTimeout(updateScrollBounds, 300);
 
-        // Observar cambios de tamaño en el contenido (para Collapse, etc.)
         const resizeObserver = new ResizeObserver(() => {
             updateScrollBounds();
         });
