@@ -303,12 +303,12 @@ let DetailsProductComponent = ({ id , footer}) => {
                                         <Text style={{ textDecoration: "line-through", color: "red", fontSize: "1rem" }}>
                                             {product.price}€
                                         </Text>
-                                        <Title level={1} style={{ fontSize: "1.5rem" }}>
+                                        <Title level={1} style={{ fontSize: "2rem" }}>
                                             0€
                                         </Title>
                                     </div>
                                 ) : (
-                                    <Title level={1} style={{fontSize: "1.5rem"}}>{product.price}€</Title>
+                                    <Title level={1} style={{fontSize: "2rem"}}>{product.price}€</Title>
                                 )}
                             </Col>
                         </Row>
