@@ -67,7 +67,7 @@
     "description1": "Find a",
     "redCode": "red code",
     "description2": "in one of the product images.",
-    "description3": "Apply this code in the field below, and the product will be ",
+    "description3": "Write this code in the field below, and the product will be ",
     "description4": "Only a few lucky products carry this offer!",
     "placeholder": "Enter your code",
     "apply": "Apply",
@@ -79,6 +79,12 @@
   "deleteZone": {
     "dragAndDrop": "Drag here to delete",
     "dropToDelete": "Drop to delete!"
+  },
+  "infoPopover": {
+    "title": "Instructions",
+    "howToDelete": "How to delete products:",
+    "step1": "Hold down on a product to select it",
+    "step2": "Drag the selected products to the deletion zone"
   },
   "cart": {
     "emptyCart": "Your cart is empty",

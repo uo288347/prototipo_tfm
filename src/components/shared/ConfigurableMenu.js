@@ -3,10 +3,11 @@ import { ArrowLeftOutlined } from "@ant-design/icons";
 import { Button, Row, Typography } from "antd";
 import { useEffect, useRef } from "react";
 import { LanguageSwitcher } from "./LanguageSwitcher";
+import { InfoButton } from "./InfoButton";
 
-const {Title} = Typography
+const { Title } = Typography
 
-export const ConfigurableMenu = ({icon, text, onClick}) => {
+export const ConfigurableMenu = ({ icon, text, onClick }) => {
     const backButtonRef = useRef(null);
 
     useEffect(() => {
@@ -22,17 +23,19 @@ export const ConfigurableMenu = ({icon, text, onClick}) => {
 
     return (
         <>
-        <Row align="middle" justify="space-between" style={{paddingBottom:"1rem", paddingTop:"1rem", alignItems:"center"}}>
-            <div style={{display:"flex", alignItems:"center"}}>
-                <Button ref={backButtonRef} id="btn-menu-back" data-trackable-id="btn-menu-back" type="text" size="large" style={{border:"none", marginRight:"1rem", fontSize:"1.5rem"}} 
-                    icon={<ArrowLeftOutlined/>}
-                    onClick={onClick}/>
-                
-                <Title level={4} style={{margin:0, padding: 0, fontWeight:"normal", display:"flex", justifyContent:"center", gap:"0.7rem" }}>{icon} {text}</Title>
-            </div>
-            
-            <LanguageSwitcher />
-        </Row>
+            <Row align="middle" justify="space-between" style={{ paddingBottom: "1rem", paddingTop: "1rem", alignItems: "center" }}>
+                <div style={{ display: "flex", alignItems: "center" }}>
+                    <Button ref={backButtonRef} id="btn-menu-back" data-trackable-id="btn-menu-back" type="text" size="large" style={{ border: "none", marginRight: "1rem", fontSize: "1.5rem" }}
+                        icon={<ArrowLeftOutlined />}
+                        onClick={onClick} />
+
+                    <Title level={4} style={{ margin: 0, padding: 0, fontWeight: "normal", display: "flex", justifyContent: "center", gap: "0.7rem" }}>{icon} {text}</Title>
+                </div>
+                <div>
+                    <InfoButton />
+                    <LanguageSwitcher />
+                </div>
+            </Row>
         </>
     );
 }

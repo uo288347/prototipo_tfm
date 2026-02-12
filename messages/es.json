@@ -67,7 +67,7 @@
     "description1": "Encuentra un",
     "redCode": "código rojo",
     "description2": "en una de las imágenes del producto.",
-    "description3": "Aplica este código en el campo de abajo, y el producto será ",
+    "description3": "Escribe este código en el campo de abajo, y el producto será ",
     "description4": "¡Solo unos pocos productos tienen esta oferta!",
     "placeholder": "Introduce tu código",
     "apply": "Aplicar",
@@ -79,6 +79,12 @@
   "deleteZone": {
     "dragAndDrop": "Arrastra aquí para eliminar",
     "dropToDelete": "¡Suelta para eliminar!"
+  },
+  "infoPopover": {
+    "title": "Instrucciones",
+    "howToDelete": "Cómo eliminar productos:",
+    "step1": "Mantén pulsado sobre un producto para seleccionarlo",
+    "step2": "Arrastra los productos seleccionados a la zona de eliminación"
   },
   "cart": {
     "emptyCart": "Tu carrito está vacío",

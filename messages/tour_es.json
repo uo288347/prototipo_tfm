@@ -1,6 +1,6 @@
 {
-  "step1_title": "Sigue las Instrucciones",
-  "step1_description": "Presta atención a los mensajes del banner. Este banner te indicará qué hacer",
-  "step2_title": "Actualizaciones Dinámicas",
-  "step2_description": "El contenido del banner cambia dinámicamente según tu progreso. Sigue las instrucciones y completa cada una de las tareas según se indique."
+  "step1_title": "Sigue las instrucciones",
+  "step1_description": "Presta atención a los mensajes que aparecen en la parte superior. Te indicarán qué hacer en cada momento.",
+  "step2_title": "Consulta los detalles",
+  "step2_description": "El mensaje cambia según tu progreso. Puedes pulsarlo para ver la instrucción completa."
 }

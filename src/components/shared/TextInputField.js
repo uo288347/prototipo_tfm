@@ -18,6 +18,7 @@ import { modifyStateProperty } from "../../utils/UtilsState";
  * @param {function} validateFunc - Función de validación que devuelve true/false
  * @param {array} validateParams - Parámetros adicionales para la función de validación (ej: mensajes de error traducidos)
  * @param {boolean} enableTracking - Habilitar auto-registro para métricas (default: true)
+ * @param {string} inputMode - Modo de entrada para el teclado (ej: 'numeric' para teclado numérico)
  */
 export const TextInputField = ({
   id,
@@ -30,7 +31,8 @@ export const TextInputField = ({
   setFormErrors,
   validateFunc,
   validateParams = [],
-  enableTracking = true
+  enableTracking = true,
+  inputMode
 }) => {
   const inputRef = useRef(null);
 
@@ -93,7 +95,8 @@ export const TextInputField = ({
             prefix={icon} 
             placeholder={placeholder} 
             value={formData[name]} 
-            onChange={handleChange} 
+            onChange={handleChange}
+            inputMode={inputMode}
           />
         </div>
       </Form.Item>

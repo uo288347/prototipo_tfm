@@ -103,7 +103,7 @@ export const InitialFormComponent = ({ }) => {
                         </Form.Item>
                         <TextInputField id="input-birthYear" name={"birthYear"} placeholder={t('initialForm.birthYear')} formData={formData}
                             setFormData={setFormData} formErrors={formErrors} setFormErrors={setFormErrors} validateFunc={validateFormDataInputYear}
-                            validateParams={[t('errors.required'), t('errors.invalidYear'), t('errors.yearRange', { year: currentYear - 1 })]} />
+                            validateParams={[t('errors.required'), t('errors.invalidYear'), t('errors.yearRange', { year: currentYear - 1 })]} inputMode="numeric" />
 
                         <Divider />
 

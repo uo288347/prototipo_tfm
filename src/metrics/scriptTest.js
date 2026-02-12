@@ -102,17 +102,25 @@ function finishExperiment() {
 function takeSnapshot(sceneId) {
 	// Use requestIdleCallback to avoid blocking navigation
 	const doSnapshot = () => {
-		html2canvas(document.body, { logging: false, useCORS: true }).then(canvas => {
+		html2canvas(document.body, { 
+			logging: false, 
+			useCORS: true,
+			// Optimizaciones para mejorar el rendimiento
+			scale: 0.5, // Reducir la escala a la mitad
+			allowTaint: true,
+			backgroundColor: '#ffffff'
+		}).then(canvas => {
 			deliverSnapshot(sceneId, canvas);
 		}).catch(err => {
 			console.log("Snapshot error: " + err);
 		});
 	};
 
+	// Usar un delay más largo para asegurar que la navegación se complete primero
 	if (typeof requestIdleCallback !== 'undefined') {
 		requestIdleCallback(doSnapshot, { timeout: 5000 });
 	} else {
-		setTimeout(doSnapshot, 100);
+		setTimeout(doSnapshot, 500); // Aumentado de 100ms a 500ms
 	}
 }
 
