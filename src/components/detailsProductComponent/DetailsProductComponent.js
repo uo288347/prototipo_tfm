@@ -109,7 +109,11 @@ let DetailsProductComponent = ({ id , footer}) => {
         const updateScrollBounds = () => {
             content.style.position = 'relative';
             
-            const availableHeight = container.clientHeight;
+            const viewportHeight = window.visualViewport?.height || window.innerHeight;
+            const bannerHeight = 40; // Altura del banner superior
+            const availableHeight = viewportHeight - bannerHeight;
+        
+            //const availableHeight = container.clientHeight;
             const scrollHeight = content.scrollHeight;
 
             if (scrollHeight <= availableHeight) {
@@ -230,7 +234,7 @@ let DetailsProductComponent = ({ id , footer}) => {
                 position: "relative",
                 overflow: "hidden",
                 width: "100%",
-                height: "calc(100vh - 40px)",
+                height: "calc(100dvh - 40px)",
             }}>
             <div ref={contentRef} >
                 <Row style={{ maxHeight: "50vh", overflow: "hidden" }}>
