@@ -261,19 +261,24 @@ class Element {
 }
 
 function isVisible(elementId) {
+	//console.log("Checking visibility for element: " + elementId);
 	const el = document.getElementById(elementId);
 	// 1. Verificar si el elemento existe en el DOM actual
-	if (!el) return false;
-	
+	if (!el) {
+		//console.log("Element " + elementId + " does not exist in the current DOM.");
+		return false;
+	}
 	// 2. Verificar si el elemento está realmente conectado al documento
 	// Esto detecta elementos que fueron removidos del DOM pero aún existen en memoria
 	if (!document.body.contains(el)) {
+		//console.log("Element " + elementId + " is not in the current DOM.");
 		return false;
 	}
 	
 	// 3. Verificar estilos CSS
 	const style = window.getComputedStyle(el);
 	if (style.display === "none" || style.visibility === "hidden" || el.offsetParent === null) {
+		//console.log("Element " + elementId + " is hidden by CSS.");
 		return false;
 	}
 	
@@ -288,6 +293,7 @@ function isVisible(elementId) {
 		rect.height > 0
 	);
 	
+	//console.log("Element " + elementId + " is " + (isInViewport ? "visible" : "not visible") + " in the viewport.");
 	return isInViewport;
 }
 
@@ -295,7 +301,7 @@ function detectElement(x, y) {
 	//console.log("[by position] Detecting element at position: " + x + "," + y);
 	var found = -1;
 	elements.forEach(function (entry) {
-		if (entry.isOver(x, y) && (entry.getScene() === sceneId || isVisible(entry.id))) {
+		if (entry.isOver(x, y) &&  isVisible(entry.id)) { /*(entry.getScene() === sceneId ||*/
 			found = entry.id;
 		}
 	});
@@ -306,7 +312,7 @@ function detectElementByName(name) {
 	//console.log("[by name] Detecting element by name: " + name);
 	var found = -1;
 	elements.forEach(function (entry) {
-		if (entry.id === name && (entry.getScene() === sceneId || isVisible(entry.id))) {
+		if (entry.id === name && isVisible(entry.id)) { /* && (entry.getScene() === sceneId ||*/
 			found = entry.id;
 		}
 	});
@@ -366,8 +372,40 @@ function trackEventOverElement(eventType, elementId, event) {
 	item.eventType = eventType;
 	item.timeStamp = Date.now();
 	if (event && typeof event.clientX === "number" && typeof event.clientY === "number") {
-		item.x = Math.round(event.clientX);
-		item.y = Math.round(event.clientY);
+		/*item.x = Math.round(event.clientX);
+		item.y = Math.round(event.clientY);*/
+		
+		// Obtener scroll del ManualScrollEngine si existe
+		let scrollX = 0;
+		let scrollY = 0;
+		
+		if (typeof window !== "undefined" && window.__currentScrollEngine) {
+			const scrollOffset = window.__currentScrollEngine.getScrollOffset();
+			scrollX = scrollOffset.x;
+			scrollY = scrollOffset.y;
+			console.log(`Using ManualScrollEngine offset: scrollX=${scrollX}, scrollY=${scrollY}`);
+		} else {
+			console.log("No ManualScrollEngine detected, using window scroll.");
+			// Fallback a scroll nativo si no hay ManualScrollEngine
+			scrollX = window.scrollX || 0;
+			scrollY = window.scrollY || 0;
+		}
+		
+		// Coordenadas absolutas (viewport + scroll manual)
+		item.x = Math.round(event.clientX + scrollX);
+		item.y = Math.round(event.clientY + scrollY);
+		
+		// Coordenadas del viewport (sin scroll)
+		item.clientX = Math.round(event.clientX);
+		item.clientY = Math.round(event.clientY);
+		
+		// Información del viewport para normalización
+		item.viewportWidth = window.innerWidth;
+		item.viewportHeight = window.innerHeight;
+		
+		// Scroll actual (manual o nativo)
+		item.scrollX = Math.round(scrollX);
+		item.scrollY = Math.round(scrollY);
 	}
 	else {
 		item.x = 0;

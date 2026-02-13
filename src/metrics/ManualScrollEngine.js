@@ -35,11 +35,11 @@ export class ManualScrollEngine {
     this.velocity = { x: 0, y: 0 };
     this.lastMoveTime = 0;
     this.momentumRAF = null;
-    
+
     // Control de múltiples toques (para detectar pinch)
     this.activePointers = new Set();
     this.isPaused = false;
-    
+
     // Control de bloqueo de dirección de scroll
     this.lockedAxis = null; // 'x' o 'y' una vez detectada la dirección dominante
     this.scrollThreshold = 5; // píxeles mínimos para determinar dirección
@@ -86,19 +86,19 @@ export class ManualScrollEngine {
   _pointerDown(e) {
     // Registrar pointer activo
     this.activePointers.add(e.pointerId);
-    
+
     // Si hay múltiples toques (pinch), pausar el scroll
     if (this.activePointers.size > 1) {
       this.isPaused = true;
       this.isDragging = false;
       return; // No procesar el evento cuando hay pinch
     }
-    
+
     // Si está pausado manualmente, no procesar
     if (this.isPaused) {
       return;
     }
-    
+
     // Notificar evento para tracking antes de stopPropagation
     if (this.options.onPointerEvent) {
       this.options.onPointerEvent('pointerdown', e);
@@ -114,7 +114,7 @@ export class ManualScrollEngine {
       this.momentumRAF = null;
     }
     this.velocity = { x: 0, y: 0 };
-    
+
     // Resetear bloqueo de dirección
     this.lockedAxis = null;
 
@@ -148,12 +148,12 @@ export class ManualScrollEngine {
 
     const dx = e.clientX - this.lastPointerPos.x;
     const dy = e.clientY - this.lastPointerPos.y;
-    
+
     // Detectar y bloquear dirección de scroll si aún no está bloqueada
     if (!this.lockedAxis && (this.options.axis === "both" || !this.options.axis)) {
       const absDx = Math.abs(dx);
       const absDy = Math.abs(dy);
-      
+
       // Si el movimiento supera el umbral, determinar la dirección dominante
       if (absDx > this.scrollThreshold || absDy > this.scrollThreshold) {
         this.lockedAxis = absDx > absDy ? 'x' : 'y';
@@ -168,12 +168,12 @@ export class ManualScrollEngine {
     this.lastMoveTime = now;
 
     const factor = this.options.scrollFactor;
-    
+
     // Determinar qué ejes están permitidos basándose en la configuración y el bloqueo
-    const allowY = (this.options.axis === "y" || this.options.axis === "both") && 
-                   (!this.lockedAxis || this.lockedAxis === 'y');
-    const allowX = (this.options.axis === "x" || this.options.axis === "both") && 
-                   (!this.lockedAxis || this.lockedAxis === 'x');
+    const allowY = (this.options.axis === "y" || this.options.axis === "both") &&
+      (!this.lockedAxis || this.lockedAxis === 'y');
+    const allowX = (this.options.axis === "x" || this.options.axis === "both") &&
+      (!this.lockedAxis || this.lockedAxis === 'x');
 
     if (allowY) {
       let nextY = this.currentOffset.y + dy * factor; // invertimos sentido para que arrastrar hacia arriba suba contenido
@@ -217,17 +217,17 @@ export class ManualScrollEngine {
   _pointerUp(e) {
     // Eliminar pointer de la lista de activos
     this.activePointers.delete(e.pointerId);
-    
+
     // Si volvemos a tener 0 o 1 toques, reactivar el scroll
     if (this.activePointers.size <= 1) {
       this.isPaused = false;
     }
-    
+
     // Si está pausado, no procesar el resto
     if (this.isPaused) {
       return;
     }
-    
+
     // Notificar evento para tracking
     if (this.options.onPointerEvent) {
       this.options.onPointerEvent('pointerup', e);
@@ -236,10 +236,10 @@ export class ManualScrollEngine {
       e.stopPropagation();
     }
     this.isDragging = false;
-    
+
     // Resetear bloqueo de dirección
     this.lockedAxis = null;
-    
+
     if (this.container.releasePointerCapture) {
       try {
         this.container.releasePointerCapture(e.pointerId);
@@ -348,14 +348,14 @@ export class ManualScrollEngine {
     };
 
     // Iniciar animación si hay velocidad O si está fuera de límites (rubber banding)
-    const needsAnimation = Math.abs(this.velocity.x) > threshold || 
-                          Math.abs(this.velocity.y) > threshold ||
-                          (this.options.rubberBanding && 
-                           (this.currentOffset.y < this.options.minOffset ||
-                            this.currentOffset.y > this.options.maxOffset ||
-                            this.currentOffset.x < this.options.minOffset ||
-                            this.currentOffset.x > this.options.maxOffset));
-    
+    const needsAnimation = Math.abs(this.velocity.x) > threshold ||
+      Math.abs(this.velocity.y) > threshold ||
+      (this.options.rubberBanding &&
+        (this.currentOffset.y < this.options.minOffset ||
+          this.currentOffset.y > this.options.maxOffset ||
+          this.currentOffset.x < this.options.minOffset ||
+          this.currentOffset.x > this.options.maxOffset));
+
     if (needsAnimation) {
       this.momentumRAF = requestAnimationFrame(animate);
     }
@@ -388,5 +388,18 @@ export class ManualScrollEngine {
     if (this.activePointers.size <= 1) {
       this.isPaused = false;
     }
+  }
+
+  // Al final de la clase ManualScrollEngine, añade:
+
+  /**
+   * Obtener el offset actual del scroll manual
+   * @returns {{x: number, y: number}}
+   */
+  getScrollOffset() {
+    return {
+      x: -this.currentOffset.x,  // Negativo porque el offset va en sentido contrario al scroll
+      y: -this.currentOffset.y
+    };
   }
 }

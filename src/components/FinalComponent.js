@@ -38,12 +38,15 @@ export const FinalComponent = ({ }) => {
             display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center"
         }}>
             <Title style={{ textAlign: "center" }} level={3}>{t('end.thanksMessage')}</Title>
-            <Button ref={backButtonRef} id="btn-back-to-start" data-trackable-id="btn-back-to-start" type="text" onClick={() => {
-                router.push("/")
-            }} block>{t('end.backToStart')}</Button>
             <div style={{ width: "200px", height: "200px" }}>
                 <Lottie options={defaultOptions} />
             </div>
         </div>
     )
 }
+
+/*
+            <Button ref={backButtonRef} id="btn-back-to-start" data-trackable-id="btn-back-to-start" type="text" onClick={() => {
+                router.push("/")
+            }} block>{t('end.backToStart')}</Button>
+             */

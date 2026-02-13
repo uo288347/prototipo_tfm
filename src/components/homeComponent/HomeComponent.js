@@ -11,7 +11,7 @@ import { StandardNavBar } from "../shared/StandardNavBar";
 import { TrackableSelect } from "../shared/TrackableSelect";
 import { CategoryFilter } from "./CategoryFilter";
 
-export const HomeComponent = ({ footer}) => {
+export const HomeComponent = ({ footer }) => {
     const containerRef = useRef(null);
     const contentRef = useRef(null);
     const scrollEngineRef = useRef(null);
@@ -84,8 +84,13 @@ export const HomeComponent = ({ footer}) => {
             });
         };
 
-        setTimeout(initScroll, 100); 
-        
+        if (typeof window !== 'undefined') {
+            console.log("Setting global scroll engine reference.");
+            window.__currentScrollEngine = scrollEngineRef.current;
+        }
+
+        setTimeout(initScroll, 100);
+
         return () => {
             if (scrollEngineRef.current) {
                 scrollEngineRef.current.destroy();
@@ -173,7 +178,7 @@ export const HomeComponent = ({ footer}) => {
                 <Row style={{ minWidth: "100%", paddingTop: "1.5rem" }}>
                     <Col xs={24}>
                         {filters.category == null && <h2>{t('home.products')}</h2>}
-                        <ProductGrid 
+                        <ProductGrid
                             category={filters.category}
                             filter={filters.filter}
                             onLoadComplete={recalculateScroll}
