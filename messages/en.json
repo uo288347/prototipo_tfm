@@ -172,6 +172,7 @@
     "invalidEmail": "Not email format",
     "invalidYear": "Must be a 4-digit year",
     "yearRange": "Year must be between 1926 and {year}",
-    "somethingWrong": "Something went wrong"
+    "somethingWrong": "Something went wrong",
+    "invalidCredentials": "Incorrect email or password"
   }
 }
