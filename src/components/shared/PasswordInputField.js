@@ -95,6 +95,7 @@ export const PasswordInputField = ({
             value={formData[name]} 
             onChange={handleChange}
             data-trackable-id={componentId}
+            size="large"
           />
         </div>
       </Form.Item>

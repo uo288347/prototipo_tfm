@@ -97,6 +97,7 @@ export const TextInputField = ({
             value={formData[name]} 
             onChange={handleChange}
             inputMode={inputMode}
+            size="large"
           />
         </div>
       </Form.Item>

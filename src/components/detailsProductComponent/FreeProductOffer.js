@@ -103,6 +103,7 @@ export const FreeProductOffer = ({ id, freeCode, isApplied, setIsApplied }) => {
                                 onChange={val => setCode(val)}
                                 disabled={isApplied}
                                 style={{ fontSize: "0.85rem" }}
+                                size="large"
                             />
                         </div>
                         <div id="btn-apply-free-code-wrapper">
