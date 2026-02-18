@@ -435,8 +435,8 @@ function trackEventOverElement(eventType, elementId, event) {
 
 	item.keyValueEvent = -1;
 	item.keyCodeEvent = -1;
-
-
+	item.pointerId = (event && event.pointerId !== undefined) ? event.pointerId : -1;
+	item.isPrimary = (event && event.isPrimary !== undefined) ? event.isPrimary : null;
 
 	// Unificar obtención de elementId
 	if (event && event.target && event.target.id) {
