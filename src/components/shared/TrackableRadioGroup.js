@@ -64,8 +64,9 @@ export const TrackableRadioGroup = ({
 
   return (
     <div ref={containerRef} data-trackable-id={id}>
-      <Radio.Group {...props}>
+      <Radio.Group {...props} size="large">
         {children}
+        
       </Radio.Group>
     </div>
   );

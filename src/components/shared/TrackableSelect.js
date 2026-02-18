@@ -132,6 +132,7 @@ export const TrackableSelect = ({
         onOpenChange={handleDropdownVisibleChange}
         {...pointerEventProps}
         {...props}
+        size="large"
       />
     </div>
   );
