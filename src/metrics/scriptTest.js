@@ -73,6 +73,9 @@ var backgroundsDelivered = 0;
 var eventsDelivered = false;
 var finishedExperiment = false;
 
+var lastPointerX = null;
+var lastPointerY = null;
+
 var newPage = null;
 var elements = [];
 var emittingData = true;
@@ -102,8 +105,8 @@ function finishExperiment() {
 function takeSnapshot(sceneId) {
 	// Use requestIdleCallback to avoid blocking navigation
 	const doSnapshot = () => {
-		html2canvas(document.body, { 
-			logging: false, 
+		html2canvas(document.body, {
+			logging: false,
 			useCORS: true,
 			// Optimizaciones para mejorar el rendimiento
 			scale: 0.5, // Reducir la escala a la mitad
@@ -274,14 +277,14 @@ function isVisible(elementId) {
 		//console.log("Element " + elementId + " is not in the current DOM.");
 		return false;
 	}
-	
+
 	// 3. Verificar estilos CSS
 	const style = window.getComputedStyle(el);
 	if (style.display === "none" || style.visibility === "hidden" || el.offsetParent === null) {
 		//console.log("Element " + elementId + " is hidden by CSS.");
 		return false;
 	}
-	
+
 	// 4. Verificar si el elemento está en el viewport visible
 	const rect = el.getBoundingClientRect();
 	const isInViewport = (
@@ -292,7 +295,7 @@ function isVisible(elementId) {
 		rect.width > 0 &&
 		rect.height > 0
 	);
-	
+
 	//console.log("Element " + elementId + " is " + (isInViewport ? "visible" : "not visible") + " in the viewport.");
 	return isInViewport;
 }
@@ -301,7 +304,7 @@ function detectElement(x, y) {
 	//console.log("[by position] Detecting element at position: " + x + "," + y);
 	var found = -1;
 	elements.forEach(function (entry) {
-		if (entry.isOver(x, y) &&  isVisible(entry.id)) { /*(entry.getScene() === sceneId ||*/
+		if (entry.isOver(x, y) && isVisible(entry.id)) { /*(entry.getScene() === sceneId ||*/
 			found = entry.id;
 		}
 	});
@@ -354,6 +357,17 @@ function addSelectionEvent(elementId) {
 
 function trackWithEvent(eventType, event) {
 	if (trackingOn) {
+		if (eventType === EVENT_ON_POINTER_MOVE) {
+			const cx = event.clientX;
+			const cy = event.clientY;
+			if (lastPointerX !== null && lastPointerY !== null) {
+				if (cx === lastPointerX && cy === lastPointerY) {
+					return; // Sin movimiento, ignorar
+				}
+			}
+			lastPointerX = cx;
+			lastPointerY = cy;
+		}
 		trackEventOverElement(eventType, -1, event);
 	}
 }
@@ -374,11 +388,11 @@ function trackEventOverElement(eventType, elementId, event) {
 	if (event && typeof event.clientX === "number" && typeof event.clientY === "number") {
 		/*item.x = Math.round(event.clientX);
 		item.y = Math.round(event.clientY);*/
-		
+
 		// Obtener scroll del ManualScrollEngine si existe
 		let scrollX = 0;
 		let scrollY = 0;
-		
+
 		if (typeof window !== "undefined" && window.__currentScrollEngine) {
 			const scrollOffset = window.__currentScrollEngine.getScrollOffset();
 			scrollX = scrollOffset.x;
@@ -390,19 +404,19 @@ function trackEventOverElement(eventType, elementId, event) {
 			scrollX = window.scrollX || 0;
 			scrollY = window.scrollY || 0;
 		}
-		
+
 		// Coordenadas absolutas (viewport + scroll manual)
 		item.x = Math.round(event.clientX + scrollX);
 		item.y = Math.round(event.clientY + scrollY);
-		
+
 		// Coordenadas del viewport (sin scroll)
 		item.clientX = Math.round(event.clientX);
 		item.clientY = Math.round(event.clientY);
-		
+
 		// Información del viewport para normalización
 		item.viewportWidth = window.innerWidth;
 		item.viewportHeight = window.innerHeight;
-		
+
 		// Scroll actual (manual o nativo)
 		item.scrollX = Math.round(scrollX);
 		item.scrollY = Math.round(scrollY);
@@ -481,6 +495,8 @@ function initTracking(_sceneId) {
 
 function initializeGlobalListeners() {
 	document.addEventListener('pointerdown', function (event) {
+		lastPointerX = event.clientX;
+		lastPointerY = event.clientY;
 		trackWithEvent(EVENT_ON_POINTER_DOWN, event);
 	});
 
@@ -884,26 +900,26 @@ function postAJAXDemographicData(parametros) {
 	}
 }
 
-function registersus1(value) {postNumberDD(251, value);}
-function registerid(value) {postStringDD(252, value); }
-function registersus2(value) {postNumberDD(253, value); }
-function registerpreferred_device(value) {postStringDD(254, value); }
-function registersex(value) {postStringDD(255, value); }
-function registerbirth_year(value) {postNumberDD(256, value); }
-function registerusername(value) {postStringDD(257, value); }
-function registersus7(value) {postNumberDD(258, value); }
-function registerecommerce_frequency(value) {postStringDD(259, value); }
-function registerhandedness(value) {postStringDD(260, value); }
-function registersus9(value) {postNumberDD(261, value); }
-function registercountry(value) {postStringDD(262, value); }
-function registersus8(value) {postNumberDD(263, value); }
-function registersus10(value) {postNumberDD(264, value); }
-function registersus5(value) {postNumberDD(265, value); }
-function registersus4(value) {postNumberDD(266, value); }
-function registersus3(value) {postNumberDD(267, value); }
-function registersus6(value) {postNumberDD(268, value); }
-function registerpassword(value) {postStringDD(269, value); }
-function registercity(value) {postStringDD(270, value); }
+function registersus1(value) { postNumberDD(251, value); }
+function registerid(value) { postStringDD(252, value); }
+function registersus2(value) { postNumberDD(253, value); }
+function registerpreferred_device(value) { postStringDD(254, value); }
+function registersex(value) { postStringDD(255, value); }
+function registerbirth_year(value) { postNumberDD(256, value); }
+function registerusername(value) { postStringDD(257, value); }
+function registersus7(value) { postNumberDD(258, value); }
+function registerecommerce_frequency(value) { postStringDD(259, value); }
+function registerhandedness(value) { postStringDD(260, value); }
+function registersus9(value) { postNumberDD(261, value); }
+function registercountry(value) { postStringDD(262, value); }
+function registersus8(value) { postNumberDD(263, value); }
+function registersus10(value) { postNumberDD(264, value); }
+function registersus5(value) { postNumberDD(265, value); }
+function registersus4(value) { postNumberDD(266, value); }
+function registersus3(value) { postNumberDD(267, value); }
+function registersus6(value) { postNumberDD(268, value); }
+function registerpassword(value) { postStringDD(269, value); }
+function registercity(value) { postStringDD(270, value); }
 export {
 	COMPONENT_BANNER, COMPONENT_BUTTON,
 	COMPONENT_CARD, COMPONENT_CAROUSEL, COMPONENT_CHECK_BOX, COMPONENT_COMBOBOX, COMPONENT_IMAGE, COMPONENT_LINK, COMPONENT_OPTION,
