@@ -67,8 +67,10 @@ export const SusFormComponent = ({}) => {
     // Valida si todos los campos requeridos para el paso actual están completos
     const isStepComplete = () => {
         return requiredInForm[currentStep]
-        .every(field => 
-            formData[field] !== undefined && formData[field] !== null && formData[field] !== '');
+        .every(field => {
+            const val = formData[field];
+            return val !== undefined && val !== null && val !== '' && val !== 0;
+        });
     };
 
     return (
