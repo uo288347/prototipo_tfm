@@ -435,8 +435,17 @@ function trackEventOverElement(eventType, elementId, event) {
 
 	item.keyValueEvent = -1;
 	item.keyCodeEvent = -1;
+	// atributos necesarios para pinch
 	item.pointerId = (event && event.pointerId !== undefined) ? event.pointerId : -1;
 	item.isPrimary = (event && event.isPrimary !== undefined) ? event.isPrimary : null;
+	// otros atributos interesantes
+	item.pointerType = (event && event.pointerType !== undefined) ? event.pointerType : null;
+	item.pressure = (event && event.pressure !== undefined) ? event.pressure : -1;
+	item.width = (event && event.width !== undefined) ? Math.round(event.width) : -1;
+	item.height = (event && event.height !== undefined) ? Math.round(event.height) : -1;
+	item.tiltX = (event && event.tiltX !== undefined) ? event.tiltX : 0;
+	item.tiltY = (event && event.tiltY !== undefined) ? event.tiltY : 0;
+
 
 	// Unificar obtención de elementId
 	if (event && event.target && event.target.id) {
