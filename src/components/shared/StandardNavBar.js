@@ -56,10 +56,11 @@ export const StandardNavBar = ({ }) => {
                         <Button id="btn-favorites" data-trackable-id="btn-favorites"
                             type="icon" style={{ border: "none" }}
                             onClick={() => {
-                                router.events.once('routeChangeComplete', () => {
+                                /*router.events.once('routeChangeComplete', () => {
                                     task6();
-                                });
+                                });*/
                                 router.push("/favorites");
+                                //task6();
                             }}>
                             <HeartOutline style={{ fontSize: 24 }} />
                         </Button>

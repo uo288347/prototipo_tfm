@@ -10,6 +10,7 @@ import { DeleteZone } from "../shared/DeleteZone";
 import { GhostFavoriteCard } from "../shared/GhostFavoriteCard";
 import { SelectionIndicator } from "../shared/SelectionIndicator";
 import { FavoriteCard } from "./FavoriteCard";
+import { task6 } from "@/utils/UtilsTasks";
 
 const { Text, Title } = Typography
 
@@ -37,6 +38,7 @@ export const FavoritesComponent = ({ }) => {
     const getItemKey = (item) => item; // En favoritos, el item es el ID del producto
 
     useEffect(() => {
+        task6();
         setIds(getFavorites());
     }, []);
 
