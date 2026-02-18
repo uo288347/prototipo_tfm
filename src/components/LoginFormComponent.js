@@ -4,7 +4,7 @@ import { clearCart } from "@/utils/UtilsCart";
 import { clearFavorites } from "@/utils/UtilsFavorites";
 import { clearLogin, login } from "@/utils/UtilsLogin";
 import { UtilsTasks } from "@/utils/UtilsTasks";
-import { Button, Card, Col, Form, Row } from "antd";
+import { Button, Card, Col, Form, Row, notification } from "antd";
 import { useTranslations } from 'next-intl';
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
@@ -62,6 +62,10 @@ let LoginFormComponent = ({ }) => {
     let clickLogin = async () => {
         if (formData.email !== VALID_EMAIL || formData.password !== VALID_PASSWORD) {
             setFormErrors({ password: t('errors.invalidCredentials') });
+            notification.error({
+                message: t('errors.invalidCredentials'),
+                duration: 3
+            });
             return;
         }
         clearLogin();
