@@ -82,12 +82,12 @@ export const HomeComponent = ({ footer }) => {
                 minOffset,
                 maxOffset,
             });
-        };
 
-        if (typeof window !== 'undefined') {
-            console.log("Setting global scroll engine reference.");
-            window.__currentScrollEngine = scrollEngineRef.current;
-        }
+            if (typeof window !== 'undefined') {
+                window.__currentScrollEngine = scrollEngineRef.current;
+                //console.log("Setting global scroll engine reference.", window.__currentScrollEngine, scrollEngineRef.current);
+            }
+        };
 
         setTimeout(initScroll, 100);
 
@@ -124,6 +124,10 @@ export const HomeComponent = ({ footer }) => {
                 minOffset,
                 maxOffset,
             });
+
+            if (typeof window !== 'undefined') {
+                window.__currentScrollEngine = scrollEngineRef.current;
+            }
         }, 100);
     }, []);
 

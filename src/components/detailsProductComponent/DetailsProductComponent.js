@@ -157,6 +157,10 @@ let DetailsProductComponent = ({ id , footer}) => {
                     maxOffset,
                 });
             }
+            
+            if (typeof window !== 'undefined') {
+                window.__currentScrollEngine = scrollEngineRef.current;
+            }
         };
 
         if (!containerRef.updateScrollBounds) {

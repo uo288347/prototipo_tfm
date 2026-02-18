@@ -210,7 +210,8 @@ export class ManualScrollEngine {
       }
       this.currentOffset.x = nextX;
     }
-
+    // este log printea bien el offset
+    //console.log("Pointer move. Current offset:", this.currentOffset, "Velocity:", this.velocity, "Locked axis:", this.lockedAxis);
     this._applyTransform();
   }
 
