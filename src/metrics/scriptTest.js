@@ -549,12 +549,13 @@ function initializeGlobalListeners() {
 			// Último evento del dedo que se levantó, marcado con su tipo pinch
 			const pinchType = getPinchEventType(event.pointerId);
 			if (pinchType !== null) trackWithEvent(pinchType, event);
-			// Limpiar orden solo cuando ya no queda ningún dedo
-			if (activePointers.size === 0) {
-				pinchPointerOrder = [];
-			}
 		} else {
 			trackWithEvent(EVENT_ON_POINTER_UP, event);
+		}
+
+		// Limpiar orden cuando ya no queda ningún dedo (tanto si era pinch como si no)
+		if (activePointers.size === 0) {
+			pinchPointerOrder = [];
 		}
 	});
 
