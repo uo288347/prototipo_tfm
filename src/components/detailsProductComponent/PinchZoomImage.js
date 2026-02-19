@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { notification } from 'antd';
+import { openNotification } from '@/utils/UtilsNotifications';
 
 export const PinchZoomImage = ({ src, alt }) => {
     const [scale, setScale] = useState(1);
@@ -54,19 +54,17 @@ export const PinchZoomImage = ({ src, alt }) => {
 
             if (!pinchNotified.current) {
                 pinchNotified.current = true;
-                api.info({
-                    message: '🤏 Pinch detectado',
-                    description: (
-                        <div style={{ fontSize: 13, lineHeight: 1.6 }}>
-                            <div><b>Pointers activos:</b> {activePointers.current.size}</div>
-                            <div><b>Distancia inicial:</b> {Math.round(distance)}px</div>
-                            <div><b>Centro del gesto:</b> ({Math.round(center.x)}, {Math.round(center.y)})</div>
-                            <div><b>Escala actual:</b> {scale.toFixed(2)}x</div>
-                        </div>
-                    ),
-                    placement: 'top',
-                    duration: 2,
-                });
+                openNotification(
+                    'top',
+                    '🤏 Pinch detectado',
+                    'info',
+                    <div style={{ fontSize: 13, lineHeight: 1.6 }}>
+                        <div><b>Pointers activos:</b> {activePointers.current.size}</div>
+                        <div><b>Distancia inicial:</b> {Math.round(distance)}px</div>
+                        <div><b>Centro del gesto:</b> ({Math.round(center.x)}, {Math.round(center.y)})</div>
+                        <div><b>Escala actual:</b> {scale.toFixed(2)}x</div>
+                    </div>
+                );
             }
         } else if (activePointers.current.size === 1 && scale > 1) {
             setIsDragging(true);

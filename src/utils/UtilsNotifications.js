@@ -8,15 +8,15 @@ export const initNotification = (api) => {
 };
 
 // Función para mostrar notificación
-export const openNotification = (placement, text, type) => {
+export const openNotification = (placement, text, type, description) => {
   if (!apiHolder) {
     console.warn('Notification API no inicializada');
     return;
   }
 
-
   apiHolder[type]({
     message: text,
+    description: description,
     placement: placement,
     duration: 1.5,
   });
