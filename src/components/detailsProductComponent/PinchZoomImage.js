@@ -5,29 +5,15 @@ export const PinchZoomImage = ({ src, alt }) => {
     const [position, setPosition] = useState({ x: 0, y: 0 });
     const [origin, setOrigin] = useState({ x: 50, y: 50 });
     const [isDragging, setIsDragging] = useState(false);
-    const [imgStyle, setImgStyle] = useState({});
 
     const imageRef = useRef(null);
+    const containerRef = useRef(null);
     const activePointers = useRef(new Map());
     const touchStartDistance = useRef(0);
     const lastScale = useRef(1);
     const lastPosition = useRef({ x: 0, y: 0 });
     const dragStart = useRef({ x: 0, y: 0 });
-    const gestureStartTime = useRef(null);
-    const touchCount = useRef(0);
-
-    const logEvent = (eventType, data) => {
-        const event = {
-            type: eventType,
-            timestamp: new Date().toISOString(),
-            timeFromStart: gestureStartTime.current
-                ? Date.now() - gestureStartTime.current
-                : 0,
-            ...data
-        };
-
-        console.log('📊 Gesture Event:', event);
-    };
+    const wasPinching = useRef(false);
 
     // Calcular distancia entre dos puntos táctiles
     const getDistance = (touch1, touch2) => {
@@ -44,17 +30,8 @@ export const PinchZoomImage = ({ src, alt }) => {
         };
     };
 
-    // Calcular velocidad del gesto
-    const calculateVelocity = (startPos, endPos, timeMs) => {
-        const dx = endPos.x - startPos.x;
-        const dy = endPos.y - startPos.y;
-        const distance = Math.sqrt(dx * dx + dy * dy);
-        return distance / timeMs;
-    };
-
-
     // Manejar inicio de touch
-    const handleTouchStart = (e) => {
+    /*const handleTouchStart = (e) => {
         gestureStartTime.current = Date.now();
         touchCount.current = e.touches.length;
 
@@ -84,12 +61,13 @@ export const PinchZoomImage = ({ src, alt }) => {
             };
         }
     };
-
+*/
     const handlePointerDown = (e) => {
         activePointers.current.set(e.pointerId, e);
         containerRef.current.setPointerCapture(e.pointerId);
 
         if (activePointers.current.size === 2) {
+            wasPinching.current = true;
             const [p1, p2] = Array.from(activePointers.current.values());
             const distance = getDistance(p1, p2);
             const center = getCenter(p1, p2);
@@ -113,7 +91,7 @@ export const PinchZoomImage = ({ src, alt }) => {
     };
 
     // Manejar movimiento de touch
-    const handleTouchMove = (e) => {
+    /*const handleTouchMove = (e) => {
         if (e.touches.length === 2) {
             // Pinch zoom
             e.preventDefault();
@@ -157,7 +135,7 @@ export const PinchZoomImage = ({ src, alt }) => {
             });
         }
     };
-
+*/
     const handlePointerMove = (e) => {
         if (!activePointers.current.has(e.pointerId)) return;
         activePointers.current.set(e.pointerId, e);
@@ -192,7 +170,7 @@ export const PinchZoomImage = ({ src, alt }) => {
     };
 
     // Manejar fin de touch
-    const handleTouchEnd = (e) => {
+    /*const handleTouchEnd = (e) => {
         if (e.touches.length === 0) {
             setIsDragging(false);
             lastPosition.current = position;
@@ -204,19 +182,22 @@ export const PinchZoomImage = ({ src, alt }) => {
                 setOrigin({ x: 50, y: 50 });
             }
         }
-    };
+    };*/
 
     const handlePointerUp = (e) => {
         activePointers.current.delete(e.pointerId);
 
         if (activePointers.current.size === 0) {
             setIsDragging(false);
-            lastPosition.current = position;
-
-            if (scale < 1.1) {
+            if (wasPinching.current) {
+                wasPinching.current = false;
+                lastScale.current = 1;
+                lastPosition.current = { x: 0, y: 0 };
                 setScale(1);
                 setPosition({ x: 0, y: 0 });
                 setOrigin({ x: 50, y: 50 });
+            } else {
+                lastPosition.current = position;
             }
         }
     };
@@ -232,6 +213,7 @@ export const PinchZoomImage = ({ src, alt }) => {
 
     return (
         <div
+            ref={containerRef}
             style={{
                 width: '100%',
                 height: '50vh',
