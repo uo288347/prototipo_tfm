@@ -18,11 +18,6 @@ import { TextInputField } from "./shared/TextInputField";
 import { useScene } from "@/experiment/useScene";
 import { SCENES } from "@/metrics/constants/scenes";
 
-const VALID_EMAIL = "usuario@gmail.com";
-const VALID_PASSWORD = "";
-//IHP52
-//YQJ
-
 let LoginFormComponent = ({ }) => {
     const scene3 = useScene(SCENES.TASK_ACCEPT_TUTORIAL)
 
@@ -62,14 +57,6 @@ let LoginFormComponent = ({ }) => {
     }, []);
 
     let clickLogin = async () => {
-        if (formData.email !== VALID_EMAIL || formData.password !== VALID_PASSWORD) {
-            setFormErrors({ password: t('errors.invalidCredentials') });
-            notification.error({
-                message: t('errors.invalidCredentials'),
-                duration: 3
-            });
-            return;
-        }
         clearLogin();
         login(formData.email, formData.password);
         scene3.start();
