@@ -1,7 +1,6 @@
 
 import html2canvas from "html2canvas";
 import $ from "jquery";
-import { logToServer } from "../utils/logger";
 
 const VERSION = 3;
 
@@ -878,13 +877,8 @@ function paintTracking(response) {
 	}
 }
 
-
 function getPinchEventType(pointerId) {
 	const index = pinchPointerOrder.indexOf(pointerId);
-	logToServer({
-		level: "info",
-		message: `Pointer ${pointerId} has index ${index} in pinch order`
-	});
 	if (index === 0) return EVENT_PINCH_1;
 	if (index === 1) return EVENT_PINCH_2;
 	return null;
