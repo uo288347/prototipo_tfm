@@ -19,7 +19,9 @@ import { useScene } from "@/experiment/useScene";
 import { SCENES } from "@/metrics/constants/scenes";
 
 const VALID_EMAIL = "usuario@gmail.com";
-const VALID_PASSWORD = "Test@2026";
+const VALID_PASSWORD = "";
+//IHP52
+//YQJ
 
 let LoginFormComponent = ({ }) => {
     const scene3 = useScene(SCENES.TASK_ACCEPT_TUTORIAL)

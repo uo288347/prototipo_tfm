@@ -8,6 +8,7 @@ export const PinchZoomImage = ({ src, alt }) => {
     const [imgStyle, setImgStyle] = useState({});
 
     const imageRef = useRef(null);
+    const activePointers = useRef(new Map());
     const touchStartDistance = useRef(0);
     const lastScale = useRef(1);
     const lastPosition = useRef({ x: 0, y: 0 });
@@ -57,20 +58,6 @@ export const PinchZoomImage = ({ src, alt }) => {
         gestureStartTime.current = Date.now();
         touchCount.current = e.touches.length;
 
-        logEvent('TOUCH_START', {
-            touchCount: e.touches.length,
-            touches: Array.from(e.touches).map(t => ({
-                id: t.identifier,
-                x: t.clientX,
-                y: t.clientY,
-                pageX: t.pageX,
-                pageY: t.pageY
-            })),
-            currentScale: scale,
-            currentPosition: position
-        });
-
-
         if (e.touches.length === 2) {
             // Pinch zoom
             e.preventDefault();
@@ -88,18 +75,39 @@ export const PinchZoomImage = ({ src, alt }) => {
                 x: originX,
                 y: originY
             });
-
-            logEvent('PINCH_START', {
-                initialDistance: distance,
-                centerPoint: center,
-                currentScale: scale
-            });
         } else if (e.touches.length === 1 && scale > 1) {
             // Drag cuando hay zoom
             setIsDragging(true);
             dragStart.current = {
                 x: e.touches[0].clientX - position.x,
                 y: e.touches[0].clientY - position.y
+            };
+        }
+    };
+
+    const handlePointerDown = (e) => {
+        activePointers.current.set(e.pointerId, e);
+        containerRef.current.setPointerCapture(e.pointerId);
+
+        if (activePointers.current.size === 2) {
+            const [p1, p2] = Array.from(activePointers.current.values());
+            const distance = getDistance(p1, p2);
+            const center = getCenter(p1, p2);
+            const rect = imageRef.current.getBoundingClientRect();
+
+            touchStartDistance.current = distance;
+            lastScale.current = scale;
+            lastPosition.current = position;
+
+            setOrigin({
+                x: ((center.x - rect.left) / rect.width) * 100,
+                y: ((center.y - rect.top) / rect.height) * 100
+            });
+        } else if (activePointers.current.size === 1 && scale > 1) {
+            setIsDragging(true);
+            dragStart.current = {
+                x: e.clientX - position.x,
+                y: e.clientY - position.y
             };
         }
     };
@@ -150,6 +158,39 @@ export const PinchZoomImage = ({ src, alt }) => {
         }
     };
 
+    const handlePointerMove = (e) => {
+        if (!activePointers.current.has(e.pointerId)) return;
+        activePointers.current.set(e.pointerId, e);
+
+        if (activePointers.current.size === 2) {
+            const [p1, p2] = Array.from(activePointers.current.values());
+            const currentDistance = getDistance(p1, p2);
+            const scaleMultiplier = currentDistance / touchStartDistance.current;
+            const newScale = Math.min(Math.max(lastScale.current * scaleMultiplier, 1), 5);
+
+            const rect = imageRef.current.getBoundingClientRect();
+            const center = getCenter(p1, p2);
+            const offsetX = center.x - (rect.left + rect.width / 2);
+            const offsetY = center.y - (rect.top + rect.height / 2);
+
+            setScale(newScale);
+            setPosition({
+                x: offsetX * (newScale / lastScale.current - 1) + lastPosition.current.x,
+                y: offsetY * (newScale / lastScale.current - 1) + lastPosition.current.y
+            });
+        } else if (activePointers.current.size === 1 && isDragging && scale > 1) {
+            const newX = e.clientX - dragStart.current.x;
+            const newY = e.clientY - dragStart.current.y;
+            const maxX = (scale - 1) * 150;
+            const maxY = (scale - 1) * 150;
+
+            setPosition({
+                x: Math.min(Math.max(newX, -maxX), maxX),
+                y: Math.min(Math.max(newY, -maxY), maxY)
+            });
+        }
+    };
+
     // Manejar fin de touch
     const handleTouchEnd = (e) => {
         if (e.touches.length === 0) {
@@ -157,6 +198,21 @@ export const PinchZoomImage = ({ src, alt }) => {
             lastPosition.current = position;
 
             // Reset si el zoom es muy pequeño
+            if (scale < 1.1) {
+                setScale(1);
+                setPosition({ x: 0, y: 0 });
+                setOrigin({ x: 50, y: 50 });
+            }
+        }
+    };
+
+    const handlePointerUp = (e) => {
+        activePointers.current.delete(e.pointerId);
+
+        if (activePointers.current.size === 0) {
+            setIsDragging(false);
+            lastPosition.current = position;
+
             if (scale < 1.1) {
                 setScale(1);
                 setPosition({ x: 0, y: 0 });
@@ -181,12 +237,13 @@ export const PinchZoomImage = ({ src, alt }) => {
                 height: '50vh',
                 overflow: 'hidden',
                 position: 'relative',
-                touchAction: scale > 1 ? 'none' : 'pan-y pinch-zoom',
+                touchAction: 'none',
                 backgroundColor: '#f5f5f5'
             }}
-            onTouchStart={handleTouchStart}
-            onTouchMove={handleTouchMove}
-            onTouchEnd={handleTouchEnd}
+            onPointerMove={handlePointerMove}
+            onPointerUp={handlePointerUp}
+            onPointerDown={handlePointerDown}
+            onPointerCancel={handlePointerUp}
         >
             <img
                 ref={imageRef}
