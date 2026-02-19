@@ -151,11 +151,18 @@ export const PinchZoomImage = ({ src, alt }) => {
             const offsetX = center.x - (rect.left + rect.width / 2);
             const offsetY = center.y - (rect.top + rect.height / 2);
 
-            setScale(newScale);
-            setPosition({
+            const newPosition = {
                 x: offsetX * (newScale / lastScale.current - 1) + lastPosition.current.x,
                 y: offsetY * (newScale / lastScale.current - 1) + lastPosition.current.y
-            });
+            };
+
+            // Actualizar referencias para el siguiente frame
+            lastScale.current = newScale;
+            lastPosition.current = newPosition;
+            touchStartDistance.current = currentDistance;
+
+            setScale(newScale);
+            setPosition(newPosition);
         } else if (activePointers.current.size === 1 && isDragging && scale > 1) {
             const newX = e.clientX - dragStart.current.x;
             const newY = e.clientY - dragStart.current.y;
