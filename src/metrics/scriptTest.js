@@ -8,6 +8,9 @@ const EVENT_ON_POINTER_DOWN = 20;
 const EVENT_ON_POINTER_UP = 21;
 const EVENT_ON_POINTER_MOVE = 22;
 const EVENT_ON_POINTER_CANCEL = 23;
+// Nuevas constantes de pinch
+const EVENT_PINCH_1 = 24;
+const EVENT_PINCH_2 = 25;
 const EVENT_ON_MOUSE_MOVE = 0;
 const EVENT_ON_CLICK = 1;
 const EVENT_ON_DOUBLE_CLICK = 2;
@@ -75,6 +78,10 @@ var finishedExperiment = false;
 
 var lastPointerX = null;
 var lastPointerY = null;
+
+// Mapa de pointers activos: pointerId → orden de entrada (1 o 2)
+var activePointers = new Map();  // pointerId → { order: 1|2, lastEvent }
+var pinchPointerOrder = [];      // array con los pointerIds en orden de llegada
 
 var newPage = null;
 var elements = [];
@@ -506,19 +513,55 @@ function initializeGlobalListeners() {
 	document.addEventListener('pointerdown', function (event) {
 		lastPointerX = event.clientX;
 		lastPointerY = event.clientY;
-		trackWithEvent(EVENT_ON_POINTER_DOWN, event);
+
+		// Registrar el pointer activo
+		if (!activePointers.has(event.pointerId)) {
+			activePointers.set(event.pointerId, { lastEvent: event });
+			if (pinchPointerOrder.length < 2) {
+				pinchPointerOrder.push(event.pointerId);
+			}
+		}
+
+		if (isPinchActive()) {
+			// Emitir el pointerdown como inicio de pinch con su tipo asignado
+			const pinchType = getPinchEventType(event.pointerId);
+			if (pinchType !== null) trackWithEvent(pinchType, event);
+		} else {
+			trackWithEvent(EVENT_ON_POINTER_DOWN, event);
+		}
 	});
 
 	document.addEventListener('pointermove', function (event) {
-		trackWithEvent(EVENT_ON_POINTER_MOVE, event);
+		if (isPinchActive() && activePointers.has(event.pointerId)) {
+            activePointers.get(event.pointerId).lastEvent = event;
+            const pinchType = getPinchEventType(event.pointerId);
+            if (pinchType !== null) trackWithEvent(pinchType, event);
+        } else {
+            trackWithEvent(EVENT_ON_POINTER_MOVE, event);
+        }
 	});
 
 	document.addEventListener('pointerup', function (event) {
-		trackWithEvent(EVENT_ON_POINTER_UP, event);
+		const wasPinch = isPinchActive();
+        activePointers.delete(event.pointerId);
+
+        if (wasPinch) {
+            // Último evento del dedo que se levantó, marcado con su tipo pinch
+            const pinchType = getPinchEventType(event.pointerId);
+            if (pinchType !== null) trackWithEvent(pinchType, event);
+            // Limpiar orden solo cuando ya no queda ningún dedo
+            if (activePointers.size === 0) {
+                pinchPointerOrder = [];
+            }
+        } else {
+            trackWithEvent(EVENT_ON_POINTER_UP, event);
+        }
 	});
 
 	document.addEventListener('pointercancel', function (event) {
-		trackWithEvent(EVENT_ON_POINTER_CANCEL, event);
+		activePointers.delete(event.pointerId);
+        if (activePointers.size === 0) pinchPointerOrder = [];
+        trackWithEvent(EVENT_ON_POINTER_CANCEL, event);
 	});
 
 	document.addEventListener('keydown', function (event) {
@@ -832,6 +875,18 @@ function paintTracking(response) {
 		ctx.strokeStyle = getColor(item['eventType']);
 		ctx.stroke();
 	}
+}
+
+
+function getPinchEventType(pointerId) {
+	const index = pinchPointerOrder.indexOf(pointerId);
+	if (index === 0) return EVENT_PINCH_1;
+	if (index === 1) return EVENT_PINCH_2;
+	return null;
+}
+
+function isPinchActive() {
+	return activePointers.size >= 2;
 }
 
 function getColor(eventType) {
