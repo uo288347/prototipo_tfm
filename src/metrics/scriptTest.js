@@ -404,9 +404,9 @@ function trackEventOverElement(eventType, elementId, event) {
 			const scrollOffset = window.__currentScrollEngine.getScrollOffset();
 			scrollX = scrollOffset.x;
 			scrollY = scrollOffset.y;
-			console.log(`Using ManualScrollEngine offset: scrollX=${scrollX}, scrollY=${scrollY}`);
+			//console.log(`Using ManualScrollEngine offset: scrollX=${scrollX}, scrollY=${scrollY}`);
 		} else {
-			console.log("No ManualScrollEngine detected, using window scroll.");
+			//console.log("No ManualScrollEngine detected, using window scroll.");
 			// Fallback a scroll nativo si no hay ManualScrollEngine
 			scrollX = window.scrollX || 0;
 			scrollY = window.scrollY || 0;
@@ -443,7 +443,7 @@ function trackEventOverElement(eventType, elementId, event) {
 	item.keyValueEvent = -1;
 	item.keyCodeEvent = -1;
 	// atributos necesarios para pinch
-	item.pointerId = (event && event.pointerId !== undefined) ? event.pointerId : -1;
+	/*item.pointerId = (event && event.pointerId !== undefined) ? event.pointerId : -1;
 	item.isPrimary = (event && event.isPrimary !== undefined) ? event.isPrimary : null;
 	// otros atributos interesantes
 	item.pointerType = (event && event.pointerType !== undefined) ? event.pointerType : null;
@@ -451,7 +451,7 @@ function trackEventOverElement(eventType, elementId, event) {
 	item.width = (event && event.width !== undefined) ? Math.round(event.width) : -1;
 	item.height = (event && event.height !== undefined) ? Math.round(event.height) : -1;
 	item.tiltX = (event && event.tiltX !== undefined) ? event.tiltX : 0;
-	item.tiltY = (event && event.tiltY !== undefined) ? event.tiltY : 0;
+	item.tiltY = (event && event.tiltY !== undefined) ? event.tiltY : 0;*/
 
 
 	// Unificar obtención de elementId
@@ -727,7 +727,7 @@ function deliverChunk(chunk) {
 		"timezone": (new Date()).getTimezoneOffset() / 60 * (-1),
 		"list": chunk,
 		"idExperiment": idExperiment,
-		"sessionId": user
+		"sessionId": getUser()
 	};
 
 	if (emittingData) {
