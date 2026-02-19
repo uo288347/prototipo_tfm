@@ -1,8 +1,4 @@
-export function logToServer(data: {
-  level?: "info" | "warn" | "error";
-  message: string;
-  extra?: any;
-}) {
+export function logToServer(data) {
   try {
     navigator.sendBeacon(
       "/api/log",

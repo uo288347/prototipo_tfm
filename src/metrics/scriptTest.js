@@ -1,7 +1,7 @@
 
 import html2canvas from "html2canvas";
 import $ from "jquery";
-import { logToServer } from "@/utils/logger";
+import { logToServer } from "../utils/logger";
 
 const VERSION = 3;
 
