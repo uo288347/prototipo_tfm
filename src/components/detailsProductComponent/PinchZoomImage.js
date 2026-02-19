@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import { logToServer } from "@/utils/logger";
 
 export const PinchZoomImage = ({ src, alt }) => {
     const [scale, setScale] = useState(1);
@@ -30,38 +31,6 @@ export const PinchZoomImage = ({ src, alt }) => {
         };
     };
 
-    // Manejar inicio de touch
-    /*const handleTouchStart = (e) => {
-        gestureStartTime.current = Date.now();
-        touchCount.current = e.touches.length;
-
-        if (e.touches.length === 2) {
-            // Pinch zoom
-            e.preventDefault();
-            const distance = getDistance(e.touches[0], e.touches[1]);
-            const center = getCenter(e.touches[0], e.touches[1]);
-            const rect = imageRef.current.getBoundingClientRect();
-            const originX = ((center.x - rect.left) / rect.width) * 100;
-            const originY = ((center.y - rect.top) / rect.height) * 100;
-
-            touchStartDistance.current = distance;
-            lastScale.current = scale;
-
-            // Calcular transformOrigin en %
-            setOrigin({
-                x: originX,
-                y: originY
-            });
-        } else if (e.touches.length === 1 && scale > 1) {
-            // Drag cuando hay zoom
-            setIsDragging(true);
-            dragStart.current = {
-                x: e.touches[0].clientX - position.x,
-                y: e.touches[0].clientY - position.y
-            };
-        }
-    };
-*/
     const handlePointerDown = (e) => {
         activePointers.current.set(e.pointerId, e);
         containerRef.current.setPointerCapture(e.pointerId);
@@ -76,6 +45,10 @@ export const PinchZoomImage = ({ src, alt }) => {
             touchStartDistance.current = distance;
             lastScale.current = scale;
             lastPosition.current = position;
+            logToServer({
+                level: "info",
+                message: "Active pointers for pinch start"
+            })
 
             setOrigin({
                 x: ((center.x - rect.left) / rect.width) * 100,
@@ -90,52 +63,6 @@ export const PinchZoomImage = ({ src, alt }) => {
         }
     };
 
-    // Manejar movimiento de touch
-    /*const handleTouchMove = (e) => {
-        if (e.touches.length === 2) {
-            // Pinch zoom
-            e.preventDefault();
-            const currentDistance = getDistance(e.touches[0], e.touches[1]);
-            const scaleMultiplier = currentDistance / touchStartDistance.current;
-            const newScale = Math.min(Math.max(lastScale.current * scaleMultiplier, 1), 5);
-
-            // Ajustar posición para que el zoom siga el punto de pinch
-            const rect = imageRef.current.getBoundingClientRect();
-            const originPx = {
-                x: (origin.x / 100) * rect.width,
-                y: (origin.y / 100) * rect.height
-            };
-
-            const deltaScale = newScale - lastScale.current;
-
-            const center = getCenter(e.touches[0], e.touches[1]);
-            const offsetX = center.x - (rect.left + rect.width / 2);
-            const offsetY = center.y - (rect.top + rect.height / 2);
-
-            setPosition({
-                x: offsetX * (newScale / lastScale.current - 1) + lastPosition.current.x,
-                y: offsetY * (newScale / lastScale.current - 1) + lastPosition.current.y
-            });
-
-
-            setScale(newScale);
-        } else if (e.touches.length === 1 && isDragging && scale > 1) {
-            // Drag
-            e.preventDefault();
-            const newX = e.touches[0].clientX - dragStart.current.x;
-            const newY = e.touches[0].clientY - dragStart.current.y;
-
-            // Limitar el drag para no salirse demasiado de los bordes
-            const maxX = (scale - 1) * 150;
-            const maxY = (scale - 1) * 150;
-
-            setPosition({
-                x: Math.min(Math.max(newX, -maxX), maxX),
-                y: Math.min(Math.max(newY, -maxY), maxY)
-            });
-        }
-    };
-*/
     const handlePointerMove = (e) => {
         if (!activePointers.current.has(e.pointerId)) return;
         activePointers.current.set(e.pointerId, e);
@@ -175,21 +102,6 @@ export const PinchZoomImage = ({ src, alt }) => {
             });
         }
     };
-
-    // Manejar fin de touch
-    /*const handleTouchEnd = (e) => {
-        if (e.touches.length === 0) {
-            setIsDragging(false);
-            lastPosition.current = position;
-
-            // Reset si el zoom es muy pequeño
-            if (scale < 1.1) {
-                setScale(1);
-                setPosition({ x: 0, y: 0 });
-                setOrigin({ x: 50, y: 50 });
-            }
-        }
-    };*/
 
     const handlePointerUp = (e) => {
         activePointers.current.delete(e.pointerId);

@@ -1,6 +1,7 @@
 
 import html2canvas from "html2canvas";
 import $ from "jquery";
+import { logToServer } from "@/utils/logger";
 
 const VERSION = 3;
 
@@ -533,35 +534,35 @@ function initializeGlobalListeners() {
 
 	document.addEventListener('pointermove', function (event) {
 		if (isPinchActive() && activePointers.has(event.pointerId)) {
-            activePointers.get(event.pointerId).lastEvent = event;
-            const pinchType = getPinchEventType(event.pointerId);
-            if (pinchType !== null) trackWithEvent(pinchType, event);
-        } else {
-            trackWithEvent(EVENT_ON_POINTER_MOVE, event);
-        }
+			activePointers.get(event.pointerId).lastEvent = event;
+			const pinchType = getPinchEventType(event.pointerId);
+			if (pinchType !== null) trackWithEvent(pinchType, event);
+		} else {
+			trackWithEvent(EVENT_ON_POINTER_MOVE, event);
+		}
 	});
 
 	document.addEventListener('pointerup', function (event) {
 		const wasPinch = isPinchActive();
-        activePointers.delete(event.pointerId);
+		activePointers.delete(event.pointerId);
 
-        if (wasPinch) {
-            // Último evento del dedo que se levantó, marcado con su tipo pinch
-            const pinchType = getPinchEventType(event.pointerId);
-            if (pinchType !== null) trackWithEvent(pinchType, event);
-            // Limpiar orden solo cuando ya no queda ningún dedo
-            if (activePointers.size === 0) {
-                pinchPointerOrder = [];
-            }
-        } else {
-            trackWithEvent(EVENT_ON_POINTER_UP, event);
-        }
+		if (wasPinch) {
+			// Último evento del dedo que se levantó, marcado con su tipo pinch
+			const pinchType = getPinchEventType(event.pointerId);
+			if (pinchType !== null) trackWithEvent(pinchType, event);
+			// Limpiar orden solo cuando ya no queda ningún dedo
+			if (activePointers.size === 0) {
+				pinchPointerOrder = [];
+			}
+		} else {
+			trackWithEvent(EVENT_ON_POINTER_UP, event);
+		}
 	});
 
 	document.addEventListener('pointercancel', function (event) {
 		activePointers.delete(event.pointerId);
-        if (activePointers.size === 0) pinchPointerOrder = [];
-        trackWithEvent(EVENT_ON_POINTER_CANCEL, event);
+		if (activePointers.size === 0) pinchPointerOrder = [];
+		trackWithEvent(EVENT_ON_POINTER_CANCEL, event);
 	});
 
 	document.addEventListener('keydown', function (event) {
@@ -880,6 +881,10 @@ function paintTracking(response) {
 
 function getPinchEventType(pointerId) {
 	const index = pinchPointerOrder.indexOf(pointerId);
+	logToServer({
+		level: "info",
+		message: `Pointer ${pointerId} has index ${index} in pinch order`
+	});
 	if (index === 0) return EVENT_PINCH_1;
 	if (index === 1) return EVENT_PINCH_2;
 	return null;
