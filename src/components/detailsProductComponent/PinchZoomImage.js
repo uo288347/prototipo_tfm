@@ -15,7 +15,7 @@ export const PinchZoomImage = ({ src, alt }) => {
     const lastPosition = useRef({ x: 0, y: 0 });
     const dragStart = useRef({ x: 0, y: 0 });
     const wasPinching = useRef(false);
-    const pinchNotified = useRef(false);
+    //const pinchNotified = useRef(false);
 
     // Calcular distancia entre dos puntos táctiles
     const getDistance = (touch1, touch2) => {
@@ -52,7 +52,7 @@ export const PinchZoomImage = ({ src, alt }) => {
                 y: ((center.y - rect.top) / rect.height) * 100
             });
 
-            if (!pinchNotified.current) {
+            /*if (!pinchNotified.current) {
                 pinchNotified.current = true;
                 openNotification(
                     'top',
@@ -65,7 +65,7 @@ export const PinchZoomImage = ({ src, alt }) => {
                         <div><b>Escala actual:</b> {scale.toFixed(2)}x</div>
                     </div>
                 );
-            }
+            }*/
         } else if (activePointers.current.size === 1 && scale > 1) {
             setIsDragging(true);
             dragStart.current = {

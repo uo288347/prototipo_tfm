@@ -379,6 +379,61 @@ function trackWithEvent(eventType, event) {
 	}
 }
 
+function trackWithPinchEvent(pinchType, event) {
+	if (!trackingOn) return;
+
+	if (pinchType === EVENT_PINCH_1) {
+		// Solo almacenamos en buffer, esperamos al PINCH_2
+		pendingPinch1 = event;
+		return;
+	}
+
+	if (pinchType === EVENT_PINCH_2) {
+		const e1 = pendingPinch1;
+		const e2 = event;
+		pendingPinch1 = null;
+
+		// Si aún no tenemos el PINCH_1 en buffer (primer evento suelto), lo dejamos pasar
+		if (e1 === null) {
+			trackEventOverElement(EVENT_PINCH_2, -1, e2);
+			firstPinchPairSeen = true;
+			return;
+		}
+
+		// A partir del segundo par en adelante, filtramos si no hay cambio
+		if (firstPinchPairSeen && lastPinchPair !== null) {
+			const x1 = Math.round(e1.clientX);
+			const y1 = Math.round(e1.clientY);
+			const x2 = Math.round(e2.clientX);
+			const y2 = Math.round(e2.clientY);
+
+			if (
+				x1 === lastPinchPair.x1 &&
+				y1 === lastPinchPair.y1 &&
+				x2 === lastPinchPair.x2 &&
+				y2 === lastPinchPair.y2
+			) {
+				return; // Sin cambio, ignorar el par
+			}
+
+			lastPinchPair = { x1, y1, x2, y2 };
+		} else {
+			// Primer par completo: registrar siempre y guardar referencia
+			lastPinchPair = {
+				x1: Math.round(e1.clientX),
+				y1: Math.round(e1.clientY),
+				x2: Math.round(e2.clientX),
+				y2: Math.round(e2.clientY)
+			};
+			firstPinchPairSeen = true;
+		}
+
+		// Registrar ambos eventos del par
+		trackEventOverElement(EVENT_PINCH_1, -1, e1);
+		trackEventOverElement(EVENT_PINCH_2, -1, e2);
+	}
+}
+
 function trackEvent(eventType) {
 	if (trackingOn) {
 		trackEventOverElement(eventType, -1, null);
@@ -525,7 +580,7 @@ function initializeGlobalListeners() {
 		if (isPinchActive()) {
 			// Emitir el pointerdown como inicio de pinch con su tipo asignado
 			const pinchType = getPinchEventType(event.pointerId);
-			if (pinchType !== null) trackWithEvent(pinchType, event);
+			if (pinchType !== null) trackWithPinchEvent(pinchType, event);
 		} else {
 			trackWithEvent(EVENT_ON_POINTER_DOWN, event);
 		}
@@ -535,7 +590,7 @@ function initializeGlobalListeners() {
 		if (isPinchActive() && activePointers.has(event.pointerId)) {
 			activePointers.get(event.pointerId).lastEvent = event;
 			const pinchType = getPinchEventType(event.pointerId);
-			if (pinchType !== null) trackWithEvent(pinchType, event);
+			if (pinchType !== null) trackWithPinchEvent(pinchType, event);
 		} else {
 			trackWithEvent(EVENT_ON_POINTER_MOVE, event);
 		}
@@ -548,7 +603,7 @@ function initializeGlobalListeners() {
 		if (wasPinch) {
 			// Último evento del dedo que se levantó, marcado con su tipo pinch
 			const pinchType = getPinchEventType(event.pointerId);
-			if (pinchType !== null) trackWithEvent(pinchType, event);
+			if (pinchType !== null) trackWithPinchEvent(pinchType, event);
 		} else {
 			trackWithEvent(EVENT_ON_POINTER_UP, event);
 		}
@@ -556,6 +611,9 @@ function initializeGlobalListeners() {
 		// Limpiar orden cuando ya no queda ningún dedo (tanto si era pinch como si no)
 		if (activePointers.size === 0) {
 			pinchPointerOrder = [];
+			lastPinchPair = null;
+			pendingPinch1 = null;
+			firstPinchPairSeen = false;
 		}
 	});
 
