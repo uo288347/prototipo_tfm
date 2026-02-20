@@ -5,7 +5,7 @@
   "add_green_coat": "Add the product \"Green Coat\" to shopping cart",
   "add_bomber_jacket": "Add the product men's \"Bomber Jacket\" to favorites and shopping cart",
   "check_favorites": "Check favorites list",
-  "delete_item": "Delete the product \"Green Coat\" from shopping cart",
+  "delete_item": "Delete the product \"Green Coat\" from shopping cart. Select it and drag it to the delete area",
   "make_purchase": "Buy shopping cart and fill in the shipping information",
   "double_button":  "Double tap the button to go to the final questionnaire",
   "questionnaire": "Complete the questionnaire to finish"

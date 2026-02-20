@@ -5,7 +5,7 @@
   "add_green_coat": "Añade el producto \"Abrigo verde\" de mujer al carrito",
   "add_bomber_jacket": "Añade el producto \"Chaqueta bomber\" de hombre a favoritos y al carrito",
   "check_favorites": "Consulta la lista de favoritos",
-  "delete_item": "Elimina el producto \"Abrigo verde\" del carrito",
+  "delete_item": "Elimina el producto \"Abrigo verde\" del carrito de la compra. Selecciónalo y arrástralo a la zona de eliminado",
   "make_purchase": "Compra el carrito y rellena la información de envío",
   "double_button":  "Pulsa dos veces el botón para ir al cuestionario final",
   "questionnaire": "Completa el cuestionario para finalizar"
