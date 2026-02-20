@@ -12,16 +12,24 @@ const getTourText = (key, locale = 'es') => {
 };
 
 export const getTourSteps = ({ bannerRef, locale = 'es' }) => [
-    {
-        title: getTourText('step1_title', locale),
-        description: getTourText('step1_description', locale),
-        target: () => bannerRef.current,
-        style: { margin: '0 0px' }
-    },
-    {
-        title: getTourText('step2_title', locale),
-        description: getTourText('step2_description', locale),
-        target: () => bannerRef.current,
-        style: { margin: '0 0px' }
-    },
+  {
+    title: getTourText('step1_title', locale),
+    description: getTourText('step1_description', locale),
+    target: () => bannerRef.current,
+    style: { margin: '0 0px' }
+  },
+  {
+    title: getTourText('step2_title', locale),
+    description: (
+      <>
+        {getTourText('step2_description', locale)}
+        <br />
+        <strong>
+          {getTourText('step2_highlight', locale)}
+        </strong>
+      </>
+    ),
+    target: () => bannerRef.current,
+    style: { margin: '0 0px' }
+  },
 ];
