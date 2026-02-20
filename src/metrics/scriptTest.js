@@ -82,6 +82,9 @@ var lastPointerY = null;
 // Mapa de pointers activos: pointerId → orden de entrada (1 o 2)
 var activePointers = new Map();  // pointerId → { order: 1|2, lastEvent }
 var pinchPointerOrder = [];      // array con los pointerIds en orden de llegada
+var lastPinchPair = null;   // { x1, y1, x2, y2 } del último par 24+25 registrado
+var pendingPinch1 = null;   // buffer temporal con el PINCH_1 pendiente de su PINCH_2
+var firstPinchPairSeen = false; // el primer par siempre se registra
 
 var newPage = null;
 var elements = [];
