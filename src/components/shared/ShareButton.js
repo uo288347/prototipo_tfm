@@ -8,6 +8,7 @@ export const ShareButton = ({ icon, label, color, hoverColor, onClick }) => {
             onClick={onClick}
             onMouseEnter={() => setHovered(true)}
             onMouseLeave={() => setHovered(false)}
+            size="large"
             style={{
                 display: "flex",
                 alignItems: "center",

@@ -22,7 +22,8 @@ export const FinalComponent = ({ }) => {
         }
     };
 
-    const shareUrl = typeof window !== "undefined" ? window.location.href : "";
+    //const shareUrl = typeof window !== "undefined" ? window.location.href : "";
+    const shareUrl = 'https://prototipo-tfm.vercel.app/' ? 'https://prototipo-tfm.vercel.app/' : 'https://localhost:3000/' ;
     const shareText = t('end.shareMessage') || "¡Participa en este experimento!";
 
     const handleWhatsApp = () => {
@@ -83,7 +84,7 @@ export const FinalComponent = ({ }) => {
             {/* Share section */}
             <div style={{ marginTop: "24px", textAlign: "center", }}>
                 <p style={{ marginBottom: "14px", color: "#555", fontSize: "15px", fontWeight: 500 }}>
-                    {t('end.shareMessage') || "¡Comparte el experimento!"}
+                    {t('end.shareLabel') || "¡Comparte el experimento!"}
                 </p>
                 <div style={{
                     display: "inline-flex",
