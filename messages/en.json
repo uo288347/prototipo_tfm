@@ -142,7 +142,13 @@
   "end": {
     "thanksMessage": "Thanks for participating!",
     "doubleTapFinish": "Double click to go to questionnaire",
-    "backToStart": "Back to start"
+    "backToStart": "Back to start",
+    "shareMessage": "Please, share this experiment!",
+    "shareLabel": "Share on social media",
+    "shareTitle": "Online shopping experiment",
+    "copied": "Link copied",
+    "copyLink": "Copy link",
+    "shareMore": "Share"
   },
   "susForm": {
     "title": "Final form",

@@ -142,7 +142,13 @@
   "end": {
     "thanksMessage": "¡Gracias por participar!",
     "doubleTapFinish": "Doble click para ir al cuestionario",
-    "backToStart": "Volver al inicio"
+    "backToStart": "Volver al inicio",
+    "shareMessage": "Por favor, ¡comparte este experimento!",
+    "shareLabel": "Compartir en redes sociales",
+    "shareTitle": "Experimento de compra online",
+    "copied": "Enlace copiado",
+    "copyLink": "Copiar enlace",
+    "shareMore": "Compartir"
   },
   "susForm": {
     "title": "Formulario final",
