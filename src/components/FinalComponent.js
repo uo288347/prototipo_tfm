@@ -23,7 +23,7 @@ export const FinalComponent = ({ }) => {
     };
 
     //const shareUrl = typeof window !== "undefined" ? window.location.href : "";
-    const shareUrl = 'https://prototipo-tfm.vercel.app/' ? 'https://prototipo-tfm.vercel.app/' : 'https://localhost:3000/' ;
+    const shareUrl = 'https://carbayo.vercel.app/' ? 'https://carbayo.vercel.app/' : 'https://localhost:3000/';
     const shareText = t('end.shareMessage') || "¡Participa en este experimento!";
 
     const handleWhatsApp = () => {
@@ -31,7 +31,10 @@ export const FinalComponent = ({ }) => {
     };
 
     const handleFacebook = () => {
-        window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}`, "_blank");
+        window.open(
+            `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}&quote=${encodeURIComponent(shareText)}`,
+            "_blank"
+        );
     };
 
     const handleTwitter = () => {
