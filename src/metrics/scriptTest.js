@@ -156,16 +156,16 @@ function deliverSnapshot(sceneId, canvas) {
 			beforeSend: function () {
 				//We incremente the pendingbackgroundsdelivered number
 				pendingBackgroundsDelivered++;
-				//console.log("Sending background. Pending backgrounds: " + pendingBackgroundsDelivered + "/" + sentRequest);
+				console.log("Sending background. Pending backgrounds: " + pendingBackgroundsDelivered + "/" + sentRequest);
 			},
 			success: function (response) {
 				pendingBackgroundsDelivered--;
 				backgroundsDelivered++;
-				//console.log('Result: ' + response);
-				//console.log("Pending Backgrounds: " + pendingBackgroundsDelivered + "/" + sentRequest);
+				console.log('Result: ' + response);
+				console.log("Pending Backgrounds: " + pendingBackgroundsDelivered + "/" + sentRequest);
 			},
 			complete: function (jqXHR, textStatus) {
-				//console.log("Call completed. Status: " + textStatus + ", Pending Requests: " + pendingRequest + "/" + sentRequest);
+				console.log("Call completed. Status: " + textStatus + ", Pending Requests: " + pendingRequest + "/" + sentRequest);
 				//checkReadyToLeave();
 			},
 			error: function (XMLHttpRequest, textStatus, errorThrown) {
@@ -201,6 +201,7 @@ function createUser() {
 			Date.now().toString() + getDate()
 		);
 	}
+	console.log("User session (create user): " + localStorage.getItem("user"));
 	return localStorage.getItem("user");
 }
 
@@ -799,15 +800,15 @@ function deliverChunk(chunk) {
 			beforeSend: function () {
 				pendingRequest++;
 				sentRequest++;
-				//console.log("Sending request. Pending requests: " + pendingRequest + "/" + sentRequest);
+				console.log("Sending request. Pending requests: " + pendingRequest + "/" + sentRequest);
 			},
 			success: function (response) {
-				//console.log('Result: ' + response);
-				//console.log("Pending Requests: " + pendingRequest + "/" + sentRequest);
+				console.log('Result: ' + response);
+				console.log("Pending Requests: " + pendingRequest + "/" + sentRequest);
 			},
 			complete: function (jqXHR, textStatus) {
 				pendingRequest--;
-				//console.log("Call completed. Status: " + textStatus + ", Pending Requests: " + pendingRequest + "/" + sentRequest);
+				console.log("Call completed. Status: " + textStatus + ", Pending Requests: " + pendingRequest + "/" + sentRequest);
 
 				if (pendingRequest == 0) {
 					eventsDelivered = true;
