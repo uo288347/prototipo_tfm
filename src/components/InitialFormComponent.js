@@ -27,6 +27,7 @@ export const InitialFormComponent = ({ }) => {
     const scene = useScene(SCENES.INITIAL_FORM);
 
     useEffect(() => {
+        console.log("Starting InitialFormComponent, Scene ID: " + scene.id);
         scene.start();
 
         return () => {

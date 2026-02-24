@@ -36,6 +36,7 @@ export default function Index({footer}) {
   const t = useTranslations();
   const router = useRouter();
   const handleStart = () => {
+    console.log("Start button clicked, starting experiment...");
     startExperiment();
     router.push("/form");
     registerUserData();

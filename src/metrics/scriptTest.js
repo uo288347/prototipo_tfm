@@ -245,6 +245,7 @@ function registerUserData() {
 			beforeSend: function () {
 			},
 			success: function (response) {
+				console.log('User data registered successfully: ' + response);
 			},
 			error: function (XMLHttpRequest, textStatus, errorThrown) {
 				console.log("registerUserData error: " + textStatus);
