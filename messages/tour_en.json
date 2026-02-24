@@ -3,5 +3,5 @@
   "step1_description": "Pay attention to the message displayed at the top. It will tell you what to do at each step.",
   "step2_title": "View Details",
   "step2_description": "The message updates based on your progress.",
-  "step2_highlight": "Tap the message to see the full instruction."
+  "step2_highlight": "Tap the message displayed at the top to see the full instruction."
 }
