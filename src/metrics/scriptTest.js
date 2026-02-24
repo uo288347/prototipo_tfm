@@ -1,4 +1,5 @@
 
+import res from "antd-mobile-icons/es/AaOutline";
 import html2canvas from "html2canvas";
 import $ from "jquery";
 
@@ -145,7 +146,7 @@ function deliverSnapshot(sceneId, canvas) {
 		"sceneId": sceneId,
 		"canvas": canvas.toDataURL("image/png"),
 		"timeStamp": Date.now(),
-		"sessionId": user
+		"sessionId": getUser()
 	};
 
 	if (emittingData) {
@@ -234,7 +235,7 @@ function registerUserData() {
 		"scrColorDepth": screen.colorDepth,
 		"scrPixelDepth": screen.pixelDepth,
 		"idExperiment": idExperiment,
-		"sessionId": user
+		"sessionId": getUser()
 	};
 	if (emittingData) {
 		$.ajax({
@@ -555,17 +556,26 @@ function trackEventOverElement(eventType, elementId, event) {
 function initTracking(_sceneId) {
 	if (activeScene === _sceneId) return;
 	activeScene = _sceneId;
-	trackingOn = true;
-	getExperimentStatus();
 	sceneId = _sceneId;
-	console.log("Initializing tracking for scene " + _sceneId);
+
+	// Aseguramos que user está inicializado ANTES de cualquier evento
+	if (user === null) {
+		user = getUser();
+	}
 
 	if (!listenersInitialized) {
 		initializeGlobalListeners();
 		listenersInitialized = true;
 	}
 
-	trackEvent(EVENT_INIT_TRACKING);
+	// Esperamos la respuesta del servidor ANTES de activar el tracking
+	getExperimentStatus(function onStatusReady() {
+		trackingOn = true;
+		console.log("Tracking initialized for scene " + _sceneId);
+		trackEvent(EVENT_INIT_TRACKING);
+	});
+
+	//trackEvent(EVENT_INIT_TRACKING);
 }
 
 function initializeGlobalListeners() {
@@ -766,7 +776,7 @@ function registerComponent(sceneId, componentId, x, y, xF, yF, typeId, component
 		"idExperiment": idExperiment,
 		"typeId": typeId,
 		"componentAssociated": componentAssociated,
-		"sessionId": user
+		"sessionId": getUser()
 	};
 
 	if (emittingData) {
@@ -908,20 +918,19 @@ function getBackground(sessionId, sceneId) {
 		});
 	}
 }
-function getExperimentStatus() {
+function getExperimentStatus(callback) {
 
 	$.ajax({
 		url: urlExperimentStatus,
 		type: 'get',
 		success: function (response) {
-			if (response === 'OPEN') {
-				emittingData = true;
-			}
-			else {
-				emittingData = false;
-			}
+			emittingData = response === 'OPEN';
+			if (callback) callback();
 		},
-		error: function () { }
+		error: function () {
+			emittingData = true; // fallback: asumir abierto
+			if (callback) callback();
+		}
 	});
 }
 
@@ -985,7 +994,7 @@ function postNumberDD(id, value) {
 		"id": id,
 		"numberValue": value,
 		"idExperiment": idExperiment,
-		"sessionId": user
+		"sessionId": getUser()
 	};
 	postAJAXDemographicData(parametros);
 }
@@ -996,7 +1005,7 @@ function postStringDD(id, value) {
 		"id": id,
 		"stringValue": value,
 		"idExperiment": idExperiment,
-		"sessionId": user
+		"sessionId": getUser()
 	};
 	postAJAXDemographicData(parametros);
 }
@@ -1007,7 +1016,7 @@ function postDateDD(id, value) {
 		"id": id,
 		"dateValue": value,
 		"idExperiment": idExperiment,
-		"sessionId": user
+		"sessionId": getUser()
 	};
 	postAJAXDemographicData(parametros);
 }
