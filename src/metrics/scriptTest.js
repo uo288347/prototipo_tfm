@@ -103,6 +103,7 @@ var urlExperimentStatus = urlBase + '/TrackerServer/restws/experiment/status/' +
 
 
 function startExperiment() {
+	console.log("Starting experiment...");
 	//We create a new user
 	var user = createUser();
 	console.log("Creating user session " + user);
