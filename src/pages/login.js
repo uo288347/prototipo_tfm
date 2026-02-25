@@ -9,7 +9,7 @@ export default function LoginPage({ footer}) {
   useEffect(() => {
     scene.start();
     return () => {scene.end()};
-  }, []);
+  }, [scene]);
   
   return (
     <div style={{
