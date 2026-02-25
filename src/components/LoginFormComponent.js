@@ -19,6 +19,8 @@ import { useScene } from "@/experiment/useScene";
 import { SCENES } from "@/metrics/constants/scenes";
 
 let LoginFormComponent = ({ }) => {
+    const scene3 = useScene(SCENES.TASK_ACCEPT_TUTORIAL);
+
     const t = useTranslations();
     let router = useRouter()
 
@@ -57,7 +59,6 @@ let LoginFormComponent = ({ }) => {
     let clickLogin = async () => {
         clearLogin();
         login(formData.email, formData.password);
-        const scene3 = useScene(SCENES.TASK_ACCEPT_TUTORIAL);
         scene3.start();
         clearCart();
         clearFavorites();
