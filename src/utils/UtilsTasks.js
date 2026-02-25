@@ -62,6 +62,7 @@ export const UtilsTasks = {
 
     // 4. Iniciar tracking de la siguiente tarea
     const nextSceneId = getCurrentSceneId();
+    console.log(`[utilsTasks] Siguiente tarea: ${nextSceneId === SCENES.QUESTIONNAIRE ? 'Cuestionario final' : nextSceneId}, Scene ID: ${nextSceneId}`);
     if (nextSceneId !== undefined) {
       initTracking(nextSceneId);
       console.log(`[utilsTasks] Iniciando tracking de la siguiente tarea, Scene ID: ${nextSceneId}`);
