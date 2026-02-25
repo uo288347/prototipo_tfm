@@ -65,6 +65,7 @@ export const getCurrentSceneId = () => {
 	  typeof window !== "undefined" && localStorage.getItem(task.storageKey) !== 'true'
 	);
 
+  console.log(`[getCurrentSceneId] Tarea actual: ${currentTask ? currentTask.storageKey : 'Todas completadas'}, Scene ID: ${currentTask ? currentTask.sceneId : SCENES.QUESTIONNAIRE}`);
   return currentTask ? currentTask.sceneId : SCENES.QUESTIONNAIRE;
 };
 

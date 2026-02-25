@@ -56,7 +56,7 @@ function getUser() {
 }
 
 function getCurrentSceneId() {
-	//console.log("CURRENT SCENE ID: " + sceneId);
+	console.log("CURRENT SCENE ID: " + sceneId);
 	return sceneId;
 }
 
@@ -635,7 +635,12 @@ function initializeGlobalListeners() {
 
 	document.addEventListener('pointercancel', function (event) {
 		activePointers.delete(event.pointerId);
-		if (activePointers.size === 0) pinchPointerOrder = [];
+		if (activePointers.size === 0) {
+			pinchPointerOrder = [];
+			lastPinchPair = null;
+			pendingPinch1 = null;
+			firstPinchPairSeen = false;
+		}
 		trackWithEvent(EVENT_ON_POINTER_CANCEL, event);
 	});
 
