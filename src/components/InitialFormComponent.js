@@ -33,7 +33,7 @@ export const InitialFormComponent = ({ }) => {
         return () => {
             scene.end();
         };
-    }, [scene]);
+    }, [scene.id]);
 
     useEffect(() => {
         const timer = setTimeout(() => {

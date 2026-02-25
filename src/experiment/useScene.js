@@ -26,6 +26,7 @@ export function useScene(sceneId) {
   };
 
   return {
+    id: sceneId,
     start,
     end,
     active: state.currentScene === sceneId
