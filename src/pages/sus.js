@@ -7,16 +7,10 @@ import { useEffect, useRef } from "react";
 
 export default function SusForm({footer}) {
   const scene = useScene(SCENES.QUESTIONNAIRE);
-  const experimentFinished = useRef(false);
 
   useEffect(() => {
     scene.start();
     return () => {
-      /*if (experimentFinished.current) {    
-        //finishExperiment();
-        scene.end();
-        console.log("Experimento finalizado");
-      }*/
     };
   }, []);
 
@@ -30,7 +24,7 @@ export default function SusForm({footer}) {
           <LanguageSwitcher />
         </div>
         <div style={{ flex: 1, display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", width: "100%" }}>
-          <SusFormComponent onFinish={() => { experimentFinished.current = true; }}/>
+          <SusFormComponent />
         </div>
         {footer}
       </div>

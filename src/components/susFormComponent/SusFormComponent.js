@@ -20,7 +20,7 @@ import { FirstSusComponent } from "./FirstSusComponent";
 import { SecondSusComponent } from "./SecondSusComponent";
 import { ThirdSusComponent } from "./ThirdSusComponent";
 
-export const SusFormComponent = ({ onFinish }) => {
+export const SusFormComponent = ({}) => {
     const t = useTranslations();
     const router = useRouter();
     let [formData, setFormData] = useState({})
@@ -147,7 +147,6 @@ export const SusFormComponent = ({ onFinish }) => {
                                             registersus8(formData.sus8);
                                             registersus9(formData.sus9);
                                             registersus10(formData.sus10);
-                                            onFinish?.();
                                             task10();
                                             clearCart();
                                             clearFavorites();
