@@ -572,11 +572,12 @@ function initTracking(_sceneId) {
 		listenersInitialized = true;
 	}
 
+	trackingOn = true;
 	// Esperamos la respuesta del servidor ANTES de activar el tracking
 	getExperimentStatus(function onStatusReady() {
-		trackingOn = true;
 		console.log("Tracking initialized for scene " + _sceneId);
-		trackEvent(EVENT_INIT_TRACKING);
+		if (!emittingData) trackingOn = false;
+        else trackEvent(EVENT_INIT_TRACKING);
 	});
 
 	//trackEvent(EVENT_INIT_TRACKING);
