@@ -154,9 +154,12 @@ export const SusFormComponent = ({ onFinish }) => {
                                             clearLogin();
 
                                             //router.push('/final');
-                                            finishExperiment();
-                                            finishTracking('/final');
-                                        
+                                            setTimeout(() => {
+                                                finishExperiment();
+
+                                                finishTracking('/final');
+                                            }, 0);
+
                                         }}
                                         disabled={!isStepComplete()}
                                         style={{ width: "100%" }}
