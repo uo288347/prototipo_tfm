@@ -3,16 +3,20 @@ import { SusFormComponent } from "@/components/susFormComponent/SusFormComponent
 import { useScene } from "@/experiment/useScene";
 import { SCENES } from "@/metrics/constants/scenes";
 import { finishExperiment } from "@/metrics/scriptTest";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 
 export default function SusForm({footer}) {
   const scene = useScene(SCENES.QUESTIONNAIRE);
+  const experimentFinished = useRef(false);
+
   useEffect(() => {
     scene.start();
     return () => {
-      scene.end();
-      finishExperiment();
-      console.log("Experimento finalizado");
+      if (experimentFinished.current) {    
+        scene.end();
+        finishExperiment();
+        console.log("Experimento finalizado");
+      }
     };
   }, []);
 
@@ -26,7 +30,7 @@ export default function SusForm({footer}) {
           <LanguageSwitcher />
         </div>
         <div style={{ flex: 1, display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", width: "100%" }}>
-          <SusFormComponent  />
+          <SusFormComponent onFinish={() => { experimentFinished.current = true; }}/>
         </div>
         {footer}
       </div>

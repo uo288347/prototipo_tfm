@@ -17,8 +17,6 @@
     "framer-motion": "^12.23.24",
     "html2canvas": "^1.4.1",
     "jquery": "^3.7.1",
-    "mysql": "^2.18.1",
-    "mysql2": "^3.16.0",
     "next": "^16.0.10",
     "next-intl": "^4.5.7",
     "react": "^18.3.1",
@@ -26,8 +24,7 @@
     "react-dnd-html5-backend": "^16.0.1",
     "react-dnd-touch-backend": "^16.0.1",
     "react-dom": "^18.3.1",
-    "react-lottie": "^1.2.10",
-    "tailwindcss": "^4.0.0"
+    "react-lottie": "^1.2.10"
   },
   "devDependencies": {
     "@types/node": "^25.3.0",
