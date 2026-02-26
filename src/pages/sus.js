@@ -12,11 +12,11 @@ export default function SusForm({footer}) {
   useEffect(() => {
     scene.start();
     return () => {
-      if (experimentFinished.current) {    
-        finishExperiment();
+      /*if (experimentFinished.current) {    
+        //finishExperiment();
         scene.end();
         console.log("Experimento finalizado");
-      }
+      }*/
     };
   }, []);
 

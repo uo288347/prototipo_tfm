@@ -1,5 +1,5 @@
 import {
-    COMPONENT_BUTTON, getCurrentSceneId,
+    COMPONENT_BUTTON, finishExperiment, finishTracking, getCurrentSceneId,
     registerComponent,
     registersus1,
     registersus10,
@@ -152,8 +152,11 @@ export const SusFormComponent = ({ onFinish }) => {
                                             clearCart();
                                             clearFavorites();
                                             clearLogin();
-                                            router.push('/final');
 
+                                            //router.push('/final');
+                                            finishExperiment();
+                                            finishTracking('/final');
+                                        
                                         }}
                                         disabled={!isStepComplete()}
                                         style={{ width: "100%" }}

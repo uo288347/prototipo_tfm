@@ -528,25 +528,7 @@ function trackEventOverElement(eventType, elementId, event) {
 		item.keyValueEvent = event.key;
 		item.keyCodeEvent = event.keyCode;
 	}
-	/*
-	if (eventType == EVENT_KEY_DOWN || eventType == EVENT_KEY_PRESS || eventType == EVENT_KEY_UP) {
-		item.keyValueEvent = event.key;
-		item.keyCodeEvent = event.keyCode;
-		item.elementId = detectElementByName(event.target.id);
-	}
-	else if (eventType == EVENT_FOCUS || eventType == EVENT_BLUR) {
-		item.elementId = detectElementByName(event.target.id);
-	}
-	else if (eventType == EVENT_ON_CHANGE_SELECTION_OBJECT) {
-		item.elementId = detectElementByName(event.target.id);
-	}
-	else if (eventType == EVENT_ON_CLICK_SELECTION_OBJECT) {
-		item.elementId = detectElementByName(event.target.id);
-	}
-	else {
-		item.elementId = detectElement(item.x, item.y);
-	}*/
-
+	
 	console.log(item);
 	list[list.length] = item;
 
