@@ -4,6 +4,7 @@ import { getCurrentSceneId, TASK_TO_SCENE } from '../metrics/constants/scenes';
 import { finishSubsceneTracking, initTracking } from '../metrics/scriptTest';
 import { isInCart } from "./UtilsCart";
 import { getFavorite } from "./UtilsFavorites";
+import { SCENES } from '../metrics/constants/scenes';
 
 const tasksTranslations = {
   en: tasksEn,
