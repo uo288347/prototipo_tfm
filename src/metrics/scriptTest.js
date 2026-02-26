@@ -863,7 +863,7 @@ function deliverData(list) {
 			chunk = [];
 		}
 	}
-	if (chunk.length > 0) deliverChunk(chunk);
+	deliverChunk(chunk);
 	chunkCounter++;
 	chunk = [];
 }
