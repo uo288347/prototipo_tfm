@@ -30,12 +30,14 @@ export function ExperimentProvider({ children }) {
 
     if (prev !== null && prev !== curr) {
       const activeTrackingScene = getCurrentSceneId();
-      if (activeTrackingScene === prev) {
+      console.log(`[ExperimentContext] Ending tracking for Scene ID: ${prev}`);
+      finishTracking(null);
+      /*if (activeTrackingScene === prev) {
         console.log(`[ExperimentContext] Ending tracking for Scene ID: ${prev}`);
         finishTracking(null);
       } else {
         console.log(`[ExperimentContext] Skipping finishTracking for Scene ID: ${prev}, active scene is ${activeTrackingScene}`);
-      }
+      }*/
     }
 
     if (curr !== null && prev !== curr) {
