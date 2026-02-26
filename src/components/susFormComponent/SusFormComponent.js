@@ -155,8 +155,8 @@ export const SusFormComponent = ({}) => {
                                             //router.push('/final');
                                             setTimeout(() => {
                                                 finishExperiment();
-
-                                                finishTracking('/final');
+                                                finishTracking();
+                                                router.push('/final');
                                             }, 0);
 
                                         }}
