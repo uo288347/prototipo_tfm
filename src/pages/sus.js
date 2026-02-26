@@ -13,8 +13,8 @@ export default function SusForm({footer}) {
     scene.start();
     return () => {
       if (experimentFinished.current) {    
-        scene.end();
         finishExperiment();
+        scene.end();
         console.log("Experimento finalizado");
       }
     };

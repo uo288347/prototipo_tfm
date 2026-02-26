@@ -112,7 +112,7 @@ function startExperiment() {
 function finishExperiment() {
 	//We flag the end of the experiment
 	finishedExperiment = true;
-	checkReadyToLeave();
+	//checkReadyToLeave();
 	console.log("Experiment finished. Checking if ready to leave...");
 }
 
