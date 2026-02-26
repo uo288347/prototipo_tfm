@@ -5,17 +5,6 @@ import { useScene } from "@/experiment/useScene";
 import { SCENES } from "@/metrics/constants/scenes";
 
 export default function InitialForm({footer}) {
-  /*const scene = useScene(SCENES.INITIAL_FORM);
-  
-  useEffect(() => {
-    scene.start();
-
-    return () => {
-      scene.end();
-    };
-  }, []);
-*/
-
   return (
     <div id="initial-form-root" style={{
       flex: 1, padding: "20px 20px",

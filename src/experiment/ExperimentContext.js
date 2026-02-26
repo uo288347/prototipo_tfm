@@ -1,4 +1,4 @@
-import { finishTracking, initTracking } from "@/metrics/scriptTest";
+import { finishTracking, getCurrentSceneId, initTracking } from "@/metrics/scriptTest";
 import { createContext, useContext, useEffect, useReducer, useRef } from "react";
 
 const ExperimentContext = createContext(null);
@@ -29,8 +29,13 @@ export function ExperimentProvider({ children }) {
     const curr = state.currentScene;
 
     if (prev !== null && prev !== curr) {
-      console.log(`[ExperimentContext] Ending tracking for Scene ID: ${prev}`);
-      finishTracking(null);
+      const activeTrackingScene = getCurrentSceneId();
+      if (activeTrackingScene === prev) {
+        console.log(`[ExperimentContext] Ending tracking for Scene ID: ${prev}`);
+        finishTracking(null);
+      } else {
+        console.log(`[ExperimentContext] Skipping finishTracking for Scene ID: ${prev}, active scene is ${activeTrackingScene}`);
+      }
     }
 
     if (curr !== null && prev !== curr) {
