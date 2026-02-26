@@ -20,7 +20,7 @@ import { FirstSusComponent } from "./FirstSusComponent";
 import { SecondSusComponent } from "./SecondSusComponent";
 import { ThirdSusComponent } from "./ThirdSusComponent";
 
-export const SusFormComponent = ({onFinish}) => {
+export const SusFormComponent = ({ onFinish }) => {
     const t = useTranslations();
     const router = useRouter();
     let [formData, setFormData] = useState({})
@@ -67,10 +67,10 @@ export const SusFormComponent = ({onFinish}) => {
     // Valida si todos los campos requeridos para el paso actual están completos
     const isStepComplete = () => {
         return requiredInForm[currentStep]
-        .every(field => {
-            const val = formData[field];
-            return val !== undefined && val !== null && val !== '' && val !== 0;
-        });
+            .every(field => {
+                const val = formData[field];
+                return val !== undefined && val !== null && val !== '' && val !== 0;
+            });
     };
 
     return (
@@ -78,9 +78,9 @@ export const SusFormComponent = ({onFinish}) => {
             <Col xs={24} sm={24} md={12} lg={8} xl={7} >
                 <Card title={t('susForm.title')} justify="left" align="left">
                     <Steps current={currentStep} style={{ marginBottom: 24 }}>
-                        <Steps.Step icon={<NumberIndicator number={1} status={currentStep > 0 ? 'finish' : currentStep === 0 ? 'process' : 'wait'} />}/>
-                        <Steps.Step icon={<NumberIndicator number={2} status={currentStep > 1 ? 'finish' : currentStep === 1 ? 'process' : 'wait'} />}/>
-                        <Steps.Step icon={<NumberIndicator number={3} status={currentStep > 2 ? 'finish' : currentStep === 2 ? 'process' : 'wait'} />}/>
+                        <Steps.Step icon={<NumberIndicator number={1} status={currentStep > 0 ? 'finish' : currentStep === 0 ? 'process' : 'wait'} />} />
+                        <Steps.Step icon={<NumberIndicator number={2} status={currentStep > 1 ? 'finish' : currentStep === 1 ? 'process' : 'wait'} />} />
+                        <Steps.Step icon={<NumberIndicator number={3} status={currentStep > 2 ? 'finish' : currentStep === 2 ? 'process' : 'wait'} />} />
                     </Steps>
                     {currentStep === 0 && (
                         <>
@@ -147,12 +147,13 @@ export const SusFormComponent = ({onFinish}) => {
                                             registersus8(formData.sus8);
                                             registersus9(formData.sus9);
                                             registersus10(formData.sus10);
-                                            onFinish?.(); 
-                                            router.push('/final');
+                                            onFinish?.();
                                             task10();
                                             clearCart();
                                             clearFavorites();
                                             clearLogin();
+                                            router.push('/final');
+
                                         }}
                                         disabled={!isStepComplete()}
                                         style={{ width: "100%" }}
