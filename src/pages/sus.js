@@ -10,8 +10,8 @@ export default function SusForm({footer}) {
   useEffect(() => {
     scene.start();
     return () => {
-      finishExperiment();
       scene.end();
+      finishExperiment();
       console.log("Experimento finalizado");
     };
   }, []);

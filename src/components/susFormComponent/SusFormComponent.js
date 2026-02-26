@@ -147,8 +147,8 @@ export const SusFormComponent = ({}) => {
                                             registersus8(formData.sus8);
                                             registersus9(formData.sus9);
                                             registersus10(formData.sus10);
-                                            task10();
                                             router.push('/final');
+                                            task10();
                                             clearCart();
                                             clearFavorites();
                                             clearLogin();

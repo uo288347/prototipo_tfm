@@ -112,6 +112,8 @@ function startExperiment() {
 function finishExperiment() {
 	//We flag the end of the experiment
 	finishedExperiment = true;
+	checkReadyToLeave();
+	console.log("Experiment finished. Checking if ready to leave...");
 }
 
 function takeSnapshot(sceneId) {
@@ -860,7 +862,7 @@ function deliverData(list) {
 			chunk = [];
 		}
 	}
-	deliverChunk(chunk);
+	if (chunk.length > 0) deliverChunk(chunk);
 	chunkCounter++;
 	chunk = [];
 }
