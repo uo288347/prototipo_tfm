@@ -60,7 +60,6 @@ function getCurrentSceneId() {
 	return sceneId;
 }
 
-
 var list = [];
 var sceneId = 0;
 var eventCounter = 0;
@@ -454,6 +453,7 @@ function trackEventOverElement(eventType, elementId, event) {
 	var item = new Object();
 	item.id = eventCounter++;
 	item.sceneId = sceneId;
+	item.sessionId = getUser();
 	item.eventType = eventType;
 	item.timeStamp = Date.now();
 	if (event && typeof event.clientX === "number" && typeof event.clientY === "number") {
