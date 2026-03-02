@@ -190,5 +190,10 @@
     "yearRange": "El año debe estar entre 1926 y {year}",
     "somethingWrong": "Algo salió mal",
     "invalidCredentials": "Correo o contraseña incorrectos"
+  },
+  "metadata": {
+    "title": "Carbayo - Experimento",
+    "ogTitle": "Carbayo: Simulación de Compra Online 🛒",
+    "ogDescription": "Pulsa para empezar el experimento. ¡Tu ayuda es importante para nuestra investigación! ✨"
   }
 }

@@ -50,4 +50,3 @@ export const EndComponent = ({ }) => {
     )
 }
 
-/*<Title style={{ paddingBottom: "3rem", textAlign: "center" }} level={3}>{t('end.thanksMessage')}</Title> */

@@ -190,5 +190,10 @@
     "yearRange": "Year must be between 1926 and {year}",
     "somethingWrong": "Something went wrong",
     "invalidCredentials": "Incorrect email or password"
+  },
+  "metadata": {
+    "title": "Carbayo - Experiment",
+    "ogTitle": "Carbayo: Online Shopping Simulation 🛒",
+    "ogDescription": "Tap to start the experiment. Your help is key to our research! ✨"
   }
 }

@@ -20,6 +20,7 @@ import { useEffect, useRef, useState } from 'react';
 import { COMPONENT_TOUR, getCurrentSceneId, registerComponent } from '../metrics/scriptTest';
 import '../styles/output.css';
 import { initNotification } from "../utils/UtilsNotifications";
+import { DynamicHead } from '@/components/DynamicHead';
 
 export default function App({ Component, pageProps }) {
     const router = useRouter();
@@ -113,6 +114,7 @@ export default function App({ Component, pageProps }) {
     return (
         <ExperimentProvider>
             <NextIntlClientProvider locale={locale} messages={pageProps.messages}>
+                <DynamicHead />
                 <AntdConfigProvider locale={customLocale}>
                     <AntdMobileConfigProvider locale={antdMobileLocale}>
                         {contextHolder}
