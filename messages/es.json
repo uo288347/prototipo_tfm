@@ -9,7 +9,8 @@
     "next": "Siguiente",
     "finish": "Finalizar",
     "close": "Cerrar",
-    "selectedProducts": "producto(s) seleccionado(s)"
+    "selectedProducts": "producto(s) seleccionado(s)",
+    "footerText": "© 2026 Universidad de Oviedo"
   },
   "auth": {
     "start": "Empezar",
@@ -18,7 +19,16 @@
     "email": "Correo electrónico",
     "password": "Contraseña",
     "yourEmail": "tu correo electrónico",
-    "yourPassword": "tu contraseña"
+    "yourPassword": "tu contraseña",
+    "university": "Universidad de Oviedo",
+    "informedConsentTitle": "Consentimiento Informado",
+    "consentText1": "Al participar en este estudio de la Universidad de Oviedo, usted contribuye proporcionando datos para un proyecto de investigación (referencia 30_RRI_2023) cuyo objetivo es evaluar la viabilidad de mecanismos de detección de impostación de identidades.",
+    "consentText2": "Sus datos serán tratados en el estudio de forma totalmente anonimizada bajo un código identificativo y almacenados con sistemas de seguridad, cumpliendo estrictamente con el RGPD y la normativa de protección de datos vigente.",
+    "consentText3": "Al marcar la siguiente casilla, usted otorga su consentimiento expreso para que el equipo investigador trate sus datos exclusivamente con los fines descritos.",
+    "acceptTerms": "He leído y acepto participar en el estudio bajo las condiciones descritas.",
+    "loginCredentialsTitle": "Credenciales de acceso",
+    "loginCredentialsUser": "usuario@gmail.com",
+    "loginCredentialsPass": "participa"
   },
   "navigation": {
     "home": "Inicio",

@@ -192,7 +192,6 @@ function getDate() {
 	return (`${month}${day}${year}`);
 }
 
-
 function createUser() {
 	if (localStorage.getItem("user") === null || localStorage.getItem("user") === undefined) {
 		let lettrs = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';

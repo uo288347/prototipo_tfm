@@ -1,4 +1,4 @@
-import { Footer } from '@/components/shared/Footer';
+import { FooterSection } from '@/components/shared/FooterSection';
 import { InstructionsBanner } from '@/components/shared/InstructionsBanner';
 import { ExperimentProvider } from "@/experiment/ExperimentContext";
 import { clearCart } from '@/utils/UtilsCart';
@@ -20,8 +20,6 @@ import { useEffect, useRef, useState } from 'react';
 import { COMPONENT_TOUR, getCurrentSceneId, registerComponent } from '../metrics/scriptTest';
 import '../styles/output.css';
 import { initNotification } from "../utils/UtilsNotifications";
-import { useScene } from "@/experiment/useScene";
-import { SCENES } from "@/metrics/constants/scenes";
 
 export default function App({ Component, pageProps }) {
     const router = useRouter();
@@ -129,9 +127,9 @@ export default function App({ Component, pageProps }) {
                                 flex: 1, display: "flex", minHeight: 0,
                                 flexDirection: "column", padding: "0px 0px",
                                 paddingTop: isUserLoggedIn ? "40px" : "0px",
-                                overflow: "auto"
+                                overflow: "auto", marginBottom: 0
                             }}>
-                                <Component {...pageProps} footer={<Footer />} />
+                                <Component {...pageProps} footer={<FooterSection />} />
                             </div>
                         </div>
 
