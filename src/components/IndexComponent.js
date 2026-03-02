@@ -20,22 +20,7 @@ export const IndexComponent = () => {
         registerUserData();
         registerid(getUser());
     };
-
-    const credentialsList = (
-        <List
-            size="small"
-            dataSource={[
-                { label: t('auth.email'), value: t('auth.loginCredentialsUser') },
-                { label: t('auth.password'), value: t('auth.loginCredentialsPass') },
-            ]}
-            renderItem={item => (
-                <List.Item style={{ padding: "2px 0", borderBottom: "none" }}>
-                    • {item.label}: <strong style={{ marginLeft: 4 }}>{item.value}</strong>
-                </List.Item>
-            )}
-        />
-    );
-
+    
     return (
         <>
             <div style={{ flex: 1, display: "flex", alignItems: "center" }}>
@@ -67,28 +52,6 @@ export const IndexComponent = () => {
             </div>
 
             <div style={{ flexShrink: 0 }}>
-
-                {/* Versión normal (pantallas grandes) */}
-                <div className="credentials-full">
-                    <Paragraph style={{ marginBottom: 0 }}>{t('auth.loginCredentialsTitle')}:</Paragraph>
-                    {credentialsList}
-                    <Divider style={{ margin: "1rem 0" }} />
-                </div>
-
-                {/* Versión desplegable (pantallas pequeñas) */}
-                <div className="credentials-collapse">
-                    <Collapse
-                        style={{ margin: "0.5rem 0"}}
-                        size="small"
-                        ghost
-                        items={[{
-                            key: '1',
-                            label: t('auth.loginCredentialsTitle'),
-                            children: credentialsList,
-                        }]}
-                    />
-                </div>
-
                 <Checkbox onChange={e => setAccepted(e.target.checked)}
                     style={{ marginBottom: "0.5rem" }}>
                     {t('auth.acceptTerms')}
@@ -102,16 +65,6 @@ export const IndexComponent = () => {
                     {t('auth.start')}
                 </Button>
             </div>
-
-            <style>{`
-                .credentials-full    { display: block; }
-                .credentials-collapse { display: none; }
-
-                @media (max-height: 750px) {
-                    .credentials-full    { display: none; }
-                    .credentials-collapse { display: block; }
-                }
-            `}</style>
         </>
 
     );
