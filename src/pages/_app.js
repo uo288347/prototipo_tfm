@@ -21,6 +21,7 @@ import { COMPONENT_TOUR, getCurrentSceneId, registerComponent } from '../metrics
 import '../styles/output.css';
 import { initNotification } from "../utils/UtilsNotifications";
 import { DynamicHead } from '@/components/DynamicHead';
+import Head from 'next/head';
 
 export default function App({ Component, pageProps }) {
     const router = useRouter();

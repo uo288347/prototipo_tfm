@@ -1,5 +1,5 @@
 import { useTranslations } from "next-intl";
-import { Head } from "next/document";
+import Head from "next/head";
 export const DynamicHead = () => {
   const t = useTranslations(); // Asumiendo que creas una sección "metadata" en tus JSON
   
