@@ -56,7 +56,7 @@ export const InitialFormComponent = ({ }) => {
     const user = getUser();
     return (
         <Row align="middle" justify="center" style={{ minHeight: "100%", minWidth: "100%" }}>
-            <div>{user}</div>
+            {/*<div>{user}</div>*/}
             <Col xs={24} sm={24} md={12} lg={8} xl={7} justify="center" >
                 <Card title={t('initialForm.title')}>
                     <Form >
