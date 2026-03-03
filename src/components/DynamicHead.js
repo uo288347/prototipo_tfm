@@ -9,8 +9,6 @@ export const DynamicHead = () => {
       <meta property="og:title" content={t('metadata.ogTitle')} />
       <meta property="og:description" content={t('metadata.ogDescription')} />
       <meta property="og:image" content="https://carbayo.vercel.app/mascota_render_v6.png" />
-      <meta property="og:image:width" content="1200" />
-      <meta property="og:image:height" content="630" />
       <meta property="og:type" content="website" />
       
       <meta name="twitter:card" content="summary_large_image" />
@@ -20,3 +18,7 @@ export const DynamicHead = () => {
     </Head>
   );
 };
+
+
+/*      <meta property="og:image:width" content="1200" />
+      <meta property="og:image:height" content="630" />*/
