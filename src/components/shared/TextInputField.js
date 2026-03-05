@@ -88,7 +88,7 @@ export const TextInputField = ({
         validateStatus={isValid ? "success" : "error"}
       >
         <div data-trackable-id={id}>
-          <Input 
+          <Input
             ref={inputRef} 
             id={id} 
             data-trackable-id={id}
@@ -97,6 +97,8 @@ export const TextInputField = ({
             value={formData[name]} 
             onChange={handleChange}
             inputMode={inputMode}
+            autoCapitalize="none"
+            autoCorrect="off"
             size="large"
           />
         </div>
@@ -104,5 +106,3 @@ export const TextInputField = ({
     </>
   );
 };
-
-
