@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { openNotification } from '@/utils/UtilsNotifications';
 
-export const PinchZoomImage = ({ src, alt }) => {
+export const PinchZoomImage = ({ src, alt, onSwipeLeft, onSwipeRight }) => {
     const [scale, setScale] = useState(1);
     const [position, setPosition] = useState({ x: 0, y: 0 });
     const [origin, setOrigin] = useState({ x: 50, y: 50 });
@@ -15,7 +15,7 @@ export const PinchZoomImage = ({ src, alt }) => {
     const lastPosition = useRef({ x: 0, y: 0 });
     const dragStart = useRef({ x: 0, y: 0 });
     const wasPinching = useRef(false);
-    //const pinchNotified = useRef(false);
+    const swipeStart = useRef({ x: 0, y: 0, time: 0 });
 
     // Calcular distancia entre dos puntos táctiles
     const getDistance = (touch1, touch2) => {
@@ -52,26 +52,15 @@ export const PinchZoomImage = ({ src, alt }) => {
                 y: ((center.y - rect.top) / rect.height) * 100
             });
 
-            /*if (!pinchNotified.current) {
-                pinchNotified.current = true;
-                openNotification(
-                    'top',
-                    '🤏 Pinch detectado',
-                    'info',
-                    <div style={{ fontSize: 13, lineHeight: 1.6 }}>
-                        <div><b>Pointers activos:</b> {activePointers.current.size}</div>
-                        <div><b>Distancia inicial:</b> {Math.round(distance)}px</div>
-                        <div><b>Centro del gesto:</b> ({Math.round(center.x)}, {Math.round(center.y)})</div>
-                        <div><b>Escala actual:</b> {scale.toFixed(2)}x</div>
-                    </div>
-                );
-            }*/
-        } else if (activePointers.current.size === 1 && scale > 1) {
-            setIsDragging(true);
-            dragStart.current = {
-                x: e.clientX - position.x,
-                y: e.clientY - position.y
-            };
+        } else if (activePointers.current.size === 1) {
+            swipeStart.current = { x: e.clientX, y: e.clientY, time: Date.now() };
+            if (scale > 1) {
+                setIsDragging(true);
+                dragStart.current = {
+                    x: e.clientX - position.x,
+                    y: e.clientY - position.y
+                };
+            }
         }
     };
 
@@ -127,6 +116,18 @@ export const PinchZoomImage = ({ src, alt }) => {
                 setScale(1);
                 setPosition({ x: 0, y: 0 });
                 setOrigin({ x: 50, y: 50 });
+            } else if (scale <= 1) {
+                // Detect swipe: fast horizontal movement with single finger
+                const dx = e.clientX - swipeStart.current.x;
+                const dy = e.clientY - swipeStart.current.y;
+                const dt = Date.now() - swipeStart.current.time;
+                const absDx = Math.abs(dx);
+                const absDy = Math.abs(dy);
+
+                if (absDx > 50 && absDx > absDy * 1.5 && dt < 400) {
+                    if (dx < 0) onSwipeLeft?.();
+                    else onSwipeRight?.();
+                }
             } else {
                 lastPosition.current = position;
             }
@@ -157,6 +158,9 @@ export const PinchZoomImage = ({ src, alt }) => {
             onPointerUp={handlePointerUp}
             onPointerDown={handlePointerDown}
             onPointerCancel={handlePointerUp}
+            onTouchStart={(e) => e.stopPropagation()}
+            onTouchMove={(e) => e.stopPropagation()}
+            onTouchEnd={(e) => e.stopPropagation()}
         >
             <img
                 ref={imageRef}

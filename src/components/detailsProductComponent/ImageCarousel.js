@@ -9,6 +9,15 @@ export const ImageCarousel = ({ product }) => {
     const router = useRouter();
     const backButtonRef = useRef(null);
     const carouselRef = useRef(null);
+    const carouselInstanceRef = useRef(null);
+
+    const handleSwipeLeft = () => {
+        carouselInstanceRef.current?.next();
+    };
+
+    const handleSwipeRight = () => {
+        carouselInstanceRef.current?.prev();
+    };
 
     useEffect(() => {
         const sceneId = getCurrentSceneId();
@@ -51,8 +60,12 @@ export const ImageCarousel = ({ product }) => {
             />
             <div ref={carouselRef} data-trackable-id="carousel-product-images">
                 <Carousel
+                    ref={carouselInstanceRef}
                     dots
-                    swipeToSlide
+                    infinite={false}
+                    swipe={false}
+                    touchMove={false}
+                    draggable={false}
                     style={{ width: "100%", height: "50vh", overflow: "hidden" }}
                 >
                     {product.images?.map((img, index) => (
@@ -60,6 +73,8 @@ export const ImageCarousel = ({ product }) => {
                             <PinchZoomImage
                                 src={img}
                                 alt={`${product?.title || 'Product'} - Image ${index + 1}`}
+                                onSwipeLeft={handleSwipeLeft}
+                                onSwipeRight={handleSwipeRight}
                             />
                         </div>
                     ))}
