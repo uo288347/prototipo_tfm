@@ -83,7 +83,7 @@ export const FreeProductOffer = ({ id, freeCode, isApplied, setIsApplied }) => {
                 <Collapse.Panel
                     key="1"
                     title={t('freeOffer.title')}
-                    style={{fontSize: "0.9rem", color: "#000"}}
+                    style={{ fontSize: "0.9rem", color: "#000" }}
                 >
                     <p>
                         {t('freeOffer.description1')} <strong style={{ color: "red" }}>{t('freeOffer.redCode')}</strong> {t('freeOffer.description2')}
@@ -103,6 +103,8 @@ export const FreeProductOffer = ({ id, freeCode, isApplied, setIsApplied }) => {
                                 onChange={val => setCode(val)}
                                 disabled={isApplied}
                                 style={{ fontSize: "0.85rem" }}
+                                autoCapitalize="none"
+                                autoCorrect="off"
                                 size="large"
                             />
                         </div>
