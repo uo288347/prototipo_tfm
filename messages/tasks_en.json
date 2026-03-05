@@ -1,12 +1,12 @@
 {
   "accept_tutorial": "Read the instructions and finish the tutorial",
   "add_pink_dresses": "Add two units of the women's \"Pink Summer Dress\" (size M) to the shopping cart",
-  "offer_green_coat": "Find the free code for the women's “Green Coat” in the product images and apply it",
-  "add_green_coat": "Add any units of the product \"Green Coat\" to the shopping cart",
-  "add_bomber_jacket": "Add any units of the men's \"Bomber Jacket\" to your favorites and to the shopping cart",
+  "offer_green_coat": "Find the free code for the women's \"Green Coat\" in the product images and apply it",
+  "add_green_coat": "Add the women's product \"Green coat\" in any size and quantity to the cart",
+  "add_bomber_jacket": "Add the men's product \"Bomber jacket\" in any size and quantity to favorites and to the cart",
   "check_favorites": "Check your favorites list",
   "delete_item": "Delete the product \"Green Coat\" from the shopping cart. Select it and drag it to the delete area",
   "make_purchase": "Complete the purchase and fill in the shipping information",
-  "double_button":  "Double tap the button to go to the final questionnaire",
+  "double_button": "Double tap the button to go to the final questionnaire",
   "questionnaire": "Complete the questionnaire to finish the experiment"
 }
