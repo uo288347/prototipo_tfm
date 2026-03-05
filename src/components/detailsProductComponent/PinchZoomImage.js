@@ -4,7 +4,6 @@ import { openNotification } from '@/utils/UtilsNotifications';
 export const PinchZoomImage = ({ src, alt, onSwipeLeft, onSwipeRight }) => {
     const [scale, setScale] = useState(1);
     const [position, setPosition] = useState({ x: 0, y: 0 });
-    const [origin, setOrigin] = useState({ x: 50, y: 50 });
     const [isDragging, setIsDragging] = useState(false);
 
     const imageRef = useRef(null);
@@ -40,17 +39,10 @@ export const PinchZoomImage = ({ src, alt, onSwipeLeft, onSwipeRight }) => {
             wasPinching.current = true;
             const [p1, p2] = Array.from(activePointers.current.values());
             const distance = getDistance(p1, p2);
-            const center = getCenter(p1, p2);
-            const rect = imageRef.current.getBoundingClientRect();
 
             touchStartDistance.current = distance;
             lastScale.current = scale;
-            lastPosition.current = position;
-
-            setOrigin({
-                x: ((center.x - rect.left) / rect.width) * 100,
-                y: ((center.y - rect.top) / rect.height) * 100
-            });
+            lastPosition.current = { ...position };
 
         } else if (activePointers.current.size === 1) {
             swipeStart.current = { x: e.clientX, y: e.clientY, time: Date.now() };
@@ -71,20 +63,23 @@ export const PinchZoomImage = ({ src, alt, onSwipeLeft, onSwipeRight }) => {
         if (activePointers.current.size === 2) {
             const [p1, p2] = Array.from(activePointers.current.values());
             const currentDistance = getDistance(p1, p2);
-            const scaleMultiplier = currentDistance / touchStartDistance.current;
-            const newScale = Math.min(Math.max(lastScale.current * scaleMultiplier, 1), 5);
+            const dt = currentDistance / touchStartDistance.current;
+            const newScale = Math.min(Math.max(lastScale.current * dt, 1), 5);
 
-            const rect = imageRef.current.getBoundingClientRect();
+            // Compute pinch centre relative to the container (stable reference)
+            const containerRect = containerRef.current.getBoundingClientRect();
             const center = getCenter(p1, p2);
-            const offsetX = center.x - (rect.left + rect.width / 2);
-            const offsetY = center.y - (rect.top + rect.height / 2);
+            const cx = center.x - containerRect.left;
+            const cy = center.y - containerRect.top;
 
+            // Keep the point under the pinch centre visually fixed:
+            //   tx_new = cx + (tx_old - cx) * dt
             const newPosition = {
-                x: offsetX * (newScale / lastScale.current - 1) + lastPosition.current.x,
-                y: offsetY * (newScale / lastScale.current - 1) + lastPosition.current.y
+                x: cx + (lastPosition.current.x - cx) * dt,
+                y: cy + (lastPosition.current.y - cy) * dt
             };
 
-            // Actualizar referencias para el siguiente frame
+            // Update references for next frame
             lastScale.current = newScale;
             lastPosition.current = newPosition;
             touchStartDistance.current = currentDistance;
@@ -94,12 +89,14 @@ export const PinchZoomImage = ({ src, alt, onSwipeLeft, onSwipeRight }) => {
         } else if (activePointers.current.size === 1 && isDragging && scale > 1) {
             const newX = e.clientX - dragStart.current.x;
             const newY = e.clientY - dragStart.current.y;
-            const maxX = (scale - 1) * 150;
-            const maxY = (scale - 1) * 150;
+            // With transform-origin 0% 0%, image expands right/down so translate must be ≤ 0
+            const { clientWidth, clientHeight } = containerRef.current;
+            const minX = clientWidth * (1 - scale);
+            const minY = clientHeight * (1 - scale);
 
             setPosition({
-                x: Math.min(Math.max(newX, -maxX), maxX),
-                y: Math.min(Math.max(newY, -maxY), maxY)
+                x: Math.min(Math.max(newX, minX), 0),
+                y: Math.min(Math.max(newY, minY), 0)
             });
         }
     };
@@ -115,7 +112,6 @@ export const PinchZoomImage = ({ src, alt, onSwipeLeft, onSwipeRight }) => {
                 lastPosition.current = { x: 0, y: 0 };
                 setScale(1);
                 setPosition({ x: 0, y: 0 });
-                setOrigin({ x: 50, y: 50 });
             } else if (scale <= 1) {
                 // Detect swipe: fast horizontal movement with single finger
                 const dx = e.clientX - swipeStart.current.x;
@@ -140,7 +136,6 @@ export const PinchZoomImage = ({ src, alt, onSwipeLeft, onSwipeRight }) => {
         setPosition({ x: 0, y: 0 });
         lastScale.current = 1;
         lastPosition.current = { x: 0, y: 0 };
-        setOrigin({ x: 50, y: 50 });
     }, [src]);
 
     return (
@@ -172,7 +167,7 @@ export const PinchZoomImage = ({ src, alt, onSwipeLeft, onSwipeRight }) => {
                     objectFit: 'cover',
                     objectPosition: 'top',
                     transform: `translate(${position.x}px, ${position.y}px) scale(${scale})`,
-                    transformOrigin: `${origin.x}% ${origin.y}%`,
+                    transformOrigin: '0% 0%',
                     transition: isDragging ? 'none' : 'transform 0.1s ease-out',
                     userSelect: 'none',
                     WebkitUserSelect: 'none'

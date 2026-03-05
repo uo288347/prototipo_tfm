@@ -2,7 +2,7 @@ import { COMPONENT_BUTTON, COMPONENT_CAROUSEL, getCurrentSceneId, registerCompon
 import { ArrowLeftOutlined } from "@ant-design/icons";
 import { Button, Carousel } from "antd";
 import { useRouter } from "next/router";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { PinchZoomImage } from "./PinchZoomImage";
 
 export const ImageCarousel = ({ product }) => {
@@ -10,6 +10,8 @@ export const ImageCarousel = ({ product }) => {
     const backButtonRef = useRef(null);
     const carouselRef = useRef(null);
     const carouselInstanceRef = useRef(null);
+    const [currentSlide, setCurrentSlide] = useState(0);
+    const total = product.images?.length ?? 0;
 
     const handleSwipeLeft = () => {
         carouselInstanceRef.current?.next();
@@ -58,7 +60,24 @@ export const ImageCarousel = ({ product }) => {
                     padding: "0.5rem",
                 }}
             />
-            <div ref={carouselRef} data-trackable-id="carousel-product-images">
+            <div ref={carouselRef} data-trackable-id="carousel-product-images" style={{ position: "relative" }}>
+                {/* Contador de imágenes */}
+                {total > 1 && (
+                    <div style={{
+                        position: "absolute",
+                        top: "20px",
+                        right: "20px",
+                        zIndex: 10,
+                        backgroundColor: "rgba(0, 0, 0, 0.45)",
+                        color: "#fff",
+                        padding: "2px 10px",
+                        borderRadius: "10px",
+                        fontSize: "1rem",
+                        pointerEvents: "none",
+                    }}>
+                        {currentSlide + 1} / {total}
+                    </div>
+                )}
                 <Carousel
                     ref={carouselInstanceRef}
                     dots
@@ -66,6 +85,7 @@ export const ImageCarousel = ({ product }) => {
                     swipe={false}
                     touchMove={false}
                     draggable={false}
+                    afterChange={setCurrentSlide}
                     style={{ width: "100%", height: "50vh", overflow: "hidden" }}
                 >
                     {product.images?.map((img, index) => (
