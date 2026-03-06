@@ -1,9 +1,8 @@
+import { getCurrentSceneId } from "@/metrics/scriptTest";
 import { Form, Input, Typography } from "antd";
 import { useEffect, useRef } from "react";
-import { getCurrentSceneId } from "@/metrics/scriptTest";
 import { COMPONENT_TEXT_FIELD, registerComponent } from "../../metrics/scriptTest";
 import { modifyStateProperty } from "../../utils/UtilsState";
-import { fastFood } from "ionicons/icons";
 
 /**
  * Componente de Input de formulario reutilizable con validación
