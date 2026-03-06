@@ -1,9 +1,11 @@
-import { Typography } from "antd";
+import { Button, Typography, message } from "antd";
 import { useTranslations } from 'next-intl';
 import { useRef, useState } from "react";
 import Lottie from 'react-lottie';
 import animationData from '../../public/Rewards.json';
 import { ShareButton } from "./shared/ShareButton";
+import { toPng } from 'html-to-image';
+import { InvitationCard } from "./shared/InvitationCard";
 
 const { Title } = Typography;
 
