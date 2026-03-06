@@ -17,6 +17,8 @@ import { PasswordInputField } from "./shared/PasswordInputField";
 import { TextInputField } from "./shared/TextInputField";
 import { useScene } from "@/experiment/useScene";
 import { SCENES } from "@/metrics/constants/scenes";
+import { CredentialsCanvas } from "./shared/CredentialsCanvas";
+import Paragraph from "antd/es/skeleton/Paragraph";
 
 let LoginFormComponent = ({ }) => {
     const scene3 = useScene(SCENES.TASK_ACCEPT_TUTORIAL);
@@ -72,6 +74,11 @@ let LoginFormComponent = ({ }) => {
         <Row align="middle" justify="center" style={{ minHeight: "100%", minWidth: "100%" }}>
             <Col xs={24} sm={24} md={12} lg={8} xl={7} justify="center" >
                 <Card title={t('auth.login')} style={{ width: "100%" }}>
+                    <CredentialsCanvas
+                        hint={t('auth.loginCredentialsHint')}
+                        email={t('auth.loginCredentialsUser')}
+                        password={t('auth.loginCredentialsPass')}
+                    />
                     <Form>
                         <TextInputField id="input-email" name="email" placeholder={t('auth.yourEmail')} formData={formData} setFormData={setFormData}
                             formErrors={formErrors} setFormErrors={setFormErrors} validateFunc={validateFormDataInputEmail}
