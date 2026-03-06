@@ -456,11 +456,11 @@ function trackEventOverElement(eventType, elementId, event) {
 	item.eventType = eventType;
 	item.timeStamp = Date.now();
 	if (event && typeof event.clientX === "number" && typeof event.clientY === "number") {
-		/*item.x = Math.round(event.clientX);
-		item.y = Math.round(event.clientY);*/
+		item.x = Math.round(event.clientX);
+		item.y = Math.round(event.clientY);
 
 		// Obtener scroll del ManualScrollEngine si existe
-		let scrollX = 0;
+		/*let scrollX = 0;
 		let scrollY = 0;
 
 		if (typeof window !== "undefined" && window.__currentScrollEngine) {
@@ -477,11 +477,11 @@ function trackEventOverElement(eventType, elementId, event) {
 
 		// Coordenadas absolutas (viewport + scroll manual)
 		item.x = Math.round(event.clientX + scrollX);
-		item.y = Math.round(event.clientY + scrollY);
+		item.y = Math.round(event.clientY + scrollY);*/
 
 		// Coordenadas del viewport (sin scroll)
-		item.clientX = Math.round(event.clientX);
-		item.clientY = Math.round(event.clientY);
+		item.pageX = Math.round(event.pageX);
+		item.pageY = Math.round(event.pageY);
 
 		// Información del viewport para normalización
 		item.viewportWidth = window.innerWidth;
