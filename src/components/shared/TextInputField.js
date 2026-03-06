@@ -3,6 +3,7 @@ import { useEffect, useRef } from "react";
 import { getCurrentSceneId } from "@/metrics/scriptTest";
 import { COMPONENT_TEXT_FIELD, registerComponent } from "../../metrics/scriptTest";
 import { modifyStateProperty } from "../../utils/UtilsState";
+import { fastFood } from "ionicons/icons";
 
 /**
  * Componente de Input de formulario reutilizable con validación
@@ -32,7 +33,9 @@ export const TextInputField = ({
   validateFunc,
   validateParams = [],
   enableTracking = true,
-  inputMode
+  inputMode,
+  autoCapitalize = false,
+  autoCorrect = false,
 }) => {
   const inputRef = useRef(null);
 
@@ -97,8 +100,8 @@ export const TextInputField = ({
             value={formData[name]} 
             onChange={handleChange}
             inputMode={inputMode}
-            autoCapitalize="none"
-            autoCorrect="off"
+            autoCapitalize={autoCapitalize ? "sentences" : "none"}
+            autoCorrect={autoCorrect ? "on" : "off"}
             size="large"
           />
         </div>

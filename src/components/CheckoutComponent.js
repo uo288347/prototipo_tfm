@@ -100,10 +100,10 @@ export const CheckoutComponent = () => {
                 <Form>
                     <TextInputField id="input-city" name={"city"} placeholder={t('checkout.city')} formData={formData} icon={<HomeOutlined />}
                         formErrors={formErrors} setFormData={setFormData} setFormErrors={setFormErrors} validateFunc={validateFormDataInputRequired}
-                        validateParams={[t('errors.required')]} />
+                        validateParams={[t('errors.required')]} autoCapitalize={true} autoCorrect={true} />
                     <TextInputField id="input-country" name={"country"} placeholder={t('checkout.country')} formData={formData} icon={<EnvironmentOutlined />}
                         formErrors={formErrors} setFormData={setFormData} setFormErrors={setFormErrors} validateFunc={validateFormDataInputRequired}
-                        validateParams={[t('errors.required')]} />
+                        validateParams={[t('errors.required')]} autoCapitalize={true} autoCorrect={true} />
 
                 </Form>
             </div>
