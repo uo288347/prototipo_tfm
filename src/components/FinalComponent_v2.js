@@ -1,4 +1,4 @@
-import { Typography } from "antd";
+import { Button, Typography, message } from "antd";
 import { useTranslations } from 'next-intl';
 import { useRef, useState } from "react";
 import Lottie from 'react-lottie';
@@ -100,7 +100,7 @@ export const FinalComponent = ({ }) => {
         );
     };
 
-// ── Twitter ───────────────────────────────────────────────────────────────
+    // ── Twitter ───────────────────────────────────────────────────────────────
     const handleTwitter = () => {
         window.open(
             `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}&url=${encodeURIComponent(shareUrl)}`,
@@ -148,9 +148,9 @@ export const FinalComponent = ({ }) => {
                     {t('end.shareLabel') || "¡Comparte el experimento!"}
                 </p>
                 <div style={{
-                    display: "inline-flex",
-                    flexDirection: "column",
-                    gap: "10px",
+                    display: "inline-flex", 
+                    flexDirection: "column", 
+                    gap: "10px", 
                     width: "180px"
                 }}>
 
@@ -180,7 +180,7 @@ export const FinalComponent = ({ }) => {
                             </svg>
                         }
                     />
-                    
+
                     <ShareButton
                         label="Facebook"
                         color="#1877F2"
