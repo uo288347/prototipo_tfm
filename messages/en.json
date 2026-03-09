@@ -17,6 +17,7 @@
     "login": "Login",
     "register": "Register",
     "email": "Email",
+    "emailLabel": "Email",
     "password": "Password",
     "yourEmail": "email",
     "yourPassword": "password",

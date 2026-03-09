@@ -75,7 +75,6 @@ let LoginFormComponent = ({ }) => {
             <Col xs={24} sm={24} md={12} lg={8} xl={7} justify="center" >
                 <Card title={t('auth.login')} style={{ width: "100%" }}>
                     <CredentialsCanvas
-                        hint={t('auth.loginCredentialsHint')}
                         email={t('auth.loginCredentialsUser')}
                         password={t('auth.loginCredentialsPass')}
                     />

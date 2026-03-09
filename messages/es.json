@@ -17,6 +17,7 @@
     "login": "Iniciar sesión",
     "register": "Registrarse",
     "email": "Correo electrónico",
+    "emailLabel": "Email",
     "password": "Contraseña",
     "yourEmail": "correo electrónico",
     "yourPassword": "contraseña",
