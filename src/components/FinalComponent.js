@@ -71,8 +71,7 @@ export const FinalComponent = ({ }) => {
             try {
                 await navigator.share({
                     title: t('end.shareTitle') || "Experimento",
-                    text: message,
-                    url: shareUrl,
+                    text: message
                 });
             } catch (err) {
                 // El usuario canceló, no hacer nada
