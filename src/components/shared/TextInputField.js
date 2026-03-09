@@ -73,10 +73,14 @@ export const TextInputField = ({
 
   const handleChange = (i) => {
     const value = i.currentTarget.value;
+    const newFormData = { ...formData, [name]: value };
     modifyStateProperty(formData, setFormData, name, value);
+    if (validateFunc) {
+      validateFunc(newFormData, name, formErrors, setFormErrors, ...validateParams);
+    }
   };
 
-  const isValid = validateFunc ? validateFunc(formData, name, formErrors, setFormErrors, ...validateParams) : true;
+  const isValid = !formErrors?.[name]?.msg;
 
   return (
     <>

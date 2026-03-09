@@ -18,7 +18,6 @@ import { TextInputField } from "./shared/TextInputField";
 import { useScene } from "@/experiment/useScene";
 import { SCENES } from "@/metrics/constants/scenes";
 import { CredentialsCanvas } from "./shared/CredentialsCanvas";
-import Paragraph from "antd/es/skeleton/Paragraph";
 
 let LoginFormComponent = ({ }) => {
     const scene3 = useScene(SCENES.TASK_ACCEPT_TUTORIAL);

@@ -33,8 +33,7 @@ export let validateFormDataInputYear =
         // If regex fails, set error
         if (!regexYear.test(value)) {
             if (!formErrors[inputKey]) {
-                formErrors[inputKey] = { msg: errorMessageFormat };
-                setFormErrors(formErrors);
+                setFormErrors({...formErrors, [inputKey]: { msg: errorMessageFormat }});
             }
             return false;
         }
@@ -42,16 +41,14 @@ export let validateFormDataInputYear =
         const year = parseInt(value, 10);
         if (year <= 1925 || year >= currentYear) {
             if (!formErrors[inputKey]) {
-                formErrors[inputKey] = { msg: errorMessageRange.replace("{year}", currentYear - 1) };
-                setFormErrors(formErrors);
+                setFormErrors({...formErrors, [inputKey]: { msg: errorMessageRange.replace("{year}", currentYear - 1) }});
             }
             return false;
         }
 
         // Passed all checks, clear any previous client errors
         if (formErrors[inputKey]) {
-            formErrors[inputKey] = null;
-            setFormErrors(formErrors);
+            setFormErrors({...formErrors, [inputKey]: null});
         }
 
         return true;
@@ -74,17 +71,14 @@ export let validateFormDataInput =
         // Have some value, remove the error only client erros
         if (formData[inputKey] != null && regex.test(formData[inputKey])) {
             if (formErrors[inputKey] != null ) {
-                formErrors[inputKey] = null;
-                setFormErrors(formErrors)
-                // don't put again the value in state
+                setFormErrors({...formErrors, [inputKey]: null})
             }
             return true;
         }
 
         // Dont have value put the error
         if (formErrors[inputKey] == null) {
-            formErrors[inputKey] = {msg: msgError }
-            setFormErrors(formErrors)
+            setFormErrors({...formErrors, [inputKey]: {msg: msgError}})
         }
         return false;
     }
