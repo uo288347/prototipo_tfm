@@ -24,21 +24,27 @@ export const FinalComponent = ({ }) => {
 
     //const shareUrl = typeof window !== "undefined" ? window.location.href : "";
     const shareUrl = 'https://carbayo.vercel.app/' ? 'https://carbayo.vercel.app/' : 'https://localhost:3000/';
-    const shareText = t('end.shareMessage') || "¡Participa en este experimento!";
+    const shareText = t('end.shareMessage_part1') || "¡Participa en este experimento!";
+    const shareText2 = t('end.shareMessage_part2') || "¡Muchas gracias por tu tiempo y colaboración! 🙌\n";
+
+    const getFullMessage = () => `${shareText} ➡️ ${shareUrl} ${shareText2}`;
 
     const handleWhatsApp = () => {
-        window.open(`https://wa.me/?text=${encodeURIComponent(shareText + " " + shareUrl)}`, "_blank");
+        const message = getFullMessage();
+        window.open(`https://wa.me/?text=${encodeURIComponent(message)}`, "_blank");
     };
 
     const handleFacebook = () => {
+        const message = `${shareText} ${shareText2}`
         window.open(
-            `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}&quote=${encodeURIComponent(shareText)}`,
+            `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}&quote=${encodeURIComponent(message)}`,
             "_blank"
         );
     };
 
     const handleTwitter = () => {
-        window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}&url=${encodeURIComponent(shareUrl)}`, "_blank");
+        const tweet = getFullMessage();
+        window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(tweet)}&url=${encodeURIComponent(shareUrl)}`, "_blank");
     };
 
     const handleCopyLink = async () => {
@@ -60,11 +66,12 @@ export const FinalComponent = ({ }) => {
     };
 
     const handleNativeShare = async () => {
+        const message = getFullMessage();
         if (navigator.share) {
             try {
                 await navigator.share({
                     title: t('end.shareTitle') || "Experimento",
-                    text: shareText,
+                    text: message,
                     url: shareUrl,
                 });
             } catch (err) {
