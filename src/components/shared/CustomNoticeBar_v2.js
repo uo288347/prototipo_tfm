@@ -1,9 +1,9 @@
 /**
- * CustomNoticeBar_v2 — Variante sin pausa inicial.
- * Si el texto necesita scroll, la animación empieza desde un pequeño
- * desplazamiento a la derecha (RIGHT_OFFSET px), de manera que los primeros
- * píxeles de movimiento no cortan el inicio del texto. El usuario tiene
- * ese margen extra para leer el comienzo antes de que desaparezca.
+ * CustomNoticeBar_v2 — Variante con dos fases de animación:
+ *  1ª pasada: el texto empieza desde RIGHT_OFFSET px a la derecha, así el
+ *             principio es visible desde el inicio (sin corte).
+ *  Loops:     el texto entra desde el borde derecho del contenedor y sale
+ *             por la izquierda, transición suave tipo marquee.
  *
  * Props (equivalentes a NoticeBar de antd-mobile):
  *   icon     — nodo React para el icono izquierdo
@@ -15,8 +15,7 @@
  */
 import { useEffect, useRef, useState } from 'react';
 
-// Píxeles de desplazamiento inicial hacia la derecha antes de que el texto
-// empiece a salir por la izquierda. Ajustar según se necesite.
+// Píxeles de desplazamiento inicial hacia la derecha en la primera pasada.
 const RIGHT_OFFSET = 50;
 
 // Colores extraídos directamente del CSS de antd-mobile
@@ -29,9 +28,9 @@ const COLOR_THEMES = {
 };
 
 export function CustomNoticeBar_v2({ icon, content, color = 'default', style, onClick, speed = 50 }) {
-    const wrapperRef  = useRef(null);
-    const innerRef    = useRef(null);
-    const styleTagRef = useRef(null);
+    const wrapperRef   = useRef(null);
+    const innerRef     = useRef(null);
+    const styleTagRef  = useRef(null);
     const [animStyle, setAnimStyle] = useState({});
 
     useEffect(() => {
@@ -44,7 +43,6 @@ export function CustomNoticeBar_v2({ icon, content, color = 'default', style, on
             styleTagRef.current = null;
         }
 
-        // Esperar al siguiente frame para que el DOM refleje el nuevo contenido
         const timer = setTimeout(() => {
             const wrapper = wrapperRef.current;
             const inner   = innerRef.current;
@@ -56,19 +54,22 @@ export function CustomNoticeBar_v2({ icon, content, color = 'default', style, on
             // Solo animar si el texto desborda
             if (contentWidth <= wrapperWidth) return;
 
-            // Distancia total: offset inicial + todo el ancho del texto
-            const totalDistance  = contentWidth + RIGHT_OFFSET;
-            const totalDuration  = totalDistance / speed;
+            const id = Math.random().toString(36).slice(2, 9);
+            const animInitial = `cnb2_init_${id}`;
+            const animLoop    = `cnb2_loop_${id}`;
 
-            // Nombre único para evitar colisiones entre instancias
-            const animName = `cnb2_${Math.random().toString(36).slice(2, 9)}`;
+            // 1ª pasada: de RIGHT_OFFSET hasta -contentWidth (una sola vez)
+            const initialDuration = (contentWidth + RIGHT_OFFSET) / speed;
+            // Loop: entra desde el borde derecho del contenedor, sale por la izquierda
+            const loopDuration    = (contentWidth + wrapperWidth) / speed;
 
-            // Empieza en +RIGHT_OFFSET (texto desplazado a la derecha),
-            // termina en -contentWidth (texto completamente fuera por la izquierda).
-            // En el loop, vuelve a empezar desde +RIGHT_OFFSET sin pausa.
             const keyframes = `
-                @keyframes ${animName} {
+                @keyframes ${animInitial} {
                     0%   { transform: translateX(${RIGHT_OFFSET}px); }
+                    100% { transform: translateX(-${contentWidth}px); }
+                }
+                @keyframes ${animLoop} {
+                    0%   { transform: translateX(${wrapperWidth}px); }
                     100% { transform: translateX(-${contentWidth}px); }
                 }
             `;
@@ -78,12 +79,29 @@ export function CustomNoticeBar_v2({ icon, content, color = 'default', style, on
             document.head.appendChild(styleEl);
             styleTagRef.current = styleEl;
 
+            // Arrancar con la animación inicial (1 iteración)
             setAnimStyle({
-                animationName:           animName,
-                animationDuration:       `${totalDuration.toFixed(2)}s`,
+                animationName:           animInitial,
+                animationDuration:       `${initialDuration.toFixed(2)}s`,
                 animationTimingFunction: 'linear',
-                animationIterationCount: 'infinite',
+                animationIterationCount: '1',
+                animationFillMode:       'forwards',
             });
+
+            // Al terminar la primera pasada, cambiar al loop infinito
+            const handleAnimEnd = () => {
+                if (!innerRef.current) return;
+                setAnimStyle({
+                    animationName:           animLoop,
+                    animationDuration:       `${loopDuration.toFixed(2)}s`,
+                    animationTimingFunction: 'linear',
+                    animationIterationCount: 'infinite',
+                });
+            };
+
+            // Añadir listener; se limpia cuando el efecto se ejecute de nuevo
+            const el = inner;
+            el.addEventListener('animationend', handleAnimEnd, { once: true });
         }, 100);
 
         return () => clearTimeout(timer);
