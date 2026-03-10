@@ -31,11 +31,11 @@ export function CustomNoticeBar_v2({ icon, content, color = 'default', style, on
     const wrapperRef   = useRef(null);
     const innerRef     = useRef(null);
     const styleTagRef  = useRef(null);
-    const [animStyle, setAnimStyle] = useState({});
+    const [animStyle, setAnimStyle] = useState({ visibility: 'hidden' });
 
     useEffect(() => {
-        // Resetear animación cuando cambia el contenido
-        setAnimStyle({});
+        // Resetear animación cuando cambia el contenido (ocultar hasta que esté lista)
+        setAnimStyle({ visibility: 'hidden' });
 
         // Eliminar keyframes anteriores si los hay
         if (styleTagRef.current) {
@@ -51,8 +51,11 @@ export function CustomNoticeBar_v2({ icon, content, color = 'default', style, on
             const wrapperWidth = wrapper.clientWidth;
             const contentWidth = inner.scrollWidth;
 
-            // Solo animar si el texto desborda
-            if (contentWidth <= wrapperWidth) return;
+            // Si el texto no desborda, mostrar estático sin animación
+            if (contentWidth <= wrapperWidth) {
+                setAnimStyle({ visibility: 'visible' });
+                return;
+            }
 
             const id = Math.random().toString(36).slice(2, 9);
             const animInitial = `cnb2_init_${id}`;
@@ -79,8 +82,9 @@ export function CustomNoticeBar_v2({ icon, content, color = 'default', style, on
             document.head.appendChild(styleEl);
             styleTagRef.current = styleEl;
 
-            // Arrancar con la animación inicial (1 iteración)
+            // Arrancar con la animación inicial (1 iteración), ya visible
             setAnimStyle({
+                visibility:              'visible',
                 animationName:           animInitial,
                 animationDuration:       `${initialDuration.toFixed(2)}s`,
                 animationTimingFunction: 'linear',
@@ -92,6 +96,7 @@ export function CustomNoticeBar_v2({ icon, content, color = 'default', style, on
             const handleAnimEnd = () => {
                 if (!innerRef.current) return;
                 setAnimStyle({
+                    visibility:              'visible',
                     animationName:           animLoop,
                     animationDuration:       `${loopDuration.toFixed(2)}s`,
                     animationTimingFunction: 'linear',
