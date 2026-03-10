@@ -85,7 +85,7 @@ export const UtilsTasks = {
   resetAllTasks() {
     if (typeof window === "undefined") return;
     this.tasks.forEach(task => localStorage.removeItem(task.storageKey));
-    window.dispatchEvent(new Event('taskCompleted'));
+    //window.dispatchEvent(new Event('taskCompleted'));
   }
 };
 
