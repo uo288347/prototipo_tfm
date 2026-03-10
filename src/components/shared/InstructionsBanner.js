@@ -182,9 +182,9 @@ export const InstructionsBanner = forwardRef((props, ref) => {
         }}>
             <NoticeBar
                 icon={
-                    isSuccess 
+                    isSuccess
                         ? <BulbOutlined />
-                        : <><BulbOutlined /><span style={{fontSize: '1rem', marginLeft: '8px'}}>{progressText}</span></>
+                        : <span style={{ display: 'inline-flex', alignItems: 'center' }}><BulbOutlined /><span style={{ fontSize: '1rem', marginLeft: '8px' }}>{progressText}</span></span>
                 }
                 content={
                     isSuccess
