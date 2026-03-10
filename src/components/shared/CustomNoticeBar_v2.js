@@ -123,7 +123,6 @@ export function CustomNoticeBar_v2({ icon, content, color = 'default', style, on
         <div
             onClick={onClick}
             style={{
-                // — estructura base idéntica al .adm-notice-bar —
                 height:          '40px',
                 boxSizing:       'border-box',
                 fontSize:        '15px',
@@ -136,11 +135,9 @@ export function CustomNoticeBar_v2({ icon, content, color = 'default', style, on
                 backgroundColor: theme.backgroundColor,
                 color:           theme.color,
                 cursor:          onClick ? 'pointer' : 'default',
-                // — props extra del llamador (sobreescriben el tema) —
                 ...style,
             }}
         >
-            {/* .adm-notice-bar-left */}
             {icon && (
                 <span style={{
                     flexShrink: 0,
@@ -153,7 +150,6 @@ export function CustomNoticeBar_v2({ icon, content, color = 'default', style, on
                 </span>
             )}
 
-            {/* .adm-notice-bar-content */}
             <div
                 ref={wrapperRef}
                 style={{
@@ -165,7 +161,6 @@ export function CustomNoticeBar_v2({ icon, content, color = 'default', style, on
                     alignItems: 'center',
                 }}
             >
-                {/* .adm-notice-bar-content-inner */}
                 <span
                     ref={innerRef}
                     style={{

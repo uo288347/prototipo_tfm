@@ -12,7 +12,7 @@
  */
 import { useEffect, useRef, useState } from 'react';
 
-const PAUSE_SECONDS = 2;
+const PAUSE_SECONDS = 1.5;
 
 // Colores extraídos directamente del CSS de antd-mobile
 const COLOR_THEMES = {
@@ -51,19 +51,27 @@ export function CustomNoticeBar({ icon, content, color = 'default', style, onCli
             // Solo animar si el texto desborda
             if (contentWidth <= wrapperWidth) return;
 
-            // Calcular tiempos: pausa + desplazamiento
-            const scrollDuration = contentWidth / speed;            // segundos para salir por la izquierda
-            const totalDuration  = PAUSE_SECONDS + scrollDuration;
-            const pausePercent   = (PAUSE_SECONDS / totalDuration) * 100;
+            const id = Math.random().toString(36).slice(2, 9);
+            const animInitial = `cnb_init_${id}`;
+            const animLoop    = `cnb_loop_${id}`;
 
-            // Nombre único para evitar colisiones entre instancias
-            const animName = `cnb_${Math.random().toString(36).slice(2, 9)}`;
+            // 1ª pasada: pausa inicial + desplazamiento hasta salir por la izquierda
+            const scrollDuration  = contentWidth / speed;
+            const initialDuration = PAUSE_SECONDS + scrollDuration;
+            const pausePercent    = (PAUSE_SECONDS / initialDuration) * 100;
+
+            // Loop: entra desde el borde derecho del contenedor, sale por la izquierda
+            const loopDuration = (contentWidth + wrapperWidth) / speed;
 
             const keyframes = `
-                @keyframes ${animName} {
+                @keyframes ${animInitial} {
                     0%,
                     ${pausePercent.toFixed(2)}% { transform: translateX(0); }
                     100%                        { transform: translateX(-${contentWidth}px); }
+                }
+                @keyframes ${animLoop} {
+                    0%   { transform: translateX(${wrapperWidth}px); }
+                    100% { transform: translateX(-${contentWidth}px); }
                 }
             `;
 
@@ -72,12 +80,25 @@ export function CustomNoticeBar({ icon, content, color = 'default', style, onCli
             document.head.appendChild(styleEl);
             styleTagRef.current = styleEl;
 
+            // Arrancar con la animación inicial (1 iteración)
             setAnimStyle({
-                animationName:            animName,
-                animationDuration:        `${totalDuration.toFixed(2)}s`,
-                animationTimingFunction:  'linear',
-                animationIterationCount:  'infinite',
+                animationName:           animInitial,
+                animationDuration:       `${initialDuration.toFixed(2)}s`,
+                animationTimingFunction: 'linear',
+                animationIterationCount: '1',
+                animationFillMode:       'forwards',
             });
+
+            // Al terminar la primera pasada, cambiar al loop infinito que entra por la derecha
+            inner.addEventListener('animationend', () => {
+                if (!innerRef.current) return;
+                setAnimStyle({
+                    animationName:           animLoop,
+                    animationDuration:       `${loopDuration.toFixed(2)}s`,
+                    animationTimingFunction: 'linear',
+                    animationIterationCount: 'infinite',
+                });
+            }, { once: true });
         }, 100);
 
         return () => clearTimeout(timer);
