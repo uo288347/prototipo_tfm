@@ -161,7 +161,7 @@ export const InstructionsBanner = forwardRef((props, ref) => {
                     color="success"
                     onClick={() => showFullMessage(t('instructions.allTasksCompleted'))}
                     style={{ cursor: 'pointer' }}
-                    delay={3000}                />
+                    delay={3000} />
             </div>
         );
     }
@@ -182,14 +182,17 @@ export const InstructionsBanner = forwardRef((props, ref) => {
         }}>
             <NoticeBar
                 icon={
-                    isSuccess
-                        ? <BulbOutlined />
-                        : <span style={{ display: 'inline-flex', alignItems: 'center' }}><BulbOutlined /><span style={{ fontSize: '1rem', marginLeft: '8px' }}>{progressText}</span></span>
+                    !isSuccess
+                        ? <span style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                            <span style={{ display: 'flex' }}><BulbOutlined /></span>
+                            <span style={{ fontSize: '0.875rem', whiteSpace: 'nowrap', lineHeight: 1 }}>{progressText}</span>
+                          </span>
+                        : <BulbOutlined />
                 }
                 content={
                     isSuccess
                         ? t('instructions.taskCompleted')
-                        : `${getTaskText(currentTask.id, locale)}`
+                        : getTaskText(currentTask.id, locale)
                 }
                 color={isSuccess ? "success" : "info"}
                 style={{
