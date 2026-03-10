@@ -8,6 +8,7 @@ import { useTranslations } from 'next-intl';
 import { useRouter } from 'next/router';
 import { forwardRef, useEffect, useState } from 'react';
 import { CustomNoticeBar } from "./CustomNoticeBar";
+import { CustomNoticeBar_v2 } from "./CustomNoticeBar_v2";
 
 export const InstructionsBanner = forwardRef((props, ref) => {
     const t = useTranslations();
@@ -168,7 +169,7 @@ export const InstructionsBanner = forwardRef((props, ref) => {
             right: 0,
             zIndex: 1000,
         }}>
-            <CustomNoticeBar
+            <CustomNoticeBar_v2
                 icon={
                     !isSuccess
                         ? <span style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
@@ -193,7 +194,7 @@ export const InstructionsBanner = forwardRef((props, ref) => {
                         ? t('instructions.taskCompleted')
                         : getTaskText(currentTask.id, locale)
                 )}
-                speed={30}
+                speed={50}
             />
 
             <div style={{
