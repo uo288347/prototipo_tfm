@@ -31,7 +31,8 @@ export default function App({ Component, pageProps }) {
     const [openTour, setOpenTour] = useState(false);
 
     const bannerRef = useRef(null);
-
+    const prevLoginRef = useRef(false);
+    const tourShownRef = useRef(false);
 
     // Seleccionar los locales de Ant Design según el idioma
     const antdLocale = locale === 'es' ? esESAntd : enUSAntd;
@@ -56,30 +57,29 @@ export default function App({ Component, pageProps }) {
     }, [api]);
 
     useEffect(() => {
-        // Verificar si el usuario está logueado al cargar la app
-        const loggedIn = isLoggedIn();
-        setIsUserLoggedIn(loggedIn);
-
-        if (loggedIn) {
-            setTimeout(() => { setOpenTour(true); }, 500);
-        }
-
-        // Verificar periódicamente el estado del login
-        const interval = setInterval(() => {
+        const checkLogin = () => {
             const currentLoginState = isLoggedIn();
-            const wasLoggedOut = !isUserLoggedIn;
-            setIsUserLoggedIn(currentLoginState);
 
-            // Si cambió de logged out a logged in, mostrar tour
-            if (wasLoggedOut && currentLoginState) {
-                setTimeout(() => {
-                    setOpenTour(true);
-                }, 500);
+            // Solo actualizar el estado React si realmente cambia (evita re-renders innecesarios)
+            if (currentLoginState !== prevLoginRef.current) {
+                setIsUserLoggedIn(currentLoginState);
+
+                // Mostrar el tour solo la primera vez que el usuario hace login
+                if (!prevLoginRef.current && currentLoginState && !tourShownRef.current) {
+                    tourShownRef.current = true;
+                    setTimeout(() => setOpenTour(true), 500);
+                }
+
+                prevLoginRef.current = currentLoginState;
             }
-        }, 500);
+        };
 
+        // Comprobar inmediatamente al montar
+        checkLogin();
+
+        const interval = setInterval(checkLogin, 500);
         return () => clearInterval(interval);
-    }, [isUserLoggedIn]);
+    }, []); // Solo se ejecuta una vez al montar
 
 
     const closeTour = () => {
