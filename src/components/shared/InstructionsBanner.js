@@ -85,7 +85,7 @@ export const InstructionsBanner = forwardRef((props, ref) => {
             confirmText: t('common.close') || 'Cerrar',
             closeOnMaskClick: true,
             style: {
-                '--max-width': '30vw',
+                '--max-width': 'min(85vw, 400px)',
             }
         });
     };
