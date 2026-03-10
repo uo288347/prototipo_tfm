@@ -123,16 +123,23 @@ export const PinchZoomImage = ({ src, alt, onSwipeLeft, onSwipeRight }) => {
     const handlePointerUp = (e) => {
         activePointers.current.delete(e.pointerId);
 
+        // Si quedaba un dedo y había pinch activo, marcar para reset al soltar el último
+        if (activePointers.current.size === 1 && wasPinchingRef.current) {
+            isDraggingRef.current = false;
+        }
+
         if (activePointers.current.size === 0) {
             setIsGesturing(false);
             isDraggingRef.current = false;
 
-            if (wasPinchingRef.current) {
+            if (wasPinchingRef.current || currentScale.current > 1) {
+                // Siempre volver a la posición/escala original al soltar el pinch
                 wasPinchingRef.current = false;
                 applyScale(1);
                 applyPosition({ x: 0, y: 0 });
-            } else if (currentScale.current <= 1) {
+            } else {
                 // Detectar swipe: movimiento horizontal rápido con un solo dedo
+                wasPinchingRef.current = false;
                 const dx = e.clientX - swipeStart.current.x;
                 const dy = e.clientY - swipeStart.current.y;
                 const elapsed = Date.now() - swipeStart.current.time;
@@ -143,17 +150,6 @@ export const PinchZoomImage = ({ src, alt, onSwipeLeft, onSwipeRight }) => {
                     if (dx < 0) onSwipeLeft?.();
                     else onSwipeRight?.();
                 }
-            }
-        } else if (activePointers.current.size === 1 && wasPinchingRef.current) {
-            // Un dedo suelto: transicionar de pinch a drag con el dedo restante
-            wasPinchingRef.current = false;
-            const [remaining] = activePointers.current.values();
-            if (currentScale.current > 1) {
-                isDraggingRef.current = true;
-                dragStart.current = {
-                    x: remaining.clientX - currentPosition.current.x,
-                    y: remaining.clientY - currentPosition.current.y,
-                };
             }
         }
     };
