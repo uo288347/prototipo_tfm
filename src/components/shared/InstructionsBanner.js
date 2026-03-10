@@ -148,7 +148,7 @@ export const InstructionsBanner = forwardRef((props, ref) => {
                     color="success"
                     onClick={() => showFullMessage(t('instructions.allTasksCompleted'))}
                     style={{ cursor: 'pointer' }}
-                    delay={3000} />
+                    speed={30} />
             </div>
         );
     }
@@ -192,7 +192,7 @@ export const InstructionsBanner = forwardRef((props, ref) => {
                         ? t('instructions.taskCompleted')
                         : getTaskText(currentTask.id, locale)
                 )}
-                delay={3000}
+                speed={30}
             />
 
             <div style={{
