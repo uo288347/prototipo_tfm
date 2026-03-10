@@ -33,6 +33,7 @@ export default function App({ Component, pageProps }) {
     const bannerRef = useRef(null);
     const prevLoginRef = useRef(false);
     const tourShownRef = useRef(false);
+    const [bannerHeight, setBannerHeight] = useState(0);
 
     // Seleccionar los locales de Ant Design según el idioma
     const antdLocale = locale === 'es' ? esESAntd : enUSAntd;
@@ -81,6 +82,16 @@ export default function App({ Component, pageProps }) {
         return () => clearInterval(interval);
     }, []); // Solo se ejecuta una vez al montar
 
+    useEffect(() => {
+        if (!bannerRef.current) return;
+        const observer = new ResizeObserver(entries => {
+            for (const entry of entries) {
+                setBannerHeight(entry.contentRect.height);
+            }
+        });
+        observer.observe(bannerRef.current);
+        return () => observer.disconnect();
+    }, [isUserLoggedIn]);
 
     const closeTour = () => {
         setOpenTour(false);
@@ -129,7 +140,7 @@ export default function App({ Component, pageProps }) {
                             <div style={{
                                 flex: 1, display: "flex", minHeight: 0,
                                 flexDirection: "column", padding: "0px 0px",
-                                paddingTop: isUserLoggedIn ? "40px" : "0px",
+                                paddingTop: isUserLoggedIn ? `${bannerHeight}px` : "0px",
                                 overflow: "auto", marginBottom: 0
                             }}>
                                 <Component {...pageProps} footer={<FooterSection />} />
