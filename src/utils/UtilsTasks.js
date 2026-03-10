@@ -42,6 +42,17 @@ export const UtilsTasks = {
     return localStorage.getItem(storageKey) === 'true';
   },
 
+  // Obtener el estado completo de las tareas (tarea actual, progreso, si todas completadas)
+  getTaskState() {
+    const task = this.getCurrentTask();
+    const completedTasks = this.tasks.filter(t => this.isTaskCompleted(t.storageKey)).length;
+    return {
+      currentTask: task ?? null,
+      allCompleted: !task,
+      progress: { completed: completedTasks, total: this.tasks.length },
+    };
+  },
+
   // Marcar tarea como completada y enviar a la BD
   async completeTask(storageKey) {
     if (typeof window === "undefined") return;

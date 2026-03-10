@@ -12,10 +12,10 @@ export const InstructionsBanner = forwardRef((props, ref) => {
     const t = useTranslations();
     const router = useRouter();
     const locale = router.locale || 'es';
-    const [currentTask, setCurrentTask] = useState(null);
+    const [currentTask, setCurrentTask] = useState(() => UtilsTasks.getTaskState().currentTask);
     const [isSuccess, setIsSuccess] = useState(false);
-    const [allCompleted, setAllCompleted] = useState(false);
-    const [progress, setProgress] = useState({ completed: 0, total: 0 });
+    const [allCompleted, setAllCompleted] = useState(() => UtilsTasks.getTaskState().allCompleted);
+    const [progress, setProgress] = useState(() => UtilsTasks.getTaskState().progress);
 
     // Función para registrar el banner en el sistema de métricas
     const registerBanner = (element) => {
@@ -92,27 +92,14 @@ export const InstructionsBanner = forwardRef((props, ref) => {
 
     // Actualizar la tarea actual
     const updateCurrentTask = () => {
-        const task = UtilsTasks.getCurrentTask();
-        const completedTasks = UtilsTasks.tasks.filter(t =>
-            UtilsTasks.isTaskCompleted(t.storageKey)
-        ).length;
-        const totalTasks = UtilsTasks.tasks.length;
-
-        setProgress({ completed: completedTasks, total: totalTasks });
-
-        if (!task) {
-            setAllCompleted(true);
-            setCurrentTask(null);
-        } else {
-            setAllCompleted(false);
-            setCurrentTask(task);
-        }
+        const { currentTask: task, allCompleted: done, progress: prog } = UtilsTasks.getTaskState();
+        setProgress(prog);
+        setAllCompleted(done);
+        setCurrentTask(task);
     };
 
     // Escuchar cambios en las tareas
     useEffect(() => {
-        updateCurrentTask();
-
         const handleTaskCompleted = () => {
             setIsSuccess(true);
             playSuccessSound();
