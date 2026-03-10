@@ -148,6 +148,7 @@ export default function App({ Component, pageProps }) {
                         </div>
 
                         <Tour
+                            style={{ maxWidth: 'calc(100dvw - 24px)', boxSizing: 'border-box' }}
                             open={openTour}
                             onClose={closeTour}
                             steps={getTourSteps({ bannerRef, locale })}
