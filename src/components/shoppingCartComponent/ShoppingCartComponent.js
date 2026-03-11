@@ -392,7 +392,9 @@ export const ShoppingCartComponent = ({ }) => {
                                                     position: "relative",
                                                     transition: "all 0.2s",
                                                     opacity: dragging && isSelected ? 0.5 : 1,
-                                                    transform: dragging && isSelected ? "scale(0.95)" : "scale(1)"
+                                                    transform: dragging && isSelected ? "scale(0.95)" : "scale(1)",
+                                                    userSelect: "none",
+                                                    WebkitUserSelect: "none",
                                                 }}
                                             >
                                                 <HorizontalProductCard item={item} index={index}
