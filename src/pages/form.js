@@ -11,10 +11,10 @@ export default function InitialForm({footer}) {
       display: "flex", flexDirection: "column", justifyContent: "space-between",
       alignItems: "center", position: "relative", overflow: "hidden"
     }}>
-      <div style={{ position: "absolute", top: "20px", right: "20px" }}>
+      <div style={{ position: "absolute", top: "20px", right: "20px", zIndex: 10 }}>
         <LanguageSwitcher />
       </div>
-      <div style={{ flex: 1, display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", width: "100%" }}>
+      <div style={{ flex: 1, display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", width: "100%", paddingTop: "48px" }}>
         <InitialFormComponent />
       </div>
       {footer}
