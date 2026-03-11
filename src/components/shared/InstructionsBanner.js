@@ -169,7 +169,7 @@ export const InstructionsBanner = forwardRef((props, ref) => {
             right: 0,
             zIndex: 1000,
         }}>
-            <CustomNoticeBar
+            <CustomNoticeBar_v2
                 icon={
                     !isSuccess
                         ? <span style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>

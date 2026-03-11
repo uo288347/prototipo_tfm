@@ -16,7 +16,7 @@
 import { useEffect, useRef, useState } from 'react';
 
 // Píxeles de desplazamiento inicial hacia la derecha en la primera pasada.
-const RIGHT_OFFSET = 50;
+const RIGHT_OFFSET = 60;
 
 // Colores extraídos directamente del CSS de antd-mobile
 const COLOR_THEMES = {
@@ -89,7 +89,7 @@ export function CustomNoticeBar_v2({ icon, content, color = 'default', style, on
                 animationDuration:       `${initialDuration.toFixed(2)}s`,
                 animationTimingFunction: 'linear',
                 animationIterationCount: '1',
-                animationFillMode:       'forwards',
+                animationFillMode:       'both',
             });
 
             // Al terminar la primera pasada, cambiar al loop infinito
