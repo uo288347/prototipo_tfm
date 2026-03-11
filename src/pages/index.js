@@ -21,7 +21,7 @@ export default function Index({footer}) {
         <LanguageSwitcher />
       </div>
       <div style={{ flex: 1, display: "flex", flexDirection: "column", justifyContent: "space-between", 
-        alignItems: "center", width: "100%", paddingTop: "48px"}}>
+        alignItems: "center", width: "100%", paddingTop: "30px"}}>
         <IndexComponent />
       </div>
       {footer}
