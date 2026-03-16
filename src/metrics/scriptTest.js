@@ -47,8 +47,10 @@ const COMPONENT_TOUR = 14;
 
 //const user = createUser();
 var user = null;
+var experimentStarted = false;
 
 function getUser() {
+	if (!experimentStarted) return null;
 	if (user === null && typeof window !== "undefined" && typeof localStorage !== "undefined") {
 		user = createUser();
 	}
@@ -103,8 +105,8 @@ var urlExperimentStatus = urlBase + '/TrackerServer/restws/experiment/status/' +
 
 function startExperiment() {
 	console.log("Starting experiment...");
-	//We create a new user
-	var user = createUser();
+	experimentStarted = true;
+	user = createUser();
 	console.log("Creating user session " + user);
 }
 

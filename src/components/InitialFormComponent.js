@@ -5,7 +5,7 @@ import { LaptopOutlined, MobileOutlined, TabletOutlined } from "@ant-design/icon
 import { useTranslations } from 'next-intl';
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import { COMPONENT_BUTTON, getUser, registerbirth_year, registerComponent, registerecommerce_frequency, registerhandedness, registerpreferred_device, registersex } from "../metrics/scriptTest";
+import { COMPONENT_BUTTON, registerbirth_year, registerComponent, registerecommerce_frequency, registerhandedness, registerpreferred_device, registersex } from "../metrics/scriptTest";
 import { modifyStateProperty } from "../utils/UtilsState";
 import { allowSubmitForm, validateFormDataInputYear } from "../utils/UtilsValidations";
 import { TextInputField } from "./shared/TextInputField";
@@ -53,10 +53,8 @@ export const InitialFormComponent = ({ }) => {
         return () => clearTimeout(timer);
     }, []);
 
-    const user = getUser();
     return (
         <Row align="middle" justify="center" style={{ minHeight: "100%", minWidth: "100%" }}>
-            {/*<div>{user}</div>*/}
             <Col xs={24} sm={24} md={12} lg={8} xl={7} justify="center" >
                 <Card title={t('initialForm.title')}>
                     <Form >
